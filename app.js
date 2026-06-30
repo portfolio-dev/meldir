@@ -22,9 +22,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Safe localStorage wrapper to prevent crashes on file:/// protocol
+    function getSavedLanguage() {
+        try {
+            return localStorage.getItem('preferred-language') || 'id';
+        } catch (e) {
+            return 'id'; // Default fallback
+        }
+    }
+
+    function savePreferredLanguage(lang) {
+        try {
+            localStorage.setItem('preferred-language', lang);
+        } catch (e) {
+            // Silently ignore if localStorage is disabled
+        }
+    }
+
     function setLanguage(lang) {
         // Save to local storage
-        localStorage.setItem('preferred-language', lang);
+        savePreferredLanguage(lang);
         htmlTag.setAttribute('lang', lang);
 
         // Update active class on buttons
@@ -60,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Initialize Language
-    const savedLang = localStorage.getItem('preferred-language') || 'id';
+    const savedLang = getSavedLanguage();
     setLanguage(savedLang);
 
     // Event Listeners for Language Buttons
