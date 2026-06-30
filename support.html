@@ -78,52 +78,88 @@
         </nav>
     </div>
 
-    <!-- Main Content -->
-    <main class="legal-layout">
-        <div class="container legal-page-container">
+    <!-- Mini Hero Banner -->
+    <section class="legal-hero">
+        <div class="legal-hero-bg"></div>
+        <div class="legal-hero-container">
+            <div class="legal-badge-official">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span data-id="Dokumen Hukum Resmi" data-en="Official Legal Document">Dokumen Hukum Resmi</span>
+            </div>
             <h1 class="legal-title" data-id="Kanal Pengaduan Pengguna" data-en="Customer Support Channel">Kanal Pengaduan Pengguna</h1>
             <p class="legal-date">
                 <span data-id="Terakhir diperbarui: 30 Juni 2026" data-en="Last updated: June 30, 2026">Terakhir diperbarui: 30 Juni 2026</span>
             </p>
+        </div>
+    </section>
 
-            <div class="legal-content">
-                <p data-id="Kepuasan pelanggan adalah prioritas utama PT. Melayani Digital Raya (MELDIR). Jika Anda mengalami kendala teknis pada aplikasi, membutuhkan bantuan pemeliharaan (maintenance), atau ingin menyampaikan keluhan layanan, Anda dapat menghubungi kami melalui kanal-kanal di bawah ini." 
-                   data-en="Customer satisfaction is our highest priority at PT. Melayani Digital Raya (MELDIR). If you encounter technical issues with your app, need maintenance support, or wish to submit service feedback, you can reach us through the channels below.">
-                    Kepuasan pelanggan adalah prioritas utama PT. Melayani Digital Raya (MELDIR). Jika Anda mengalami kendala teknis pada aplikasi, membutuhkan bantuan pemeliharaan (maintenance), atau ingin menyampaikan keluhan layanan, Anda dapat menghubungi kami melalui kanal-kanal di bawah ini.
-                </p>
-
-                <div class="legal-section">
+    <!-- Main Content Layout -->
+    <main class="legal-layout">
+        <div class="container legal-grid">
+            
+            <!-- Sticky Sidebar Navigation -->
+            <aside class="legal-sidebar">
+                <h3 class="legal-sidebar-title" data-id="Daftar Dokumen" data-en="Document List">Daftar Dokumen</h3>
+                <nav class="legal-sidebar-menu">
+                    <a href="privacy.html" class="legal-sidebar-link" data-id="Kebijakan Privasi" data-en="Privacy Policy">Kebijakan Privasi</a>
+                    <a href="terms.html" class="legal-sidebar-link" data-id="Syarat &amp; Ketentuan" data-en="Terms of Service">Syarat &amp; Ketentuan</a>
+                    <a href="refund.html" class="legal-sidebar-link" data-id="Pengembalian Dana" data-en="Refund Policy">Pengembalian Dana</a>
+                    <a href="support.html" class="legal-sidebar-link active" data-id="Kanal Pengaduan" data-en="Customer Support">Kanal Pengaduan</a>
+                </nav>
+            </aside>
+            
+            <!-- Content Area -->
+            <div class="legal-content-wrapper">
+                
+                <!-- Introduction Card -->
+                <div class="legal-intro-card">
+                    <p data-id="Kepuasan pelanggan adalah prioritas utama PT. Melayani Digital Raya (MELDIR). Jika Anda mengalami kendala teknis pada aplikasi, membutuhkan bantuan pemeliharaan (maintenance), atau ingin menyampaikan keluhan layanan, Anda dapat menghubungi kami melalui kanal-kanal di bawah ini." 
+                       data-en="Customer satisfaction is our highest priority at PT. Melayani Digital Raya (MELDIR). If you encounter technical issues with your app, need maintenance support, or wish to submit service feedback, you can reach us through the channels below.">
+                        Kepuasan pelanggan adalah prioritas utama PT. Melayani Digital Raya (MELDIR). Jika Anda mengalami kendala teknis pada aplikasi, membutuhkan bantuan pemeliharaan (maintenance), atau ingin menyampaikan keluhan layanan, Anda dapat menghubungi kami melalui kanal-kanal di bawah ini.
+                    </p>
+                </div>
+                
+                <!-- Section 1 -->
+                <article class="legal-card">
                     <h2 data-id="1. Hubungi Layanan Bantuan Utama (WhatsApp)" data-en="1. Primary Support Channel (WhatsApp)">1. Hubungi Layanan Bantuan Utama (WhatsApp)</h2>
                     <p data-id="Kanal pengaduan tercepat kami adalah melalui WhatsApp operasional. Silakan klik tombol di bawah untuk terhubung langsung dengan tim technical support kami." 
                        data-en="Our fastest support response is via our operational WhatsApp. Please click the button below to connect directly with our technical support team.">
                         Kanal pengaduan tercepat kami adalah melalui WhatsApp operasional. Silakan klik tombol di bawah untuk terhubung langsung dengan tim technical support kami.
                     </p>
-                    <div style="margin-top: 20px;">
+                    <div style="margin-top: 24px;">
                         <a href="https://wa.me/628213173357?text=Halo%20meldir.id,%20saya%20membutuhkan%20layanan%20bantuan/pengaduan%20terkait%20aplikasi." class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 6px;"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.66.986 3.284 1.489 5.358 1.49 5.461 0 9.905-4.444 9.908-9.906.002-2.646-1.027-5.133-2.902-7.01C17.138 1.85 14.654.82 12.012.82c-5.463 0-9.91 4.447-9.913 9.912-.001 2.091.552 4.12 1.6 5.925L2.68 21.365l4.967-1.303l-.001-.013c.001 0 .001.001 0 0zm12.333-8.868c-.327-.164-1.93-1.02-2.229-1.129-.297-.11-.514-.164-.73.163-.217.329-.841 1.059-1.03 1.278-.19.22-.381.247-.709.083-.327-.164-1.38-.508-2.63-1.623-.974-.87-1.63-1.946-1.82-2.274-.19-.329-.02-.507.144-.671.148-.147.327-.382.49-.574.164-.19.219-.328.328-.547.11-.219.055-.411-.027-.574-.082-.164-.73-1.76-1.002-2.416-.264-.637-.53-.55-.73-.56-.188-.009-.407-.01-.626-.01-.22 0-.576.082-.876.411-.3.329-1.147 1.122-1.147 2.734c0 1.612 1.173 3.17 1.336 3.389.163.22 2.307 3.522 5.59 4.945.78.338 1.39.54 1.868.692.784.249 1.498.214 2.062.13.629-.094 1.93-.789 2.202-1.552.272-.763.272-1.415.19-1.552-.082-.137-.3-.22-.627-.384z"/></svg>
                             <span data-id="Kirim Aduan via WhatsApp" data-en="Submit Complaint via WhatsApp">Kirim Aduan via WhatsApp</span>
                         </a>
                     </div>
-                </div>
-
-                <div class="legal-section">
+                </article>
+                
+                <!-- Section 2 -->
+                <article class="legal-card">
                     <h2 data-id="2. Jam Operasional Dukungan Teknis" data-en="2. Operational Hours">2. Jam Operasional Dukungan Teknis</h2>
                     <p data-id="Layanan tanggapan aduan aktif pada:" data-en="Our support ticket responses are active during:">
-                        Layanan tanggapan aduan aktif pada:
+                        Layanan aduan aktif pada jam kerja berikut:
                     </p>
-                    <ul>
-                        <li data-id="Senin - Jumat: 09:00 - 17:00 WIB" data-en="Monday - Friday: 09:00 - 17:00 UTC+7">Senin - Jumat: 09:00 - 17:00 WIB</li>
-                        <li data-id="Sabtu, Minggu &amp; Libur Nasional: Tutup (Hanya melayani kendala kritis/server mati)." data-en="Saturday, Sunday &amp; National Holidays: Closed (Critical/server down issues only).">Sabtu, Minggu &amp; Libur Nasional: Tutup (Hanya melayani kendala kritis/server mati).</li>
+                    <ul class="legal-bullet-list">
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="Senin - Jumat: 09:00 - 17:00 WIB" data-en="Monday - Friday: 09:00 - 17:00 UTC+7">Senin - Jumat: 09:00 - 17:00 WIB</span>
+                        </li>
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="Sabtu, Minggu &amp; Libur Nasional: Tutup (Hanya melayani kendala kritis/server mati)." data-en="Saturday, Sunday &amp; National Holidays: Closed (Critical/server down issues only).">Sabtu, Minggu &amp; Libur Nasional: Tutup (Hanya melayani kendala kritis/server mati).</span>
+                        </li>
                     </ul>
-                </div>
-
-                <div class="legal-section">
+                </article>
+                
+                <!-- Section 3 -->
+                <article class="legal-card">
                     <h2 data-id="3. SLA (Service Level Agreement)" data-en="3. Service Level Agreement (SLA)">3. SLA (Service Level Agreement)</h2>
                     <p data-id="Tim support kami akan meninjau dan merespons aduan Anda dalam waktu maksimal 24 jam pada hari kerja. Estimasi waktu perbaikan bug atau kendala teknis akan diinformasikan kepada Anda setelah tim kami melakukan analisis tingkat keparahan masalah." 
                        data-en="Our support team will review and respond to your complaint within a maximum of 24 hours on business days. The estimated time for bug fixes or technical solutions will be communicated to you after our team performs a severity analysis of the issue.">
                         Tim support kami akan meninjau dan merespons aduan Anda dalam waktu maksimal 24 jam pada hari kerja. Estimasi waktu perbaikan bug atau kendala teknis akan diinformasikan kepada Anda setelah tim kami melakukan analisis tingkat keparahan masalah.
                     </p>
-                </div>
+                </article>
             </div>
         </div>
     </main>

@@ -78,48 +78,93 @@
         </nav>
     </div>
 
-    <!-- Main Content -->
-    <main class="legal-layout">
-        <div class="container legal-page-container">
+    <!-- Mini Hero Banner -->
+    <section class="legal-hero">
+        <div class="legal-hero-bg"></div>
+        <div class="legal-hero-container">
+            <div class="legal-badge-official">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span data-id="Dokumen Hukum Resmi" data-en="Official Legal Document">Dokumen Hukum Resmi</span>
+            </div>
             <h1 class="legal-title" data-id="Kebijakan Pengembalian Dana" data-en="Refund &amp; Cancellation Policy">Kebijakan Pengembalian Dana</h1>
             <p class="legal-date">
                 <span data-id="Terakhir diperbarui: 30 Juni 2026" data-en="Last updated: June 30, 2026">Terakhir diperbarui: 30 Juni 2026</span>
             </p>
+        </div>
+    </section>
 
-            <div class="legal-content">
-                <p data-id="PT. Melayani Digital Raya (MELDIR) berkomitmen memberikan layanan terbaik untuk pengembangan perangkat lunak Anda. Kebijakan ini menjelaskan syarat pembatalan proyek dan pengembalian dana (refund) untuk menjamin transparansi kerja sama." 
-                   data-en="PT. Melayani Digital Raya (MELDIR) is committed to providing the best services for your software development. This policy outlines the terms of project cancellation and refunds to ensure absolute transparency.">
-                    PT. Melayani Digital Raya (MELDIR) berkomitmen memberikan layanan terbaik untuk pengembangan perangkat lunak Anda. Kebijakan ini menjelaskan syarat pembatalan proyek dan pengembalian dana (refund) untuk menjamin transparansi kerja sama.
-                </p>
-
-                <div class="legal-section">
-                    <h2 data-id="1. Pembatalan Proyek" data-en="1. Project Cancellation">1. Pembatalan Proyek</h2>
-                    <ul>
-                        <li data-id="Klien berhak mengajukan pembatalan proyek secara tertulis kapan saja." data-en="Clients have the right to request project cancellation in writing at any time.">Klien berhak mengajukan pembatalan proyek secara tertulis kapan saja.</li>
-                        <li data-id="PT. Melayani Digital Raya (MELDIR) berhak membatalkan proyek secara sepihak jika klien melanggar syarat kerja sama atau bertindak di luar hukum." data-en="PT. Melayani Digital Raya (MELDIR) reserves the right to cancel the project if the client breaches the agreement or acts unlawfully.">PT. Melayani Digital Raya (MELDIR) berhak membatalkan proyek secara sepihak jika klien melanggar syarat kerja sama atau bertindak di luar hukum.</li>
-                    </ul>
+    <!-- Main Content Layout -->
+    <main class="legal-layout">
+        <div class="container legal-grid">
+            
+            <!-- Sticky Sidebar Navigation -->
+            <aside class="legal-sidebar">
+                <h3 class="legal-sidebar-title" data-id="Daftar Dokumen" data-en="Document List">Daftar Dokumen</h3>
+                <nav class="legal-sidebar-menu">
+                    <a href="privacy.html" class="legal-sidebar-link" data-id="Kebijakan Privasi" data-en="Privacy Policy">Kebijakan Privasi</a>
+                    <a href="terms.html" class="legal-sidebar-link" data-id="Syarat &amp; Ketentuan" data-en="Terms of Service">Syarat &amp; Ketentuan</a>
+                    <a href="refund.html" class="legal-sidebar-link active" data-id="Pengembalian Dana" data-en="Refund Policy">Pengembalian Dana</a>
+                    <a href="support.html" class="legal-sidebar-link" data-id="Kanal Pengaduan" data-en="Customer Support">Kanal Pengaduan</a>
+                </nav>
+            </aside>
+            
+            <!-- Content Area -->
+            <div class="legal-content-wrapper">
+                
+                <!-- Introduction Card -->
+                <div class="legal-intro-card">
+                    <p data-id="PT. Melayani Digital Raya (MELDIR) berkomitmen memberikan layanan terbaik untuk pengembangan perangkat lunak Anda. Kebijakan ini menjelaskan syarat pembatalan proyek dan pengembalian dana (refund) untuk menjamin transparansi kerja sama." 
+                       data-en="PT. Melayani Digital Raya (MELDIR) is committed to providing the best services for your software development. This policy outlines the terms of project cancellation and refunds to ensure absolute transparency.">
+                        PT. Melayani Digital Raya (MELDIR) berkomitmen memberikan layanan terbaik untuk pengembangan perangkat lunak Anda. Kebijakan ini menjelaskan syarat pembatalan proyek dan pengembalian dana (refund) untuk menjamin transparansi kerja sama.
+                    </p>
                 </div>
-
-                <div class="legal-section">
+                
+                <!-- Section 1 -->
+                <article class="legal-card">
+                    <h2 data-id="1. Pembatalan Proyek" data-en="1. Project Cancellation">1. Pembatalan Proyek</h2>
+                    <ul class="legal-bullet-list">
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="Klien berhak mengajukan pembatalan proyek secara tertulis kapan saja." data-en="Clients have the right to request project cancellation in writing at any time.">Klien berhak mengajukan pembatalan proyek secara tertulis kapan saja.</span>
+                        </li>
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="PT. Melayani Digital Raya (MELDIR) berhak membatalkan proyek secara sepihak jika klien melanggar syarat kerja sama atau bertindak di luar hukum." data-en="PT. Melayani Digital Raya (MELDIR) reserves the right to cancel the project if the client breaches the agreement or acts unlawfully.">PT. Melayani Digital Raya (MELDIR) berhak membatalkan proyek secara sepihak jika klien melanggar syarat kerja sama atau bertindak di luar hukum.</span>
+                        </li>
+                    </ul>
+                </article>
+                
+                <!-- Section 2 -->
+                <article class="legal-card">
                     <h2 data-id="2. Ketentuan Pengembalian Dana (Refund)" data-en="2. Refund Eligibility">2. Ketentuan Pengembalian Dana (Refund)</h2>
                     <p data-id="Karena sifat jasa pembuatan software kustom yang melibatkan waktu kerja developer, pengembalian dana diatur sebagai berikut:" 
                        data-en="Due to the nature of custom software services involving developer labor hours, refunds are regulated as follows:">
                         Karena sifat jasa pembuatan software kustom yang melibatkan waktu kerja developer, pengembalian dana diatur sebagai berikut:
                     </p>
-                    <ul>
-                        <li data-id="Uang muka (down payment) tidak dapat dikembalikan apabila pengerjaan riset, konsep, atau desain UI/UX proyek sudah dimulai oleh tim kami." data-en="The down payment (DP) is non-refundable once research, concept definition, or UI/UX design has been initiated by our team.">Uang muka (down payment) tidak dapat dikembalikan apabila pengerjaan riset, konsep, atau desain UI/UX proyek sudah dimulai oleh tim kami.</li>
-                        <li data-id="Jika pembatalan terjadi pada pertengahan proyek, pengembalian dana akan dihitung secara proporsional berdasarkan sisa milestone yang belum dikerjakan." data-en="If cancellation occurs mid-project, any refund will be calculated proportionally based on the remaining milestones that have not yet been developed.">Jika pembatalan terjadi pada pertengahan proyek, pengembalian dana akan dihitung secara proporsional berdasarkan sisa milestone yang belum dikerjakan.</li>
-                        <li data-id="Proyek yang telah selesai dikembangkan sepenuhnya dan masuk tahap serah terima akhir tidak dapat dibatalkan atau dikembalikan dananya dengan alasan apapun." data-en="Projects that have been fully developed and are in the final handover stage cannot be cancelled or refunded under any circumstances.">Proyek yang telah selesai dikembangkan sepenuhnya dan masuk tahap serah terima akhir tidak dapat dibatalkan atau dikembalikan dananya dengan alasan apapun.</li>
+                    <ul class="legal-bullet-list">
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="Uang muka (down payment) tidak dapat dikembalikan apabila pengerjaan riset, konsep, atau desain UI/UX proyek sudah dimulai oleh tim kami." data-en="The down payment (DP) is non-refundable once research, concept definition, or UI/UX design has been initiated by our team.">Uang muka (down payment) tidak dapat dikembalikan apabila pengerjaan riset, konsep, atau desain UI/UX proyek sudah dimulai oleh tim kami.</span>
+                        </li>
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="Jika pembatalan terjadi pada pertengahan proyek, pengembalian dana akan dihitung secara proporsional berdasarkan sisa milestone yang belum dikerjakan." data-en="If cancellation occurs mid-project, any refund will be calculated proportionally based on the remaining milestones that have not yet been developed.">Jika pembatalan terjadi pada pertengahan proyek, pengembalian dana akan dihitung secara proporsional berdasarkan sisa milestone yang belum dikerjakan.</span>
+                        </li>
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="Proyek yang telah selesai dikembangkan sepenuhnya dan masuk tahap serah terima akhir tidak dapat dibatalkan atau dikembalikan dananya dengan alasan apapun." data-en="Projects that have been fully developed and are in the final handover stage cannot be cancelled or refunded under any circumstances.">Proyek yang telah selesai dikembangkan sepenuhnya dan masuk tahap serah terima akhir tidak dapat dibatalkan atau dikembalikan dananya dengan alasan apapun.</span>
+                        </li>
                     </ul>
-                </div>
-
-                <div class="legal-section">
+                </article>
+                
+                <!-- Section 3 -->
+                <article class="legal-card">
                     <h2 data-id="3. Prosedur Pengembalian Dana" data-en="3. Refund Process">3. Prosedur Pengembalian Dana</h2>
                     <p data-id="Untuk mengajukan pengembalian dana, klien harus mengajukan dokumen permohonan resmi via email administrasi kami. Proses verifikasi dan perhitungan alokasi biaya akan memakan waktu hingga 7 hari kerja. Dana yang disetujui untuk dikembalikan akan dikirimkan ke rekening bank klien dalam waktu maksimal 14 hari kerja setelah persetujuan tertulis bersama." 
                        data-en="To request a refund, the client must submit an official request document via our admin email. The verification and cost calculation process will take up to 7 business days. Approved refunds will be transferred to the client's bank account within a maximum of 14 business days after mutual written approval.">
                         Untuk mengajukan pengembalian dana, klien harus mengajukan dokumen permohonan resmi via email administrasi kami. Proses verifikasi dan perhitungan alokasi biaya akan memakan waktu hingga 7 hari kerja. Dana yang disetujui untuk dikembalikan akan dikirimkan ke rekening bank klien dalam waktu maksimal 14 hari kerja setelah persetujuan tertulis bersama.
                     </p>
-                </div>
+                </article>
             </div>
         </div>
     </main>

@@ -78,68 +78,118 @@
         </nav>
     </div>
 
-    <!-- Main Content -->
-    <main class="legal-layout">
-        <div class="container legal-page-container">
+    <!-- Mini Hero Banner -->
+    <section class="legal-hero">
+        <div class="legal-hero-bg"></div>
+        <div class="legal-hero-container">
+            <div class="legal-badge-official">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span data-id="Dokumen Hukum Resmi" data-en="Official Legal Document">Dokumen Hukum Resmi</span>
+            </div>
             <h1 class="legal-title" data-id="Kebijakan Privasi" data-en="Privacy Policy">Kebijakan Privasi</h1>
             <p class="legal-date">
                 <span data-id="Terakhir diperbarui: 30 Juni 2026" data-en="Last updated: June 30, 2026">Terakhir diperbarui: 30 Juni 2026</span>
             </p>
+        </div>
+    </section>
 
-            <div class="legal-content">
-                <p data-id="Kebijakan Privasi ini menjelaskan bagaimana PT. Melayani Digital Raya (MELDIR) mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda ketika Anda mengakses situs meldir.id dan menggunakan layanan kami." 
-                   data-en="This Privacy Policy explains how PT. Melayani Digital Raya (MELDIR) collects, uses, and protects your personal information when you access the meldir.id website and use our services.">
-                    Kebijakan Privasi ini menjelaskan bagaimana PT. Melayani Digital Raya (MELDIR) mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda ketika Anda mengakses situs meldir.id dan menggunakan layanan kami.
-                </p>
-
-                <div class="legal-section">
+    <!-- Main Content Layout -->
+    <main class="legal-layout">
+        <div class="container legal-grid">
+            
+            <!-- Sticky Sidebar Navigation -->
+            <aside class="legal-sidebar">
+                <h3 class="legal-sidebar-title" data-id="Daftar Dokumen" data-en="Document List">Daftar Dokumen</h3>
+                <nav class="legal-sidebar-menu">
+                    <a href="privacy.html" class="legal-sidebar-link active" data-id="Kebijakan Privasi" data-en="Privacy Policy">Kebijakan Privasi</a>
+                    <a href="terms.html" class="legal-sidebar-link" data-id="Syarat &amp; Ketentuan" data-en="Terms of Service">Syarat &amp; Ketentuan</a>
+                    <a href="refund.html" class="legal-sidebar-link" data-id="Pengembalian Dana" data-en="Refund Policy">Pengembalian Dana</a>
+                    <a href="support.html" class="legal-sidebar-link" data-id="Kanal Pengaduan" data-en="Customer Support">Kanal Pengaduan</a>
+                </nav>
+            </aside>
+            
+            <!-- Content Area -->
+            <div class="legal-content-wrapper">
+                
+                <!-- Introduction Card -->
+                <div class="legal-intro-card">
+                    <p data-id="Kebijakan Privasi ini menjelaskan bagaimana PT. Melayani Digital Raya (MELDIR) mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda ketika Anda mengakses situs meldir.id dan menggunakan layanan kami." 
+                       data-en="This Privacy Policy explains how PT. Melayani Digital Raya (MELDIR) collects, uses, and protects your personal information when you access the meldir.id website and use our services.">
+                        Kebijakan Privasi ini menjelaskan bagaimana PT. Melayani Digital Raya (MELDIR) mengumpulkan, menggunakan, dan melindungi informasi pribadi Anda ketika Anda mengakses situs meldir.id dan menggunakan layanan kami.
+                    </p>
+                </div>
+                
+                <!-- Section 1 -->
+                <article class="legal-card">
                     <h2 data-id="1. Informasi yang Kami Kumpulkan" data-en="1. Information We Collect">1. Informasi yang Kami Kumpulkan</h2>
                     <p data-id="Kami mengumpulkan data ketika Anda berinteraksi dengan kami melalui tautan WhatsApp yang disediakan di website kami. Data ini mencakup:" 
                        data-en="We collect data when you interact with us via the WhatsApp links provided on our website. This data includes:">
                         Kami mengumpulkan data ketika Anda berinteraksi dengan kami melalui tautan WhatsApp yang disediakan di website kami. Data ini mencakup:
                     </p>
-                    <ul>
-                        <li data-id="Nama dan Nomor Telepon WhatsApp Anda." data-en="Your name and WhatsApp phone number.">Nama dan Nomor Telepon WhatsApp Anda.</li>
-                        <li data-id="Isi pesan konsultasi atau rincian proyek yang Anda kirimkan." data-en="The content of the consultation messages or project details you send.">Isi pesan konsultasi atau rincian proyek yang Anda kirimkan.</li>
-                        <li data-id="Informasi teknis dasar seperti alamat IP, jenis perangkat, dan cookie untuk statistik pengunjung web." data-en="Basic technical information such as IP address, device type, and cookies for web visitor statistics.">Informasi teknis dasar seperti alamat IP, jenis perangkat, dan cookie untuk statistik pengunjung web.</li>
+                    <ul class="legal-bullet-list">
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="Nama dan Nomor Telepon WhatsApp Anda." data-en="Your name and WhatsApp phone number.">Nama dan Nomor Telepon WhatsApp Anda.</span>
+                        </li>
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="Isi pesan konsultasi atau rincian proyek yang Anda kirimkan." data-en="The content of the consultation messages or project details you send.">Isi pesan konsultasi atau rincian proyek yang Anda kirimkan.</span>
+                        </li>
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="Informasi teknis dasar seperti alamat IP, jenis perangkat, dan cookie untuk statistik pengunjung web." data-en="Basic technical information such as IP address, device type, and cookies for web visitor statistics.">Informasi teknis dasar seperti alamat IP, jenis perangkat, dan cookie untuk statistik pengunjung web.</span>
+                        </li>
                     </ul>
-                </div>
-
-                <div class="legal-section">
+                </article>
+                
+                <!-- Section 2 -->
+                <article class="legal-card">
                     <h2 data-id="2. Penggunaan Informasi" data-en="2. Use of Information">2. Penggunaan Informasi</h2>
                     <p data-id="Informasi yang dikumpulkan digunakan semata-mata untuk:" data-en="The information collected is used solely to:">
                         Informasi yang dikumpulkan digunakan semata-mata untuk:
                     </p>
-                    <ul>
-                        <li data-id="Menjawab pertanyaan dan memberikan konsultasi jasa pengembangan aplikasi." data-en="Answer inquiries and provide application development consultations.">Menjawab pertanyaan dan memberikan konsultasi jasa pengembangan aplikasi.</li>
-                        <li data-id="Menindaklanjuti kesepakatan pembuatan website, PWA, atau aplikasi mobile." data-en="Follow up on website, PWA, or mobile app development agreements.">Menindaklanjuti kesepakatan pembuatan website, PWA, atau aplikasi mobile.</li>
-                        <li data-id="Meningkatkan performa web portofolio meldir.id agar lebih nyaman diakses." data-en="Improve the performance of the meldir.id portfolio web for easier access.">Meningkatkan performa web portofolio meldir.id agar lebih nyaman diakses.</li>
+                    <ul class="legal-bullet-list">
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="Menjawab pertanyaan dan memberikan konsultasi jasa pengembangan aplikasi." data-en="Answer inquiries and provide application development consultations.">Menjawab pertanyaan dan memberikan konsultasi jasa pengembangan aplikasi.</span>
+                        </li>
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="Menindaklanjuti kesepakatan pembuatan website, PWA, atau aplikasi mobile." data-en="Follow up on website, PWA, or mobile app development agreements.">Menindaklanjuti kesepakatan pembuatan website, PWA, atau aplikasi mobile.</span>
+                        </li>
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="Meningkatkan performa web portofolio meldir.id agar lebih nyaman diakses." data-en="Improve the performance of the meldir.id portfolio web for easier access.">Meningkatkan performa web portofolio meldir.id agar lebih nyaman diakses.</span>
+                        </li>
                     </ul>
-                </div>
-
-                <div class="legal-section">
+                </article>
+                
+                <!-- Section 3 -->
+                <article class="legal-card">
                     <h2 data-id="3. Perlindungan &amp; Keamanan Data" data-en="3. Data Security &amp; Protection">3. Perlindungan &amp; Keamanan Data</h2>
                     <p data-id="Kami menerapkan langkah-langkah keamanan teknis standar industri untuk menjamin data percakapan dan dokumen proyek Anda tersimpan dengan aman. Kami tidak menjual, menukarkan, atau mentransfer informasi pribadi Anda kepada pihak luar tanpa persetujuan tertulis dari Anda." 
                        data-en="We implement industry-standard technical security measures to guarantee your conversation data and project documents are stored securely. We do not sell, trade, or transfer your personal information to outside parties without your written consent.">
                         Kami menerapkan langkah-langkah keamanan teknis standar industri untuk menjamin data percakapan dan dokumen proyek Anda tersimpan dengan aman. Kami tidak menjual, menukarkan, atau mentransfer informasi pribadi Anda kepada pihak luar tanpa persetujuan tertulis dari Anda.
                     </p>
-                </div>
-
-                <div class="legal-section">
+                </article>
+                
+                <!-- Section 4 -->
+                <article class="legal-card">
                     <h2 data-id="4. Hak-Hak Pengguna" data-en="4. User Rights">4. Hak-Hak Pengguna</h2>
                     <p data-id="Anda berhak meminta informasi mengenai data pribadi apa saja yang kami simpan, serta meminta kami menghapus seluruh catatan korespondensi dan data kontak Anda dari database kami kapan saja melalui kanal bantuan yang tersedia." 
                        data-en="You have the right to request information regarding what personal data we store, as well as request us to delete all records of correspondence and your contact data from our database at any time through the available support channels.">
                         Anda berhak meminta informasi mengenai data pribadi apa saja yang kami simpan, serta meminta kami menghapus seluruh catatan korespondensi dan data kontak Anda dari database kami kapan saja melalui kanal bantuan yang tersedia.
                     </p>
-                </div>
-
-                <div class="legal-section">
+                </article>
+                
+                <!-- Section 5 -->
+                <article class="legal-card">
                     <h2 data-id="5. Hubungi Kami" data-en="5. Contact Us">5. Hubungi Kami</h2>
                     <p data-id="Apabila Anda memiliki pertanyaan mengenai Kebijakan Privasi ini, silakan hubungi kami via WhatsApp pada tombol bantuan di bawah." 
                        data-en="If you have any questions about this Privacy Policy, please contact us via WhatsApp using the support button below.">
                         Apabila Anda memiliki pertanyaan mengenai Kebijakan Privasi ini, silakan hubungi kami via WhatsApp pada tombol bantuan di bawah.
                     </p>
-                </div>
+                </article>
             </div>
         </div>
     </main>

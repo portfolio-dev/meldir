@@ -78,60 +78,101 @@
         </nav>
     </div>
 
-    <!-- Main Content -->
-    <main class="legal-layout">
-        <div class="container legal-page-container">
+    <!-- Mini Hero Banner -->
+    <section class="legal-hero">
+        <div class="legal-hero-bg"></div>
+        <div class="legal-hero-container">
+            <div class="legal-badge-official">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span data-id="Dokumen Hukum Resmi" data-en="Official Legal Document">Dokumen Hukum Resmi</span>
+            </div>
             <h1 class="legal-title" data-id="Syarat &amp; Ketentuan" data-en="Terms of Service">Syarat &amp; Ketentuan</h1>
             <p class="legal-date">
                 <span data-id="Terakhir diperbarui: 30 Juni 2026" data-en="Last updated: June 30, 2026">Terakhir diperbarui: 30 Juni 2026</span>
             </p>
+        </div>
+    </section>
 
-            <div class="legal-content">
-                <p data-id="Selamat datang di meldir.id. Dengan mengakses situs ini atau menggunakan jasa pengembangan software kami, Anda dianggap menyetujui seluruh Syarat dan Ketentuan yang ditetapkan oleh PT. Melayani Digital Raya (MELDIR) berikut." 
-                   data-en="Welcome to meldir.id. By accessing this website or using our software development services, you are deemed to agree to all Terms and Conditions set by PT. Melayani Digital Raya (MELDIR) below.">
-                    Selamat datang di meldir.id. Dengan mengakses situs ini atau menggunakan jasa pengembangan software kami, Anda dianggap menyetujui seluruh Syarat dan Ketentuan yang ditetapkan oleh PT. Melayani Digital Raya (MELDIR) berikut.
-                </p>
-
-                <div class="legal-section">
+    <!-- Main Content Layout -->
+    <main class="legal-layout">
+        <div class="container legal-grid">
+            
+            <!-- Sticky Sidebar Navigation -->
+            <aside class="legal-sidebar">
+                <h3 class="legal-sidebar-title" data-id="Daftar Dokumen" data-en="Document List">Daftar Dokumen</h3>
+                <nav class="legal-sidebar-menu">
+                    <a href="privacy.html" class="legal-sidebar-link" data-id="Kebijakan Privasi" data-en="Privacy Policy">Kebijakan Privasi</a>
+                    <a href="terms.html" class="legal-sidebar-link active" data-id="Syarat &amp; Ketentuan" data-en="Terms of Service">Syarat &amp; Ketentuan</a>
+                    <a href="refund.html" class="legal-sidebar-link" data-id="Pengembalian Dana" data-en="Refund Policy">Pengembalian Dana</a>
+                    <a href="support.html" class="legal-sidebar-link" data-id="Kanal Pengaduan" data-en="Customer Support">Kanal Pengaduan</a>
+                </nav>
+            </aside>
+            
+            <!-- Content Area -->
+            <div class="legal-content-wrapper">
+                
+                <!-- Introduction Card -->
+                <div class="legal-intro-card">
+                    <p data-id="Selamat datang di meldir.id. Dengan mengakses situs ini atau menggunakan jasa pengembangan software kami, Anda dianggap menyetujui seluruh Syarat dan Ketentuan yang ditetapkan oleh PT. Melayani Digital Raya (MELDIR) berikut." 
+                       data-en="Welcome to meldir.id. By accessing this website or using our software development services, you are deemed to agree to all Terms and Conditions set by PT. Melayani Digital Raya (MELDIR) below.">
+                        Selamat datang di meldir.id. Dengan mengakses situs ini atau menggunakan jasa pengembangan software kami, Anda dianggap menyetujui seluruh Syarat dan Ketentuan yang ditetapkan oleh PT. Melayani Digital Raya (MELDIR) berikut.
+                    </p>
+                </div>
+                
+                <!-- Section 1 -->
+                <article class="legal-card">
                     <h2 data-id="1. Ruang Lingkup Layanan" data-en="1. Scope of Service">1. Ruang Lingkup Layanan</h2>
                     <p data-id="PT. Melayani Digital Raya (MELDIR) menyediakan jasa konsultasi IT, perancangan antarmuka (UI/UX), pembuatan website statis, aplikasi web progresif (PWA), serta pengembangan aplikasi mobile Android &amp; iOS sesuai dengan spesifikasi kesepakatan tertulis bersama klien." 
                        data-en="PT. Melayani Digital Raya (MELDIR) provides IT consulting, interface design (UI/UX), static website development, progressive web applications (PWA), and mobile application development (Android &amp; iOS) in accordance with written client agreement specifications.">
                         PT. Melayani Digital Raya (MELDIR) menyediakan jasa konsultasi IT, perancangan antarmuka (UI/UX), pembuatan website statis, aplikasi web progresif (PWA), serta pengembangan aplikasi mobile Android &amp; iOS sesuai dengan spesifikasi kesepakatan tertulis bersama klien.
                     </p>
-                </div>
-
-                <div class="legal-section">
+                </article>
+                
+                <!-- Section 2 -->
+                <article class="legal-card">
                     <h2 data-id="2. Prosedur Kerja &amp; Pembayaran" data-en="2. Project Workflow &amp; Payment">2. Prosedur Kerja &amp; Pembayaran</h2>
-                    <ul>
-                        <li data-id="Setiap proyek akan dimulai setelah klien memberikan rincian kebutuhan dan membayarkan uang muka (down payment) sesuai kontrak." data-en="Every project will commence after the client provides clear requirements and pays the down payment according to the contract.">Setiap proyek akan dimulai setelah klien memberikan rincian kebutuhan dan membayarkan uang muka (down payment) sesuai kontrak.</li>
-                        <li data-id="Pembayaran sisa nilai proyek diatur berdasarkan termin pencapaian milestone pengembangan aplikasi." data-en="The remaining balance of the project is structured based on development milestones.">Pembayaran sisa nilai proyek diatur berdasarkan termin pencapaian milestone pengembangan aplikasi.</li>
-                        <li data-id="Keterlambatan pembayaran termin dapat menyebabkan penundaan pengerjaan proyek oleh developer." data-en="Late milestone payments may cause suspension of project work by the developer.">Keterlambatan pembayaran termin dapat menyebabkan penundaan pengerjaan proyek oleh developer.</li>
+                    <ul class="legal-bullet-list">
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="Setiap proyek akan dimulai setelah klien memberikan rincian kebutuhan dan membayarkan uang muka (down payment) sesuai kontrak." data-en="Every project will commence after the client provides clear requirements and pays the down payment according to the contract.">Setiap proyek akan dimulai setelah klien memberikan rincian kebutuhan dan membayarkan uang muka (down payment) sesuai kontrak.</span>
+                        </li>
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="Pembayaran sisa nilai proyek diatur berdasarkan termin pencapaian milestone pengembangan aplikasi." data-en="The remaining balance of the project is structured based on development milestones.">Pembayaran sisa nilai proyek diatur berdasarkan termin pencapaian milestone pengembangan aplikasi.</span>
+                        </li>
+                        <li class="legal-bullet-item">
+                            <div class="legal-bullet-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></div>
+                            <span data-id="Keterlambatan pembayaran termin dapat menyebabkan penundaan pengerjaan proyek oleh developer." data-en="Late milestone payments may cause suspension of project work by the developer.">Keterlambatan pembayaran termin dapat menyebabkan penundaan pengerjaan proyek oleh developer.</span>
+                        </li>
                     </ul>
-                </div>
-
-                <div class="legal-section">
+                </article>
+                
+                <!-- Section 3 -->
+                <article class="legal-card">
                     <h2 data-id="3. Hak Kekayaan Intelektual" data-en="3. Intellectual Property Rights">3. Hak Kekayaan Intelektual</h2>
                     <p data-id="Klien akan mendapatkan hak kepemilikan penuh atas seluruh kode sumber kustom (source code), aset grafis, dan database dari aplikasi yang dibangun setelah seluruh biaya proyek dilunasi secara penuh. Framework atau pustaka pihak ketiga yang digunakan tetap menjadi hak milik pembuat aslinya." 
                        data-en="Clients will obtain full ownership rights to all custom source code, graphic assets, and database of the built application after all project fees are paid in full. Frameworks or third-party libraries used remain the property of their respective creators.">
                         Klien akan mendapat hak kepemilikan penuh atas seluruh kode sumber kustom (source code), aset grafis, dan database dari aplikasi yang dibangun setelah seluruh biaya proyek dilunasi secara penuh. Framework atau pustaka pihak ketiga yang digunakan tetap menjadi hak milik pembuat aslinya.
                     </p>
-                </div>
-
-                <div class="legal-section">
+                </article>
+                
+                <!-- Section 4 -->
+                <article class="legal-card">
                     <h2 data-id="4. Kewajiban Klien" data-en="4. Client Obligations">4. Kewajiban Klien</h2>
                     <p data-id="Klien berkewajiban memberikan informasi, data, kredensial server/hosting (jika diperlukan), serta materi yang jelas dan akurat demi kelancaran pengembangan aplikasi. Klien bertanggung jawab penuh atas legalitas konten dan data yang dimasukkan ke dalam aplikasi." 
                        data-en="The client is obliged to provide clear and accurate information, data, server/hosting credentials (if required), and materials for smooth application development. The client is fully responsible for the legality of the content and data inputted into the application.">
                         Klien berkewajiban memberikan informasi, data, kredensial server/hosting (jika diperlukan), serta materi yang jelas dan akurat demi kelancaran pengembangan aplikasi. Klien bertanggung jawab penuh atas legalitas konten dan data yang dimasukkan ke dalam aplikasi.
                     </p>
-                </div>
+                </article>
 
-                <div class="legal-section">
+                <!-- Section 5 -->
+                <article class="legal-card">
                     <h2 data-id="5. Batasan Tanggung Jawab" data-en="5. Limitation of Liability">5. Batasan Tanggung Jawab</h2>
                     <p data-id="PT. Melayani Digital Raya (MELDIR) tidak bertanggung jawab atas kerugian operasional, kebocoran data akibat kelalaian server pihak ketiga (hosting/VPS), kegagalan domain, atau perubahan kebijakan API pihak ketiga (seperti WhatsApp API, Google Maps API, dsb.) setelah proyek diserahterimakan secara resmi." 
                        data-en="PT. Melayani Digital Raya (MELDIR) is not liable for operational losses, data leaks caused by negligence of third-party servers (hosting/VPS), domain failures, or changes in third-party API policies (e.g. WhatsApp API, Google Maps API, etc.) after the project is officially handed over.">
                         PT. Melayani Digital Raya (MELDIR) tidak bertanggung jawab atas kerugian operasional, kebocoran data akibat kelalaian server pihak ketiga (hosting/VPS), kegagalan domain, atau perubahan kebijakan API pihak ketiga (seperti WhatsApp API, Google Maps API, dsb.) setelah proyek diserahterimakan secara resmi.
                     </p>
-                </div>
+                </article>
             </div>
         </div>
     </main>
