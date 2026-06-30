@@ -1,0 +1,24 @@
+{
+  "name": "meldir.id - Jasa Pembuatan Website & Aplikasi",
+  "short_name": "meldir.id",
+  "description": "PT Perorangan Jasa Pembuatan Website, Web App & Aplikasi Mobile",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

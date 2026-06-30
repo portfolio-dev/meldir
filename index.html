@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>meldir.id | PT Perorangan Jasa Pembuatan Website, Web App & Aplikasi Mobile</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="meldir.id menyediakan jasa pembuatan website profesional, aplikasi web (PWA), dan aplikasi mobile (Android/iOS) berkualitas tinggi dan terpercaya untuk bisnis, instansi, dan yayasan.">
+    <meta name="keywords" content="meldir.id, pembuatan website, aplikasi web, PWA, aplikasi android, aplikasi ios, developer indonesia, sistem manajemen, SIMRS">
+    <meta name="author" content="meldir.id">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meldir.id/">
+    <meta property="og:title" content="meldir.id | Layanan Pengembangan Aplikasi Web & Mobile">
+    <meta property="og:description" content="Jasa pembuatan website, PWA, dan aplikasi mobile kustom untuk berbagai industri dengan standar teknologi modern.">
+    <meta property="og:image" content="icons/icon-512.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://meldir.id/">
+    <meta property="twitter:title" content="meldir.id | Layanan Pengembangan Aplikasi Web & Mobile">
+    <meta property="twitter:description" content="Jasa pembuatan website, PWA, dan aplikasi mobile kustom untuk berbagai industri dengan standar teknologi modern.">
+    <meta property="twitter:image" content="icons/icon-512.png">
+
+    <!-- Favicon and PWA -->
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header class="site-header" id="site-header">
+        <div class="header-container">
+            <a href="#" class="logo-link" id="logo-link">
+                <div class="logo-icon">M</div>
+                <span class="logo-text">meldir<span class="logo-dot">.id</span></span>
+            </a>
+            
+            <!-- Desktop Navigation -->
+            <nav class="nav-menu" id="nav-menu">
+                <ul>
+                    <li><a href="#hero" class="nav-item active" data-id="Beranda" data-en="Home">Beranda</a></li>
+                    <li><a href="#services" class="nav-item" data-id="Layanan" data-en="Services">Layanan</a></li>
+                    <li><a href="#portfolio" class="nav-item" data-id="Portofolio" data-en="Portfolio">Portofolio</a></li>
+                    <li><a href="#social" class="nav-item" data-id="Sosial" data-en="Social">Sosial</a></li>
+                    <li><a href="#workflow" class="nav-item" data-id="Cara Kerja" data-en="Workflow">Cara Kerja</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <!-- PWA Install Button -->
+                <button id="pwa-install-btn" class="pwa-btn hidden">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <span data-id="Instal Aplikasi" data-en="Install App">Instal Aplikasi</span>
+                </button>
+
+                <!-- Language Switcher -->
+                <div class="language-switcher">
+                    <button class="lang-btn active" id="lang-id-btn" aria-label="Switch to Indonesian">ID</button>
+                    <button class="lang-btn" id="lang-en-btn" aria-label="Switch to English">EN</button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Nav Overlay -->
+    <div class="mobile-nav-overlay" id="mobile-nav-overlay">
+        <nav class="mobile-nav-links">
+            <a href="#hero" class="mobile-nav-item" data-id="Beranda" data-en="Home">Beranda</a>
+            <a href="#services" class="mobile-nav-item" data-id="Layanan" data-en="Services">Layanan</a>
+            <a href="#portfolio" class="mobile-nav-item" data-id="Portofolio" data-en="Portfolio">Portofolio</a>
+            <a href="#social" class="mobile-nav-item" data-id="Sosial" data-en="Social">Sosial</a>
+            <a href="#workflow" class="mobile-nav-item" data-id="Cara Kerja" data-en="Workflow">Cara Kerja</a>
+        </nav>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section" id="hero">
+            <div class="hero-bg-accent"></div>
+            <div class="container hero-container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="badge-dot"></span>
+                        <span data-id="Solusi Digital Profesional" data-en="Professional Digital Solutions">Solusi Digital Profesional</span>
+                    </div>
+                    <h1 class="hero-title">
+                        <span data-id="Wujudkan Ide Anda Menjadi" data-en="Transforming Your Ideas Into">Wujudkan Ide Anda Menjadi</span>
+                        <span class="gradient-text" data-id="Aplikasi Bernilai Tinggi" data-en="High-Performance Software">Aplikasi Bernilai Tinggi</span>
+                    </h1>
+                    <p class="hero-desc" data-id="Kami membantu bisnis, instansi, dan yayasan membangun website interaktif, Web App (PWA), dan aplikasi Android/iOS dengan arsitektur modern dan performa maksimal." data-en="We assist businesses, institutions, and foundations in building interactive websites, Progressive Web Apps (PWA), and Android/iOS mobile applications with modern architectures and maximum performance.">
+                        Kami membantu bisnis, instansi, dan yayasan membangun website interaktif, Web App (PWA), dan aplikasi Android/iOS dengan arsitektur modern dan performa maksimal.
+                    </p>
+                    <div class="hero-cta-group">
+                        <a href="https://wa.me/628213173357?text=Halo%20meldir.id,%20saya%20tertarik%20untuk%20berdiskusi%20mengenai%20pembuatan%20aplikasi/website." class="btn btn-primary" id="hero-cta-wa" target="_blank" rel="noopener noreferrer">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.66.986 3.284 1.489 5.358 1.49 5.461 0 9.905-4.444 9.908-9.906.002-2.646-1.027-5.133-2.902-7.01C17.138 1.85 14.654.82 12.012.82c-5.463 0-9.91 4.447-9.913 9.912-.001 2.091.552 4.12 1.6 5.925L2.68 21.365l4.967-1.303l-.001-.013c.001 0 .001.001 0 0zm12.333-8.868c-.327-.164-1.93-1.02-2.229-1.129-.297-.11-.514-.164-.73.163-.217.329-.841 1.059-1.03 1.278-.19.22-.381.247-.709.083-.327-.164-1.38-.508-2.63-1.623-.974-.87-1.63-1.946-1.82-2.274-.19-.329-.02-.507.144-.671.148-.147.327-.382.49-.574.164-.19.219-.328.328-.547.11-.219.055-.411-.027-.574-.082-.164-.73-1.76-1.002-2.416-.264-.637-.53-.55-.73-.56-.188-.009-.407-.01-.626-.01-.22 0-.576.082-.876.411-.3.329-1.147 1.122-1.147 2.734c0 1.612 1.173 3.17 1.336 3.389.163.22 2.307 3.522 5.59 4.945.78.338 1.39.54 1.868.692.784.249 1.498.214 2.062.13.629-.094 1.93-.789 2.202-1.552.272-.763.272-1.415.19-1.552-.082-.137-.3-.22-.627-.384z"/></svg>
+                            <span data-id="Hubungi WhatsApp" data-en="Chat on WhatsApp">Hubungi WhatsApp</span>
+                        </a>
+                        <a href="#portfolio" class="btn btn-secondary">
+                            <span data-id="Lihat Portofolio" data-en="View Portfolio">Lihat Portofolio</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="visual-card main-card">
+                        <div class="card-header">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <div class="card-address">https://meldir.id</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="code-line"><span class="code-keyword">const</span> service = <span class="code-string">"Software Development"</span>;</div>
+                            <div class="code-line"><span class="code-keyword">const</span> mission = [<span class="code-string">"Scalable"</span>, <span class="code-string">"Modern"</span>, <span class="code-string">"Robust"</span>];</div>
+                            <div class="code-line"><span class="code-keyword">function</span> <span class="code-func">deploy</span>(idea) {</div>
+                            <div class="code-line-indent"><span class="code-keyword">return</span> idea.<span class="code-func">compile</span>().<span class="code-func">launch</span>();</div>
+                            <div class="code-line">}</div>
+                        </div>
+                    </div>
+                    <div class="visual-card floating-card">
+                        <div class="floating-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                        </div>
+                        <div class="floating-content">
+                            <h4 data-id="Aplikasi Mobile" data-en="Mobile Apps">Aplikasi Mobile</h4>
+                            <p data-id="Android & iOS" data-en="Android & iOS">Android & iOS</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section class="services-section" id="services">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" data-id="Layanan Kami" data-en="Our Services">Layanan Kami</h2>
+                    <p class="section-subtitle" data-id="Solusi teknologi komprehensif yang dirancang secara khusus untuk memenuhi kebutuhan bisnis Anda." data-en="Comprehensive technology solutions tailored specifically to meet your business needs.">
+                        Solusi teknologi komprehensif yang dirancang secara khusus untuk memenuhi kebutuhan bisnis Anda.
+                    </p>
+                </div>
+                <div class="services-grid">
+                    <!-- Service 1 -->
+                    <article class="service-card">
+                        <div class="service-icon-wrapper">
+                            <svg class="service-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        </div>
+                        <h3 class="service-card-title" data-id="Custom Website" data-en="Custom Websites">Custom Website</h3>
+                        <p class="service-card-desc" data-id="Landing page, website profil perusahaan, dan situs statis modern yang ramah SEO, responsif, serta memuat dengan sangat cepat." data-en="SEO-friendly, responsive, and ultra-fast loading landing pages, corporate profile websites, and modern static sites.">
+                            Landing page, website profil perusahaan, dan situs statis modern yang ramah SEO, responsif, serta memuat dengan sangat cepat.
+                        </p>
+                    </article>
+                    
+                    <!-- Service 2 -->
+                    <article class="service-card">
+                        <div class="service-icon-wrapper">
+                            <svg class="service-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z"/><path d="M6 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z"/><line x1="9" y1="6" x2="15" y2="6"/><line x1="9" y1="18" x2="15" y2="18"/></svg>
+                        </div>
+                        <h3 class="service-card-title" data-id="Web App (PWA)" data-en="Web Apps (PWA)">Web App (PWA)</h3>
+                        <p class="service-card-desc" data-id="Sistem informasi manajemen kustom yang berjalan di browser namun terasa seperti aplikasi bawaan (dapat diinstal dan diakses offline)." data-en="Custom management information systems running in the browser with native-like experience (installable and offline accessible).">
+                            Sistem informasi manajemen kustom yang berjalan di browser namun terasa seperti aplikasi bawaan (dapat diinstal dan diakses offline).
+                        </p>
+                    </article>
+                    
+                    <!-- Service 3 -->
+                    <article class="service-card">
+                        <div class="service-icon-wrapper">
+                            <svg class="service-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                        </div>
+                        <h3 class="service-card-title" data-id="Aplikasi Mobile" data-en="Mobile Apps">Aplikasi Mobile</h3>
+                        <p class="service-card-desc" data-id="Pengembangan aplikasi Android dan iOS yang lancar, aman, serta terdistribusi di Google Play Store dan Apple App Store." data-en="Smooth, secure development of Android and iOS applications distributed across Google Play Store and Apple App Store.">
+                            Pengembangan aplikasi Android dan iOS yang lancar, aman, serta terdistribusi di Google Play Store dan Apple App Store.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section class="portfolio-section" id="portfolio">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" data-id="Portofolio Kami" data-en="Our Portfolio">Portofolio Kami</h2>
+                    <p class="section-subtitle" data-id="Rekam jejak sistem, dashboard, dan aplikasi kustom yang telah kami bangun dengan mengutamakan performa dan keamanan data." data-en="Track record of custom systems, dashboards, and applications we built, prioritizing performance and data security.">
+                        Rekam jejak sistem, dashboard, dan aplikasi kustom yang telah kami bangun dengan mengutamakan performa dan keamanan data.
+                    </p>
+                </div>
+
+                <!-- Filter Controls -->
+                <div class="portfolio-filters" id="portfolio-filters">
+                    <button class="filter-btn active" data-filter="all" data-id="Semua" data-en="All">Semua</button>
+                    <button class="filter-btn" data-filter="webapp" data-id="Web App" data-en="Web Apps">Web App</button>
+                    <button class="filter-btn" data-filter="mobile" data-id="Aplikasi Mobile" data-en="Mobile Apps">Aplikasi Mobile</button>
+                    <button class="filter-btn" data-filter="ngo" data-id="Sosial (Pro-Bono)" data-en="Social (Pro-Bono)">Sosial (Pro-Bono)</button>
+                </div>
+
+                <!-- Portfolio Grid -->
+                <div class="portfolio-grid" id="portfolio-grid">
+                    <!-- Project 1: SIMRS -->
+                    <article class="portfolio-card" data-category="webapp">
+                        <div class="portfolio-badge-category" data-id="Aplikasi Web" data-en="Web Application">Aplikasi Web</div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title" data-id="Sistem Informasi Manajemen Rumah Sakit (SIMRS)" data-en="Hospital Management Information System (SIMRS)">Sistem Informasi Manajemen Rumah Sakit (SIMRS)</h3>
+                            <p class="portfolio-desc" 
+                               data-id="Sistem terintegrasi untuk rekam medis elektronik, antrean pasien secara real-time, billing kasir otomatis, manajemen farmasi, dan inventarisasi obat-obatan." 
+                               data-en="Integrated system for electronic medical records, real-time patient queues, automated billing, pharmacy management, and pharmaceutical inventory tracking.">
+                                Sistem terintegrasi untuk rekam medis elektronik, antrean pasien secara real-time, billing kasir otomatis, manajemen farmasi, dan inventarisasi obat-obatan.
+                            </p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">PWA</span>
+                                <span class="tech-tag">Real-time DB</span>
+                                <span class="tech-tag">Secure Vault</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 2: Towing App -->
+                    <article class="portfolio-card" data-category="mobile">
+                        <div class="portfolio-badge-category" data-id="Aplikasi Mobile" data-en="Mobile Application">Aplikasi Mobile</div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title" data-id="Platform Pemesanan Derek Mobil On-Demand" data-en="On-Demand Car Towing Service Platform">Platform Pemesanan Derek Mobil On-Demand</h3>
+                            <p class="portfolio-desc" 
+                               data-id="Solusi aplikasi mobile bagi pengguna jalan raya untuk memesan jasa derek terdekat dengan pelacakan GPS real-time, estimasi harga otomatis, dan dashboard admin terpusat." 
+                               data-en="Mobile application solution for road users to book the nearest towing service with real-time GPS tracking, automated fare calculations, and a centralized admin dashboard.">
+                                Solusi aplikasi mobile bagi pengguna jalan raya untuk memesan jasa derek terdekat dengan pelacakan GPS real-time, estimasi harga otomatis, dan dashboard admin terpusat.
+                            </p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">Android / iOS</span>
+                                <span class="tech-tag">GPS Live Tracking</span>
+                                <span class="tech-tag">Map API</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 3: Lodging System -->
+                    <article class="portfolio-card" data-category="webapp">
+                        <div class="portfolio-badge-category" data-id="Aplikasi Web" data-en="Web Application">Aplikasi Web</div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title" data-id="Sistem Manajemen Penginapan & Hotel" data-en="Hotel & Lodging Management System">Sistem Manajemen Penginapan & Hotel</h3>
+                            <p class="portfolio-desc" 
+                               data-id="Platform cloud terpadu untuk pengelolaan reservasi kamar, pencatatan check-in/check-out, manajemen pembersihan kamar (housekeeping), dan pelaporan profit secara otomatis." 
+                               data-en="Unified cloud platform to manage room bookings, check-in/check-out logs, housekeeping coordination, and automated profitability reports.">
+                                Platform cloud terpadu untuk pengelolaan reservasi kamar, pencatatan check-in/check-out, manajemen pembersihan kamar (housekeeping), dan pelaporan profit secara otomatis.
+                            </p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">Cloud ERP</span>
+                                <span class="tech-tag">Interactive Chart</span>
+                                <span class="tech-tag">PWA</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 4: Rumah Singgah -->
+                    <article class="portfolio-card" data-category="webapp">
+                        <div class="portfolio-badge-category" data-id="Aplikasi Web" data-en="Web Application">Aplikasi Web</div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title" data-id="Sistem Manajemen Data Rumah Singgah Sosial" data-en="Social Halfway House Data System">Sistem Manajemen Data Rumah Singgah Sosial</h3>
+                            <p class="portfolio-desc" 
+                               data-id="Aplikasi pencatatan database penghuni, pelacakan logistik bantuan, manajemen alokasi tempat tidur, serta rekam histori medis dasar untuk operasional lembaga sosial." 
+                               data-en="Database application tracking halfway house residents, aid distribution logistics, bed allocation management, and basic medical history logs for social institutions.">
+                                Aplikasi pencatatan database penghuni, pelacakan logistik bantuan, manajemen alokasi tempat tidur, serta rekam histori medis dasar untuk operasional lembaga sosial.
+                            </p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">Patient Log</span>
+                                <span class="tech-tag">NGO Tool</span>
+                                <span class="tech-tag">Responsive UI</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 5: Akuntansi -->
+                    <article class="portfolio-card" data-category="webapp">
+                        <div class="portfolio-badge-category" data-id="Aplikasi Web" data-en="Web Application">Aplikasi Web</div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title" data-id="Aplikasi Pembukuan & Akuntansi Internal" data-en="Internal Bookkeeping & Accounting App">Aplikasi Pembukuan & Akuntansi Internal</h3>
+                            <p class="portfolio-desc" 
+                               data-id="Sistem keuangan untuk usaha yang menyediakan modul penjurnalan otomatis, pembuatan neraca saldo secara instan, laporan rugi laba, dan pencetakan invoice otomatis." 
+                               data-en="Financial system for enterprises providing automated double-entry ledger modules, instant trial balance generation, profit & loss statement, and automated invoicing.">
+                                Sistem keuangan untuk usaha yang menyediakan modul penjurnalan otomatis, pembuatan neraca saldo secara instan, laporan rugi laba, dan pencetakan invoice otomatis.
+                            </p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">Double-Entry</span>
+                                <span class="tech-tag">Export PDF/Excel</span>
+                                <span class="tech-tag">PWA</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 6: NGO Pro-bono -->
+                    <article class="portfolio-card" data-category="ngo">
+                        <div class="portfolio-badge-category" data-id="Sosial (Pro-Bono)" data-en="Social (Pro-Bono)">Sosial (Pro-Bono)</div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title" data-id="Website Portal Informasi & Donasi Yayasan" data-en="Foundation Information Portal & Donation Website">Website Portal Informasi & Donasi Yayasan</h3>
+                            <p class="portfolio-desc" 
+                               data-id="Pembuatan portal web responsif untuk yayasan sosial guna menampilkan aktivitas kepedulian masyarakat, transparansi laporan donasi finansial, serta integrasi sistem donasi instan." 
+                               data-en="Responsive web portal creation for social foundations to showcase public charity activities, financial donation transparency, and instant donation gateway integrations.">
+                                Pembuatan portal web responsif untuk yayasan sosial guna menampilkan aktivitas kepedulian masyarakat, transparansi laporan donasi finansial, serta integrasi sistem donasi instan.
+                            </p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">SEO Optimized</span>
+                                <span class="tech-tag">Static Web</span>
+                                <span class="tech-tag">Donation API</span>
+                            </div>
+                    </article>
+
+                    <!-- Project 7: Restaurant POS (Web App) -->
+                    <article class="portfolio-card" data-category="webapp">
+                        <div class="portfolio-badge-category" data-id="Aplikasi Web" data-en="Web Application">Aplikasi Web</div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title" data-id="Sistem Kasir & Kitchen Display Restoran" data-en="Restaurant POS & Kitchen Display System">Sistem Kasir & Kitchen Display Restoran</h3>
+                            <p class="portfolio-desc" 
+                               data-id="Sistem POS kasir restoran berbasis cloud yang terintegrasi dengan layar monitor dapur (Kitchen Display), pengelolaan stok bahan baku otomatis, serta laporan omzet waktu-nyata." 
+                               data-en="Cloud-based restaurant POS cashier system integrated with kitchen monitor displays, automated raw materials inventory management, and real-time revenue analytics.">
+                                Sistem POS kasir restoran berbasis cloud yang terintegrasi dengan layar monitor dapur (Kitchen Display), pengelolaan stok bahan baku otomatis, serta laporan omzet waktu-nyata.
+                            </p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">PWA</span>
+                                <span class="tech-tag">Real-time Sync</span>
+                                <span class="tech-tag">Inventory ERP</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 8: E-Learning Portal (Web App) -->
+                    <article class="portfolio-card" data-category="webapp">
+                        <div class="portfolio-badge-category" data-id="Aplikasi Web" data-en="Web Application">Aplikasi Web</div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title" data-id="Portal E-Learning & Penilaian Akademik" data-en="E-Learning & Academic Assessment Portal">Portal E-Learning & Penilaian Akademik</h3>
+                            <p class="portfolio-desc" 
+                               data-id="Platform pembelajaran daring yang mendukung kelas virtual, pengunggahan materi multi-format, ujian online dengan pengawasan anti-curang, serta rekap nilai otomatis." 
+                               data-en="Online learning platform supporting virtual classrooms, multi-format material uploads, online exams with anti-cheat monitoring, and automated grade recaps.">
+                                Platform pembelajaran daring yang mendukung kelas virtual, pengunggahan materi multi-format, ujian online dengan pengawasan anti-curang, serta rekap nilai otomatis.
+                            </p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">LMS System</span>
+                                <span class="tech-tag">Interactive Exam</span>
+                                <span class="tech-tag">Responsive UI</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 9: Laundry Delivery Mobile App -->
+                    <article class="portfolio-card" data-category="mobile">
+                        <div class="portfolio-badge-category" data-id="Aplikasi Mobile" data-en="Mobile Application">Aplikasi Mobile</div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title" data-id="Aplikasi Mobile Laundry Antar-Jemput" data-en="Laundry Pickup & Delivery Mobile App">Aplikasi Mobile Laundry Antar-Jemput</h3>
+                            <p class="portfolio-desc" 
+                               data-id="Aplikasi Android/iOS untuk pemesanan jasa cuci pakaian dengan sistem pelacakan kurir jemput-antar terintegrasi, status pengerjaan, dan gerbang pembayaran." 
+                               data-en="Android/iOS app for ordering laundry services with integrated pickup-delivery courier tracking, processing status updates, and digital payment gateway.">
+                                Aplikasi Android/iOS untuk pemesanan jasa cuci pakaian dengan sistem pelacakan kurir jemput-antar terintegrasi, status pengerjaan, dan gerbang pembayaran.
+                            </p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">Android / iOS</span>
+                                <span class="tech-tag">Geolocation API</span>
+                                <span class="tech-tag">Push Notifications</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 10: Technician Booking Mobile App -->
+                    <article class="portfolio-card" data-category="mobile">
+                        <div class="portfolio-badge-category" data-id="Aplikasi Mobile" data-en="Mobile Application">Aplikasi Mobile</div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title" data-id="Aplikasi Jasa Pemesanan Teknisi Rumah Tangga" data-en="On-Demand Home Technician Booking App">Aplikasi Jasa Pemesanan Teknisi Rumah Tangga</h3>
+                            <p class="portfolio-desc" 
+                               data-id="Aplikasi mobile untuk menghubungkan pengguna dengan teknisi perbaikan rumah (AC, listrik, ledeng) terdekat, lengkap dengan pelacakan lokasi waktu-nyata dan in-app chat." 
+                               data-en="Mobile app connecting users with nearby home repair technicians (AC, electrical, plumbing), complete with real-time location tracking and in-app chat.">
+                                Aplikasi mobile untuk menghubungkan pengguna dengan teknisi perbaikan rumah (AC, listrik, ledeng) terdekat, lengkap dengan pelacakan lokasi waktu-nyata dan in-app chat.
+                            </p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">Android / iOS</span>
+                                <span class="tech-tag">Live Chat SDK</span>
+                                <span class="tech-tag">Socket.io</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 11: KB-TK School Management (NGO) -->
+                    <article class="portfolio-card" data-category="ngo">
+                        <div class="portfolio-badge-category" data-id="Sosial (Pro-Bono)" data-en="Social (Pro-Bono)">Sosial (Pro-Bono)</div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title" data-id="Sistem Informasi Akademik PAUD / KB-TK" data-en="Academic Info System for Preschools / Kindergartens">Sistem Informasi Akademik PAUD / KB-TK</h3>
+                            <p class="portfolio-desc" 
+                               data-id="Sistem manajemen sekolah gratis untuk KB-TK sosial. Mendukung pendaftaran siswa secara online, pelaporan perkembangan harian murid (daily report) kepada wali kelas, dan galeri dokumentasi aktivitas kelas." 
+                               data-en="Free school management system for community preschools and kindergartens. Supports online student admissions, student daily reports for teachers, and class activity galleries.">
+                                Sistem manajemen sekolah gratis untuk KB-TK sosial. Mendukung pendaftaran siswa secara online, pelaporan perkembangan harian murid (daily report) kepada wali kelas, dan galeri dokumentasi aktivitas kelas.
+                            </p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">Student Database</span>
+                                <span class="tech-tag">Parent Portal</span>
+                                <span class="tech-tag">Responsive UI</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 12: Community Library Catalog (NGO) -->
+                    <article class="portfolio-card" data-category="ngo">
+                        <div class="portfolio-badge-category" data-id="Sosial (Pro-Bono)" data-en="Social (Pro-Bono)">Sosial (Pro-Bono)</div>
+                        <div class="portfolio-content">
+                            <h3 class="portfolio-title" data-id="Katalog & Peminjaman Buku Taman Bacaan" data-en="Community Library Catalog & Circulation System">Katalog & Peminjaman Buku Taman Bacaan</h3>
+                            <p class="portfolio-desc" 
+                               data-id="Aplikasi web katalog buku digital gratis untuk perpustakaan swadaya warga. Dilengkapi fitur pencarian buku, pencatatan peminjaman, serta scan barcode berbasis kamera smartphone." 
+                               data-en="Free book catalog and lending tracker application for community libraries. Features digital catalog searches, lending records, and camera-based barcode scanning.">
+                                Aplikasi web katalog buku digital gratis untuk perpustakaan swadaya warga. Dilengkapi fitur pencarian buku, pencatatan peminjaman, serta scan barcode berbasis kamera smartphone.
+                            </p>
+                            <div class="portfolio-tech">
+                                <span class="tech-tag">Barcode Scan API</span>
+                                <span class="tech-tag">PWA</span>
+                                <span class="tech-tag">Offline Catalog</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Social Responsibility Section -->
+        <section class="social-section" id="social">
+            <div class="container social-container">
+                <div class="social-content">
+                    <div class="social-badge" data-id="Kontribusi Sosial Kami" data-en="Our Social Contribution">Kontribusi Sosial Kami</div>
+                    <h2 class="social-title" data-id="Pengembangan Aplikasi Gratis untuk Yayasan & Lembaga Sosial" data-en="Free App Development for Foundations & NGOs">Pengembangan Aplikasi Gratis untuk Yayasan & Lembaga Sosial</h2>
+                    <p class="social-desc" 
+                       data-id="Kami percaya bahwa teknologi modern harus dapat dinikmati oleh semua lapisan masyarakat. Sebagai bentuk tanggung jawab sosial, meldir.id menyediakan layanan pembuatan website profil dan sistem data internal secara GRATIS (Pro-Bono) khusus untuk yayasan non-profit dan organisasi kemanusiaan yang membutuhkan digitalisasi." 
+                       data-en="We believe modern technology should be accessible to all. As part of our social responsibility, meldir.id provides FREE (Pro-Bono) website design and internal data management system development services specifically for non-profit foundations and humanitarian organizations in need of digitization.">
+                        Kami percaya bahwa teknologi modern harus dapat dinikmati oleh semua lapisan masyarakat. Sebagai bentuk tanggung jawab sosial, meldir.id menyediakan layanan pembuatan website profil dan sistem data internal secara GRATIS (Pro-Bono) khusus untuk yayasan non-profit dan organisasi kemanusiaan yang membutuhkan digitalisasi.
+                    </p>
+                    <a href="https://wa.me/628213173357?text=Halo%20meldir.id,%20saya%20dari%20yayasan%20ingin%20mengajukan%20kerjasama%20layanan%20pengembangan%20aplikasi%20sosial." class="btn btn-white" target="_blank" rel="noopener noreferrer">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                        <span data-id="Ajukan Program Sosial" data-en="Apply for Social Program">Ajukan Program Sosial</span>
+                    </a>
+                </div>
+                <div class="social-visual">
+                    <!-- Modern graphical grid representation of social impact -->
+                    <div class="impact-grid">
+                        <div class="impact-card">
+                            <div class="impact-num">100%</div>
+                            <div class="impact-label" data-id="Layanan Gratis" data-en="Free Service">Layanan Gratis</div>
+                        </div>
+                        <div class="impact-card">
+                            <div class="impact-num">SEO</div>
+                            <div class="impact-label" data-id="Optimasi Mesin Pencari" data-en="Search Engine Ready">Optimasi Mesin Pencari</div>
+                        </div>
+                        <div class="impact-card">
+                            <div class="impact-num">Cloud</div>
+                            <div class="impact-label" data-id="Hosting Ringan" data-en="Lightweight Hosting">Hosting Ringan</div>
+                        </div>
+                        <div class="impact-card">
+                            <div class="impact-num">Data</div>
+                            <div class="impact-label" data-id="Keamanan Terjamin" data-en="Secure Database">Keamanan Terjamin</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflow Section -->
+        <section class="workflow-section" id="workflow">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" data-id="Alur Kerja Pengembangan" data-en="Development Workflow">Alur Kerja Pengembangan</h2>
+                    <p class="section-subtitle" data-id="Pendekatan terstruktur untuk memastikan produk dikembangkan secara cepat, efisien, dan sesuai spesifikasi." data-en="A structured approach to ensure products are developed quickly, efficiently, and according to specifications.">
+                        Pendekatan terstruktur untuk memastikan produk dikembangkan secara cepat, efisien, dan sesuai spesifikasi.
+                    </p>
+                </div>
+                <div class="workflow-timeline">
+                    <!-- Step 1 -->
+                    <div class="workflow-step">
+                        <div class="step-number">01</div>
+                        <h3 class="step-title" data-id="Konsultasi & Konsep" data-en="Consultation & Concept">Konsultasi & Konsep</h3>
+                        <p class="step-desc" data-id="Diskusikan kebutuhan aplikasi, logika bisnis, serta solusi arsitektur teknologi yang paling efisien." data-en="Discuss application requirements, business logic, and the most efficient technological architectural solutions.">
+                            Diskusikan kebutuhan aplikasi, logika bisnis, serta solusi arsitektur teknologi yang paling efisien.
+                        </p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="workflow-step">
+                        <div class="step-number">02</div>
+                        <h3 class="step-title" data-id="Perancangan UI/UX" data-en="UI/UX Design">Perancangan UI/UX</h3>
+                        <p class="step-desc" data-id="Membangun sketsa antarmuka pengguna yang modern, responsif, dan mengutamakan pengalaman navigasi yang intuitif." data-en="Building a modern, responsive user interface design prioritizing an intuitive navigation experience.">
+                            Membangun sketsa antarmuka pengguna yang modern, responsif, dan mengutamakan pengalaman navigasi yang intuitif.
+                        </p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="workflow-step">
+                        <div class="step-number">03</div>
+                        <h3 class="step-title" data-id="Pengembangan Kode" data-en="Code Development">Pengembangan Kode</h3>
+                        <p class="step-desc" data-id="Proses penulisan kode terstruktur, berkinerja tinggi, aman, dan integrasi API yang terdokumentasi dengan baik." data-en="The process of writing structured, high-performance, and secure code alongside well-documented API integrations.">
+                            Proses penulisan kode terstruktur, berkinerja tinggi, aman, dan integrasi API yang terdokumentasi dengan baik.
+                        </p>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="workflow-step">
+                        <div class="step-number">04</div>
+                        <h3 class="step-title" data-id="Pengujian & Peluncuran" data-en="Testing & Launch">Pengujian & Peluncuran</h3>
+                        <p class="step-desc" data-id="Pengujian komprehensif bebas bug, optimasi kecepatan muatan, dan proses peluncuran produksi ke server cloud." data-en="Comprehensive bug-free testing, page speed optimization, and production deployment process to cloud servers.">
+                            Pengujian komprehensif bebas bug, optimasi kecepatan muatan, dan proses peluncuran produksi ke server cloud.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer / Legal Section -->
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <div class="footer-info">
+                <div class="footer-logo">
+                    <div class="logo-icon">M</div>
+                    <span class="logo-text">meldir<span class="logo-dot">.id</span></span>
+                </div>
+                <p class="footer-legal" data-id="PT Perorangan meldir.id merupakan badan usaha perseroan perorangan yang bergerak di bidang jasa konsultasi dan pengembangan teknologi informasi." data-en="PT Perorangan meldir.id is a sole proprietorship corporate entity engaged in information technology consulting and software development services.">
+                    PT Perorangan meldir.id merupakan badan usaha perseroan perorangan yang bergerak di bidang jasa konsultasi dan pengembangan teknologi informasi.
+                </p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 meldir.id. All rights reserved.</p>
+                <div class="footer-whatsapp">
+                    <a href="https://wa.me/628213173357" class="footer-wa-link" target="_blank" rel="noopener noreferrer">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.66.986 3.284 1.489 5.358 1.49 5.461 0 9.905-4.444 9.908-9.906.002-2.646-1.027-5.133-2.902-7.01C17.138 1.85 14.654.82 12.012.82c-5.463 0-9.91 4.447-9.913 9.912-.001 2.091.552 4.12 1.6 5.925L2.68 21.365l4.967-1.303l-.001-.013c.001 0 .001.001 0 0zm12.333-8.868c-.327-.164-1.93-1.02-2.229-1.129-.297-.11-.514-.164-.73.163-.217.329-.841 1.059-1.03 1.278-.19.22-.381.247-.709.083-.327-.164-1.38-.508-2.63-1.623-.974-.87-1.63-1.946-1.82-2.274-.19-.329-.02-.507.144-.671.148-.147.327-.382.49-.574.164-.19.219-.328.328-.547.11-.219.055-.411-.027-.574-.082-.164-.73-1.76-1.002-2.416-.264-.637-.53-.55-.73-.56-.188-.009-.407-.01-.626-.01-.22 0-.576.082-.876.411-.3.329-1.147 1.122-1.147 2.734c0 1.612 1.173 3.17 1.336 3.389.163.22 2.307 3.522 5.59 4.945.78.338 1.39.54 1.868.692.784.249 1.498.214 2.062.13.629-.094 1.93-.789 2.202-1.552.272-.763.272-1.415.19-1.552-.082-.137-.3-.22-.627-.384z"/></svg>
+                        <span>+62 821-3173-357</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JS Logic -->
+    <script src="app.js"></script>
+</body>
+</html>
