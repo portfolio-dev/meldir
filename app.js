@@ -155,13 +155,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- 4. Portfolio Filter Logic ---
-    const filterButtons = document.querySelectorAll('.filter-btn');
+    const portfolioFilterBtns = document.querySelectorAll('#portfolio-filters .filter-btn');
     const portfolioCards = document.querySelectorAll('.portfolio-card');
 
-    filterButtons.forEach(btn => {
+    portfolioFilterBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            // Remove active from all buttons and add to clicked
-            filterButtons.forEach(b => b.classList.remove('active'));
+            // Remove active from all portfolio filter buttons and add to clicked
+            portfolioFilterBtns.forEach(b => b.classList.remove('active'));
             e.target.classList.add('active');
 
             const filterValue = e.target.getAttribute('data-filter');
@@ -193,6 +193,43 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+
+    // --- 4b. Features Filter Logic ---
+    const featureFilterBtns = document.querySelectorAll('.feature-filters .filter-btn');
+    const featureCards = document.querySelectorAll('.feature-card');
+
+    featureFilterBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            // Remove active from all feature filter buttons and add to clicked
+            featureFilterBtns.forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+
+            const filterValue = e.target.getAttribute('data-feature-filter');
+
+            featureCards.forEach(card => {
+                const cardCategory = card.getAttribute('data-feature-category');
+
+                if (filterValue === 'all' || cardCategory === filterValue) {
+                    card.classList.remove('hidden');
+                    card.style.display = 'flex';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'scale(1)';
+                    }, 50);
+                } else {
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.92)';
+                    setTimeout(() => {
+                        if (card.style.opacity === '0') {
+                            card.classList.add('hidden');
+                            card.style.display = 'none';
+                        }
+                    }, 300);
+                }
+            });
+        });
+    });
+
 
 
     // --- 5. PWA Installation Setup ---
