@@ -654,6 +654,97 @@ section {
     background-color: #ffffff;
 }
 
+/* Portfolio Compact Preview Showcase */
+.portfolio-compact-showcase {
+    background-color: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    box-shadow: var(--shadow-md);
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto 50px auto;
+}
+
+.portfolio-compact-grid {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px;
+}
+
+.portfolio-compact-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.compact-icon-wrapper {
+    width: 64px;
+    height: 64px;
+    background-color: var(--primary-soft);
+    color: var(--primary);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--transition-normal), background-color var(--transition-normal), color var(--transition-normal);
+}
+
+.portfolio-compact-item:hover .compact-icon-wrapper {
+    transform: translateY(-4px);
+    background-color: var(--primary);
+    color: #ffffff;
+}
+
+.compact-icon-wrapper svg {
+    width: 28px;
+    height: 28px;
+}
+
+.compact-label {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-main);
+    text-align: center;
+}
+
+.portfolio-cta-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    border-left: 1px solid var(--border);
+    padding-left: 40px;
+}
+
+.portfolio-cta-text {
+    font-size: 1rem;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.device-slider-dots {
+    display: none;
+}
+
+.slider-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--border);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.slider-dot.active {
+    background-color: var(--primary);
+}
+
 .portfolio-filters {
     display: flex;
     justify-content: center;
@@ -979,7 +1070,11 @@ section {
 }
 
 .feature-filters {
-    margin-bottom: 48px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
 }
 
 .features-grid {
@@ -1898,6 +1993,21 @@ section {
     .portfolio-grid {
         grid-template-columns: 1fr;
     }
+    .portfolio-compact-showcase {
+        grid-template-columns: 1fr;
+        padding: 30px;
+        gap: 30px;
+    }
+    .portfolio-cta-container {
+        border-left: none;
+        padding-left: 0;
+        align-items: center;
+        text-align: center;
+    }
+    .portfolio-compact-grid {
+        justify-content: center;
+        gap: 30px;
+    }
     .social-container {
         grid-template-columns: 1fr;
     }
@@ -1932,31 +2042,83 @@ section {
             grid-template-columns: 1fr;
         }
         .devices-showcase-container {
-            gap: 16px;
-            padding: 10px;
-            justify-content: center;
-            align-items: center;
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            scroll-snap-type: x mandatory !important;
+            scroll-behavior: smooth !important;
+            -webkit-overflow-scrolling: touch !important;
+            width: 100% !important;
+            gap: 0 !important;
+            padding: 20px 0 !important;
+            margin: 30px auto 10px auto !important;
+            justify-content: flex-start !important;
+            align-items: center !important;
+            -ms-overflow-style: none !important;
+            scrollbar-width: none !important;
         }
-        
-        .desktop-wrapper, .tablet-wrapper {
+        .devices-showcase-container::-webkit-scrollbar {
             display: none !important;
         }
         
+        .desktop-wrapper, .tablet-wrapper, .mobile-wrapper, .watch-wrapper {
+            display: flex !important;
+            flex: 0 0 100% !important;
+            width: 100% !important;
+            scroll-snap-align: center !important;
+            justify-content: center !important;
+            align-items: center !important;
+            padding: 0 10px !important;
+            box-sizing: border-box !important;
+        }
+        
+        .device-desktop {
+            width: 280px !important;
+            height: 165px !important;
+        }
+        
+        .device-tablet {
+            width: 220px !important;
+            height: 150px !important;
+        }
+        
         .device-mobile {
-            width: 110px;
-            height: 200px;
+            width: 110px !important;
+            height: 200px !important;
         }
         
         .device-watch {
-            width: 80px;
-            height: 80px;
+            width: 90px !important;
+            height: 90px !important;
         }
+        
+        .device-slider-dots {
+            display: flex !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            margin: 10px auto 30px auto !important;
+        }
+        
+        .portfolio-compact-grid {
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .feature-filters .filter-btn,
+        .portfolio-filters .filter-btn {
+            padding: 8px 14px !important;
+            font-size: 0.75rem !important;
+        }
+        
         .modal-container {
-            height: 95vh;
-            max-height: 95vh;
-            width: 100%;
-            border-radius: 0;
-            border: none;
+            height: 90vh !important;
+            max-height: 90vh !important;
+            width: 94% !important;
+            border-radius: var(--radius-md) !important;
+            border: 1px solid var(--border) !important;
+            margin: auto !important;
         }
         .modal-header {
             padding: 16px 20px;

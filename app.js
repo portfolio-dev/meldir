@@ -304,6 +304,75 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- 4d. Portfolio Modal Open/Close ---
+    const openPortfolioModalBtn = document.getElementById('open-portfolio-modal-btn');
+    const closePortfolioModalBtn = document.getElementById('close-portfolio-modal-btn');
+    const portfolioModal = document.getElementById('portfolio-modal');
+    const heroPortfolioBtn = document.querySelector('.hero-cta-group a[href="#portfolio"]');
+
+    if (openPortfolioModalBtn && closePortfolioModalBtn && portfolioModal) {
+        const openPortfolioModal = () => {
+            portfolioModal.classList.remove('hidden');
+            setTimeout(() => {
+                portfolioModal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }, 10);
+        };
+
+        const closePortfolioModal = () => {
+            portfolioModal.classList.remove('open');
+            setTimeout(() => {
+                portfolioModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        };
+
+        openPortfolioModalBtn.addEventListener('click', openPortfolioModal);
+        closePortfolioModalBtn.addEventListener('click', closePortfolioModal);
+
+        if (heroPortfolioBtn) {
+            heroPortfolioBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openPortfolioModal();
+            });
+        }
+
+        portfolioModal.addEventListener('click', (e) => {
+            if (e.target === portfolioModal) {
+                closePortfolioModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !portfolioModal.classList.contains('hidden')) {
+                closePortfolioModal();
+            }
+        });
+    }
+
+    // --- 4e. Devices Mockup Slider Dots Synchronization (Mobile) ---
+    const showcaseContainer = document.querySelector('.devices-showcase-container');
+    const sliderDots = document.querySelectorAll('.device-slider-dots .slider-dot');
+
+    if (showcaseContainer && sliderDots.length > 0) {
+        showcaseContainer.addEventListener('scroll', () => {
+            const index = Math.round(showcaseContainer.scrollLeft / showcaseContainer.clientWidth);
+            sliderDots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        });
+
+        sliderDots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                showcaseContainer.scrollTo({
+                    left: i * showcaseContainer.clientWidth,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    }
+
+
 });
 
 // --- Register Service Worker ---
