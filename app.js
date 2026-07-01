@@ -266,6 +266,44 @@ document.addEventListener('DOMContentLoaded', () => {
         pwaInstallBtn.classList.add('hidden');
     });
 
+    // --- 4c. Features Modal Open/Close ---
+    const openFeaturesModalBtn = document.getElementById('open-features-modal-btn');
+    const closeFeaturesModalBtn = document.getElementById('close-features-modal-btn');
+    const featuresModal = document.getElementById('features-modal');
+
+    if (openFeaturesModalBtn && closeFeaturesModalBtn && featuresModal) {
+        const openModal = () => {
+            featuresModal.classList.remove('hidden');
+            setTimeout(() => {
+                featuresModal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }, 10);
+        };
+
+        const closeModal = () => {
+            featuresModal.classList.remove('open');
+            setTimeout(() => {
+                featuresModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        };
+
+        openFeaturesModalBtn.addEventListener('click', openModal);
+        closeFeaturesModalBtn.addEventListener('click', closeModal);
+
+        featuresModal.addEventListener('click', (e) => {
+            if (e.target === featuresModal) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !featuresModal.classList.contains('hidden')) {
+                closeModal();
+            }
+        });
+    }
+
 });
 
 // --- Register Service Worker ---
