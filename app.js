@@ -154,45 +154,72 @@ document.addEventListener('DOMContentLoaded', () => {
     handleScroll(); // Trigger immediately to set correct states on page load
 
 
-    // --- 4. Portfolio Filter Logic ---
-    const portfolioFilterBtns = document.querySelectorAll('#portfolio-filters .filter-btn');
-    const portfolioCards = document.querySelectorAll('.portfolio-card');
+    // --- 4. Security Modal Triggers ---
+    const securityCards = document.querySelectorAll('.security-pillar-card');
+    const securityModal = document.getElementById('security-modal');
+    const closeSecurityModalBtn = document.getElementById('close-security-modal-btn');
+    const heroSecurityBtn = document.querySelector('.hero-cta-group a[href="#security"]');
 
-    portfolioFilterBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            // Remove active from all portfolio filter buttons and add to clicked
-            portfolioFilterBtns.forEach(b => b.classList.remove('active'));
-            e.target.classList.add('active');
+    if (securityModal && closeSecurityModalBtn) {
+        const openSecurityModal = (pillarId) => {
+            // Hide all detail contents
+            const contents = document.querySelectorAll('.security-detail-content');
+            contents.forEach(content => content.classList.add('hidden'));
 
-            const filterValue = e.target.getAttribute('data-filter');
+            // Show active detail content
+            const activeContent = document.getElementById(`security-content-${pillarId}`);
+            if (activeContent) {
+                activeContent.classList.remove('hidden');
+            }
 
-            portfolioCards.forEach(card => {
-                const cardCategory = card.getAttribute('data-category');
+            // Open Modal
+            securityModal.classList.remove('hidden');
+            setTimeout(() => {
+                securityModal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }, 10);
+        };
 
-                if (filterValue === 'all' || cardCategory === filterValue) {
-                    // Show card with a small delay for smooth animation
-                    card.classList.remove('hidden');
-                    // Reset styling in case inline display none was used
-                    card.style.display = 'flex';
-                    setTimeout(() => {
-                        card.style.opacity = '1';
-                        card.style.transform = 'scale(1)';
-                    }, 50);
-                } else {
-                    // Hide card
-                    card.style.opacity = '0';
-                    card.style.transform = 'scale(0.92)';
-                    // Fully hide from layout after animation completes (300ms)
-                    setTimeout(() => {
-                        if (card.style.opacity === '0') {
-                            card.classList.add('hidden');
-                            card.style.display = 'none';
-                        }
-                    }, 300);
-                }
+        const closeSecurityModal = () => {
+            securityModal.classList.remove('open');
+            setTimeout(() => {
+                securityModal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        };
+
+        // Add event listeners to cards
+        securityCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const pillarId = card.getAttribute('data-pillar');
+                openSecurityModal(pillarId);
             });
         });
-    });
+
+        closeSecurityModalBtn.addEventListener('click', closeSecurityModal);
+
+        if (heroSecurityBtn) {
+            heroSecurityBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetSection = document.getElementById('security');
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+
+        securityModal.addEventListener('click', (e) => {
+            if (e.target === securityModal) {
+                closeSecurityModal();
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !securityModal.classList.contains('hidden')) {
+                closeSecurityModal();
+            }
+        });
+    }
 
     // --- 4b. Features Filter Logic ---
     const featureFilterBtns = document.querySelectorAll('.feature-filters .filter-btn');
@@ -304,51 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 4d. Portfolio Modal Open/Close ---
-    const openPortfolioModalBtn = document.getElementById('open-portfolio-modal-btn');
-    const closePortfolioModalBtn = document.getElementById('close-portfolio-modal-btn');
-    const portfolioModal = document.getElementById('portfolio-modal');
-    const heroPortfolioBtn = document.querySelector('.hero-cta-group a[href="#portfolio"]');
-
-    if (openPortfolioModalBtn && closePortfolioModalBtn && portfolioModal) {
-        const openPortfolioModal = () => {
-            portfolioModal.classList.remove('hidden');
-            setTimeout(() => {
-                portfolioModal.classList.add('open');
-                document.body.style.overflow = 'hidden';
-            }, 10);
-        };
-
-        const closePortfolioModal = () => {
-            portfolioModal.classList.remove('open');
-            setTimeout(() => {
-                portfolioModal.classList.add('hidden');
-                document.body.style.overflow = '';
-            }, 300);
-        };
-
-        openPortfolioModalBtn.addEventListener('click', openPortfolioModal);
-        closePortfolioModalBtn.addEventListener('click', closePortfolioModal);
-
-        if (heroPortfolioBtn) {
-            heroPortfolioBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                openPortfolioModal();
-            });
-        }
-
-        portfolioModal.addEventListener('click', (e) => {
-            if (e.target === portfolioModal) {
-                closePortfolioModal();
-            }
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !portfolioModal.classList.contains('hidden')) {
-                closePortfolioModal();
-            }
-        });
-    }
+    // --- 4d. Security Modal Cleanup (Handled in 4.) ---
 
     // --- 4e. Devices Mockup Slider Dots Synchronization (Mobile) ---
     const showcaseContainer = document.querySelector('.devices-showcase-container');
