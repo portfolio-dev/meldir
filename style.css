@@ -187,8 +187,7 @@ img, svg {
     width: 38px;
     height: 38px;
     object-fit: contain;
-    border-radius: 10px;
-    box-shadow: 0 3px 8px rgba(37, 99, 235, 0.2);
+    display: block;
 }
 
 .logo-text {
