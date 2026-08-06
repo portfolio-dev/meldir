@@ -983,6 +983,32 @@ section {
     color: var(--text-light);
 }
 
+.footer-legal-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background-color: var(--primary-soft);
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    border-radius: var(--radius-md);
+    color: var(--primary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 4px;
+    transition: var(--transition-fast);
+}
+
+.footer-legal-badge:hover {
+    background-color: #e0edff;
+    border-color: var(--primary-light);
+    transform: translateY(-1px);
+}
+
+.footer-legal-badge svg {
+    flex-shrink: 0;
+    color: var(--primary);
+}
+
 .footer-links h4 {
     font-size: 1rem;
     font-weight: 700;
