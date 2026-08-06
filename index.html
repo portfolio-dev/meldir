@@ -344,23 +344,61 @@
                                 <!-- Simulated Desktop App UI -->
                                 <div class="app-ui desktop-ui">
                                     <div class="ui-sidebar">
-                                        <div class="ui-logo"></div>
-                                        <div class="ui-nav-item active"></div>
-                                        <div class="ui-nav-item"></div>
-                                        <div class="ui-nav-item"></div>
+                                        <div class="ui-brand">
+                                            <span class="ui-brand-dot"></span>
+                                            <span class="ui-brand-text">meldir</span>
+                                        </div>
+                                        <div class="ui-nav-item active">
+                                            <svg class="ui-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                                            <span>Dash</span>
+                                        </div>
+                                        <div class="ui-nav-item">
+                                            <svg class="ui-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                                            <span>Stats</span>
+                                        </div>
+                                        <div class="ui-nav-item">
+                                            <svg class="ui-nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                            <span>Users</span>
+                                        </div>
                                     </div>
                                     <div class="ui-main">
                                         <div class="ui-header">
-                                            <div class="ui-profile"></div>
+                                            <div class="ui-search-bar">
+                                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                                <span>meldir.id/app</span>
+                                            </div>
+                                            <div class="ui-status-badge">
+                                                <span class="pulse-dot"></span>
+                                                <span>Live</span>
+                                            </div>
+                                            <div class="ui-profile">M</div>
                                         </div>
                                         <div class="ui-content">
                                             <div class="ui-grid-3">
-                                                <div class="ui-card"></div>
-                                                <div class="ui-card"></div>
-                                                <div class="ui-card"></div>
+                                                <div class="ui-stat-card blue">
+                                                    <span class="stat-title">Requests</span>
+                                                    <span class="stat-value">128K</span>
+                                                    <span class="stat-trend positive">+18%</span>
+                                                </div>
+                                                <div class="ui-stat-card green">
+                                                    <span class="stat-title">Speed</span>
+                                                    <span class="stat-value">99.8%</span>
+                                                    <span class="stat-trend positive">Fast</span>
+                                                </div>
+                                                <div class="ui-stat-card purple">
+                                                    <span class="stat-title">Uptime</span>
+                                                    <span class="stat-value">100%</span>
+                                                    <span class="stat-trend positive">Active</span>
+                                                </div>
                                             </div>
                                             <div class="ui-chart-card">
-                                                <div class="ui-chart-line"></div>
+                                                <div class="ui-chart-header">
+                                                    <span class="chart-label">Traffic Overview</span>
+                                                    <span class="chart-badge">Real-time</span>
+                                                </div>
+                                                <div class="ui-chart-canvas">
+                                                    <div class="ui-chart-line-glow"></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -369,8 +407,7 @@
                             <div class="desktop-neck"></div>
                             <div class="desktop-base"></div>
                         </div>
-                        <span class="device-label" data-id="Dekstop Web App" data-en="Desktop Web App">Desktop Web
-                            App</span>
+                        <span class="device-label" data-id="Dekstop Web App" data-en="Desktop Web App">Desktop Web App</span>
                     </div>
 
                     <!-- Tablet -->
@@ -380,24 +417,51 @@
                                 <!-- Simulated Tablet App UI -->
                                 <div class="app-ui tablet-ui">
                                     <div class="ui-header">
-                                        <div class="ui-menu-icon"></div>
-                                        <div class="ui-profile"></div>
+                                        <div class="ui-header-left">
+                                            <div class="ui-menu-icon"></div>
+                                            <span class="ui-app-title">meldir.id</span>
+                                        </div>
+                                        <div class="ui-header-right">
+                                            <span class="ui-notification-dot"></span>
+                                            <div class="ui-profile">M</div>
+                                        </div>
                                     </div>
                                     <div class="ui-content">
                                         <div class="ui-grid-2">
-                                            <div class="ui-card"></div>
-                                            <div class="ui-card"></div>
+                                            <div class="ui-widget-card blue-gradient">
+                                                <div class="widget-icon">⚡</div>
+                                                <div class="widget-info">
+                                                    <span class="widget-title">PWA Sync</span>
+                                                    <span class="widget-status">Aktif (Auto)</span>
+                                                </div>
+                                            </div>
+                                            <div class="ui-widget-card green-gradient">
+                                                <div class="widget-icon">🚀</div>
+                                                <div class="widget-info">
+                                                    <span class="widget-title">Performance</span>
+                                                    <span class="widget-status">Score 100</span>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="ui-chart-card">
-                                            <div class="ui-chart-line"></div>
+                                            <div class="ui-chart-header">
+                                                <span class="chart-label">Adaptive Layout Grid</span>
+                                            </div>
+                                            <div class="ui-progress-bars">
+                                                <div class="progress-item">
+                                                    <div class="progress-bar-bg"><div class="progress-bar-fill fill-95"></div></div>
+                                                </div>
+                                                <div class="progress-item">
+                                                    <div class="progress-bar-bg"><div class="progress-bar-fill fill-85"></div></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="tablet-home-btn"></div>
                         </div>
-                        <span class="device-label" data-id="Tablet Adaptif" data-en="Tablet Adaptive">Tablet
-                            Adaptif</span>
+                        <span class="device-label" data-id="Tablet Adaptif" data-en="Tablet Adaptive">Tablet Adaptif</span>
                     </div>
 
                     <!-- Smartphone -->
@@ -406,21 +470,47 @@
                             <div class="device-screen">
                                 <!-- Simulated Mobile App UI -->
                                 <div class="app-ui mobile-ui">
+                                    <div class="mobile-status-bar">
+                                        <span class="status-time">09:41</span>
+                                        <div class="status-icons">
+                                            <span class="signal-icon"></span>
+                                            <span class="battery-icon"></span>
+                                        </div>
+                                    </div>
                                     <div class="ui-header">
-                                        <div class="ui-menu-icon"></div>
-                                        <div class="ui-profile"></div>
+                                        <div class="ui-brand-mobile">
+                                            <span class="brand-dot-m"></span>
+                                            <span>meldir.id</span>
+                                        </div>
+                                        <div class="pwa-install-badge">
+                                            <span class="badge-dot-g"></span> PWA
+                                        </div>
                                     </div>
                                     <div class="ui-content">
-                                        <div class="ui-card"></div>
-                                        <div class="ui-card"></div>
-                                        <div class="ui-chart-card">
-                                            <div class="ui-chart-bar"></div>
+                                        <div class="mobile-hero-card">
+                                            <span class="hero-card-title">Live App Status</span>
+                                            <span class="hero-card-value">Offline Ready</span>
+                                            <div class="hero-progress-line"></div>
+                                        </div>
+                                        <div class="mobile-pills-group">
+                                            <div class="mobile-pill active">
+                                                <span>Push Notice</span>
+                                            </div>
+                                            <div class="mobile-pill">
+                                                <span>Fast Cache</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="ui-bottom-nav">
-                                        <div class="ui-nav-dot active"></div>
-                                        <div class="ui-nav-dot"></div>
-                                        <div class="ui-nav-dot"></div>
+                                        <div class="ui-nav-tab active">
+                                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+                                        </div>
+                                        <div class="ui-nav-tab">
+                                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                                        </div>
+                                        <div class="ui-nav-tab">
+                                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
