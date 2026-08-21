@@ -641,6 +641,186 @@ section {
     font-size: 0.95rem;
 }
 
+/* Comparison Section */
+.comparison-section {
+    background-color: var(--bg-primary);
+    padding: 80px 0;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+}
+
+.comparison-card {
+    background-color: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 36px 32px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-normal);
+}
+
+.comparison-card.unmanaged {
+    border-top: 4px solid #ef4444;
+}
+
+.comparison-card.managed {
+    border-top: 4px solid #10b981;
+    background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%);
+    box-shadow: var(--shadow-md);
+}
+
+.comparison-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 8px 16px;
+    border-radius: var(--radius-full);
+    margin-bottom: 24px;
+}
+
+.comparison-badge.red {
+    background-color: #fef2f2;
+    color: #dc2626;
+}
+
+.comparison-badge.green {
+    background-color: #dcfce7;
+    color: #15803d;
+}
+
+.comparison-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.comparison-list li {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-main);
+}
+
+.comparison-list li strong {
+    display: block;
+    font-size: 1rem;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.comparison-list li span {
+    color: var(--text-light);
+}
+
+/* Free Audit Section Banner */
+.free-audit-section {
+    padding: 60px 0;
+    background-color: var(--bg-secondary);
+}
+
+.audit-banner-card {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    box-shadow: var(--shadow-xl);
+    position: relative;
+    overflow: hidden;
+}
+
+.audit-banner-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.25) 0%, rgba(37, 99, 235, 0) 70%);
+    pointer-events: none;
+}
+
+.audit-content {
+    flex: 1;
+    max-width: 680px;
+}
+
+.audit-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #34d399;
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    padding: 4px 14px;
+    border-radius: var(--radius-full);
+    margin-bottom: 16px;
+}
+
+.pulse-dot-green {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #34d399;
+    box-shadow: 0 0 8px #34d399;
+}
+
+.audit-title {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 14px;
+    line-height: 1.3;
+}
+
+.audit-desc {
+    color: #94a3b8;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+.audit-action {
+    flex-shrink: 0;
+}
+
+.audit-btn {
+    padding: 16px 32px;
+    font-size: 1.05rem;
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+}
+
+@media (max-width: 992px) {
+    .comparison-grid {
+        grid-template-columns: 1fr;
+    }
+    .audit-banner-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 32px 24px;
+        gap: 24px;
+    }
+    .audit-action {
+        width: 100%;
+    }
+    .audit-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
 /* Security & Privacy Section */
 .security-section {
     background-color: var(--bg-primary);
