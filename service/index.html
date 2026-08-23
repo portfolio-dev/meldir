@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-id="Layanan &amp; Skema Harga | PT. Melayani Digital Raya (MELDIR)"
+        data-en="Services &amp; Pricing | PT. Melayani Digital Raya (MELDIR)">Layanan &amp; Skema Harga | PT. Melayani Digital Raya (MELDIR)</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description"
+        content="Investasi teknologi aman, transparan, dan bergaransi legal untuk pertumbuhan bisnis Anda bersama PT. Melayani Digital Raya (MELDIR). Jasa pembuatan website, aplikasi kustom, dan paket pemeliharaan berkala.">
+    <meta name="keywords"
+        content="layanan meldir, harga pembuatan website, biaya bikin aplikasi, maintenance web aplikasi, vendor IT terpercaya, PT Melayani Digital Raya">
+    <meta name="author" content="PT. Melayani Digital Raya">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meldir.id/service/">
+    <meta property="og:title" content="Layanan &amp; Skema Harga | PT. Melayani Digital Raya">
+    <meta property="og:description"
+        content="Investasi teknologi yang aman untuk pertumbuhan bisnis Anda tanpa risiko vendor ghosting. Didukung tim legal &amp; teknis PT. MELDIR.">
+    <meta property="og:image" content="../icons/icon-512.png">
+
+    <!-- Favicon and PWA -->
+    <link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#2563eb">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Existing Stylesheet for Global Components & Base Reset -->
+    <link rel="stylesheet" href="../style.css">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        meldir: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            500: '#3b82f6',
+                            600: '#2563eb', // Brand Primary Accent
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                            dark: '#0f172a',
+                            surface: '#f8fafc'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-meldir-100 selection:text-meldir-800">
+
+    <!-- ==================== HEADER / NAVIGATION ==================== -->
+    <header class="site-header" id="site-header">
+        <div class="header-container">
+            <a href="../" class="logo-link" id="logo-link">
+                <img src="../icons/icon-192.png" alt="meldir.id logo" class="logo-icon">
+                <span class="logo-text">meldir<span class="logo-dot">.id</span></span>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="nav-menu" id="nav-menu">
+                <ul>
+                    <li><a href="../#hero" class="nav-item" data-id="Beranda" data-en="Home">Beranda</a></li>
+                    <li><a href="../service/" class="nav-item active" data-id="Layanan" data-en="Services">Layanan</a></li>
+                    <li><a href="../#security" class="nav-item" data-id="Keamanan &amp; Privasi" data-en="Security &amp; Privacy">Keamanan &amp; Privasi</a></li>
+                    <li><a href="../#social" class="nav-item" data-id="Sosial" data-en="Social">Sosial</a></li>
+                    <li><a href="../#workflow" class="nav-item" data-id="Cara Kerja" data-en="Workflow">Cara Kerja</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <!-- PWA Install Button -->
+                <button id="pwa-install-btn" class="pwa-btn hidden">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    <span data-id="Instal Aplikasi" data-en="Install App">Instal Aplikasi</span>
+                </button>
+
+                <!-- Language Switcher -->
+                <div class="language-switcher">
+                    <button class="lang-btn active" id="lang-id-btn" aria-label="Switch to Indonesian">ID</button>
+                    <button class="lang-btn" id="lang-en-btn" aria-label="Switch to English">EN</button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Nav Overlay -->
+    <div class="mobile-nav-overlay" id="mobile-nav-overlay">
+        <nav class="mobile-nav-links">
+            <a href="../#hero" class="mobile-nav-item" data-id="Beranda" data-en="Home">Beranda</a>
+            <a href="../service/" class="mobile-nav-item active" data-id="Layanan" data-en="Services">Layanan</a>
+            <a href="../#security" class="mobile-nav-item" data-id="Keamanan &amp; Privasi" data-en="Security &amp; Privacy">Keamanan &amp; Privasi</a>
+            <a href="../#social" class="mobile-nav-item" data-id="Sosial" data-en="Social">Sosial</a>
+            <a href="../#workflow" class="mobile-nav-item" data-id="Cara Kerja" data-en="Workflow">Cara Kerja</a>
+        </nav>
+    </div>
+
+    <!-- ==================== 1. HERO SECTION ==================== -->
+    <section class="relative pt-16 pb-20 md:pt-24 md:pb-28 overflow-hidden bg-gradient-to-b from-white via-slate-50 to-slate-100 border-b border-slate-200">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <!-- Trust Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-meldir-50 border border-meldir-200/80 text-meldir-700 text-xs sm:text-sm font-semibold mb-6 shadow-sm">
+                <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span data-id="Badan Hukum Resmi PT. Melayani Digital Raya | Anti-Ghosting Guarantee"
+                    data-en="Official Legal Entity PT. Melayani Digital Raya | Anti-Ghosting Guarantee">
+                    Badan Hukum Resmi PT. Melayani Digital Raya | Anti-Ghosting Guarantee
+                </span>
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="font-heading font-extrabold text-3xl sm:text-5xl lg:text-6xl text-slate-900 tracking-tight leading-[1.15]"
+                data-id="Investasi Teknologi yang Aman untuk Pertumbuhan Bisnis Anda."
+                data-en="Secure Technology Investment for Your Business Growth.">
+                Investasi Teknologi yang Aman untuk <span class="text-transparent bg-clip-text bg-gradient-to-r from-meldir-600 to-indigo-700">Pertumbuhan Bisnis Anda.</span>
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="mt-6 text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed"
+                data-id="Kami tidak sekadar membuat aplikasi. Kami memastikan sistem Anda berjalan lancar, aman, dan didukung penuh oleh tim legal PT. MELDIR."
+                data-en="We don't just build apps. We ensure your systems run smoothly, securely, and with full legal backing from PT. MELDIR.">
+                Kami tidak sekadar membuat aplikasi. Kami memastikan sistem Anda berjalan lancar, aman, dan didukung penuh oleh tim legal PT. MELDIR.
+            </p>
+
+            <!-- Quick Action Jump Buttons -->
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+                <a href="#maintenance" class="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-medium text-sm hover:border-meldir-600 hover:text-meldir-600 transition shadow-sm">
+                    ⚡ Paket Pemeliharaan (Maintenance)
+                </a>
+                <a href="#development" class="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-medium text-sm hover:border-meldir-600 hover:text-meldir-600 transition shadow-sm">
+                    💻 Pengembangan Sistem Baru
+                </a>
+                <a href="#guarantee" class="px-5 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-medium text-sm hover:border-meldir-600 hover:text-meldir-600 transition shadow-sm">
+                    🛡️ Jaminan &amp; Legalitas
+                </a>
+            </div>
+
+            <!-- Trust Highlights Grid -->
+            <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-slate-200 text-left">
+                <div class="flex items-center gap-2.5 text-slate-700 text-sm font-medium">
+                    <svg class="w-5 h-5 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>SPK &amp; Kontrak Hukum</span>
+                </div>
+                <div class="flex items-center gap-2.5 text-slate-700 text-sm font-medium">
+                    <svg class="w-5 h-5 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>SLA 24 Jam Pasti</span>
+                </div>
+                <div class="flex items-center gap-2.5 text-slate-700 text-sm font-medium">
+                    <svg class="w-5 h-5 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Hak Cipta Kode Milik Anda</span>
+                </div>
+                <div class="flex items-center gap-2.5 text-slate-700 text-sm font-medium">
+                    <svg class="w-5 h-5 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Rekening PT &amp; Faktur Pajak</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 2. SECTION PAKET BERLANGGANAN & PEMELIHARAAN ==================== -->
+    <section id="maintenance" class="py-20 lg:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+            <span class="text-meldir-600 font-bold uppercase tracking-wider text-xs bg-meldir-50 px-3.5 py-1.5 rounded-full border border-meldir-200"
+                data-id="Layanan Rutin Bulanan" data-en="Monthly Routine Service">
+                Layanan Rutin Bulanan
+            </span>
+            <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-slate-900 mt-4 tracking-tight"
+                data-id="Paket Berlangganan &amp; Pemeliharaan (Maintenance)"
+                data-en="Subscription &amp; Maintenance Packages">
+                Paket Berlangganan &amp; Pemeliharaan (Maintenance)
+            </h2>
+            <p class="text-slate-600 text-base sm:text-lg mt-3"
+                data-id="Pastikan sistem bisnis Anda selalu aktif, data terlindungi berkala, dan kendala operasional segera ditangani oleh tim ahli."
+                data-en="Ensure your business systems stay online, data is regularly protected, and operational glitches are resolved promptly by experts.">
+                Pastikan sistem bisnis Anda selalu aktif, data terlindungi berkala, dan kendala operasional segera ditangani oleh tim ahli.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto items-stretch">
+            
+            <!-- Kartu 1: Paket Perawatan Dasar (Basic Care) -->
+            <div class="bg-white rounded-2xl p-8 border border-slate-200/90 shadow-sm hover:shadow-md transition flex flex-col justify-between relative">
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="font-heading font-bold text-2xl text-slate-900"
+                                data-id="Paket Perawatan Dasar" data-en="Basic Care Package">Paket Perawatan Dasar</h3>
+                            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mt-0.5">(Basic Care)</p>
+                        </div>
+                        <span class="text-xs bg-slate-100 text-slate-700 font-semibold px-3 py-1 rounded-full"
+                            data-id="Esensial" data-en="Essential">Esensial</span>
+                    </div>
+
+                    <!-- Human Analogy Note -->
+                    <div class="bg-blue-50/80 border-l-4 border-meldir-600 p-3.5 rounded-r-xl mb-6 text-xs sm:text-sm text-slate-700 leading-relaxed"
+                        data-id="&lt;strong&gt;Bahasa Awam:&lt;/strong&gt; &lt;em&gt;&quot;Ibarat servis rutin dan asuransi, kami pastikan toko digital Anda tidak pernah tutup mendadak saat sedang ramai.&quot;&lt;/em&gt;"
+                        data-en="&lt;strong&gt;Plain Terms:&lt;/strong&gt; &lt;em&gt;&quot;Like routine servicing and insurance, we make sure your digital store never suddenly shuts down during peak hours.&quot;&lt;/em&gt;">
+                        <strong>Bahasa Awam:</strong> <em>"Ibarat servis rutin dan asuransi, kami pastikan toko digital Anda tidak pernah tutup mendadak saat sedang ramai."</em>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="mb-6 pb-6 border-b border-slate-100">
+                        <span class="text-slate-400 text-xs font-medium uppercase tracking-wider"
+                            data-id="Biaya Langganan" data-en="Subscription Fee">Biaya Langganan</span>
+                        <div class="flex items-baseline gap-1 mt-1">
+                            <span class="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900">Rp 1.500.000</span>
+                            <span class="text-slate-500 text-sm font-medium">/ bulan</span>
+                        </div>
+                    </div>
+
+                    <!-- Feature List -->
+                    <ul class="space-y-4 text-sm text-slate-700 mb-8">
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            <span><strong>Layanan Cloud Hosting &amp; SSL:</strong> Server andal dengan enkripsi sertifikat keamanan terpasang.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            <span><strong>Backup Data Mingguan:</strong> Salinan database periodik agar terhindar dari risiko kehilangan data.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            <span><strong>Perbaikan Bug Minor:</strong> Pembersihan galat teknis ringan untuk menjaga kelancaran staf &amp; pelanggan.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            <span><strong>SLA 24 Jam:</strong> Penanganan darurat maksimal 1x24 jam di hari kerja.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <a href="https://wa.me/628213173357?text=Halo%20PT.%20MELDIR,%20saya%20tertarik%20dengan%20Paket%20Perawatan%20Dasar%20(Basic%20Care)%20Rp1.500.000/bln."
+                    target="_blank" rel="noopener noreferrer"
+                    class="w-full text-center py-3.5 px-6 rounded-xl border-2 border-meldir-600 text-meldir-600 font-semibold hover:bg-meldir-50 transition"
+                    data-id="Pilih Paket Basic Care" data-en="Select Basic Care">
+                    Pilih Paket Basic Care
+                </a>
+            </div>
+
+            <!-- Kartu 2: Paket Perawatan Prioritas (Priority Care) -->
+            <div class="bg-white rounded-2xl p-8 border-2 border-meldir-600 shadow-xl flex flex-col justify-between relative">
+                <!-- Badge Recommended -->
+                <div class="absolute -top-3.5 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-meldir-600 to-indigo-600 text-white font-bold text-xs uppercase tracking-wider py-1 px-4 rounded-full shadow-md whitespace-nowrap"
+                    data-id="Paling Diminati untuk Operasional" data-en="Most Popular for Operations">
+                    Paling Diminati untuk Operasional
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-start mb-4 mt-2">
+                        <div>
+                            <h3 class="font-heading font-bold text-2xl text-slate-900"
+                                data-id="Paket Perawatan Prioritas" data-en="Priority Care Package">Paket Perawatan Prioritas</h3>
+                            <p class="text-xs font-semibold text-meldir-600 uppercase tracking-wider mt-0.5">(Priority Care)</p>
+                        </div>
+                        <span class="text-xs bg-meldir-100 text-meldir-800 font-bold px-3 py-1 rounded-full"
+                            data-id="Prioritas Tinggi" data-en="High Priority">Prioritas Tinggi</span>
+                    </div>
+
+                    <!-- Highlight Note -->
+                    <div class="bg-slate-900 text-slate-100 p-3.5 rounded-xl mb-6 text-xs sm:text-sm leading-relaxed"
+                        data-id="⭐ &lt;strong&gt;Dukungan Penuh:&lt;/strong&gt; Solusi komprehensif untuk bisnis yang membutuhkan jaminan operasional tanpa henti dan komunikasi langsung ke tim inti."
+                        data-en="⭐ &lt;strong&gt;Full Support:&lt;/strong&gt; Comprehensive solution for businesses requiring zero downtime and direct access to the core engineering team.">
+                        ⭐ <strong>Dukungan Penuh:</strong> Solusi komprehensif untuk bisnis yang membutuhkan jaminan operasional tanpa henti dan komunikasi langsung ke tim inti.
+                    </div>
+
+                    <!-- Price -->
+                    <div class="mb-6 pb-6 border-b border-slate-100">
+                        <span class="text-slate-400 text-xs font-medium uppercase tracking-wider"
+                            data-id="Biaya Langganan" data-en="Subscription Fee">Biaya Langganan</span>
+                        <div class="flex items-baseline gap-1 mt-1">
+                            <span class="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900">Rp 3.500.000</span>
+                            <span class="text-slate-500 text-sm font-medium">/ bulan</span>
+                        </div>
+                    </div>
+
+                    <!-- Feature List -->
+                    <ul class="space-y-4 text-sm text-slate-700 mb-8">
+                        <li class="flex items-start gap-3 font-semibold text-slate-900">
+                            <svg class="w-5 h-5 text-meldir-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            <span>Semua Fitur Basic Care Sudah Termasuk</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            <span><strong>Backup Data Harian:</strong> Perlindungan data setiap hari agar transaksi harian Anda aman tanpa celah.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            <span><strong>Penambahan Fitur Ringan:</strong> Termasuk penyesuaian/fitur baru ringan (maks. 2x sebulan).</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                            <span><strong>Jalur VIP Engineer:</strong> Jalur komunikasi prioritas via WhatsApp grup langsung dengan Engineer Utama.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <a href="https://wa.me/628213173357?text=Halo%20PT.%20MELDIR,%20saya%20ingin%20berlangganan%20Paket%20Perawatan%20Prioritas%20(Priority%20Care)%20Rp3.500.000/bln."
+                    target="_blank" rel="noopener noreferrer"
+                    class="w-full text-center py-3.5 px-6 rounded-xl bg-meldir-600 hover:bg-meldir-700 text-white font-semibold shadow-lg shadow-meldir-600/30 transition"
+                    data-id="Pilih Paket Priority Care" data-en="Select Priority Care">
+                    Pilih Paket Priority Care
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==================== 3. SECTION PENGEMBANGAN SISTEM BARU ==================== -->
+    <section id="development" class="py-20 lg:py-24 bg-slate-900 text-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="text-meldir-400 font-bold uppercase tracking-wider text-xs bg-slate-800 px-3.5 py-1.5 rounded-full border border-slate-700"
+                    data-id="Custom Development" data-en="Custom Development">
+                    Custom Development
+                </span>
+                <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-white mt-4 tracking-tight"
+                    data-id="Pengembangan Sistem Baru (Custom Development)"
+                    data-en="New System Development (Custom Development)">
+                    Pengembangan Sistem Baru (Custom Development)
+                </h2>
+                <p class="text-slate-400 text-base sm:text-lg mt-3"
+                    data-id="Bangun infrastruktur digital kustom yang 100% selaras dengan SOP perusahaan Anda tanpa kompromi kualitas."
+                    data-en="Build custom digital infrastructure 100% aligned with your business SOPs without compromising quality.">
+                    Bangun infrastruktur digital kustom yang 100% selaras dengan SOP perusahaan Anda tanpa kompromi kualitas.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto items-stretch">
+
+                <!-- Kartu 1: Website Profil Perusahaan -->
+                <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-8 flex flex-col justify-between hover:border-slate-600 transition">
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-heading font-bold text-2xl text-white"
+                                    data-id="Website Profil Perusahaan" data-en="Company Profile Website">Website Profil Perusahaan</h3>
+                                <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mt-0.5">(Corporate Profile &amp; Landing Page)</p>
+                            </div>
+                            <span class="text-xs bg-slate-700 text-slate-200 px-3 py-1 rounded-md font-medium">B2B Branding</span>
+                        </div>
+
+                        <p class="text-sm text-slate-300 mb-6"
+                            data-id="Tingkatkan wibawa dan kredibilitas bisnis Anda di mata klien besar, investor, dan mitra perbankan."
+                            data-en="Elevate your brand authority and credibility in front of enterprise clients, investors, and banking partners.">
+                            Tingkatkan wibawa dan kredibilitas bisnis Anda di mata klien besar, investor, dan mitra perbankan.
+                        </p>
+
+                        <!-- Price -->
+                        <div class="mb-6 pb-6 border-b border-slate-700">
+                            <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider"
+                                data-id="Estimasi Investasi" data-en="Estimated Investment">Estimasi Investasi</span>
+                            <div class="flex items-baseline gap-1 mt-1">
+                                <span class="text-sm text-slate-400">Mulai dari</span>
+                                <span class="text-3xl sm:text-4xl font-heading font-extrabold text-white">Rp 5.000.000</span>
+                            </div>
+                        </div>
+
+                        <!-- Feature List -->
+                        <ul class="space-y-4 text-sm text-slate-300 mb-8">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-meldir-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                <span><strong>Desain Antarmuka Kustom Profesional:</strong> Tampilan unik berkelas yang mencerminkan identitas brand Anda.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-meldir-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                <span><strong>Responsif di Layar HP/Komputer:</strong> Akses nyaman, proporsional, dan cepat dari semua jenis gawai.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-meldir-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                <span><strong>Optimasi Kecepatan &amp; Keamanan Dasar:</strong> Waktu *load* cepat dengan standar proteksi SSL resmi.</span>
+                            </li>
+                            <li class="flex items-start gap-3 bg-slate-700/50 p-2.5 rounded-lg border border-slate-600 text-emerald-400">
+                                <svg class="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                <span><strong>Bonus Spesial:</strong> Gratis layanan <em>Basic Care</em> selama 1 bulan pertama.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="https://wa.me/628213173357?text=Halo%20PT.%20MELDIR,%20saya%20ingin%20membuat%20Website%20Profil%20Perusahaan%20(Mulai%20Rp5.000.000)."
+                        target="_blank" rel="noopener noreferrer"
+                        class="w-full text-center py-3.5 px-6 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-semibold transition"
+                        data-id="Diskusikan Proyek Website" data-en="Discuss Website Project">
+                        Diskusikan Proyek Website
+                    </a>
+                </div>
+
+                <!-- Kartu 2: Aplikasi Bisnis / Kasir / ERP Mini -->
+                <div class="bg-gradient-to-b from-slate-800 to-slate-850 border-2 border-meldir-500 rounded-2xl p-8 flex flex-col justify-between shadow-2xl relative">
+                    <div class="absolute -top-3.5 right-6 bg-meldir-600 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider"
+                        data-id="Kustom Penuh" data-en="Full Custom">
+                        Kustom Penuh
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 class="font-heading font-bold text-2xl text-white"
+                                    data-id="Aplikasi Bisnis / Sistem Kasir / ERP Mini"
+                                    data-en="Business App / POS / Mini ERP">Aplikasi Bisnis / Sistem Kasir / ERP Mini</h3>
+                                <p class="text-xs font-semibold text-meldir-400 uppercase tracking-wider mt-0.5">(Custom POS, CRM, ERP &amp; Automation)</p>
+                            </div>
+                        </div>
+
+                        <p class="text-sm text-slate-300 mb-6"
+                            data-id="Otomatisasi alur kerja, integrasi multi-cabang, kontrol stok akurat, dan cegah kebocoran kas keuangan."
+                            data-en="Automate workflows, multi-branch integrations, accurate inventory control, and prevent cash leakage.">
+                            Otomatisasi alur kerja, integrasi multi-cabang, kontrol stok akurat, dan cegah kebocoran kas keuangan.
+                        </p>
+
+                        <!-- Price -->
+                        <div class="mb-6 pb-6 border-b border-slate-700">
+                            <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider"
+                                data-id="Estimasi Investasi" data-en="Estimated Investment">Estimasi Investasi</span>
+                            <div class="flex items-baseline gap-1 mt-1">
+                                <span class="text-sm text-slate-400">Mulai dari</span>
+                                <span class="text-3xl sm:text-4xl font-heading font-extrabold text-white">Rp 25.000.000</span>
+                            </div>
+                        </div>
+
+                        <!-- Feature List -->
+                        <ul class="space-y-4 text-sm text-slate-300 mb-8">
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                <span><strong>Konsultasi Pemetaan Masalah Bisnis:</strong> Analisis mendalam bersama konsultan kami sebelum tahap pengodean.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                <span><strong>Arsitektur Database Tertutup yang Aman:</strong> Struktur data terenkripsi dan terlindungi untuk operasional privat.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                <span><strong>Aplikasi Dirancang Khusus Sesuai Alur Kerja:</strong> Menyesuaikan kebutuhan dan SOP tim Anda secara presisi.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                <span><strong>Training Staf Hingga Bisa:</strong> Pendampingan pelatihan karyawan hingga seluruh fungsi berjalan lancar.</span>
+                            </li>
+                            <li class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                                <span><strong>Hak Milik Kode Sumber Berlandaskan Hukum PT:</strong> Kepemilikan aset kode sepenuhnya milik Anda secara legal.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="https://wa.me/628213173357?text=Halo%20PT.%20MELDIR,%20saya%20ingin%20berkonsultasi%20mengenai%20pembuatan%20Aplikasi%20Bisnis/ERP%20Mini%20(Mulai%20Rp25.000.000)."
+                        target="_blank" rel="noopener noreferrer"
+                        class="w-full text-center py-3.5 px-6 rounded-xl bg-meldir-600 hover:bg-meldir-700 text-white font-semibold shadow-lg shadow-meldir-600/40 transition"
+                        data-id="Ajukan Rencana Anggaran (RAB)" data-en="Request Budget Plan (RAB)">
+                        Ajukan Rencana Anggaran (RAB)
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 4. SECTION JAMINAN & TRANSPARANSI ==================== -->
+    <section id="guarantee" class="py-20 lg:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+            <span class="text-emerald-700 font-bold uppercase tracking-wider text-xs bg-emerald-50 px-3.5 py-1.5 rounded-full border border-emerald-200"
+                data-id="Edukasi &amp; Komitmen Nyata" data-en="Education &amp; Real Commitment">
+                Edukasi &amp; Komitmen Nyata
+            </span>
+            <h2 class="font-heading font-extrabold text-3xl sm:text-4xl text-slate-900 mt-4 tracking-tight"
+                data-id="Jaminan &amp; Transparansi" data-en="Guarantees &amp; Transparency">
+                Jaminan &amp; Transparansi
+            </h2>
+            <p class="text-slate-600 text-base sm:text-lg mt-3"
+                data-id="Kami mengubah istilah teknis yang rumit menjadi kepastian hukum dan operasional yang melindungi investasi bisnis Anda."
+                data-en="We translate complex technical terms into legal and operational certainties that safeguard your business investment.">
+                Kami mengubah istilah teknis yang rumit menjadi kepastian hukum dan operasional yang melindungi investasi bisnis Anda.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            
+            <!-- Guarantee Card 1: SLA 24 Jam -->
+            <div class="bg-white p-8 rounded-2xl border border-slate-200/90 shadow-sm relative overflow-hidden flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-blue-100 text-meldir-600 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+
+                    <span class="text-xs font-bold text-meldir-600 tracking-wider uppercase"
+                        data-id="Standar Kecepatan Respons" data-en="Response Time Standard">Standar Kecepatan Respons</span>
+                    <h3 class="font-heading font-bold text-2xl text-slate-900 mt-1 mb-4">
+                        SLA (Service Level Agreement) 24 Jam
+                    </h3>
+                    <p class="text-slate-600 leading-relaxed text-sm sm:text-base"
+                        data-id="&quot;Ini adalah janji tertulis kami. Jika sistem Anda mengalami kendala, tim kami wajib merespons dan mulai melakukan penanganan maksimal dalam 24 jam hari kerja. Bisnis Anda tidak akan pernah berjuang sendirian.&quot;"
+                        data-en="&quot;This is our written commitment. If your system encounters issues, our team is obligated to respond and initiate handling within 24 working hours. Your business will never stand alone.&quot;">
+                        "Ini adalah janji tertulis kami. Jika sistem Anda mengalami kendala, tim kami wajib merespons dan mulai melakukan penanganan maksimal dalam <strong>24 jam hari kerja</strong>. Bisnis Anda tidak akan pernah berjuang sendirian."
+                    </p>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2 text-xs font-semibold text-slate-500">
+                    <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                    <span>Dicantumkan Mengikat dalam Perjanjian Kerja Sama (PKS)</span>
+                </div>
+            </div>
+
+            <!-- Guarantee Card 2: Legalitas PT Resmi -->
+            <div class="bg-white p-8 rounded-2xl border border-slate-200/90 shadow-sm relative overflow-hidden flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+
+                    <span class="text-xs font-bold text-emerald-700 tracking-wider uppercase"
+                        data-id="Keabsahan &amp; Perlindungan Hukum" data-en="Legal Validity &amp; Protection">Keabsahan &amp; Perlindungan Hukum</span>
+                    <h3 class="font-heading font-bold text-2xl text-slate-900 mt-1 mb-4">
+                        Berbadan Hukum Resmi (PT)
+                    </h3>
+                    <p class="text-slate-600 leading-relaxed text-sm sm:text-base"
+                        data-id="&quot;Anda bertransaksi dengan entitas hukum yang sah (PT. Melayani Digital Raya), menjamin keamanan data, privasi, dan investasi uang Anda.&quot;"
+                        data-en="&quot;You are transacting with a recognized corporate legal entity (PT. Melayani Digital Raya), guaranteeing your data security, privacy, and capital investment.&quot;">
+                        "Anda bertransaksi dengan entitas hukum yang sah (<strong>PT. Melayani Digital Raya</strong>), menjamin keamanan data, privasi, dan investasi uang Anda."
+                    </p>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2 text-xs font-semibold text-slate-500">
+                    <svg class="w-4 h-4 text-emerald-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                    <span>SK Kemenkumham AHU-A104016.AH.01.30.Tahun 2026</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==================== 5. CALL TO ACTION (CTA) SECTION ==================== -->
+    <section class="py-20 bg-gradient-to-r from-meldir-900 via-meldir-800 to-indigo-950 text-white relative overflow-hidden">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <h2 class="font-heading font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight leading-tight"
+                data-id="Konsultasikan Kebutuhan Anda Secara Gratis"
+                data-en="Consult Your Business Needs for Free">
+                Konsultasikan Kebutuhan Anda Secara Gratis
+            </h2>
+            <p class="mt-6 text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed"
+                data-id="Mari diskusikan masalah operasional bisnis Anda, dan kami akan merancang solusi teknologi dengan Rencana Anggaran Biaya (RAB) yang transparan."
+                data-en="Let's discuss your business operational challenges, and we will design a technology solution with a transparent Budget Plan (RAB).">
+                Mari diskusikan masalah operasional bisnis Anda, dan kami akan merancang solusi teknologi dengan Rencana Anggaran Biaya (RAB) yang transparan.
+            </p>
+
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="https://wa.me/628213173357?text=Halo%20Konsultan%20PT.%20MELDIR,%20saya%20ingin%20berkonsultasi%20gratis%20mengenai%20kebutuhan%20sistem%20dan%20Rencana%20Anggaran%20Biaya%20(RAB)."
+                    target="_blank" rel="noopener noreferrer"
+                    class="w-full sm:w-auto inline-flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-base shadow-xl hover:shadow-2xl transition transform hover:-translate-y-0.5"
+                    data-id="Hubungi Konsultan Kami via WhatsApp" data-en="Contact Our Consultant via WhatsApp">
+                    <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                        <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.586-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.861.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824z"/>
+                    </svg>
+                    <span>Hubungi Konsultan Kami via WhatsApp</span>
+                </a>
+            </div>
+
+            <p class="mt-4 text-xs text-slate-400"
+                data-id="Respon cepat di jam kerja operasional (Senin - Jumat, 08:30 - 17:00 WIB)"
+                data-en="Fast response during business hours (Monday - Friday, 08:30 - 17:00 WIB)">
+                Respon cepat di jam kerja operasional (Senin - Jumat, 08:30 - 17:00 WIB)
+            </p>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="site-footer">
+        <div class="container footer-container">
+            <div class="footer-info">
+                <div class="footer-logo">
+                    <img src="../icons/icon-192.png" alt="meldir.id logo" class="logo-icon">
+                    <span class="logo-text">meldir<span class="logo-dot">.id</span></span>
+                </div>
+                <p class="footer-legal"
+                    data-id="PT. Melayani Digital Raya (MELDIR) merupakan perusahaan teknologi yang bergerak di bidang jasa konsultasi, pengembangan, pemeliharaan, dan pengelolaan teknologi informasi."
+                    data-en="PT. Melayani Digital Raya (MELDIR) is a technology company engaged in information technology consulting, development, maintenance, and system management services.">
+                    PT. Melayani Digital Raya (MELDIR) merupakan perusahaan teknologi yang bergerak di
+                    bidang jasa konsultasi, pengembangan, pemeliharaan, dan pengelolaan teknologi informasi.
+                </p>
+                <div class="footer-legal-badge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <polyline points="9 12 11 14 15 10"/>
+                    </svg>
+                    <span data-id="SK Kemenkum: AHU-A104016.AH.01.30.Tahun 2026" data-en="Ministry of Law Decree: AHU-A104016.AH.01.30.Tahun 2026">SK Kemenkum: AHU-A104016.AH.01.30.Tahun 2026</span>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4 data-id="Tautan Hukum" data-en="Legal Links">Tautan Hukum</h4>
+                <ul>
+                    <li><a href="../privacy/" data-id="Kebijakan Privasi" data-en="Privacy Policy">Kebijakan Privasi</a></li>
+                    <li><a href="../terms/" data-id="Syarat &amp; Ketentuan" data-en="Terms of Service">Syarat &amp; Ketentuan</a></li>
+                    <li><a href="../refund/" data-id="Kebijakan Pengembalian Dana" data-en="Refund Policy">Kebijakan Pengembalian Dana</a></li>
+                    <li><a href="../support/" data-id="Kanal Pengaduan" data-en="Customer Support">Kanal Pengaduan</a></li>
+                </ul>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 meldir.id. All rights reserved.</p>
+                <div class="footer-whatsapp">
+                    <a href="https://wa.me/628213173357" class="footer-wa-link" target="_blank" rel="noopener noreferrer">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 6.013L0 24l6.291-1.65a11.77 11.77 0 005.751 1.494h.005c6.554 0 11.89-5.335 11.893-11.893 0-3.18-1.238-6.167-3.488-8.418z" />
+                        </svg>
+                        <span>+62 821-3173-357</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Main Logic Script (Bilingual, Mobile Menu, PWA) -->
+    <script src="../app.js"></script>
+</body>
+
+</html>

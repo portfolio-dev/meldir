@@ -1,4 +1,4 @@
-const CACHE_NAME = 'meldir-v11';
+const CACHE_NAME = 'meldir-v12';
 const ASSETS = [
   './',
   'index.html',
@@ -43,7 +43,7 @@ self.addEventListener('fetch', (e) => {
       if (cachedResponse) {
         return cachedResponse;
       }
-      
+
       return fetch(e.request).then((networkResponse) => {
         // Only cache valid requests/responses
         if (!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
