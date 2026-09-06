@@ -68,7 +68,25 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Translate WhatsApp dynamic URLs
+        // Translate document.title if present
+        const titleEl = document.querySelector('title[data-id][data-en]');
+        if (titleEl) {
+            const titleTranslation = titleEl.getAttribute(`data-${lang}`);
+            if (titleTranslation) {
+                document.title = titleTranslation;
+            }
+        }
+
+        // Translate dynamic URLs with data-href-id and data-href-en
+        const translatableLinks = document.querySelectorAll('[data-href-id][data-href-en]');
+        translatableLinks.forEach(link => {
+            const href = link.getAttribute(`data-href-${lang}`);
+            if (href) {
+                link.setAttribute('href', href);
+            }
+        });
+
+        // Translate WhatsApp dynamic URLs (for index.html)
         const heroWaBtn = document.getElementById('hero-cta-wa');
         const socialWaBtn = document.querySelector('.social-content .btn');
         
