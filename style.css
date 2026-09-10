@@ -41,6 +41,13 @@
     
     --header-height: 80px;
     --max-width: 1200px;
+    
+    /* Quick Access Dock Width (Desktop) */
+    --quick-dock-w: 64px;
+}
+
+body.sidebar-expanded {
+    --quick-dock-w: 210px;
 }
 
 /* Base Reset & Styles */
@@ -160,13 +167,21 @@ img, svg {
     position: fixed;
     top: 0;
     left: 0;
+    right: 0;
     width: 100%;
     height: var(--header-height);
     background: linear-gradient(135deg, #002244 0%, #003875 50%, #0060af 100%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: 0 4px 20px rgba(0, 34, 68, 0.25);
     z-index: 1000;
-    transition: height var(--transition-normal), background var(--transition-normal), box-shadow var(--transition-normal);
+    transition: right 0.35s cubic-bezier(0.25, 1, 0.5, 1), height var(--transition-normal), background var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+@media (min-width: 1025px) {
+    .site-header {
+        right: var(--quick-dock-w);
+        width: auto;
+    }
 }
 
 .site-header.scrolled {
@@ -725,7 +740,8 @@ section {
 }
 
 .hero-slider-btn.next-btn {
-    right: 160px; /* Posisi aman di sebelah kiri sticky sidebar full-height (140px + margin 20px) */
+    right: calc(var(--quick-dock-w) + 20px);
+    transition: right 0.35s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* Slider Dots Pagination */
@@ -831,6 +847,23 @@ section {
 .code-keyword { color: #f43f5e; }
 .code-string { color: #38bdf8; }
 .code-func { color: #60a5fa; }
+
+/* Blinking Code Editor Cursor */
+.code-cursor {
+    display: inline-block;
+    width: 7px;
+    height: 15px;
+    background-color: #38bdf8;
+    margin-left: 4px;
+    vertical-align: middle;
+    border-radius: 1px;
+    animation: blink-cursor 0.9s infinite;
+}
+
+@keyframes blink-cursor {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
 
 .floating-card {
     position: absolute;
@@ -1060,32 +1093,30 @@ section {
 }
 
 /* ==========================================================================
-   Full-Height Sticky Sidebar (BCA Style Akses Cepat - 5 Kotak Besar Desktop)
+   Full-Height Sticky Sidebar (BCA Style Akses Cepat - Dock Vertikal Desktop)
    ========================================================================== */
 .bca-quick-sidebar {
     position: fixed;
     right: 0;
-    top: var(--header-height);
+    top: 0;
     bottom: 0;
-    width: 140px;
-    z-index: 998;
-    background: linear-gradient(180deg, #001a35 0%, #002d62 50%, #004b87 100%);
-    box-shadow: -6px 0 24px rgba(0, 24, 52, 0.28);
+    width: var(--quick-dock-w);
+    height: 100vh;
+    z-index: 1050; /* Menutup dari atas sampai bawah di atas bagian kanan navigasi header */
+    background: linear-gradient(180deg, #001630 0%, #002b5e 50%, #004380 100%);
+    box-shadow: -6px 0 24px rgba(0, 24, 52, 0.32);
     border-left: 1px solid rgba(255, 255, 255, 0.14);
     padding: 4px; /* Padding sangat tipis */
     display: flex;
     flex-direction: column;
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
-    transform: translateX(0);
-    opacity: 1;
-    pointer-events: auto;
+    transition: width 0.35s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.35s ease;
+    overflow: hidden;
 }
 
-/* Collapsed State: meluncur keluar sepenuhnya ke kanan saat scroll ke bawah melewati hero */
-.bca-quick-sidebar.collapsed {
-    transform: translateX(100%);
-    opacity: 0;
-    pointer-events: none;
+/* Saat di-hover di mode tertutup (collapsed), bilah melebar sementara menampilkan teks */
+.bca-quick-sidebar:hover {
+    width: 210px;
+    box-shadow: -8px 0 32px rgba(0, 24, 52, 0.45);
 }
 
 .quick-sidebar-boxes {
@@ -1099,14 +1130,13 @@ section {
 .sidebar-box {
     flex: 1; /* Terbagi menjadi 5 kotak proporsional memenuhi atas sampai bawah */
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 4px 6px;
-    border-radius: 6px;
+    justify-content: flex-end; /* Icon di kanan, teks di kiri */
+    padding: 0 14px;
+    border-radius: 8px;
     background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: #ffffff;
     text-decoration: none;
     transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1117,36 +1147,59 @@ section {
 
 .sidebar-box:hover {
     background: #ffffff;
-    color: #002d62;
+    color: #002b5e;
     border-color: #ffffff;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
-    transform: translateX(-3px);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-box:active {
-    transform: scale(0.97);
+    transform: scale(0.98);
 }
 
-.sidebar-box::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 20%;
-    bottom: 20%;
-    width: 3px;
-    background: #0060af;
-    border-radius: 0 3px 3px 0;
+/* Label teks di sebelah kiri icon */
+.box-label {
+    order: 1;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    text-align: right;
+    line-height: 1.25;
+    white-space: nowrap;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    max-width: 0;
+    overflow: hidden;
+    margin-right: 0;
+    transition: max-width 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.25s ease, margin-right 0.35s ease;
+    user-select: none;
 }
 
-.sidebar-box:hover::before {
+/* Saat sidebar terbuka (hero) atau di-hover, teks muncul di sebelah kiri icon */
+.bca-quick-sidebar.expanded .box-label,
+.bca-quick-sidebar:hover .box-label {
     opacity: 1;
+    max-width: 140px;
+    margin-right: 12px;
+}
+
+/* Icon tetap di sebelah kanan */
+.box-icon {
+    order: 2;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sidebar-box:hover .box-icon {
+    transform: scale(1.12);
 }
 
 /* WhatsApp Box Accent */
 .sidebar-box.box-wa {
-    background: rgba(37, 211, 102, 0.14);
+    background: rgba(37, 211, 102, 0.15);
     border-color: rgba(37, 211, 102, 0.25);
     color: #4ade80;
 }
@@ -1155,32 +1208,6 @@ section {
     background: #25d366;
     color: #ffffff;
     border-color: #25d366;
-}
-
-.sidebar-box.box-wa:hover::before {
-    background: #ffffff;
-}
-
-.box-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.sidebar-box:hover .box-icon {
-    transform: scale(1.15);
-}
-
-.box-label {
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.2px;
-    text-align: center;
-    line-height: 1.25;
-    max-width: 124px;
-    display: block;
-    user-select: none;
 }
 
 /* Services Section */
@@ -3091,6 +3118,10 @@ section {
     .bca-quick-sidebar {
         display: none !important;
     }
+    .site-header {
+        right: 0 !important;
+        width: 100% !important;
+    }
     .hero-slider-btn.next-btn {
         right: 24px;
     }
@@ -3217,9 +3248,13 @@ section {
         padding: 12px 18px;
     }
     .hero-visual {
-        margin-top: 10px;
+        position: relative;
         width: 100%;
-        max-width: 100%;
+        max-width: 380px;
+        margin: 15px auto 44px auto; /* Memberi ruang rapi untuk floating card */
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     
     /* Hide Side Arrows on Mobile to avoid overlay, rely on Touch Swipe & Dots */
@@ -3227,25 +3262,83 @@ section {
         display: none !important;
     }
     .hero-slider-dots {
-        bottom: 12px;
+        bottom: 8px;
     }
     
-    /* Visual Cards Responsive Clean-up */
+    /* Coding Editor Visual on Mobile */
     .main-card {
         max-width: 100%;
         width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 8px 24px -4px rgba(0, 34, 68, 0.22), 0 0 0 1px rgba(0, 96, 175, 0.15);
+    }
+    .card-header {
+        padding: 10px 14px;
+    }
+    .card-address {
+        font-size: 0.68rem;
+        padding: 2px 10px;
     }
     .card-body {
-        padding: 16px;
-        font-size: 0.78rem;
+        padding: 16px 14px;
+        font-size: 0.74rem;
+        line-height: 1.65;
+        overflow-x: hidden;
     }
+    .code-line {
+        white-space: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+    .code-line::-webkit-scrollbar {
+        display: none;
+    }
+    .code-line-indent {
+        padding-left: 14px;
+    }
+    
+    /* Pop Up Melayang (Floating Card) on Mobile: Menempel rapi melayang di sudut bawah editor */
     .floating-card {
-        position: static;
-        margin: 14px auto 0 auto;
-        max-width: 100%;
-        width: 100%;
-        animation: none;
+        position: absolute;
+        bottom: -22px;
+        right: 12px;
+        left: auto;
+        margin: 0;
+        max-width: 240px;
+        width: auto;
+        padding: 10px 14px;
+        gap: 10px;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 96, 175, 0.25);
+        border-radius: 10px;
+        box-shadow: 0 12px 28px -4px rgba(0, 34, 68, 0.24);
+        animation: float-mobile 3.5s ease-in-out infinite;
+        z-index: 10;
     }
+    @keyframes float-mobile {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+    .floating-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+    }
+    .floating-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+    .floating-content h4 {
+        font-size: 0.78rem;
+        line-height: 1.2;
+    }
+    .floating-content p {
+        font-size: 0.68rem;
+        line-height: 1.2;
+    }
+    
     .enterprise-metrics-card, .legal-trust-card {
         padding: 18px 16px;
         width: 100%;
@@ -3259,32 +3352,6 @@ section {
     }
     .metric-value {
         font-size: 1.3rem;
-    }
-    
-    /* Sticky Sidebar on Mobile: Compact Tab */
-    .bca-quick-sidebar {
-        top: 64px;
-        bottom: 0;
-        width: 60px;
-    }
-    .quick-sidebar-tab {
-        left: -32px;
-        width: 32px;
-        height: 96px;
-        border-radius: 8px 0 0 8px;
-    }
-    .tab-vertical-text {
-        font-size: 0.55rem;
-        letter-spacing: 0.8px;
-    }
-    .quick-item {
-        width: 38px;
-        height: 38px;
-        border-radius: 8px;
-    }
-    .quick-item svg {
-        width: 18px;
-        height: 18px;
     }
     
     .services-grid {

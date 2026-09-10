@@ -499,19 +499,23 @@ document.addEventListener('DOMContentLoaded', () => {
         function updateSidebarByScroll() {
             // Hanya aktif untuk tampilan desktop (> 1024px)
             if (window.innerWidth <= 1024) {
-                quickSidebar.classList.add('collapsed');
+                document.body.classList.remove('sidebar-expanded');
+                quickSidebar.classList.remove('expanded');
                 return;
             }
 
             const scrollY = window.scrollY;
             const heroHeight = heroSection ? heroSection.offsetHeight : 600;
 
-            // Selama layar menampilkan kondisi di section atas/hero: selalu TERBUKA
-            // Tertutup otomatis jika scroll ke bawah melewati hero, dan kembali terbuka jika naik ke section tersebut
+            // Selama layar menampilkan kondisi di section atas/hero: TERBUKA PENUH (sidebar-expanded)
+            // Tertutup otomatis meninggalkan icon saja jika scroll ke bawah melewati hero
+            // Kembali terbuka penuh jika naik ke section hero
             if (scrollY < heroHeight - 120) {
-                quickSidebar.classList.remove('collapsed');
+                document.body.classList.add('sidebar-expanded');
+                quickSidebar.classList.add('expanded');
             } else {
-                quickSidebar.classList.add('collapsed');
+                document.body.classList.remove('sidebar-expanded');
+                quickSidebar.classList.remove('expanded');
             }
         }
 
