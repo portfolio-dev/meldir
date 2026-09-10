@@ -178,13 +178,49 @@ img, svg {
 }
 
 @media (min-width: 1025px) {
-    .site-header {
+    /* Hanya geser header dan hero pada halaman yang memiliki sidebar Akses Cepat (Landing Page) */
+    body.has-quick-sidebar .site-header,
+    body:has(.bca-quick-sidebar) .site-header {
         right: var(--quick-dock-w);
         width: auto;
     }
-    .hero-slider-section {
+    body.has-quick-sidebar .hero-slider-section,
+    body:has(.bca-quick-sidebar) .hero-slider-section {
         margin-right: var(--quick-dock-w);
         transition: margin-right 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+}
+
+/* Navigasi Desktop Responsif (Mencegah teks/tombol terpotong pada laptop & layar menengah) */
+@media (max-width: 1280px) and (min-width: 1025px) {
+    .nav-menu ul {
+        gap: 20px;
+    }
+    .header-container {
+        padding: 0 20px;
+    }
+    .nav-item {
+        font-size: 0.9rem;
+    }
+    .pwa-btn {
+        padding: 7px 12px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+    .nav-menu ul {
+        gap: 14px;
+    }
+    .header-container {
+        padding: 0 16px;
+    }
+    .nav-item {
+        font-size: 0.85rem;
+    }
+    .pwa-btn {
+        padding: 6px 10px;
+        font-size: 0.78rem;
     }
 }
 
