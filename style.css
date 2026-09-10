@@ -1223,6 +1223,15 @@ section {
     border-color: #25d366;
 }
 
+/* Service Page Hero Background (Unique Corporate Image) */
+.service-hero-section {
+    position: relative;
+    background: 
+        linear-gradient(180deg, rgba(255, 255, 255, 0.93) 0%, rgba(248, 250, 252, 0.90) 50%, rgba(241, 245, 249, 0.96) 100%),
+        url('images/service-hero-bg.jpg') center/cover no-repeat;
+    background-attachment: scroll;
+}
+
 /* Services Section */
 .services-section {
     background-color: var(--bg-secondary);

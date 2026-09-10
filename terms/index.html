@@ -43,7 +43,50 @@
             <nav class="nav-menu" id="nav-menu">
                 <ul>
                     <li><a href="../#hero" class="nav-item" data-id="Beranda" data-en="Home">Beranda</a></li>
-                    <li><a href="../service/" class="nav-item" data-id="Layanan" data-en="Services">Layanan</a></li>
+                    <li class="nav-dropdown-wrapper">
+                        <a href="../service/" class="nav-item has-dropdown">
+                            <span data-id="Layanan" data-en="Services">Layanan</span>
+                            <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                        </a>
+                        <div class="nav-dropdown-menu">
+                            <a href="../service/#development" class="dropdown-item">
+                                <div class="dropdown-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                </div>
+                                <div class="dropdown-text">
+                                    <span class="dropdown-title" data-id="Pengembangan Baru" data-en="Custom Development">Pengembangan Baru</span>
+                                    <span class="dropdown-desc" data-id="Website kustom &amp; Web App (PWA)" data-en="Custom websites &amp; Web Apps (PWA)">Website kustom &amp; Web App (PWA)</span>
+                                </div>
+                            </a>
+                            <a href="../service/#maintenance" class="dropdown-item">
+                                <div class="dropdown-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                                </div>
+                                <div class="dropdown-text">
+                                    <span class="dropdown-title" data-id="Pemeliharaan &amp; SLA" data-en="Maintenance &amp; SLA">Pemeliharaan &amp; SLA</span>
+                                    <span class="dropdown-desc" data-id="Monitoring server &amp; tanggap 24 jam" data-en="Server monitoring &amp; 24h response">Monitoring server &amp; tanggap 24 jam</span>
+                                </div>
+                            </a>
+                            <a href="../service/#development" class="dropdown-item">
+                                <div class="dropdown-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                                </div>
+                                <div class="dropdown-text">
+                                    <span class="dropdown-title" data-id="Modernisasi &amp; Scaling" data-en="Modernization &amp; Scaling">Modernisasi &amp; Scaling</span>
+                                    <span class="dropdown-desc" data-id="Refactoring kode &amp; fitur baru" data-en="Code refactoring &amp; new features">Refactoring kode &amp; fitur baru</span>
+                                </div>
+                            </a>
+                            <a href="../service/#development" class="dropdown-item">
+                                <div class="dropdown-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                                </div>
+                                <div class="dropdown-text">
+                                    <span class="dropdown-title" data-id="Aplikasi Mobile &amp; PWA" data-en="Mobile Apps &amp; PWA">Aplikasi Mobile &amp; PWA</span>
+                                    <span class="dropdown-desc" data-id="Rilis Android, iOS &amp; Play Store" data-en="Android, iOS &amp; Play Store release">Rilis Android, iOS &amp; Play Store</span>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
                     <li><a href="../#portfolio" class="nav-item" data-id="Portofolio" data-en="Portfolio">Portofolio</a>
                     </li>
                     <li><a href="../#social" class="nav-item" data-id="Sosial" data-en="Social">Sosial</a></li>

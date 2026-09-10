@@ -1,4 +1,4 @@
-const CACHE_NAME = 'meldir-v22';
+const CACHE_NAME = 'meldir-v23';
 const ASSETS = [
   './',
   'index.html',
@@ -7,6 +7,7 @@ const ASSETS = [
   'manifest.json',
   'favicon.ico',
   'images/hero-bg.jpg',
+  'images/service-hero-bg.jpg',
   'icons/icon-192.png',
   'icons/icon-512.png'
 ];
