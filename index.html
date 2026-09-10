@@ -60,7 +60,50 @@
             <nav class="nav-menu" id="nav-menu">
                 <ul>
                     <li><a href="#hero" class="nav-item active" data-id="Beranda" data-en="Home">Beranda</a></li>
-                    <li><a href="service/" class="nav-item" data-id="Layanan" data-en="Services">Layanan</a></li>
+                    <li class="nav-dropdown-wrapper">
+                        <a href="service/" class="nav-item has-dropdown">
+                            <span data-id="Layanan" data-en="Services">Layanan</span>
+                            <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+                        </a>
+                        <div class="nav-dropdown-menu">
+                            <a href="service/" class="dropdown-item">
+                                <div class="dropdown-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                                </div>
+                                <div class="dropdown-text">
+                                    <span class="dropdown-title" data-id="Pengembangan Baru" data-en="Custom Development">Pengembangan Baru</span>
+                                    <span class="dropdown-desc" data-id="Website kustom &amp; Web App (PWA)" data-en="Custom websites &amp; Web Apps (PWA)">Website kustom &amp; Web App (PWA)</span>
+                                </div>
+                            </a>
+                            <a href="service/" class="dropdown-item">
+                                <div class="dropdown-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                                </div>
+                                <div class="dropdown-text">
+                                    <span class="dropdown-title" data-id="Pemeliharaan &amp; SLA" data-en="Maintenance &amp; SLA">Pemeliharaan &amp; SLA</span>
+                                    <span class="dropdown-desc" data-id="Monitoring server &amp; tanggap 24 jam" data-en="Server monitoring &amp; 24h response">Monitoring server &amp; tanggap 24 jam</span>
+                                </div>
+                            </a>
+                            <a href="service/" class="dropdown-item">
+                                <div class="dropdown-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                                </div>
+                                <div class="dropdown-text">
+                                    <span class="dropdown-title" data-id="Modernisasi &amp; Scaling" data-en="Modernization &amp; Scaling">Modernisasi &amp; Scaling</span>
+                                    <span class="dropdown-desc" data-id="Refactoring kode &amp; fitur baru" data-en="Code refactoring &amp; new features">Refactoring kode &amp; fitur baru</span>
+                                </div>
+                            </a>
+                            <a href="service/" class="dropdown-item">
+                                <div class="dropdown-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                                </div>
+                                <div class="dropdown-text">
+                                    <span class="dropdown-title" data-id="Aplikasi Mobile &amp; PWA" data-en="Mobile Apps &amp; PWA">Aplikasi Mobile &amp; PWA</span>
+                                    <span class="dropdown-desc" data-id="Rilis Android, iOS &amp; Play Store" data-en="Android, iOS &amp; Play Store release">Rilis Android, iOS &amp; Play Store</span>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
                     <li><a href="#security" class="nav-item" data-id="Keamanan & Privasi" data-en="Security & Privacy">Keamanan & Privasi</a></li>
                     <li><a href="#social" class="nav-item" data-id="Sosial" data-en="Social">Sosial</a></li>
                     <li><a href="#workflow" class="nav-item" data-id="Cara Kerja" data-en="Workflow">Cara Kerja</a></li>
@@ -95,6 +138,72 @@
         </div>
     </header>
 
+    <!-- Sticky Sidebar Akses Cepat (BCA Style) -->
+    <aside class="bca-quick-sidebar" id="bca-quick-sidebar" aria-label="Akses Cepat">
+        <button type="button" class="quick-sidebar-toggle" id="quick-sidebar-toggle" aria-label="Ciutkan Akses Cepat">
+            <svg class="toggle-icon-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+        <ul class="quick-sidebar-list">
+            <li>
+                <a href="https://wa.me/628213173357?text=Halo%20meldir.id,%20saya%20ingin%20konsultasi%20melalui%20Akses%20Cepat." 
+                   class="quick-item quick-wa" target="_blank" rel="noopener noreferrer" 
+                   aria-label="Konsultasi WhatsApp">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 6.013L0 24l6.291-1.65a11.77 11.77 0 005.751 1.494h.005c6.554 0 11.89-5.335 11.893-11.893 0-3.18-1.238-6.167-3.488-8.418z"/>
+                    </svg>
+                    <span class="quick-tooltip" data-id="Konsultasi WhatsApp" data-en="Chat on WhatsApp">Konsultasi WhatsApp</span>
+                </a>
+            </li>
+            <li>
+                <a href="service/" class="quick-item" aria-label="Katalog Layanan">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                    <span class="quick-tooltip" data-id="Katalog Layanan" data-en="Services Catalog">Katalog Layanan</span>
+                </a>
+            </li>
+            <li>
+                <a href="#security" class="quick-item" aria-label="Keamanan & Legalitas">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <polyline points="9 12 11 14 15 10"/>
+                    </svg>
+                    <span class="quick-tooltip" data-id="Keamanan &amp; Garansi" data-en="Security &amp; Warranty">Keamanan &amp; Garansi</span>
+                </a>
+            </li>
+            <li>
+                <a href="#workflow" class="quick-item" aria-label="Cara Kerja">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                    </svg>
+                    <span class="quick-tooltip" data-id="Alur Kerja Proyek" data-en="Project Workflow">Alur Kerja Proyek</span>
+                </a>
+            </li>
+            <li>
+                <a href="support/" class="quick-item" aria-label="Pusat Bantuan">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    <span class="quick-tooltip" data-id="Pusat Bantuan" data-en="Help Center">Pusat Bantuan</span>
+                </a>
+            </li>
+            <li>
+                <button type="button" class="quick-item quick-scroll-top" id="quick-scroll-top-btn" aria-label="Kembali ke Atas">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="18 15 12 9 6 15"/>
+                    </svg>
+                    <span class="quick-tooltip" data-id="Kembali ke Atas" data-en="Back to Top">Kembali ke Atas</span>
+                </button>
+            </li>
+        </ul>
+    </aside>
+
     <!-- Mobile Nav Overlay -->
     <div class="mobile-nav-overlay" id="mobile-nav-overlay">
         <nav class="mobile-nav-links">
@@ -107,72 +216,224 @@
     </div>
 
     <main>
-        <!-- Hero Section -->
-        <section class="hero-section" id="hero">
-            <div class="hero-bg-accent"></div>
-            <div class="container hero-container">
-                <div class="hero-content">
-                    <div class="hero-badge">
-                        <span class="badge-dot"></span>
-                        <span data-id="Solusi Digital Profesional" data-en="Professional Digital Solutions">Solusi
-                            Digital Profesional</span>
+        <!-- Hero Section Carousel (BCA Style Slider) -->
+        <section class="hero-slider-section" id="hero" aria-label="Hero Carousel">
+            <div class="hero-slider-container">
+                <div class="hero-slider-track" id="hero-slider-track">
+                    
+                    <!-- Slide 1: Mitra Pengembang & Pengelola -->
+                    <div class="hero-slide active" data-slide="0">
+                        <div class="hero-slide-bg-glow"></div>
+                        <div class="container hero-slide-grid">
+                            <div class="hero-content">
+                                <div class="hero-badge">
+                                    <span class="badge-dot"></span>
+                                    <span data-id="Solusi Digital Profesional" data-en="Professional Digital Solutions">Solusi Digital Profesional</span>
+                                </div>
+                                <h1 class="hero-title">
+                                    <span data-id="Mitra Pengembang &amp; Pengelola" data-en="Engineering &amp; Managed IT Partner">Mitra Pengembang &amp; Pengelola</span>
+                                    <span class="gradient-text" data-id="Sistem Digital Terpercaya" data-en="Reliable Digital Systems">Sistem Digital Terpercaya</span>
+                                </h1>
+                                <p class="hero-desc"
+                                    data-id="Kami membantu perorangan, bisnis, instansi, dan yayasan membangun dari nol maupun memelihara, merawat, serta mengembangkan website, Web App (PWA), dan aplikasi Android/iOS yang telah ada — termasuk sistem buatan sendiri via AI atau vendor lain."
+                                    data-en="We assist individuals, businesses, institutions, and foundations in building from scratch as well as maintaining, managing, and scaling existing websites, Web Apps (PWA), and Android/iOS apps — including self-built AI apps or legacy vendor systems.">
+                                    Kami membantu perorangan, bisnis, instansi, dan yayasan membangun dari nol maupun memelihara, merawat, serta mengembangkan website, Web App (PWA), dan aplikasi Android/iOS yang telah ada — termasuk sistem buatan sendiri via AI atau vendor lain.
+                                </p>
+                                <div class="hero-cta-group">
+                                    <a href="https://wa.me/628213173357?text=Halo%20meldir.id,%20saya%20tertarik%20untuk%20berdiskusi%20mengenai%20pembuatan/pemeliharaan%20aplikasi/website."
+                                        class="btn btn-primary hero-btn-wa" id="hero-cta-wa" target="_blank" rel="noopener noreferrer">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 6.013L0 24l6.291-1.65a11.77 11.77 0 005.751 1.494h.005c6.554 0 11.89-5.335 11.893-11.893 0-3.18-1.238-6.167-3.488-8.418z"/>
+                                        </svg>
+                                        <span data-id="Konsultasi WhatsApp" data-en="Chat on WhatsApp">Konsultasi WhatsApp</span>
+                                    </a>
+                                    <a href="#security" class="btn btn-secondary">
+                                        <span data-id="Keamanan & Privasi" data-en="Security & Privacy">Keamanan & Privasi</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="hero-visual">
+                                <div class="visual-card main-card">
+                                    <div class="card-header">
+                                        <span class="dot red"></span>
+                                        <span class="dot yellow"></span>
+                                        <span class="dot green"></span>
+                                        <div class="card-address">https://meldir.id</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="code-line"><span class="code-keyword">const</span> services = [<span class="code-string">"Development"</span>, <span class="code-string">"Maintenance"</span>];</div>
+                                        <div class="code-line"><span class="code-keyword">const</span> mission = [<span class="code-string">"Scalable"</span>, <span class="code-string">"Secure"</span>, <span class="code-string">"Managed"</span>];</div>
+                                        <div class="code-line"><span class="code-keyword">function</span> <span class="code-func">manageSystem</span>(app) {</div>
+                                        <div class="code-line-indent"><span class="code-keyword">return</span> app.<span class="code-func">audit</span>().<span class="code-func">secure</span>().<span class="code-func">scale</span>();</div>
+                                        <div class="code-line">}</div>
+                                    </div>
+                                </div>
+                                <div class="visual-card floating-card">
+                                    <div class="floating-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0060af" stroke-width="2">
+                                            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="floating-content">
+                                        <h4 data-id="Managed IT & Care" data-en="Managed IT & Care">Managed IT & Care</h4>
+                                        <p data-id="Rawat & Kembangkan App" data-en="Maintain & Scale Apps">Rawat & Kembangkan App</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <h1 class="hero-title">
-                        <span data-id="Mitra Pengembang &amp; Pengelola" data-en="Engineering &amp; Managed IT Partner">Mitra Pengembang &amp; Pengelola</span>
-                        <span class="gradient-text" data-id="Sistem Digital Terpercaya"
-                            data-en="Reliable Digital Systems">Sistem Digital Terpercaya</span>
-                    </h1>
-                    <p class="hero-desc"
-                        data-id="Kami membantu bisnis, instansi, dan yayasan membangun dari nol maupun memelihara, merawat, serta mengembangkan website, Web App (PWA), dan aplikasi Android/iOS yang telah ada — termasuk sistem buatan sendiri via AI atau vendor lain."
-                        data-en="We assist businesses, institutions, and foundations in building from scratch as well as maintaining, managing, and scaling existing websites, Web Apps (PWA), and Android/iOS apps — including self-built AI apps or legacy vendor systems.">
-                        Kami membantu perorangan, bisnis, instansi, dan yayasan membangun dari nol maupun memelihara, merawat, serta mengembangkan website, Web App (PWA), dan aplikasi Android/iOS yang telah ada — termasuk sistem buatan sendiri via AI atau vendor lain.
-                    </p>
-                    <div class="hero-cta-group">
-                        <a href="https://wa.me/628213173357?text=Halo%20meldir.id,%20saya%20tertarik%20untuk%20berdiskusi%20mengenai%20pembuatan/pemeliharaan%20aplikasi/website."
-                            class="btn btn-primary" id="hero-cta-wa" target="_blank" rel="noopener noreferrer">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 6.013L0 24l6.291-1.65a11.77 11.77 0 005.751 1.494h.005c6.554 0 11.89-5.335 11.893-11.893 0-3.18-1.238-6.167-3.488-8.418z"/>
-                            </svg>
-                            <span data-id="Konsultasi WhatsApp" data-en="Chat on WhatsApp">Konsultasi WhatsApp</span>
-                        </a>
-                        <a href="#security" class="btn btn-secondary">
-                            <span data-id="Keamanan & Privasi" data-en="Security & Privacy">Keamanan & Privasi</span>
-                        </a>
+
+                    <!-- Slide 2: Pemeliharaan & Audit Keamanan Skala Enterprise -->
+                    <div class="hero-slide" data-slide="1">
+                        <div class="hero-slide-bg-glow glow-secondary"></div>
+                        <div class="container hero-slide-grid">
+                            <div class="hero-content">
+                                <div class="hero-badge badge-enterprise">
+                                    <span class="badge-dot dot-cyan"></span>
+                                    <span data-id="Perawatan & SLA Andal" data-en="Reliable SLA & Maintenance">Perawatan & SLA Andal</span>
+                                </div>
+                                <h1 class="hero-title">
+                                    <span data-id="Pemeliharaan &amp; Audit" data-en="System Maintenance &amp; Security">Pemeliharaan &amp; Audit</span>
+                                    <span class="gradient-text" data-id="Keamanan Skala Enterprise" data-en="Enterprise Security Audit">Keamanan Skala Enterprise</span>
+                                </h1>
+                                <p class="hero-desc"
+                                    data-id="Menjamin ketersediaan sistem tanpa henti dengan audit celah berkala, penambalan bug, optimasi performa server, dan response time SLA di bawah 24 jam untuk stabilitas bisnis Anda."
+                                    data-en="Ensuring seamless system availability with periodic vulnerability audits, bug patching, server performance optimization, and under 24-hour SLA response times for business stability.">
+                                    Menjamin ketersediaan sistem tanpa henti dengan audit celah berkala, penambalan bug, optimasi performa server, dan response time SLA di bawah 24 jam untuk stabilitas bisnis Anda.
+                                </p>
+                                <div class="hero-cta-group">
+                                    <a href="service/" class="btn btn-primary">
+                                        <span data-id="Lihat Paket Layanan" data-en="View Service Packages">Lihat Paket Layanan</span>
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+                                    </a>
+                                    <a href="https://wa.me/628213173357?text=Halo%20meldir.id,%20saya%20ingin%20konsultasi%20mengenai%20pemeliharaan%20dan%20audit%20keamanan%20sistem."
+                                        class="btn btn-secondary hero-btn-wa" target="_blank" rel="noopener noreferrer">
+                                        <span data-id="Konsultasi Teknis" data-en="Technical Consultation">Konsultasi Teknis</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="hero-visual">
+                                <div class="visual-card enterprise-metrics-card">
+                                    <div class="metrics-header">
+                                        <div class="metrics-status">
+                                            <span class="pulse-indicator"></span>
+                                            <span data-id="Sistem Berjalan Optimal" data-en="System Running Optimally">Sistem Berjalan Optimal</span>
+                                        </div>
+                                        <span class="metrics-badge">24/7 Monitoring</span>
+                                    </div>
+                                    <div class="metrics-grid">
+                                        <div class="metric-item">
+                                            <div class="metric-value">99.9%</div>
+                                            <div class="metric-label" data-id="Garansi Uptime" data-en="Uptime Guarantee">Garansi Uptime</div>
+                                        </div>
+                                        <div class="metric-item">
+                                            <div class="metric-value">&lt; 24 Jam</div>
+                                            <div class="metric-label" data-id="SLA Tanggap Cepat" data-en="Fast Response SLA">SLA Tanggap Cepat</div>
+                                        </div>
+                                        <div class="metric-item">
+                                            <div class="metric-value">AES-256</div>
+                                            <div class="metric-label" data-id="Standar Enkripsi" data-en="Encryption Standard">Standar Enkripsi</div>
+                                        </div>
+                                        <div class="metric-item">
+                                            <div class="metric-value">Zero Leak</div>
+                                            <div class="metric-label" data-id="Audit Celah Rutin" data-en="Regular Audit">Audit Celah Rutin</div>
+                                        </div>
+                                    </div>
+                                    <div class="metrics-footer">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0060af" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                                        <span data-id="Proteksi Kode Sumber & Data Nasabah" data-en="Source Code & Customer Data Protection">Proteksi Kode Sumber & Data Klien</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
+                    <!-- Slide 3: Kemitraan Digital & Layanan Khusus Yayasan/Sosial -->
+                    <div class="hero-slide" data-slide="2">
+                        <div class="hero-slide-bg-glow glow-tertiary"></div>
+                        <div class="container hero-slide-grid">
+                            <div class="hero-content">
+                                <div class="hero-badge badge-social">
+                                    <span class="badge-dot dot-green"></span>
+                                    <span data-id="Kemitraan & Legalitas Resmi" data-en="Official Partnership & Legality">Kemitraan & Legalitas Resmi</span>
+                                </div>
+                                <h1 class="hero-title">
+                                    <span data-id="Solusi Digital Kustom &amp;" data-en="Custom Digital Solutions &amp;">Solusi Digital Kustom &amp;</span>
+                                    <span class="gradient-text" data-id="Program Sosial Terpadu" data-en="Integrated Social Programs">Program Sosial Terpadu</span>
+                                </h1>
+                                <p class="hero-desc"
+                                    data-id="Kemitraan teknologi berlandaskan kontrak resmi (SPK, PKS, BAST) dengan harga terjangkau dan program subsidi khusus untuk yayasan sosial, lembaga keagamaan, serta instansi nirlaba."
+                                    data-en="Technology partnership grounded in official legal agreements (SPK, PKS, BAST) with accessible rates and specialized subsidies for social foundations and non-profit institutions.">
+                                    Kemitraan teknologi berlandaskan kontrak resmi (SPK, PKS, BAST) dengan harga terjangkau dan program subsidi khusus untuk yayasan sosial, lembaga keagamaan, serta instansi nirlaba.
+                                </p>
+                                <div class="hero-cta-group">
+                                    <a href="#social" class="btn btn-primary">
+                                        <span data-id="Pelajari Program Sosial" data-en="Explore Social Program">Pelajari Program Sosial</span>
+                                    </a>
+                                    <a href="https://wa.me/628213173357?text=Halo%20meldir.id,%20saya%20tertarik%20dengan%20program%20kemitraan%20dan%20legalitas%20aplikasi."
+                                        class="btn btn-secondary hero-btn-wa" target="_blank" rel="noopener noreferrer">
+                                        <span data-id="Diskusikan Kemitraan" data-en="Discuss Partnership">Diskusikan Kemitraan</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="hero-visual">
+                                <div class="visual-card legal-trust-card">
+                                    <div class="trust-badge-header">
+                                        <div class="trust-logo-seal">
+                                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0060af" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+                                        </div>
+                                        <div>
+                                            <div class="trust-entity-title">PT. Melayani Digital Raya</div>
+                                            <div class="trust-entity-subtitle" data-id="Badan Hukum Resmi Terdaftar" data-en="Officially Registered Corporate Entity">Badan Hukum Resmi Terdaftar</div>
+                                        </div>
+                                    </div>
+                                    <ul class="trust-docs-list">
+                                        <li>
+                                            <span class="check-icon">✓</span>
+                                            <div>
+                                                <strong data-id="SK Kemenkumham RI" data-en="Ministry Decree">SK Kemenkumham RI</strong>
+                                                <p>AHU-A104016.AH.01.30.Tahun 2026</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="check-icon">✓</span>
+                                            <div>
+                                                <strong data-id="Kontrak SPK &amp; PKS Lengkap" data-en="Complete SPK &amp; PKS Contract">Kontrak SPK &amp; PKS Lengkap</strong>
+                                                <p data-id="Klausul SLA, NDA &amp; Hak Cipta Hak Milik Klien" data-en="SLA, NDA &amp; Full IP Client Ownership">Klausul SLA, NDA &amp; Hak Milik Klien</p>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="check-icon">✓</span>
+                                            <div>
+                                                <strong data-id="BAST &amp; Garansi Pemeliharaan" data-en="Handover Certificate &amp; Warranty">BAST &amp; Garansi Pemeliharaan</strong>
+                                                <p data-id="Berita Acara Resmi &amp; Serah Terima Aset 100%" data-en="Official Handover &amp; 100% Asset Transfer">Berita Acara Resmi &amp; Serah Terima Aset</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="hero-visual">
-                    <div class="visual-card main-card">
-                        <div class="card-header">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                            <div class="card-address">https://meldir.id</div>
-                        </div>
-                        <div class="card-body">
-                            <div class="code-line"><span class="code-keyword">const</span> services = [<span
-                                    class="code-string">"Development"</span>, <span class="code-string">"Maintenance"</span>];</div>
-                            <div class="code-line"><span class="code-keyword">const</span> mission = [<span
-                                    class="code-string">"Scalable"</span>, <span class="code-string">"Secure"</span>,
-                                <span class="code-string">"Managed"</span>];</div>
-                            <div class="code-line"><span class="code-keyword">function</span> <span
-                                    class="code-func">manageSystem</span>(app) {</div>
-                            <div class="code-line-indent"><span class="code-keyword">return</span> app.<span
-                                    class="code-func">audit</span>().<span class="code-func">secure</span>().<span class="code-func">scale</span>();</div>
-                            <div class="code-line">}</div>
-                        </div>
-                    </div>
-                    <div class="visual-card floating-card">
-                        <div class="floating-icon">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb"
-                                stroke-width="2">
-                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-                            </svg>
-                        </div>
-                        <div class="floating-content">
-                            <h4 data-id="Managed IT & Care" data-en="Managed IT & Care">Managed IT & Care</h4>
-                            <p data-id="Rawat & Kembangkan App" data-en="Maintain & Scale Apps">Rawat & Kembangkan App</p>
-                        </div>
-                    </div>
+
+                <!-- Navigation Arrows (BCA Carousel Style) -->
+                <button type="button" class="hero-slider-btn prev-btn" id="hero-prev-btn" aria-label="Slide Sebelumnya">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"/>
+                    </svg>
+                </button>
+                <button type="button" class="hero-slider-btn next-btn" id="hero-next-btn" aria-label="Slide Selanjutnya">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                </button>
+
+                <!-- Dots Pagination -->
+                <div class="hero-slider-dots" id="hero-slider-dots">
+                    <button type="button" class="hero-dot active" data-slide-to="0" aria-label="Pindah ke Slide 1"></button>
+                    <button type="button" class="hero-dot" data-slide-to="1" aria-label="Pindah ke Slide 2"></button>
+                    <button type="button" class="hero-dot" data-slide-to="2" aria-label="Pindah ke Slide 3"></button>
                 </div>
             </div>
         </section>

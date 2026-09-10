@@ -87,10 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Translate WhatsApp dynamic URLs (for index.html)
-        const heroWaBtn = document.getElementById('hero-cta-wa');
+        const heroWaBtns = document.querySelectorAll('.hero-btn-wa, #hero-cta-wa');
+        heroWaBtns.forEach(btn => btn.setAttribute('href', waTemplates.hero[lang]));
         const socialWaBtn = document.querySelector('.social-content .btn');
-        
-        if (heroWaBtn) heroWaBtn.setAttribute('href', waTemplates.hero[lang]);
         if (socialWaBtn) socialWaBtn.setAttribute('href', waTemplates.social[lang]);
     }
 
@@ -373,6 +372,142 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+
+    // --- 6. BCA-Style Hero Carousel Slider ---
+    const heroTrack = document.getElementById('hero-slider-track');
+    const heroSlides = document.querySelectorAll('.hero-slide');
+    const heroPrevBtn = document.getElementById('hero-prev-btn');
+    const heroNextBtn = document.getElementById('hero-next-btn');
+    const heroDots = document.querySelectorAll('.hero-slider-dots .hero-dot');
+    const heroSliderSection = document.getElementById('hero');
+
+    if (heroTrack && heroSlides.length > 0) {
+        let currentSlideIndex = 0;
+        const totalSlides = heroSlides.length;
+        let slideInterval = null;
+
+        function updateSlidePosition() {
+            heroTrack.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+            
+            heroSlides.forEach((slide, idx) => {
+                slide.classList.toggle('active', idx === currentSlideIndex);
+            });
+
+            heroDots.forEach((dot, idx) => {
+                dot.classList.toggle('active', idx === currentSlideIndex);
+            });
+        }
+
+        function nextSlide() {
+            currentSlideIndex = (currentSlideIndex + 1) % totalSlides;
+            updateSlidePosition();
+        }
+
+        function prevSlide() {
+            currentSlideIndex = (currentSlideIndex - 1 + totalSlides) % totalSlides;
+            updateSlidePosition();
+        }
+
+        function goToSlide(index) {
+            currentSlideIndex = index;
+            updateSlidePosition();
+        }
+
+        // Event listeners for prev/next buttons
+        if (heroPrevBtn) {
+            heroPrevBtn.addEventListener('click', () => {
+                prevSlide();
+                restartAutoSlide();
+            });
+        }
+
+        if (heroNextBtn) {
+            heroNextBtn.addEventListener('click', () => {
+                nextSlide();
+                restartAutoSlide();
+            });
+        }
+
+        // Event listeners for dots
+        heroDots.forEach((dot, idx) => {
+            dot.addEventListener('click', () => {
+                goToSlide(idx);
+                restartAutoSlide();
+            });
+        });
+
+        // Auto-play every 6 seconds
+        function startAutoSlide() {
+            if (!slideInterval) {
+                slideInterval = setInterval(nextSlide, 6000);
+            }
+        }
+
+        function stopAutoSlide() {
+            if (slideInterval) {
+                clearInterval(slideInterval);
+                slideInterval = null;
+            }
+        }
+
+        function restartAutoSlide() {
+            stopAutoSlide();
+            startAutoSlide();
+        }
+
+        startAutoSlide();
+
+        // Pause on mouse enter, resume on mouse leave
+        if (heroSliderSection) {
+            heroSliderSection.addEventListener('mouseenter', stopAutoSlide);
+            heroSliderSection.addEventListener('mouseleave', startAutoSlide);
+
+            // Touch Swipe Detection for mobile devices
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+            heroSliderSection.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                stopAutoSlide();
+            }, { passive: true });
+
+            heroSliderSection.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                const swipeThreshold = 40;
+                if (touchStartX - touchEndX > swipeThreshold) {
+                    nextSlide();
+                } else if (touchEndX - touchStartX > swipeThreshold) {
+                    prevSlide();
+                }
+                startAutoSlide();
+            }, { passive: true });
+        }
+    }
+
+
+    // --- 7. BCA-Style Sticky Quick Sidebar (Akses Cepat) ---
+    const quickSidebar = document.getElementById('bca-quick-sidebar');
+    const quickToggleBtn = document.getElementById('quick-sidebar-toggle');
+    const quickScrollTopBtn = document.getElementById('quick-scroll-top-btn');
+
+    if (quickSidebar && quickToggleBtn) {
+        quickToggleBtn.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                quickSidebar.classList.toggle('open-mobile');
+            } else {
+                quickSidebar.classList.toggle('collapsed');
+            }
+        });
+    }
+
+    if (quickScrollTopBtn) {
+        quickScrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 
 });
 
