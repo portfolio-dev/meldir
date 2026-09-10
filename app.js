@@ -19,6 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
         social: {
             id: 'https://wa.me/628213173357?text=Halo%20meldir.id,%20saya%20dari%20yayasan%20ingin%20mengajukan%20kerjasama%20layanan%20pengembangan%20aplikasi%20sosial.',
             en: 'https://wa.me/628213173357?text=Hello%20meldir.id,%20I%20am%20from%20a%20foundation%20and%20would%20like%20to%20apply%20for%20the%20social%20app%20development%20program.'
+        },
+        quick: {
+            id: 'https://wa.me/628213173357?text=Halo%20meldir.id,%20saya%20ingin%20konsultasi%20melalui%20Akses%20Cepat.',
+            en: 'https://wa.me/628213173357?text=Hello%20meldir.id,%20I%20would%20like%20to%20consult%20via%20Quick%20Access.'
         }
     };
 
@@ -91,6 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
         heroWaBtns.forEach(btn => btn.setAttribute('href', waTemplates.hero[lang]));
         const socialWaBtn = document.querySelector('.social-content .btn');
         if (socialWaBtn) socialWaBtn.setAttribute('href', waTemplates.social[lang]);
+        const quickWaBtn = document.querySelector('.sidebar-box.box-wa');
+        if (quickWaBtn) quickWaBtn.setAttribute('href', waTemplates.quick[lang]);
     }
 
     // Initialize Language
@@ -485,26 +491,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- 7. Full-Height BCA Sticky Sidebar Scroll & Toggle System ---
+    // --- 7. Full-Height BCA Sticky Sidebar Scroll System (Desktop Only) ---
     const quickSidebar = document.getElementById('bca-quick-sidebar');
-    const quickToggleBtn = document.getElementById('quick-sidebar-toggle');
-    const quickCloseBtn = document.getElementById('quick-close-btn');
-    const quickScrollTopBtn = document.getElementById('quick-scroll-top-btn');
     const heroSection = document.getElementById('hero');
 
     if (quickSidebar) {
-        let manualOverride = false;
-        let manualTimer = null;
-
         function updateSidebarByScroll() {
-            if (manualOverride) return;
+            // Hanya aktif untuk tampilan desktop (> 1024px)
+            if (window.innerWidth <= 1024) {
+                quickSidebar.classList.add('collapsed');
+                return;
+            }
 
             const scrollY = window.scrollY;
             const heroHeight = heroSection ? heroSection.offsetHeight : 600;
 
-            // Jika di area hero (paling atas): TERBUKA
-            // Jika turun ke section ke dua (services dll): TERTUTUP (berbentuk tombol tab menonjol)
-            if (scrollY < heroHeight - 140) {
+            // Selama layar menampilkan kondisi di section atas/hero: selalu TERBUKA
+            // Tertutup otomatis jika scroll ke bawah melewati hero, dan kembali terbuka jika naik ke section tersebut
+            if (scrollY < heroHeight - 120) {
                 quickSidebar.classList.remove('collapsed');
             } else {
                 quickSidebar.classList.add('collapsed');
@@ -512,53 +516,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         window.addEventListener('scroll', updateSidebarByScroll, { passive: true });
-        updateSidebarByScroll(); // Inisialisasi posisi saat halaman pertama dimuat
-
-        function setManualOverride() {
-            manualOverride = true;
-            if (manualTimer) clearTimeout(manualTimer);
-            // Reset manual override setelah 7 detik agar sistem sinkronisasi scroll kembali aktif
-            manualTimer = setTimeout(() => {
-                manualOverride = false;
-                updateSidebarByScroll();
-            }, 7000);
-        }
-
-        // Toggle saat tombol tab diklik
-        if (quickToggleBtn) {
-            quickToggleBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                quickSidebar.classList.toggle('collapsed');
-                setManualOverride();
-            });
-        }
-
-        // Tutup saat tombol X diklik
-        if (quickCloseBtn) {
-            quickCloseBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                quickSidebar.classList.add('collapsed');
-                setManualOverride();
-            });
-        }
-
-        // Di mobile: tutup sidebar jika pengguna mengklik area luar
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768 && !quickSidebar.contains(e.target)) {
-                if (!quickSidebar.classList.contains('collapsed')) {
-                    quickSidebar.classList.add('collapsed');
-                }
-            }
-        });
-    }
-
-    if (quickScrollTopBtn) {
-        quickScrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
+        window.addEventListener('resize', updateSidebarByScroll, { passive: true });
+        updateSidebarByScroll(); // Inisialisasi saat pertama dimuat
     }
 
 });
