@@ -138,13 +138,27 @@
         </div>
     </header>
 
-    <!-- Sticky Sidebar Akses Cepat (BCA Style) -->
+    <!-- Sticky Sidebar Akses Cepat (Full Height BCA Style) -->
     <aside class="bca-quick-sidebar" id="bca-quick-sidebar" aria-label="Akses Cepat">
-        <button type="button" class="quick-sidebar-toggle" id="quick-sidebar-toggle" aria-label="Ciutkan Akses Cepat">
+        <!-- Floating Protruding Tab Button (Visible when sidebar is closed/collapsed) -->
+        <button type="button" class="quick-sidebar-tab" id="quick-sidebar-toggle" aria-label="Toggle Akses Cepat">
             <svg class="toggle-icon-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="9 18 15 12 9 6"></polyline>
             </svg>
+            <span class="tab-vertical-text" data-id="AKSES CEPAT" data-en="QUICK ACCESS">AKSES CEPAT</span>
         </button>
+
+        <!-- Sidebar Top Header with Close Button -->
+        <div class="quick-sidebar-top">
+            <button type="button" class="quick-close-btn" id="quick-close-btn" aria-label="Tutup Sidebar">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Middle Quick Navigation Icons -->
         <ul class="quick-sidebar-list">
             <li>
                 <a href="https://wa.me/628213173357?text=Halo%20meldir.id,%20saya%20ingin%20konsultasi%20melalui%20Akses%20Cepat." 
@@ -193,15 +207,17 @@
                     <span class="quick-tooltip" data-id="Pusat Bantuan" data-en="Help Center">Pusat Bantuan</span>
                 </a>
             </li>
-            <li>
-                <button type="button" class="quick-item quick-scroll-top" id="quick-scroll-top-btn" aria-label="Kembali ke Atas">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="18 15 12 9 6 15"/>
-                    </svg>
-                    <span class="quick-tooltip" data-id="Kembali ke Atas" data-en="Back to Top">Kembali ke Atas</span>
-                </button>
-            </li>
         </ul>
+
+        <!-- Bottom Scroll to Top -->
+        <div class="quick-sidebar-bottom">
+            <button type="button" class="quick-item quick-scroll-top" id="quick-scroll-top-btn" aria-label="Kembali ke Atas">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="18 15 12 9 6 15"/>
+                </svg>
+                <span class="quick-tooltip" data-id="Kembali ke Atas" data-en="Back to Top">Kembali ke Atas</span>
+            </button>
+        </div>
     </aside>
 
     <!-- Mobile Nav Overlay -->

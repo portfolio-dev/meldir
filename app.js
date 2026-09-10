@@ -485,17 +485,69 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // --- 7. BCA-Style Sticky Quick Sidebar (Akses Cepat) ---
+    // --- 7. Full-Height BCA Sticky Sidebar Scroll & Toggle System ---
     const quickSidebar = document.getElementById('bca-quick-sidebar');
     const quickToggleBtn = document.getElementById('quick-sidebar-toggle');
+    const quickCloseBtn = document.getElementById('quick-close-btn');
     const quickScrollTopBtn = document.getElementById('quick-scroll-top-btn');
+    const heroSection = document.getElementById('hero');
 
-    if (quickSidebar && quickToggleBtn) {
-        quickToggleBtn.addEventListener('click', () => {
-            if (window.innerWidth <= 768) {
-                quickSidebar.classList.toggle('open-mobile');
+    if (quickSidebar) {
+        let manualOverride = false;
+        let manualTimer = null;
+
+        function updateSidebarByScroll() {
+            if (manualOverride) return;
+
+            const scrollY = window.scrollY;
+            const heroHeight = heroSection ? heroSection.offsetHeight : 600;
+
+            // Jika di area hero (paling atas): TERBUKA
+            // Jika turun ke section ke dua (services dll): TERTUTUP (berbentuk tombol tab menonjol)
+            if (scrollY < heroHeight - 140) {
+                quickSidebar.classList.remove('collapsed');
             } else {
+                quickSidebar.classList.add('collapsed');
+            }
+        }
+
+        window.addEventListener('scroll', updateSidebarByScroll, { passive: true });
+        updateSidebarByScroll(); // Inisialisasi posisi saat halaman pertama dimuat
+
+        function setManualOverride() {
+            manualOverride = true;
+            if (manualTimer) clearTimeout(manualTimer);
+            // Reset manual override setelah 7 detik agar sistem sinkronisasi scroll kembali aktif
+            manualTimer = setTimeout(() => {
+                manualOverride = false;
+                updateSidebarByScroll();
+            }, 7000);
+        }
+
+        // Toggle saat tombol tab diklik
+        if (quickToggleBtn) {
+            quickToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
                 quickSidebar.classList.toggle('collapsed');
+                setManualOverride();
+            });
+        }
+
+        // Tutup saat tombol X diklik
+        if (quickCloseBtn) {
+            quickCloseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                quickSidebar.classList.add('collapsed');
+                setManualOverride();
+            });
+        }
+
+        // Di mobile: tutup sidebar jika pengguna mengklik area luar
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768 && !quickSidebar.contains(e.target)) {
+                if (!quickSidebar.classList.contains('collapsed')) {
+                    quickSidebar.classList.add('collapsed');
+                }
             }
         });
     }
