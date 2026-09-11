@@ -13,7 +13,7 @@ Pada hari ini, [Hari], tanggal [Tanggal] [Bulan] [Tahun] ([DD/MM/YYYY]), bertemp
 
 1. [NAMA PERUSAHAAN KLIEN], suatu badan usaha / perseroan yang didirikan berdasarkan hukum Republik Indonesia, berkedudukan di [Alamat Lengkap Klien], dalam hal ini diwakili secara sah oleh [Nama Pimpinan Klien], bertindak dalam jabatannya selaku [Direktur Utama / Pimpinan], dari dan karenanya sah mewakili [Nama Perusahaan Klien], selanjutnya disebut sebagai "PIHAK PERTAMA".
 
-2. PT. MELAYANI DIGITAL RAYA, suatu perseroan terbatas yang didirikan berdasarkan hukum Republik Indonesia, berdasarkan Keputusan Menteri Hukum dan HAM RI Nomor: AHU-A104016.AH.01.30.Tahun 2026, berkedudukan di Surabaya, Jawa Timur, dalam hal ini diwakili secara sah oleh [Nama Direktur PT. MELDIR], bertindak dalam jabatannya selaku Direktur Utama, dari dan karenanya sah mewakili PT. Melayani Digital Raya, selanjutnya disebut sebagai "PIHAK KEDUA".
+2. PT. MELAYANI DIGITAL RAYA, suatu perseroan terbatas yang didirikan berdasarkan hukum Republik Indonesia, berdasarkan Keputusan Menteri Hukum dan HAM RI Nomor: AHU-A104016.AH.01.30.Tahun 2026 dan Nomor Induk Berusaha (NIB): 0709260111296, berkedudukan di Surabaya, Jawa Timur, dalam hal ini diwakili secara sah oleh [Nama Direktur PT. MELDIR], bertindak dalam jabatannya selaku Direktur Utama, dari dan karenanya sah mewakili PT. Melayani Digital Raya, selanjutnya disebut sebagai "PIHAK KEDUA".
 
 PIHAK PERTAMA dan PIHAK KEDUA secara bersama-sama disebut sebagai "PARA PIHAK", dan masing-masing disebut sebagai "PIHAK".
 

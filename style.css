@@ -1144,9 +1144,9 @@ section {
     width: var(--quick-dock-w);
     height: 100vh;
     z-index: 1050; /* Menutup dari atas sampai bawah di atas bagian kanan navigasi header */
-    background: #ffffff;
-    box-shadow: -4px 0 24px rgba(0, 34, 68, 0.12), -1px 0 0 rgba(0, 96, 175, 0.18);
-    border-left: 1.5px solid #0060af;
+    background: linear-gradient(180deg, #edf5fc 0%, #e2effa 50%, #d8e8f6 100%);
+    box-shadow: -4px 0 24px rgba(0, 34, 68, 0.14), -1px 0 0 rgba(0, 96, 175, 0.22);
+    border-left: 2px solid #0060af;
     padding: 6px;
     display: flex;
     flex-direction: column;
@@ -1184,7 +1184,7 @@ section {
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0, 96, 175, 0.06);
+    box-shadow: 0 2px 8px rgba(0, 34, 68, 0.08);
 }
 
 /* Di mode terbuka (hero atau hover): icon di kanan, teks muncul rapi di kiri */

@@ -10,6 +10,7 @@ Pada hari ini, [Hari], tanggal [Tanggal] [Bulan] [Tahun] ([DD/MM/YYYY]), bertemp
 1. PIHAK PERTAMA (YANG MENYERAHKAN / VENDOR)
 Nama Perusahaan            : PT. Melayani Digital Raya (MELDIR)
 SK Kemenkumham             : AHU-A104016.AH.01.30.Tahun 2026
+NIB                        : 0709260111296
 Alamat Kantor Operasional  : Surabaya, Jawa Timur, Indonesia
 Website Resmi              : https://meldir.id
 Nama Penanggung Jawab      : [Nama Direktur PT. MELDIR]

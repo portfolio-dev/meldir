@@ -1,7 +1,7 @@
 PERATURAN INTERNAL & STANDAR OPERASIONAL PROSEDUR (SOP)
 TATA KELOLA PERUSAHAAN & PLATFORM DIGITAL
 PT. MELAYANI DIGITAL RAYA (MELDIR)
-SK Kemenkumham: AHU-A104016.AH.01.30.Tahun 2026
+SK Kemenkumham: AHU-A104016.AH.01.30.Tahun 2026 | NIB: 0709260111296
 
 ================================================================================
 
@@ -249,4 +249,4 @@ PT. MELAYANI DIGITAL RAYA (MELDIR)
 ______________________________________  
 Direktur Utama / Founder  
 PT. Melayani Digital Raya  
-NIB / SK Kemenkumham: AHU-A104016.AH.01.30.Tahun 2026
+NIB: 0709260111296 | SK Kemenkumham: AHU-A104016.AH.01.30.Tahun 2026
