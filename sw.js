@@ -1,4 +1,4 @@
-const CACHE_NAME = 'meldir-v24';
+const CACHE_NAME = 'meldir-v25';
 const ASSETS = [
   './',
   'index.html',
