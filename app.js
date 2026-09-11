@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Close mobile menu on resize if screen gets larger
     window.addEventListener('resize', () => {
-        if (window.innerWidth > 768) {
+        if (window.innerWidth > 900) {
             closeMobileMenu();
         }
     });

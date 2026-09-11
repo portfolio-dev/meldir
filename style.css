@@ -222,7 +222,7 @@ img, svg {
     }
 }
 
-@media (max-width: 1024px) and (min-width: 769px) {
+@media (max-width: 1024px) and (min-width: 901px) {
     .nav-menu ul {
         gap: 16px;
     }
@@ -3243,7 +3243,8 @@ section {
     }
 }
 
-@media (max-width: 768px) {
+/* Mobile Navigation & Compact Header (Aktif pada lebar layar <= 900px untuk mencegah menu menabrak logo) */
+@media (max-width: 900px) {
     :root {
         --header-height: 64px;
     }
@@ -3252,19 +3253,19 @@ section {
         margin-top: 64px !important;
     }
     
-    section {
-        padding: 50px 0;
-    }
     .nav-menu {
-        display: none;
+        display: none !important;
     }
     .mobile-toggle {
-        display: flex;
+        display: flex !important;
     }
     
     /* Header & Action Button Sizing */
     .site-header {
-        height: 64px;
+        height: 64px !important;
+    }
+    .site-header.scrolled {
+        height: 64px !important;
     }
     .header-container {
         padding: 0 16px;
@@ -3290,6 +3291,12 @@ section {
         align-items: center !important;
         justify-content: center !important;
         gap: 0 !important;
+    }
+}
+
+@media (max-width: 768px) {
+    section {
+        padding: 50px 0;
     }
     
     /* Hero Slider on Mobile */
