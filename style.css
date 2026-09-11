@@ -192,6 +192,23 @@ img, svg {
 }
 
 /* Navigasi Desktop Responsif (Mencegah teks/tombol terpotong pada laptop & layar menengah) */
+@media (max-width: 1200px) {
+    /* Tombol instal aplikasi berubah jadi icon saja saat layar mulai mengecil */
+    .pwa-btn span {
+        display: none !important;
+    }
+    .pwa-btn {
+        width: 38px !important;
+        height: 38px !important;
+        padding: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0 !important;
+        flex-shrink: 0;
+    }
+}
+
 @media (max-width: 1280px) and (min-width: 1025px) {
     .nav-menu ul {
         gap: 20px;
@@ -201,26 +218,23 @@ img, svg {
     }
     .nav-item {
         font-size: 0.9rem;
-    }
-    .pwa-btn {
-        padding: 7px 12px;
-        font-size: 0.8rem;
+        white-space: nowrap;
     }
 }
 
 @media (max-width: 1024px) and (min-width: 769px) {
     .nav-menu ul {
-        gap: 14px;
+        gap: 16px;
     }
     .header-container {
         padding: 0 16px;
     }
     .nav-item {
         font-size: 0.85rem;
+        white-space: nowrap;
     }
-    .pwa-btn {
-        padding: 6px 10px;
-        font-size: 0.78rem;
+    .header-actions {
+        gap: 10px;
     }
 }
 
@@ -1176,15 +1190,15 @@ section {
     justify-content: center; /* Di mode tertutup: icon berada tepat di tengah (center simetris) */
     padding: 0;
     border-radius: 8px;
-    background: #ffffff;
-    border: 1.5px solid #0060af;
-    color: #0060af;
+    background: #0060af;
+    border: 1.5px solid #005096;
+    color: #ffffff;
     text-decoration: none;
     transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 34, 68, 0.08);
+    box-shadow: 0 3px 8px rgba(0, 34, 68, 0.18);
 }
 
 /* Di mode terbuka (hero atau hover): icon di kanan, teks muncul rapi di kiri */
@@ -1195,10 +1209,10 @@ section {
 }
 
 .sidebar-box:hover {
-    background: #0060af;
-    color: #ffffff;
+    background: #ffffff;
+    color: #0060af;
     border-color: #0060af;
-    box-shadow: 0 4px 16px rgba(0, 96, 175, 0.3);
+    box-shadow: 0 6px 20px rgba(0, 96, 175, 0.32);
 }
 
 .sidebar-box:active {
@@ -1249,19 +1263,19 @@ section {
     transform: scale(1.12);
 }
 
-/* WhatsApp Box Accent (White theme) */
+/* WhatsApp Box Accent */
 .sidebar-box.box-wa {
-    background: #ffffff;
-    border-color: #25d366;
-    color: #16a34a;
-    box-shadow: 0 2px 6px rgba(37, 211, 102, 0.08);
+    background: #25d366;
+    border-color: #20ba5a;
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(37, 211, 102, 0.25);
 }
 
 .sidebar-box.box-wa:hover {
-    background: #25d366;
-    color: #ffffff;
+    background: #ffffff;
+    color: #16a34a;
     border-color: #25d366;
-    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
 }
 
 /* Service Page Hero Background (Unique Corporate Image) */
