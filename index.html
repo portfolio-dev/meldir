@@ -199,8 +199,8 @@
                         </div>
                     </div>
 
-                    <!-- Enterprise Security Features (Desktop 12-Row Full Coverage Matrix) -->
-                    <div class="cockpit-security-badges" data-drawer="drawer-security" role="button" tabindex="0" title="Klik untuk melihat detail 12 standar keamanan &amp; kepatuhan hukum Meldir">
+                    <!-- Enterprise Security Features (Desktop 12-Row Scrollable Matrix) -->
+                    <div class="cockpit-security-badges" id="cockpit-security-badges">
                         <div class="sec-badge-header">
                             <div class="sec-header-left">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -208,7 +208,9 @@
                                 </svg>
                                 <span class="sec-badge-title" data-id="12 Standar Keamanan &amp; Tata Kelola Enterprise:" data-en="12 Enterprise Security &amp; Governance Standards:">12 Standar Keamanan &amp; Tata Kelola Enterprise:</span>
                             </div>
-                            <div class="sec-header-link" data-id="Rincian Legalitas &amp; Audit →" data-en="Legality &amp; Audit Details →">Rincian Legalitas &amp; Audit →</div>
+                            <button class="sec-header-link" data-drawer="drawer-security" type="button" aria-label="Buka Rincian Legalitas &amp; Audit">
+                                <span data-id="Rincian Legalitas &amp; Audit →" data-en="Legality &amp; Audit Details →">Rincian Legalitas &amp; Audit →</span>
+                            </button>
                         </div>
 
                         <div class="sec-rows-container">
