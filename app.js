@@ -644,6 +644,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let startX = 0;
         let scrollLeft = 0;
 
+        // Mouse Drag Support (Desktop & Emulation)
         metricsRow.addEventListener('mousedown', (e) => {
             isDown = true;
             metricsRow.classList.add('dragging');
@@ -668,6 +669,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const walk = (x - startX) * 1.5;
             metricsRow.scrollLeft = scrollLeft - walk;
         });
+
+        // Touch Swipe & Drag Support (Mobile & Touch Devices)
+        let touchStartX = 0;
+        let touchStartScroll = 0;
+        metricsRow.addEventListener('touchstart', (e) => {
+            if (e.touches && e.touches.length === 1) {
+                touchStartX = e.touches[0].pageX;
+                touchStartScroll = metricsRow.scrollLeft;
+            }
+        }, { passive: true });
+
+        metricsRow.addEventListener('touchmove', (e) => {
+            if (!touchStartX || !e.touches || e.touches.length !== 1) return;
+            const currentX = e.touches[0].pageX;
+            const diff = currentX - touchStartX;
+            metricsRow.scrollLeft = touchStartScroll - diff;
+        }, { passive: true });
+
+        metricsRow.addEventListener('touchend', () => {
+            touchStartX = 0;
+        }, { passive: true });
     }
 
     checkHashRoute();

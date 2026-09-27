@@ -3933,6 +3933,76 @@ body.cockpit-locked {
     font-size: 0.75rem;
 }
 
+/* Enterprise Security Highlights (Desktop Feature Badges) */
+.cockpit-security-badges {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    background: linear-gradient(135deg, rgba(240, 247, 255, 0.95) 0%, rgba(235, 245, 255, 0.8) 100%);
+    border: 1px solid rgba(0, 96, 175, 0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+    margin-top: 2px;
+}
+
+.cockpit-security-badges:hover {
+    background: #edf5fc;
+    border-color: #0060af;
+    box-shadow: 0 2px 10px rgba(0, 96, 175, 0.1);
+    transform: translateY(-1px);
+}
+
+.sec-badge-header {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #005096;
+    font-size: 0.72rem;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.sec-badge-header svg {
+    color: #0060af;
+}
+
+.sec-badges-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.sec-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 96, 175, 0.18);
+    border-radius: 9999px;
+    font-size: 0.67rem;
+    font-weight: 600;
+    color: #1e293b;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+}
+
+.sec-pill svg {
+    color: #0060af;
+    flex-shrink: 0;
+}
+
+.sec-pill:hover {
+    border-color: #0060af;
+    background: #f0f7ff;
+    color: #0060af;
+}
+
 /* Quick Metrics Row */
 .cockpit-metrics-row {
     display: grid;
@@ -4577,6 +4647,17 @@ body.cockpit-locked .sidebar-box:hover .box-label {
         font-size: 0.7rem;
         padding: 0 64px 0 18px;
     }
+    .cockpit-security-badges {
+        padding: 3px 8px;
+        gap: 6px;
+    }
+    .sec-pill {
+        padding: 1px 6px;
+        font-size: 0.62rem;
+    }
+    .sec-badge-header {
+        font-size: 0.66rem;
+    }
 }
 
 /* Responsive Rules for Mobile/Tablet (100dvh No-Scroll App-Shell) */
@@ -4588,6 +4669,10 @@ body.cockpit-locked .sidebar-box:hover .box-label {
     }
     
     .desktop-status-chip {
+        display: none !important;
+    }
+    
+    .cockpit-security-badges {
         display: none !important;
     }
     
@@ -4658,6 +4743,10 @@ body.cockpit-locked .sidebar-box:hover .box-label {
     }
     
     .cockpit-hero-canvas {
+        min-width: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
         padding: 12px 14px;
         border-radius: 14px;
         gap: 8px;
@@ -4703,6 +4792,10 @@ body.cockpit-locked .sidebar-box:hover .box-label {
     .cockpit-metrics-row {
         display: flex !important;
         flex-direction: row !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
         overflow-x: auto !important;
         overflow-y: hidden !important;
         -webkit-overflow-scrolling: touch !important;
@@ -4730,9 +4823,10 @@ body.cockpit-locked .sidebar-box:hover .box-label {
     }
     
     .metric-box {
-        flex: 0 0 calc(46% - 4px);
-        min-width: 125px;
-        max-width: 160px;
+        flex: 0 0 calc(45% - 4px) !important;
+        min-width: 130px !important;
+        max-width: 165px !important;
+        flex-shrink: 0 !important;
         scroll-snap-align: start;
         padding: 6px 10px;
         background: #ffffff;
