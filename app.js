@@ -114,18 +114,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileNavLinks = document.querySelectorAll('.mobile-nav-item');
 
     function toggleMobileMenu() {
+        if (!mobileToggle || !mobileNavOverlay) return;
         const isOpen = mobileToggle.classList.toggle('open');
         mobileNavOverlay.classList.toggle('open', isOpen);
         document.body.style.overflow = isOpen ? 'hidden' : '';
     }
 
     function closeMobileMenu() {
+        if (!mobileToggle || !mobileNavOverlay) return;
         mobileToggle.classList.remove('open');
         mobileNavOverlay.classList.remove('open');
         document.body.style.overflow = '';
     }
 
-    mobileToggle.addEventListener('click', toggleMobileMenu);
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', toggleMobileMenu);
+    }
     
     mobileNavLinks.forEach(link => {
         link.addEventListener('click', closeMobileMenu);
@@ -145,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('section[id]');
 
     function handleScroll() {
+        if (!header) return;
         const scrollY = window.scrollY;
 
         // Scrolled header background style toggle
@@ -286,35 +291,37 @@ document.addEventListener('DOMContentLoaded', () => {
     let deferredPrompt;
     const pwaInstallBtn = document.getElementById('pwa-install-btn');
 
-    window.addEventListener('beforeinstallprompt', (e) => {
-        // Prevent Chrome 67 and earlier from automatically showing the prompt
-        e.preventDefault();
-        // Stash the event so it can be triggered later.
-        deferredPrompt = e;
-        // Update UI to notify user they can install the PWA
-        pwaInstallBtn.classList.remove('hidden');
-    });
+    if (pwaInstallBtn) {
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            deferredPrompt = e;
+            // Update UI to notify user they can install the PWA
+            pwaInstallBtn.classList.remove('hidden');
+        });
 
-    pwaInstallBtn.addEventListener('click', async () => {
-        if (!deferredPrompt) return;
-        
-        // Show the install prompt
-        deferredPrompt.prompt();
-        
-        // Wait for the user to respond to the prompt
-        const { outcome } = await deferredPrompt.userChoice;
-        console.log(`User response to the install prompt: ${outcome}`);
-        
-        // We've used the prompt, and can't use it again, clear it
-        deferredPrompt = null;
-        // Hide the install button
-        pwaInstallBtn.classList.add('hidden');
-    });
+        pwaInstallBtn.addEventListener('click', async () => {
+            if (!deferredPrompt) return;
+            
+            // Show the install prompt
+            deferredPrompt.prompt();
+            
+            // Wait for the user to respond to the prompt
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`User response to the install prompt: ${outcome}`);
+            
+            // We've used the prompt, and can't use it again, clear it
+            deferredPrompt = null;
+            // Hide the install button
+            pwaInstallBtn.classList.add('hidden');
+        });
 
-    window.addEventListener('appinstalled', (evt) => {
-        console.log('meldir.id app was installed.');
-        pwaInstallBtn.classList.add('hidden');
-    });
+        window.addEventListener('appinstalled', (evt) => {
+            console.log('meldir.id app was installed.');
+            pwaInstallBtn.classList.add('hidden');
+        });
+    }
 
     // --- 4c. Features Modal Open/Close ---
     const openFeaturesModalBtn = document.getElementById('open-features-modal-btn');
@@ -523,6 +530,108 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', updateSidebarByScroll, { passive: true });
         updateSidebarByScroll(); // Inisialisasi saat pertama dimuat
     }
+
+    // --- 8. Cockpit No-Scroll & Universal Drawer Controller ---
+    const cockpitBackdrop = document.getElementById('cockpit-drawer-backdrop');
+    const cockpitDrawers = document.querySelectorAll('.cockpit-drawer');
+    const drawerTriggers = document.querySelectorAll('[data-drawer]');
+    const drawerCloseBtns = document.querySelectorAll('.drawer-close-btn, [data-close-drawer]');
+    const segmentBtns = document.querySelectorAll('.cockpit-segment-btn');
+    const overviewBtns = document.querySelectorAll('[data-target="overview"]');
+
+    function openCockpitDrawer(drawerId) {
+        if (!drawerId) return;
+        const targetDrawer = document.getElementById(drawerId);
+        if (!targetDrawer) return;
+
+        // If target drawer is already active, toggle it closed
+        if (targetDrawer.classList.contains('active')) {
+            closeCockpitDrawer();
+            return;
+        }
+
+        // Close any other open drawer
+        cockpitDrawers.forEach(d => d.classList.remove('active'));
+
+        // Open target drawer & backdrop
+        targetDrawer.classList.add('active');
+        if (cockpitBackdrop) cockpitBackdrop.classList.add('active');
+
+        // Update active states on segment buttons & mobile tabs
+        segmentBtns.forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-drawer') === drawerId);
+        });
+        mobileTabItems.forEach(tab => {
+            tab.classList.toggle('active', tab.getAttribute('data-drawer') === drawerId);
+        });
+    }
+
+    function closeCockpitDrawer() {
+        cockpitDrawers.forEach(d => d.classList.remove('active'));
+        if (cockpitBackdrop) cockpitBackdrop.classList.remove('active');
+
+        // Reset segment button active state to overview
+        segmentBtns.forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('data-target') === 'overview');
+        });
+        mobileTabItems.forEach(tab => {
+            tab.classList.toggle('active', tab.getAttribute('data-target') === 'overview');
+        });
+
+        // Clear hash without reload
+        if (window.location.hash) {
+            history.pushState(null, document.title, window.location.pathname + window.location.search);
+        }
+    }
+
+    // Event listeners for triggers
+    drawerTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            const drawerId = trigger.getAttribute('data-drawer');
+            openCockpitDrawer(drawerId);
+        });
+    });
+
+    // Overview buttons (Ikhtisar / Beranda)
+    overviewBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeCockpitDrawer();
+        });
+    });
+
+    // Close buttons & Backdrop
+    drawerCloseBtns.forEach(btn => btn.addEventListener('click', closeCockpitDrawer));
+    if (cockpitBackdrop) cockpitBackdrop.addEventListener('click', closeCockpitDrawer);
+
+    // Keyboard ESC to close drawer
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeCockpitDrawer();
+    });
+
+    // Hash routing on load (e.g. #services, #security, #workflow, #comparison, #social)
+    function checkHashRoute() {
+        const hash = window.location.hash.toLowerCase().replace('#', '');
+        if (!hash) return;
+        const hashMap = {
+            'services': 'drawer-services',
+            'service': 'drawer-services',
+            'security': 'drawer-security',
+            'privacy': 'drawer-security',
+            'legal': 'drawer-security',
+            'workflow': 'drawer-workflow',
+            'cara-kerja': 'drawer-workflow',
+            'comparison': 'drawer-comparison',
+            'social': 'drawer-social',
+            'audit': 'drawer-audit'
+        };
+        if (hashMap[hash]) {
+            openCockpitDrawer(hashMap[hash]);
+        }
+    }
+    checkHashRoute();
+    window.addEventListener('hashchange', checkHashRoute);
 
 });
 

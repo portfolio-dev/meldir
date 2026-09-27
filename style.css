@@ -3629,3 +3629,1141 @@ section {
         padding: 24px;
     }
 }
+
+/* ==========================================================================
+   18. COCKPIT NO-SCROLL ARCHITECTURE & SLIDE-OVER DRAWER SYSTEM (INDEX ONLY)
+   ========================================================================== */
+
+/* Lock HTML & Body to exact 100vh / 100dvh without page scroll */
+html.cockpit-locked,
+body.cockpit-locked {
+    height: 100vh !important;
+    height: 100dvh !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: fixed !important;
+    width: 100% !important;
+}
+
+.cockpit-viewport {
+    height: 100vh;
+    height: 100dvh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    background: 
+        radial-gradient(circle at 15% 15%, rgba(0, 96, 175, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 85% 85%, rgba(0, 122, 224, 0.06) 0%, transparent 45%),
+        linear-gradient(135deg, #f8fbfd 0%, #f0f5fb 50%, #e9f2fa 100%);
+}
+
+/* --- Header Cockpit --- */
+.cockpit-header {
+    height: 64px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    background: rgba(0, 36, 71, 0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    z-index: 100;
+}
+
+.cockpit-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.cockpit-brand .logo-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #0060af 0%, #00a0ff 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 96, 175, 0.4);
+}
+
+.cockpit-brand .logo-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+}
+
+.cockpit-status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 9999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #34d399;
+}
+
+.cockpit-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 8px #10b981;
+    animation: statusPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes statusPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+/* Segmented Cockpit Nav Switcher (Center) */
+.cockpit-nav-segments {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 9999px;
+}
+
+.cockpit-segment-btn {
+    padding: 6px 14px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #cbd5e1;
+    background: transparent;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    white-space: nowrap;
+}
+
+.cockpit-segment-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.cockpit-segment-btn.active {
+    color: #ffffff;
+    background: #0060af;
+    box-shadow: 0 2px 8px rgba(0, 96, 175, 0.45);
+}
+
+/* Header Action Controls */
+.cockpit-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* --- Main Cockpit Grid Arena --- */
+.cockpit-main {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 20px;
+    padding: 16px 24px;
+    position: relative;
+    overflow: hidden;
+    margin-right: var(--quick-dock-w);
+    transition: margin-right 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* --- Left Hero Canvas Card --- */
+.cockpit-hero-canvas {
+    background: rgba(255, 255, 255, 0.90);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(0, 96, 175, 0.16);
+    border-radius: 18px;
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 10px 30px rgba(0, 34, 68, 0.06), 0 1px 3px rgba(0, 34, 68, 0.04);
+    position: relative;
+    overflow: hidden;
+}
+
+.cockpit-hero-canvas::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0, 96, 175, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.cockpit-hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.cockpit-trust-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px;
+    background: #edf5fc;
+    border: 1px solid rgba(0, 96, 175, 0.22);
+    border-radius: 9999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #0060af;
+    width: fit-content;
+}
+
+.cockpit-trust-badge svg {
+    color: #0060af;
+}
+
+.cockpit-headline {
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+    font-weight: 800;
+    line-height: 1.18;
+    letter-spacing: -0.5px;
+    color: #002244;
+    margin: 0;
+}
+
+.cockpit-headline .gradient-text {
+    background: linear-gradient(135deg, #0060af 0%, #00a0ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline;
+}
+
+.cockpit-desc {
+    font-size: clamp(0.85rem, 1.05vw, 0.95rem);
+    line-height: 1.55;
+    color: #475569;
+    margin: 0;
+}
+
+.cockpit-cta-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.cockpit-cta-group .btn {
+    padding: 10px 20px;
+    font-size: 0.88rem;
+    border-radius: 10px;
+}
+
+/* Hero Mini Workflow Stepper */
+.cockpit-mini-stepper {
+    background: #f8fafc;
+    border: 1px solid rgba(0, 96, 175, 0.12);
+    border-radius: 12px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 6px;
+}
+
+.cockpit-mini-stepper:hover {
+    background: #f0f7ff;
+    border-color: #0060af;
+    box-shadow: 0 4px 12px rgba(0, 96, 175, 0.12);
+}
+
+.stepper-node {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.stepper-node-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #0060af;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.stepper-arrow {
+    color: #94a3b8;
+    font-size: 0.75rem;
+}
+
+/* Quick Metrics Row */
+.cockpit-metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(0, 96, 175, 0.1);
+}
+
+.metric-box {
+    display: flex;
+    flex-direction: column;
+    padding: 6px 8px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.metric-val {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: #0060af;
+}
+
+.metric-lbl {
+    font-size: 0.68rem;
+    color: #64748b;
+    line-height: 1.3;
+}
+
+/* --- Right Bento Hub --- */
+.cockpit-bento-canvas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr auto;
+    gap: 12px;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.bento-card {
+    background: rgba(255, 255, 255, 0.90);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1.5px solid rgba(0, 96, 175, 0.14);
+    border-radius: 14px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 16px rgba(0, 34, 68, 0.04);
+    position: relative;
+    overflow: hidden;
+}
+
+.bento-card:hover {
+    transform: translateY(-3px);
+    border-color: #0060af;
+    box-shadow: 0 8px 24px rgba(0, 96, 175, 0.16);
+    background: #ffffff;
+}
+
+.bento-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.bento-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #edf5fc;
+    color: #0060af;
+    transition: all 0.25s ease;
+}
+
+.bento-card:hover .bento-icon {
+    background: #0060af;
+    color: #ffffff;
+}
+
+.bento-tag {
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.bento-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: #002244;
+    margin: 0 0 4px 0;
+    line-height: 1.25;
+}
+
+.bento-desc {
+    font-size: 0.76rem;
+    color: #64748b;
+    line-height: 1.45;
+    margin: 0;
+}
+
+.bento-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #0060af;
+    margin-top: 8px;
+    transition: gap 0.2s ease;
+}
+
+.bento-card:hover .bento-action {
+    gap: 8px;
+}
+
+/* Bento Terminal Card (Spans 2 columns) */
+.bento-terminal-card {
+    grid-column: span 2;
+    background: #001f3f;
+    border: 1px solid rgba(0, 96, 175, 0.4);
+    border-radius: 12px;
+    padding: 10px 14px;
+    color: #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.terminal-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.terminal-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+.terminal-dot.red { background: #ef4444; }
+.terminal-dot.yellow { background: #f59e0b; }
+.terminal-dot.green { background: #10b981; }
+
+.terminal-code {
+    font-family: 'Fira Code', 'Courier New', monospace;
+    font-size: 0.72rem;
+    color: #38bdf8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.terminal-badge {
+    font-size: 0.68rem;
+    padding: 3px 8px;
+    border-radius: 6px;
+    background: rgba(0, 96, 175, 0.4);
+    color: #67e8f9;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* --- Bottom Status Ticker --- */
+.cockpit-ticker {
+    height: 34px;
+    flex-shrink: 0;
+    background: #001933;
+    border-top: 1px solid rgba(0, 96, 175, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    font-size: 0.74rem;
+    color: #94a3b8;
+    z-index: 90;
+    user-select: none;
+}
+
+.ticker-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ticker-nib {
+    color: #38bdf8;
+    font-weight: 600;
+}
+
+.ticker-center {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.ticker-link {
+    color: #94a3b8;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.ticker-link:hover {
+    color: #ffffff;
+}
+
+.ticker-right {
+    color: #64748b;
+    font-size: 0.7rem;
+}
+
+/* --- Universal Slide-Over / Bottom-Sheet Drawer System --- */
+.cockpit-drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 15, 35, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1055;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cockpit-drawer-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.cockpit-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 640px;
+    max-width: 92vw;
+    height: 100%;
+    background: #ffffff;
+    box-shadow: -10px 0 40px rgba(0, 20, 50, 0.3);
+    z-index: 1060;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.cockpit-drawer.active {
+    transform: translateX(0);
+}
+
+.drawer-header {
+    padding: 18px 24px;
+    background: #002244;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.drawer-header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.drawer-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #38bdf8;
+}
+
+.drawer-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0;
+}
+
+.drawer-close-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.12);
+    border: none;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.drawer-close-btn:hover {
+    background: rgba(239, 68, 68, 0.85);
+    color: #ffffff;
+}
+
+.drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    background: #f8fafc;
+    color: #334155;
+    overscroll-behavior: contain;
+}
+
+.drawer-body::-webkit-scrollbar {
+    width: 6px;
+}
+.drawer-body::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+}
+.drawer-body::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+.drawer-footer {
+    padding: 14px 24px;
+    background: #ffffff;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+/* Mobile Tab Bar (App-Shell <= 900px) */
+.cockpit-mobile-tabbar {
+    display: none;
+}
+
+/* Desktop Dock Layout Integration (> 1024px) */
+@media (min-width: 1025px) {
+    .cockpit-header,
+    .cockpit-ticker {
+        margin-right: var(--quick-dock-w);
+        transition: margin-right 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+}
+
+/* Short laptop screens (e.g. 1366x768 with browser chrome) */
+@media (max-height: 760px) and (min-width: 901px) {
+    .cockpit-header {
+        height: 54px;
+        padding: 0 18px;
+    }
+    .cockpit-main {
+        padding: 10px 18px;
+        gap: 14px;
+    }
+    .cockpit-hero-canvas {
+        padding: 16px 20px;
+    }
+    .cockpit-headline {
+        font-size: 1.6rem;
+    }
+    .cockpit-desc {
+        font-size: 0.82rem;
+        line-height: 1.4;
+    }
+    .cockpit-cta-group .btn {
+        padding: 8px 16px;
+        font-size: 0.82rem;
+    }
+    .cockpit-mini-stepper {
+        padding: 6px 10px;
+        margin-top: 2px;
+    }
+    .stepper-node {
+        font-size: 0.7rem;
+    }
+    .stepper-node-num {
+        width: 18px;
+        height: 18px;
+        font-size: 0.65rem;
+    }
+    .bento-card {
+        padding: 12px;
+    }
+    .bento-title {
+        font-size: 0.88rem;
+    }
+    .bento-desc {
+        font-size: 0.72rem;
+        line-height: 1.35;
+    }
+    .bento-icon {
+        width: 30px;
+        height: 30px;
+    }
+    .bento-terminal-card {
+        padding: 6px 12px;
+    }
+    .cockpit-ticker {
+        height: 30px;
+        font-size: 0.7rem;
+    }
+}
+
+/* Responsive Rules for Mobile/Tablet (100dvh No-Scroll App-Shell) */
+@media (max-width: 900px) {
+    .cockpit-header {
+        height: 54px;
+        padding: 0 14px;
+        margin-right: 0 !important;
+    }
+    
+    .cockpit-nav-segments {
+        display: none;
+    }
+    
+    .cockpit-main {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 8px 12px;
+        margin-right: 0 !important;
+        overflow: hidden;
+        gap: 8px;
+    }
+    
+    .cockpit-hero-canvas {
+        padding: 12px 14px;
+        border-radius: 14px;
+        gap: 8px;
+    }
+    
+    .cockpit-hero-content {
+        gap: 8px;
+    }
+    
+    .cockpit-headline {
+        font-size: 1.25rem;
+        line-height: 1.22;
+    }
+    
+    .cockpit-desc {
+        font-size: 0.76rem;
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    .cockpit-trust-badge {
+        font-size: 0.68rem;
+        padding: 3px 10px;
+    }
+    
+    .cockpit-cta-group {
+        gap: 8px;
+        margin-top: 2px;
+    }
+    
+    .cockpit-cta-group .btn {
+        padding: 7px 14px;
+        font-size: 0.78rem;
+    }
+    
+    .cockpit-mini-stepper {
+        display: none;
+    }
+    
+    .cockpit-metrics-row {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+        padding-top: 6px;
+    }
+    
+    .metric-box {
+        padding: 4px 6px;
+    }
+    
+    .metric-val {
+        font-size: 0.76rem;
+    }
+    
+    .metric-lbl {
+        font-size: 0.58rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .cockpit-bento-canvas {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 8px;
+        height: auto;
+        flex: 1;
+        min-height: 0;
+    }
+    
+    .bento-card {
+        padding: 10px 12px;
+        border-radius: 12px;
+        justify-content: space-between;
+    }
+    
+    .bento-card-header {
+        margin-bottom: 4px;
+    }
+    
+    .bento-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+    }
+    
+    .bento-icon svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .bento-tag {
+        font-size: 0.6rem;
+        padding: 1px 6px;
+    }
+    
+    .bento-title {
+        font-size: 0.82rem;
+        margin-bottom: 2px;
+    }
+    
+    .bento-desc {
+        display: none;
+    }
+    
+    .bento-action {
+        font-size: 0.68rem;
+        margin-top: 4px;
+    }
+    
+    .bento-terminal-card {
+        display: none;
+    }
+    
+    .cockpit-ticker {
+        display: none;
+    }
+    
+    /* Mobile App Bottom Navigation Bar */
+    .cockpit-mobile-tabbar {
+        height: 56px;
+        flex-shrink: 0;
+        background: #002244;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        z-index: 100;
+        padding: 0 4px;
+    }
+    
+    .cockpit-tab-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        font-size: 0.64rem;
+        font-weight: 600;
+        padding: 4px 8px;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+    
+    .cockpit-tab-item.active,
+    .cockpit-tab-item:hover {
+        color: #38bdf8;
+    }
+    
+    .cockpit-tab-item svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    /* Mobile Bottom Sheet Drawer */
+    .cockpit-drawer {
+        top: auto;
+        bottom: 0;
+        right: 0;
+        width: 100%;
+        max-width: 100%;
+        max-height: 88vh;
+        border-radius: 20px 20px 0 0;
+        transform: translateY(100%);
+    }
+    
+    .cockpit-drawer.active {
+        transform: translateY(0);
+    }
+}
+
+/* --- Drawer Detailed Component Styles --- */
+.drawer-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 34, 68, 0.04);
+}
+
+.drawer-card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.drawer-card-num {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: #edf5fc;
+    color: #0060af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.92rem;
+    flex-shrink: 0;
+}
+
+.drawer-card-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.drawer-card-desc {
+    font-size: 0.84rem;
+    line-height: 1.6;
+    color: #475569;
+    margin: 0 0 12px 0;
+}
+
+.drawer-checklist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.drawer-checklist li {
+    font-size: 0.78rem;
+    color: #64748b;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+}
+
+.drawer-checklist li::before {
+    content: '✓';
+    color: #0060af;
+    font-weight: 700;
+}
+
+/* NIB Credential Box */
+.drawer-nib-box {
+    background: linear-gradient(135deg, #edf5fc 0%, #e0effd 100%);
+    border: 1.5px solid rgba(0, 96, 175, 0.25);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 18px;
+}
+
+.drawer-nib-number {
+    font-family: 'Fira Code', monospace;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #005096;
+    letter-spacing: 2px;
+    margin: 6px 0 8px 0;
+}
+
+/* Document Links */
+.drawer-link-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    text-decoration: none;
+    margin-bottom: 10px;
+    transition: all 0.2s ease;
+}
+
+.drawer-link-item:hover {
+    background: #edf5fc;
+    border-color: #0060af;
+    transform: translateX(4px);
+}
+
+.drawer-link-title {
+    font-weight: 600;
+    font-size: 0.86rem;
+    color: #0f172a;
+    display: block;
+}
+
+.drawer-link-desc {
+    font-size: 0.74rem;
+    color: #64748b;
+    display: block;
+}
+
+/* Comparison Cards */
+.drawer-comp-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+}
+
+.drawer-comp-title {
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: #0f172a;
+    margin-bottom: 10px;
+}
+
+.drawer-comp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.drawer-comp-col {
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+.drawer-comp-col.meldir {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+}
+
+.drawer-comp-col.vendor {
+    background: #fff1f2;
+    border: 1px solid #fecdd3;
+    color: #9f1239;
+}
+
+.drawer-comp-label {
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.76rem;
+}
+
+/* Step Items */
+.drawer-step-item {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 18px;
+    position: relative;
+}
+
+.drawer-step-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 38px;
+    left: 17px;
+    bottom: -14px;
+    width: 2px;
+    background: #cbd5e1;
+}
+
+.drawer-step-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #0060af;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(0, 96, 175, 0.3);
+}
+
+.drawer-step-title {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 0.96rem;
+    color: #0f172a;
+    margin: 0 0 4px 0;
+}
+
+.drawer-step-desc {
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: #475569;
+    margin: 0;
+}
+
+
