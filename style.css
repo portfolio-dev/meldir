@@ -3634,25 +3634,29 @@ section {
    18. COCKPIT NO-SCROLL ARCHITECTURE & SLIDE-OVER DRAWER SYSTEM (INDEX ONLY)
    ========================================================================== */
 
-/* Lock HTML & Body to exact 100vh / 100dvh without page scroll */
+/* HTML & Body: 100vh base with natural vertical scrolling if content exceeds viewport */
 html.cockpit-locked,
 body.cockpit-locked {
-    height: 100vh !important;
-    height: 100dvh !important;
-    overflow: hidden !important;
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
     margin: 0 !important;
     padding: 0 !important;
-    position: fixed !important;
+    position: relative;
     width: 100% !important;
 }
 
 .cockpit-viewport {
-    height: 100vh;
-    height: 100dvh;
+    min-height: 100vh;
+    min-height: 100dvh;
+    height: auto;
     width: 100%;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: visible;
     position: relative;
     background: 
         radial-gradient(circle at 15% 15%, rgba(0, 96, 175, 0.08) 0%, transparent 45%),
@@ -3788,9 +3792,9 @@ body.cockpit-locked {
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
     gap: 20px;
-    padding: 12px 68px 14px 24px;
+    padding: 12px 68px 24px 24px;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
 /* --- Left Hero Canvas Card --- */
@@ -3806,7 +3810,7 @@ body.cockpit-locked {
     justify-content: space-between;
     box-shadow: 0 10px 30px rgba(0, 34, 68, 0.06), 0 1px 3px rgba(0, 34, 68, 0.04);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .cockpit-hero-canvas::before {
@@ -3934,12 +3938,12 @@ body.cockpit-locked {
     font-size: 0.8rem;
 }
 
-/* Enterprise Security Highlights (Desktop Feature Badges - Full Coverage 4x2 Grid) */
+/* Enterprise Security Highlights (Desktop Feature Badges - 12-Row Matrix) */
 .cockpit-security-badges {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding: 10px 14px;
+    padding: 11px 14px;
     background: linear-gradient(135deg, rgba(238, 246, 255, 0.95) 0%, rgba(228, 242, 255, 0.85) 100%);
     border: 1.5px solid rgba(0, 96, 175, 0.22);
     border-radius: 14px;
@@ -3956,7 +3960,6 @@ body.cockpit-locked {
     background: #e6f2fd;
     border-color: #0060af;
     box-shadow: 0 6px 20px rgba(0, 96, 175, 0.15);
-    transform: translateY(-1px);
 }
 
 .sec-badge-header {
@@ -3964,6 +3967,8 @@ body.cockpit-locked {
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    padding-bottom: 5px;
+    border-bottom: 1px solid rgba(0, 96, 175, 0.14);
 }
 
 .sec-header-left {
@@ -3996,69 +4001,93 @@ body.cockpit-locked {
     text-decoration: underline;
 }
 
-/* 4x2 Grid filling 100% of width with zero empty space */
-.sec-badges-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
+/* 12-Row Container */
+.sec-rows-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
     width: 100%;
 }
 
-.sec-card {
+.sec-row-item {
     display: flex;
     align-items: center;
-    gap: 7px;
-    padding: 6px 10px;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 4px 10px;
     background: #ffffff;
-    border: 1px solid rgba(0, 96, 175, 0.16);
-    border-radius: 9px;
-    box-shadow: 0 1px 3px rgba(0, 34, 68, 0.03);
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0, 96, 175, 0.13);
+    border-radius: 8px;
+    transition: all 0.15s ease;
+}
+
+.sec-row-item:hover {
+    background: #0060af;
+    border-color: #0060af;
+    transform: translateX(2px);
+}
+
+.sec-row-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     min-width: 0;
 }
 
-.sec-card-icon {
-    width: 22px;
-    height: 22px;
-    border-radius: 6px;
+.sec-row-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
     background: #edf5fc;
     color: #0060af;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    transition: all 0.2s ease;
+    transition: all 0.15s ease;
 }
 
-.sec-card-icon svg {
-    width: 12px;
-    height: 12px;
+.sec-row-item:hover .sec-row-icon {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
 }
 
-.sec-card-text {
-    font-size: 0.73rem;
+.sec-row-icon svg {
+    width: 11px;
+    height: 11px;
+}
+
+.sec-row-title {
+    font-size: 0.74rem;
     font-weight: 650;
     color: #1e293b;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    line-height: 1.2;
+    transition: color 0.15s ease;
 }
 
-.sec-card:hover {
-    background: #0060af;
-    border-color: #0060af;
-    transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(0, 96, 175, 0.25);
-}
-
-.sec-card:hover .sec-card-icon {
-    background: rgba(255, 255, 255, 0.25);
+.sec-row-item:hover .sec-row-title {
     color: #ffffff;
 }
 
-.sec-card:hover .sec-card-text {
+.sec-row-badge {
+    font-size: 0.67rem;
+    font-weight: 600;
+    color: #0060af;
+    background: #edf5fc;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    border: 1px solid rgba(0, 96, 175, 0.18);
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all 0.15s ease;
+}
+
+.sec-row-item:hover .sec-row-badge {
+    background: rgba(255, 255, 255, 0.2);
     color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
 /* Quick Metrics Row */
@@ -4707,32 +4736,36 @@ body.cockpit-locked .sidebar-box:hover .box-label {
     }
     .cockpit-security-badges {
         padding: 6px 10px;
-        gap: 5px;
+        gap: 4px;
         margin-top: 2px;
     }
-    .sec-badges-grid {
-        gap: 4px;
+    .sec-rows-container {
+        gap: 3px;
     }
-    .sec-card {
-        padding: 4px 6px;
-        gap: 5px;
+    .sec-row-item {
+        padding: 3px 6px;
+        gap: 6px;
     }
-    .sec-card-icon {
-        width: 18px;
-        height: 18px;
+    .sec-row-icon {
+        width: 16px;
+        height: 16px;
     }
-    .sec-card-icon svg {
-        width: 10px;
-        height: 10px;
+    .sec-row-icon svg {
+        width: 9px;
+        height: 9px;
     }
-    .sec-card-text {
-        font-size: 0.65rem;
+    .sec-row-title {
+        font-size: 0.67rem;
+    }
+    .sec-row-badge {
+        font-size: 0.62rem;
+        padding: 1px 6px;
     }
     .sec-header-left {
-        font-size: 0.73rem;
+        font-size: 0.72rem;
     }
     .sec-header-link {
-        font-size: 0.65rem;
+        font-size: 0.64rem;
     }
 }
 
