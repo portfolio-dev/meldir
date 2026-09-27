@@ -637,6 +637,39 @@ document.addEventListener('DOMContentLoaded', () => {
             openCockpitDrawer(hashMap[hash]);
         }
     }
+    // --- 9. Mobile Metrics Row Swipe & Drag Controller ---
+    const metricsRow = document.querySelector('.cockpit-metrics-row');
+    if (metricsRow) {
+        let isDown = false;
+        let startX = 0;
+        let scrollLeft = 0;
+
+        metricsRow.addEventListener('mousedown', (e) => {
+            isDown = true;
+            metricsRow.classList.add('dragging');
+            startX = e.pageX - metricsRow.offsetLeft;
+            scrollLeft = metricsRow.scrollLeft;
+        });
+
+        metricsRow.addEventListener('mouseleave', () => {
+            isDown = false;
+            metricsRow.classList.remove('dragging');
+        });
+
+        metricsRow.addEventListener('mouseup', () => {
+            isDown = false;
+            metricsRow.classList.remove('dragging');
+        });
+
+        metricsRow.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - metricsRow.offsetLeft;
+            const walk = (x - startX) * 1.5;
+            metricsRow.scrollLeft = scrollLeft - walk;
+        });
+    }
+
     checkHashRoute();
     window.addEventListener('hashchange', checkHashRoute);
 

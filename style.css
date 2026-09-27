@@ -4701,24 +4701,70 @@ body.cockpit-locked .sidebar-box:hover .box-label {
     }
     
     .cockpit-metrics-row {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 4px;
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch !important;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        gap: 8px;
         padding-top: 6px;
+        padding-bottom: 4px;
+        padding-left: 2px;
+        padding-right: 2px;
+        touch-action: pan-x;
+        cursor: grab;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+    
+    .cockpit-metrics-row::-webkit-scrollbar {
+        display: none !important;
+    }
+    
+    .cockpit-metrics-row.dragging {
+        scroll-snap-type: none !important;
+        cursor: grabbing !important;
     }
     
     .metric-box {
-        padding: 4px 6px;
+        flex: 0 0 calc(46% - 4px);
+        min-width: 125px;
+        max-width: 160px;
+        scroll-snap-align: start;
+        padding: 6px 10px;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        transition: transform 0.15s ease;
+    }
+    
+    .metric-box:active {
+        transform: scale(0.97);
     }
     
     .metric-val {
-        font-size: 0.76rem;
+        font-family: 'Outfit', sans-serif;
+        font-size: 0.88rem;
+        font-weight: 800;
+        color: #0060af;
+        line-height: 1.15;
     }
     
     .metric-lbl {
-        font-size: 0.58rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        font-size: 0.64rem;
+        color: #64748b;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        line-height: 1.25;
+        margin-top: 2px;
     }
     
     .cockpit-terminal-window {
