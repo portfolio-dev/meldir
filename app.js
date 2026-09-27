@@ -504,6 +504,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (quickSidebar) {
         function updateSidebarByScroll() {
+            // Disabled in cockpit mode (uses floating dock with hover flyouts)
+            if (document.body.classList.contains('cockpit-locked')) {
+                document.body.classList.remove('sidebar-expanded');
+                quickSidebar.classList.remove('expanded');
+                return;
+            }
+
             // Hanya aktif untuk tampilan desktop (> 1024px)
             if (window.innerWidth <= 1024) {
                 document.body.classList.remove('sidebar-expanded');

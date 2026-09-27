@@ -3667,7 +3667,7 @@ body.cockpit-locked {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 24px;
+    padding: 0 68px 0 24px;
     background: rgba(0, 36, 71, 0.96);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -3684,23 +3684,26 @@ body.cockpit-locked {
     color: #ffffff;
 }
 
-.cockpit-brand .logo-icon {
-    width: 36px;
-    height: 36px;
+.cockpit-brand img.logo-icon {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
     border-radius: 8px;
-    background: linear-gradient(135deg, #0060af 0%, #00a0ff 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0, 96, 175, 0.4);
+    display: block;
+    background: transparent;
+    box-shadow: none;
 }
 
 .cockpit-brand .logo-text {
     font-family: 'Outfit', sans-serif;
-    font-size: 1.35rem;
+    font-size: 1.4rem;
     font-weight: 800;
     letter-spacing: -0.5px;
     color: #ffffff;
+}
+
+.cockpit-brand .logo-dot {
+    color: var(--accent-cyan, #00d2ff);
 }
 
 .cockpit-status-chip {
@@ -3779,21 +3782,20 @@ body.cockpit-locked {
     display: grid;
     grid-template-columns: 1.15fr 0.85fr;
     gap: 20px;
-    padding: 16px 24px;
+    padding: 16px 68px 16px 24px;
     position: relative;
     overflow: hidden;
-    margin-right: var(--quick-dock-w);
-    transition: margin-right 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    margin-right: 0 !important;
 }
 
 /* --- Left Hero Canvas Card --- */
 .cockpit-hero-canvas {
-    background: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(0, 96, 175, 0.16);
     border-radius: 18px;
-    padding: 24px 28px;
+    padding: 22px 26px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -3826,11 +3828,11 @@ body.cockpit-locked {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 5px 14px;
+    padding: 4px 12px;
     background: #edf5fc;
     border: 1px solid rgba(0, 96, 175, 0.22);
     border-radius: 9999px;
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     font-weight: 600;
     color: #0060af;
     width: fit-content;
@@ -3842,7 +3844,7 @@ body.cockpit-locked {
 
 .cockpit-headline {
     font-family: 'Outfit', sans-serif;
-    font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+    font-size: clamp(1.45rem, 2.1vw, 2.1rem);
     font-weight: 800;
     line-height: 1.18;
     letter-spacing: -0.5px;
@@ -3858,8 +3860,8 @@ body.cockpit-locked {
 }
 
 .cockpit-desc {
-    font-size: clamp(0.85rem, 1.05vw, 0.95rem);
-    line-height: 1.55;
+    font-size: clamp(0.82rem, 1.0vw, 0.92rem);
+    line-height: 1.5;
     color: #475569;
     margin: 0;
 }
@@ -3869,28 +3871,28 @@ body.cockpit-locked {
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 4px;
+    margin-top: 2px;
 }
 
 .cockpit-cta-group .btn {
-    padding: 10px 20px;
-    font-size: 0.88rem;
+    padding: 9px 18px;
+    font-size: 0.85rem;
     border-radius: 10px;
 }
 
 /* Hero Mini Workflow Stepper */
 .cockpit-mini-stepper {
     background: #f8fafc;
-    border: 1px solid rgba(0, 96, 175, 0.12);
+    border: 1px solid rgba(0, 96, 175, 0.14);
     border-radius: 12px;
-    padding: 10px 14px;
+    padding: 8px 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
     cursor: pointer;
     transition: all 0.2s ease;
-    margin-top: 6px;
+    margin-top: 4px;
 }
 
 .cockpit-mini-stepper:hover {
@@ -3903,7 +3905,7 @@ body.cockpit-locked {
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.76rem;
+    font-size: 0.74rem;
     font-weight: 600;
     color: #334155;
 }
@@ -3931,7 +3933,7 @@ body.cockpit-locked {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    padding-top: 10px;
+    padding-top: 8px;
     border-top: 1px solid rgba(0, 96, 175, 0.1);
 }
 
@@ -3946,35 +3948,195 @@ body.cockpit-locked {
 
 .metric-val {
     font-family: 'Outfit', sans-serif;
-    font-size: 0.92rem;
+    font-size: 0.9rem;
     font-weight: 800;
     color: #0060af;
 }
 
 .metric-lbl {
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     color: #64748b;
     line-height: 1.3;
 }
 
-/* --- Right Bento Hub --- */
+/* --- Right Bento Hub Canvas --- */
 .cockpit-bento-canvas {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr auto;
+    display: flex;
+    flex-direction: column;
     gap: 12px;
     height: 100%;
     position: relative;
     z-index: 1;
 }
 
+/* --- 1. Realtime IDE Code & System Ready Terminal Window --- */
+.cockpit-terminal-window {
+    background: #001830;
+    border: 1px solid rgba(0, 160, 255, 0.22);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 20, 45, 0.25);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    flex: 1.1;
+    min-height: 0;
+}
+
+.cockpit-terminal-window:hover {
+    border-color: #00a0ff;
+    box-shadow: 0 12px 30px rgba(0, 160, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.terminal-window-header {
+    background: rgba(0, 36, 71, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.terminal-dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.terminal-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+.terminal-dot.red { background: #ef4444; }
+.terminal-dot.yellow { background: #f59e0b; }
+.terminal-dot.green { background: #10b981; }
+
+.terminal-title-bar {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.72rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.terminal-title-icon {
+    color: #f59e0b;
+    font-size: 0.75rem;
+}
+
+.terminal-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: #34d399;
+}
+
+.status-pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #10b981;
+    box-shadow: 0 0 6px #10b981;
+    animation: statusPulse 2s infinite;
+}
+
+.terminal-window-body {
+    padding: 10px 14px;
+    font-family: 'Fira Code', 'Cascadia Code', monospace;
+    font-size: 0.75rem;
+    line-height: 1.55;
+    color: #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    justify-content: center;
+}
+
+.terminal-code-line.comment {
+    color: #64748b;
+    font-style: italic;
+}
+
+.terminal-code-line.indent {
+    padding-left: 20px;
+}
+
+.code-kw { color: #f43f5e; font-weight: 600; }
+.code-fn { color: #38bdf8; font-weight: 600; }
+.code-id { color: #e2e8f0; }
+.code-prop { color: #a78bfa; }
+.code-str { color: #34d399; }
+.code-param { color: #fbbf24; }
+
+.code-cursor {
+    display: inline-block;
+    width: 7px;
+    height: 13px;
+    background: #38bdf8;
+    margin-left: 4px;
+    vertical-align: middle;
+    animation: cursorBlink 1s infinite;
+}
+
+@keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.terminal-window-footer {
+    background: rgba(0, 24, 48, 0.6);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.68rem;
+    color: #94a3b8;
+}
+
+.terminal-footer-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.terminal-meta-dot {
+    color: #38bdf8;
+    font-size: 0.65rem;
+}
+.terminal-meta-dot.green {
+    color: #10b981;
+    font-weight: 700;
+}
+
+/* --- 2. The 4 Bento Cards Grid --- */
+.cockpit-bento-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    flex: 1.2;
+    min-height: 0;
+}
+
 .bento-card {
-    background: rgba(255, 255, 255, 0.90);
+    background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1.5px solid rgba(0, 96, 175, 0.14);
-    border-radius: 14px;
-    padding: 16px;
+    border-radius: 12px;
+    padding: 11px 13px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -3986,7 +4148,7 @@ body.cockpit-locked {
 }
 
 .bento-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
     border-color: #0060af;
     box-shadow: 0 8px 24px rgba(0, 96, 175, 0.16);
     background: #ffffff;
@@ -3996,13 +4158,13 @@ body.cockpit-locked {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
 }
 
 .bento-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -4017,9 +4179,9 @@ body.cockpit-locked {
 }
 
 .bento-tag {
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     font-weight: 600;
-    padding: 2px 8px;
+    padding: 2px 7px;
     border-radius: 9999px;
     background: #f1f5f9;
     color: #475569;
@@ -4027,17 +4189,17 @@ body.cockpit-locked {
 
 .bento-title {
     font-family: 'Outfit', sans-serif;
-    font-size: 0.98rem;
+    font-size: 0.9rem;
     font-weight: 700;
     color: #002244;
-    margin: 0 0 4px 0;
+    margin: 0 0 2px 0;
     line-height: 1.25;
 }
 
 .bento-desc {
-    font-size: 0.76rem;
+    font-size: 0.73rem;
     color: #64748b;
-    line-height: 1.45;
+    line-height: 1.4;
     margin: 0;
 }
 
@@ -4045,63 +4207,130 @@ body.cockpit-locked {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    font-size: 0.76rem;
+    font-size: 0.72rem;
     font-weight: 700;
     color: #0060af;
-    margin-top: 8px;
+    margin-top: 4px;
     transition: gap 0.2s ease;
 }
 
 .bento-card:hover .bento-action {
-    gap: 8px;
+    gap: 7px;
 }
 
-/* Bento Terminal Card (Spans 2 columns) */
-.bento-terminal-card {
-    grid-column: span 2;
-    background: #001f3f;
-    border: 1px solid rgba(0, 96, 175, 0.4);
+/* --- Floating Quick Action Dock on Desktop (Cockpit Mode) --- */
+body.cockpit-locked .bca-quick-sidebar {
+    position: fixed;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    bottom: auto;
+    width: auto;
+    height: auto;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    z-index: 1020;
+    overflow: visible;
+}
+
+body.cockpit-locked .sidebar-track {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+body.cockpit-locked .sidebar-box {
+    width: 44px;
+    height: 44px;
     border-radius: 12px;
-    padding: 10px 14px;
-    color: #e2e8f0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1.5px solid rgba(0, 96, 175, 0.22);
+    color: #0060af;
+    box-shadow: 0 4px 14px rgba(0, 34, 68, 0.12);
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    flex: none;
+    overflow: visible;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    text-decoration: none;
 }
 
-.terminal-header {
+body.cockpit-locked .sidebar-box:hover {
+    background: #0060af;
+    color: #ffffff;
+    border-color: #0060af;
+    transform: scale(1.08);
+    box-shadow: 0 6px 20px rgba(0, 96, 175, 0.35);
+}
+
+body.cockpit-locked .sidebar-box.box-wa {
+    color: #16a34a;
+    border-color: rgba(22, 163, 74, 0.3);
+}
+
+body.cockpit-locked .sidebar-box.box-wa:hover {
+    background: #16a34a;
+    color: #ffffff;
+    border-color: #16a34a;
+}
+
+body.cockpit-locked .box-icon {
+    width: 22px;
+    height: 22px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    order: 1;
 }
 
-.terminal-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-}
-.terminal-dot.red { background: #ef4444; }
-.terminal-dot.yellow { background: #f59e0b; }
-.terminal-dot.green { background: #10b981; }
-
-.terminal-code {
-    font-family: 'Fira Code', 'Courier New', monospace;
-    font-size: 0.72rem;
-    color: #38bdf8;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.terminal-badge {
-    font-size: 0.68rem;
-    padding: 3px 8px;
-    border-radius: 6px;
-    background: rgba(0, 96, 175, 0.4);
-    color: #67e8f9;
+/* Tooltip flies out to the LEFT on hover */
+body.cockpit-locked .box-label {
+    position: absolute;
+    right: 54px;
+    top: 50%;
+    transform: translateY(-50%) translateX(8px);
+    background: #002244;
+    color: #ffffff;
+    font-size: 0.76rem;
     font-weight: 600;
     white-space: nowrap;
+    padding: 6px 12px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 20, 50, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1030;
+    max-width: none;
+    margin: 0;
+    order: unset;
+}
+
+body.cockpit-locked .box-label::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 5px 0 5px 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent #002244;
+}
+
+body.cockpit-locked .sidebar-box:hover .box-label {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
 }
 
 /* --- Bottom Status Ticker --- */
@@ -4113,11 +4342,12 @@ body.cockpit-locked {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
+    padding: 0 68px 0 24px;
     font-size: 0.74rem;
     color: #94a3b8;
     z-index: 90;
     user-select: none;
+    margin-right: 0 !important;
 }
 
 .ticker-left {
@@ -4280,38 +4510,29 @@ body.cockpit-locked {
     display: none;
 }
 
-/* Desktop Dock Layout Integration (> 1024px) */
-@media (min-width: 1025px) {
-    .cockpit-header,
-    .cockpit-ticker {
-        margin-right: var(--quick-dock-w);
-        transition: margin-right 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-    }
-}
-
 /* Short laptop screens (e.g. 1366x768 with browser chrome) */
 @media (max-height: 760px) and (min-width: 901px) {
     .cockpit-header {
         height: 54px;
-        padding: 0 18px;
+        padding: 0 64px 0 18px;
     }
     .cockpit-main {
-        padding: 10px 18px;
+        padding: 10px 64px 10px 18px;
         gap: 14px;
     }
     .cockpit-hero-canvas {
         padding: 16px 20px;
     }
     .cockpit-headline {
-        font-size: 1.6rem;
+        font-size: 1.55rem;
     }
     .cockpit-desc {
-        font-size: 0.82rem;
+        font-size: 0.8rem;
         line-height: 1.4;
     }
     .cockpit-cta-group .btn {
-        padding: 8px 16px;
-        font-size: 0.82rem;
+        padding: 7px 15px;
+        font-size: 0.8rem;
     }
     .cockpit-mini-stepper {
         padding: 6px 10px;
@@ -4325,26 +4546,31 @@ body.cockpit-locked {
         height: 18px;
         font-size: 0.65rem;
     }
+    .cockpit-terminal-window {
+        padding: 0;
+    }
+    .terminal-window-body {
+        padding: 8px 12px;
+        font-size: 0.7rem;
+    }
     .bento-card {
-        padding: 12px;
+        padding: 9px 11px;
     }
     .bento-title {
-        font-size: 0.88rem;
+        font-size: 0.85rem;
     }
     .bento-desc {
-        font-size: 0.72rem;
-        line-height: 1.35;
+        font-size: 0.7rem;
+        line-height: 1.3;
     }
     .bento-icon {
-        width: 30px;
-        height: 30px;
-    }
-    .bento-terminal-card {
-        padding: 6px 12px;
+        width: 26px;
+        height: 26px;
     }
     .cockpit-ticker {
         height: 30px;
         font-size: 0.7rem;
+        padding: 0 64px 0 18px;
     }
 }
 
@@ -4434,14 +4660,21 @@ body.cockpit-locked {
         text-overflow: ellipsis;
     }
     
+    .cockpit-terminal-window {
+        display: none;
+    }
+    
     .cockpit-bento-canvas {
+        flex: 1;
+        min-height: 0;
+    }
+    
+    .cockpit-bento-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr;
         gap: 8px;
-        height: auto;
-        flex: 1;
-        min-height: 0;
+        height: 100%;
     }
     
     .bento-card {
@@ -4482,10 +4715,6 @@ body.cockpit-locked {
     .bento-action {
         font-size: 0.68rem;
         margin-top: 4px;
-    }
-    
-    .bento-terminal-card {
-        display: none;
     }
     
     .cockpit-ticker {

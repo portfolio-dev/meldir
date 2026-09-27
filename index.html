@@ -64,15 +64,9 @@
         <!-- ==================== 1. TOP EXECUTIVE HEADER BAR ==================== -->
         <header class="cockpit-header" id="site-header">
             <!-- Brand & Verified Status -->
-            <a href="./" class="cockpit-brand" aria-label="Meldir Beranda">
-                <div class="logo-icon">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                        <polyline points="2 17 12 22 22 17"></polyline>
-                        <polyline points="2 12 12 17 22 12"></polyline>
-                    </svg>
-                </div>
-                <span class="logo-text">Meldir</span>
+            <a href="./" class="cockpit-brand" id="logo-link" aria-label="Meldir Beranda">
+                <img src="icons/icon-192.png" alt="meldir.id logo" class="logo-icon">
+                <span class="logo-text">meldir<span class="logo-dot">.id</span></span>
                 <div class="cockpit-status-chip">
                     <span class="cockpit-status-dot"></span>
                     <span data-id="SLA 99.9% / Operasional" data-en="SLA 99.9% / Operational">SLA 99.9% / Operasional</span>
@@ -132,7 +126,7 @@
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                         </svg>
-                        <span data-id="NIB: 0709260111296 | Terdaftar Resmi RI" data-en="NIB: 0709260111296 | Officially Registered">NIB: 0709260111296 | Terdaftar Resmi RI</span>
+                        <span data-id="NIB: 0709260111296 | Badan Hukum Terdaftar Resmi RI" data-en="NIB: 0709260111296 | Officially Registered Corporate Entity">NIB: 0709260111296 | Badan Hukum Terdaftar Resmi RI</span>
                     </div>
 
                     <!-- Main Headline -->
@@ -210,92 +204,131 @@
                 </div>
             </div>
 
-            <!-- RIGHT BENTO CANVAS: 4 Interactive Bento Cards + Live Terminal -->
+            <!-- RIGHT BENTO CANVAS: Live IDE Code Terminal + 4 Interactive Bento Cards -->
             <div class="cockpit-bento-canvas">
                 
-                <!-- Bento 1: Core Managed Services -->
-                <div class="bento-card" data-drawer="drawer-services" role="button" tabindex="0" aria-label="Buka Detail Layanan">
-                    <div class="bento-card-header">
-                        <div class="bento-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
-                                <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
-                                <line x1="6" y1="6" x2="6.01" y2="6"></line>
-                                <line x1="6" y1="18" x2="6.01" y2="18"></line>
-                            </svg>
+                <!-- 1. Realtime IDE Code & System Ready Terminal Window -->
+                <div class="cockpit-terminal-window" data-drawer="drawer-services" role="button" tabindex="0" aria-label="Buka Detail Sistem &amp; Layanan">
+                    <div class="terminal-window-header">
+                        <div class="terminal-dots">
+                            <span class="terminal-dot red"></span>
+                            <span class="terminal-dot yellow"></span>
+                            <span class="terminal-dot green"></span>
                         </div>
-                        <span class="bento-tag" data-id="Pemeliharaan &amp; PWA" data-en="Maintenance &amp; PWA">Pemeliharaan &amp; PWA</span>
+                        <div class="terminal-title-bar">
+                            <span class="terminal-title-icon">⚡</span>
+                            <span>engine@meldir.id:~/system-core</span>
+                        </div>
+                        <div class="terminal-status-badge">
+                            <span class="status-pulse-dot"></span>
+                            <span data-id="Sistem Siap" data-en="System Ready">Sistem Siap</span>
+                        </div>
                     </div>
-                    <div>
-                        <h2 class="bento-title" data-id="Pemeliharaan &amp; Scaling" data-en="Maintenance &amp; Scaling">Pemeliharaan &amp; Scaling</h2>
-                        <p class="bento-desc" data-id="Monitoring 24 jam, perbaikan bug kode buatan AI/vendor lama, dan rilis aplikasi iOS/Android." data-en="24h monitoring, bug fixing for AI/legacy vendor code, and iOS/Android app release.">Monitoring 24 jam, perbaikan bug kode buatan AI/vendor lama, dan rilis aplikasi iOS/Android.</p>
+                    <div class="terminal-window-body">
+                        <div class="terminal-code-line comment">
+                            <span>// Meldir Managed Digital Engineering</span>
+                        </div>
+                        <div class="terminal-code-line">
+                            <span class="code-kw">const</span> <span class="code-id">stack</span> = [<span class="code-str">"PWA"</span>, <span class="code-str">"iOS/Android"</span>, <span class="code-str">"Cloud SLA 99.9%"</span>];
+                        </div>
+                        <div class="terminal-code-line">
+                            <span class="code-kw">const</span> <span class="code-id">compliance</span> = { <span class="code-prop">NIB</span>: <span class="code-str">"0709260111296"</span>, <span class="code-prop">codeOwner</span>: <span class="code-str">"100% Client"</span> };
+                        </div>
+                        <div class="terminal-code-line">
+                            <span class="code-kw">function</span> <span class="code-fn">orchestrateSystem</span>(<span class="code-param">app</span>) {
+                        </div>
+                        <div class="terminal-code-line indent">
+                            <span class="code-kw">return</span> app.<span class="code-fn">audit</span>().<span class="code-fn">secure</span>().<span class="code-fn">scale</span>();<span class="code-cursor"></span>
+                        </div>
+                        <div class="terminal-code-line">}</div>
                     </div>
-                    <span class="bento-action"><span data-id="Lihat Solusi" data-en="View Solutions">Lihat Solusi</span> →</span>
+                    <div class="terminal-window-footer">
+                        <div class="terminal-footer-meta">
+                            <span class="terminal-meta-dot">●</span>
+                            <span data-id="Uptime 99.9% Terkelola" data-en="99.9% Managed Uptime">Uptime 99.9% Terkelola</span>
+                        </div>
+                        <div class="terminal-footer-meta">
+                            <span class="terminal-meta-dot green">✓</span>
+                            <span data-id="NIB 0709260111296 Terdaftar" data-en="Verified NIB 0709260111296">NIB 0709260111296 Terdaftar</span>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Bento 2: Legalitas & Kepatuhan -->
-                <div class="bento-card" data-drawer="drawer-security" role="button" tabindex="0" aria-label="Buka Dokumen Legalitas">
-                    <div class="bento-card-header">
-                        <div class="bento-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                            </svg>
+                <!-- 2. The 4 Interactive Bento Cards Grid -->
+                <div class="cockpit-bento-grid">
+                    
+                    <!-- Bento 1: Core Managed Services -->
+                    <div class="bento-card" data-drawer="drawer-services" role="button" tabindex="0" aria-label="Buka Detail Layanan">
+                        <div class="bento-card-header">
+                            <div class="bento-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                                    <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                                    <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                                    <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                                </svg>
+                            </div>
+                            <span class="bento-tag" data-id="Pemeliharaan &amp; PWA" data-en="Maintenance &amp; PWA">Pemeliharaan &amp; PWA</span>
                         </div>
-                        <span class="bento-tag" data-id="Legalitas Terverifikasi" data-en="Verified Legality">Legalitas Terverifikasi</span>
-                    </div>
-                    <div>
-                        <h2 class="bento-title" data-id="NIB &amp; Tata Kelola SOP" data-en="NIB &amp; SOP Governance">NIB &amp; Tata Kelola SOP</h2>
-                        <p class="bento-desc" data-id="NIB 0709260111296, SOP peraturan internal, kontrak kerja SPK, serta BAST resmi." data-en="NIB 0709260111296, internal SOP rules, SPK work contracts, and official BAST.">NIB 0709260111296, SOP peraturan internal, kontrak kerja SPK, serta BAST resmi.</p>
-                    </div>
-                    <span class="bento-action"><span data-id="Lihat Legalitas" data-en="View Legal Docs">Lihat Legalitas</span> →</span>
-                </div>
-
-                <!-- Bento 3: Komparasi Transparansi -->
-                <div class="bento-card" data-drawer="drawer-comparison" role="button" tabindex="0" aria-label="Buka Perbandingan Solusi">
-                    <div class="bento-card-header">
-                        <div class="bento-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <polyline points="12 6 12 12 14 14"></polyline>
-                            </svg>
+                        <div class="bento-card-body">
+                            <h2 class="bento-title" data-id="Pemeliharaan &amp; Scaling" data-en="Maintenance &amp; Scaling">Pemeliharaan &amp; Scaling</h2>
+                            <p class="bento-desc" data-id="Monitoring 24 jam, fix kode AI/vendor lama &amp; rilis store." data-en="24h monitoring, AI/legacy fixes &amp; store release.">Monitoring 24 jam, fix kode AI/vendor lama &amp; rilis store.</p>
                         </div>
-                        <span class="bento-tag" data-id="Transparansi 100%" data-en="100% Transparency">Transparansi 100%</span>
+                        <span class="bento-action"><span data-id="Lihat Solusi" data-en="View Solutions">Lihat Solusi</span> →</span>
                     </div>
-                    <div>
-                        <h2 class="bento-title" data-id="Standar Meldir vs Vendor" data-en="Meldir Standards vs Vendors">Standar Meldir vs Vendor</h2>
-                        <p class="bento-desc" data-id="Source code 100% milik Anda, tim senior tetap, garansi bug, tanpa biaya tersembunyi." data-en="100% source code ownership, dedicated senior team, bug warranty, zero hidden fees.">Source code 100% milik Anda, tim senior tetap, garansi bug, tanpa biaya tersembunyi.</p>
-                    </div>
-                    <span class="bento-action"><span data-id="Bandingkan" data-en="Compare Now">Bandingkan</span> →</span>
-                </div>
 
-                <!-- Bento 4: Komunitas & Yayasan -->
-                <div class="bento-card" data-drawer="drawer-social" role="button" tabindex="0" aria-label="Buka Program Sosial">
-                    <div class="bento-card-header">
-                        <div class="bento-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                            </svg>
+                    <!-- Bento 2: Legalitas & Kepatuhan -->
+                    <div class="bento-card" data-drawer="drawer-security" role="button" tabindex="0" aria-label="Buka Dokumen Legalitas">
+                        <div class="bento-card-header">
+                            <div class="bento-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                </svg>
+                            </div>
+                            <span class="bento-tag" data-id="Legalitas NIB" data-en="Verified NIB">Legalitas NIB</span>
                         </div>
-                        <span class="bento-tag" data-id="CSR &amp; Komunitas" data-en="CSR &amp; Community">CSR &amp; Komunitas</span>
+                        <div class="bento-card-body">
+                            <h2 class="bento-title" data-id="NIB &amp; Tata Kelola SOP" data-en="NIB &amp; SOP Governance">NIB &amp; Tata Kelola SOP</h2>
+                            <p class="bento-desc" data-id="NIB 0709260111296, SOP internal, SPK &amp; BAST resmi." data-en="NIB 0709260111296, internal SOP, SPK &amp; BAST.">NIB 0709260111296, SOP internal, SPK &amp; BAST resmi.</p>
+                        </div>
+                        <span class="bento-action"><span data-id="Lihat Legalitas" data-en="View Legal Docs">Lihat Legalitas</span> →</span>
                     </div>
-                    <div>
-                        <h2 class="bento-title" data-id="Dedikasi Sosial &amp; Yayasan" data-en="Social Dedication &amp; Foundations">Dedikasi Sosial &amp; Yayasan</h2>
-                        <p class="bento-desc" data-id="Program subsidi khusus untuk lembaga sosial, komunitas nirlaba, dan digitalisasi yayasan." data-en="Special subsidy programs for social foundations, non-profit communities, and digital initiatives.">Program subsidi khusus untuk lembaga sosial, komunitas nirlaba, dan digitalisasi yayasan.</p>
-                    </div>
-                    <span class="bento-action"><span data-id="Program Sosial" data-en="Social Program">Program Sosial</span> →</span>
-                </div>
 
-                <!-- Bento Terminal: Realtime Engine Pulse -->
-                <div class="bento-terminal-card">
-                    <div class="terminal-header">
-                        <span class="terminal-dot red"></span>
-                        <span class="terminal-dot yellow"></span>
-                        <span class="terminal-dot green"></span>
+                    <!-- Bento 3: Komparasi Transparansi -->
+                    <div class="bento-card" data-drawer="drawer-comparison" role="button" tabindex="0" aria-label="Buka Perbandingan Solusi">
+                        <div class="bento-card-header">
+                            <div class="bento-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 14 14"></polyline>
+                                </svg>
+                            </div>
+                            <span class="bento-tag" data-id="Transparansi 100%" data-en="100% Transparency">Transparansi 100%</span>
+                        </div>
+                        <div class="bento-card-body">
+                            <h2 class="bento-title" data-id="Standar Meldir vs Vendor" data-en="Meldir Standards vs Vendors">Standar Meldir vs Vendor</h2>
+                            <p class="bento-desc" data-id="Source code 100% milik Anda, tim tetap &amp; garansi bug." data-en="100% code ownership, dedicated team &amp; warranty.">Source code 100% milik Anda, tim tetap &amp; garansi bug.</p>
+                        </div>
+                        <span class="bento-action"><span data-id="Bandingkan" data-en="Compare Now">Bandingkan</span> →</span>
                     </div>
-                    <div class="terminal-code">
-                        <span class="code-keyword">const</span> meldir = { stack: [<span class="code-string">"PWA"</span>, <span class="code-string">"Node"</span>, <span class="code-string">"Cloud"</span>], SLA: <span class="code-string">"99.9%"</span>, NIB: <span class="code-string">"0709260111296"</span> };
+
+                    <!-- Bento 4: Komunitas & Yayasan -->
+                    <div class="bento-card" data-drawer="drawer-social" role="button" tabindex="0" aria-label="Buka Program Sosial">
+                        <div class="bento-card-header">
+                            <div class="bento-icon">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                            </div>
+                            <span class="bento-tag" data-id="CSR &amp; Nirlaba" data-en="CSR &amp; Non-Profit">CSR &amp; Nirlaba</span>
+                        </div>
+                        <div class="bento-card-body">
+                            <h2 class="bento-title" data-id="Dedikasi Sosial &amp; Yayasan" data-en="Social Dedication &amp; Foundations">Dedikasi Sosial &amp; Yayasan</h2>
+                            <p class="bento-desc" data-id="Program subsidi biaya s/d 50% bagi yayasan sosial &amp; nirlaba." data-en="Up to 50% fee subsidy for social foundations &amp; non-profits.">Program subsidi biaya s/d 50% bagi yayasan sosial &amp; nirlaba.</p>
+                        </div>
+                        <span class="bento-action"><span data-id="Program Sosial" data-en="Social Program">Program Sosial</span> →</span>
                     </div>
-                    <span class="terminal-badge" data-id="Sistem Siap" data-en="Ready System">Sistem Siap</span>
+
                 </div>
 
             </div>
@@ -308,15 +341,15 @@
 
         </main>
 
-        <!-- ==================== 3. PERMANENT BCA-STYLE QUICK ACCESS DOCK ==================== -->
+        <!-- ==================== 3. FLOATING QUICK ACTION DOCK (RIGHT EDGE) ==================== -->
         <aside class="bca-quick-sidebar" id="bca-quick-sidebar" aria-label="Akses Cepat Meldir">
             <div class="sidebar-track">
                 <!-- WhatsApp Box -->
                 <a href="https://wa.me/628213173357?text=Halo%20meldir.id,%20saya%20ingin%20berkonsultasi%20melalui%20Akses%20Cepat."
                     class="sidebar-box box-wa" target="_blank" rel="noopener noreferrer" aria-label="Konsultasi WhatsApp">
-                    <span class="box-label" data-id="WhatsApp" data-en="WhatsApp">WhatsApp</span>
+                    <span class="box-label" data-id="Konsultasi WhatsApp" data-en="WhatsApp Consultation">Konsultasi WhatsApp</span>
                     <div class="box-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 6.013L0 24l6.291-1.65a11.77 11.77 0 005.751 1.494h.005c6.554 0 11.89-5.335 11.893-11.893 0-3.18-1.238-6.167-3.488-8.418z" />
                         </svg>
                     </div>
@@ -327,7 +360,7 @@
                     class="sidebar-box" target="_blank" rel="noopener noreferrer" aria-label="Hubungi Kami">
                     <span class="box-label" data-id="Hubungi Kami" data-en="Contact Us">Hubungi Kami</span>
                     <div class="box-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                         </svg>
                     </div>
@@ -335,9 +368,9 @@
 
                 <!-- Layanan Box -->
                 <button class="sidebar-box" data-drawer="drawer-services" aria-label="Akses Layanan">
-                    <span class="box-label" data-id="Layanan" data-en="Services">Layanan</span>
+                    <span class="box-label" data-id="Solusi &amp; Layanan" data-en="Solutions &amp; Services">Solusi &amp; Layanan</span>
                     <div class="box-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="3" />
                             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
                         </svg>
@@ -346,9 +379,9 @@
 
                 <!-- Dokumen Legal Box -->
                 <button class="sidebar-box" data-drawer="drawer-security" aria-label="Dokumen Legalitas & SOP">
-                    <span class="box-label" data-id="Dokumen Legal" data-en="Legal Docs">Dokumen Legal</span>
+                    <span class="box-label" data-id="Legalitas &amp; NIB" data-en="Legality &amp; NIB">Legalitas &amp; NIB</span>
                     <div class="box-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                             <polyline points="14 2 14 8 20 8" />
                             <line x1="16" y1="13" x2="8" y2="13" />
@@ -362,7 +395,7 @@
                 <a href="support/" class="sidebar-box" aria-label="Pusat Bantuan">
                     <span class="box-label" data-id="Pusat Bantuan" data-en="Help Center">Pusat Bantuan</span>
                     <div class="box-icon">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"/>
                             <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
                             <line x1="12" y1="17" x2="12.01" y2="17"/>
