@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Meldir | Mitra Pengembang & Pengelola Sistem Digital Terpercaya</title>
     <meta name="description"
-        content="Meldir adalah mitra pengembang dan pengelola sistem digital terpercaya berlegalitas resmi NIB 0709260111296. Melayani pembuatan, pemeliharaan, perawatan, dan modernisasi website, Web App (PWA), serta aplikasi mobile.">
+        content="Meldir adalah mitra pengembang dan pengelola sistem digital terpercaya berbadan hukum resmi PT Melayani Digital Raya (NIB 0709260111296 & SK Kemenkumham AHU-A104016.AH.01.30.Tahun 2026). Melayani pembuatan, pemeliharaan, perawatan, dan modernisasi website, Web App (PWA), serta aplikasi mobile.">
     <meta name="keywords"
-        content="pengembang website, kelola website, maintenance web, pwa, aplikasi android ios, modernisasi sistem, devops, sla monitoring, meldir, NIB 0709260111296">
-    <meta name="author" content="PT Meldir Digital Indonesia">
+        content="pengembang website, kelola website, maintenance web, pwa, aplikasi android ios, modernisasi sistem, devops, sla monitoring, meldir, NIB 0709260111296, SK Kemenkumham AHU">
+    <meta name="author" content="PT Melayani Digital Raya">
     <link rel="canonical" href="https://meldir.id/">
 
     <!-- Favicon & PWA Manifest -->
@@ -24,7 +24,7 @@
     <meta property="og:url" content="https://meldir.id/">
     <meta property="og:title" content="Meldir | Mitra Pengembang & Pengelola Sistem Digital Terpercaya">
     <meta property="og:description"
-        content="Mitra pengembang dan pemelihara sistem digital terpercaya dengan legalitas resmi NIB 0709260111296. Pembuatan, perawatan, dan scaling aplikasi bisnis.">
+        content="Mitra pengembang dan pemelihara sistem digital terpercaya berbadan hukum resmi PT Melayani Digital Raya (NIB 0709260111296 & SK Kemenkumham AHU-A104016.AH.01.30.Tahun 2026). Pembuatan, perawatan, dan scaling aplikasi bisnis.">
     <meta property="og:image" content="https://meldir.id/images/hero-bg.jpg">
     <meta name="twitter:card" content="summary_large_image">
 
@@ -42,10 +42,10 @@
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Meldir",
-      "legalName": "PT Meldir Digital Indonesia",
+      "legalName": "PT Melayani Digital Raya",
       "url": "https://meldir.id",
       "logo": "https://meldir.id/favicon.ico",
-      "identifier": "NIB 0709260111296",
+      "identifier": "NIB 0709260111296 | SK Kemenkumham AHU-A104016.AH.01.30.Tahun 2026",
       "description": "Mitra pengembang dan pengelola sistem digital terpercaya.",
       "contactPoint": {
         "@type": "ContactPoint",
@@ -67,7 +67,7 @@
             <a href="./" class="cockpit-brand" id="logo-link" aria-label="Meldir Beranda">
                 <img src="icons/icon-192.png" alt="meldir.id logo" class="logo-icon">
                 <span class="logo-text">meldir<span class="logo-dot">.id</span></span>
-                <div class="cockpit-status-chip">
+                <div class="cockpit-status-chip desktop-status-chip">
                     <span class="cockpit-status-dot"></span>
                     <span data-id="SLA 99.9% / Operasional" data-en="SLA 99.9% / Operational">SLA 99.9% / Operasional</span>
                 </div>
@@ -115,6 +115,21 @@
             </div>
         </header>
 
+        <!-- Mobile Status & Legal Subbar (Visible only on mobile <= 900px, placed in the open space directly below navbar) -->
+        <div class="cockpit-mobile-subbar" id="cockpit-mobile-subbar">
+            <div class="mobile-sla-chip" data-drawer="drawer-services" role="button" tabindex="0" aria-label="Status SLA">
+                <span class="cockpit-status-dot"></span>
+                <span data-id="SLA 99.9% / Operasional" data-en="SLA 99.9% / Operational">SLA 99.9% / Operasional</span>
+            </div>
+            <div class="mobile-subbar-divider">•</div>
+            <div class="mobile-legal-chip" data-drawer="drawer-security" role="button" tabindex="0" aria-label="Legalitas NIB &amp; SK Kemenkumham">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                <span data-id="SK Kemenkumham &amp; NIB Resmi" data-en="Decree AHU &amp; Official NIB">SK Kemenkumham &amp; NIB Resmi</span>
+            </div>
+        </div>
+
         <!-- ==================== 2. MAIN COCKPIT DECK ARENA ==================== -->
         <main class="cockpit-main" id="hero">
 
@@ -126,7 +141,7 @@
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                         </svg>
-                        <span data-id="NIB: 0709260111296 | Badan Hukum Terdaftar Resmi RI" data-en="NIB: 0709260111296 | Officially Registered Corporate Entity">NIB: 0709260111296 | Badan Hukum Terdaftar Resmi RI</span>
+                        <span data-id="SK Kemenkum: AHU &amp; NIB 0709260111296 | Badan Usaha Resmi" data-en="Decree AHU &amp; NIB 0709260111296 | Official Corporate PT">SK Kemenkum: AHU &amp; NIB 0709260111296 | Badan Usaha Resmi</span>
                     </div>
 
                     <!-- Main Headline -->
@@ -168,7 +183,7 @@
                         <span class="stepper-arrow">→</span>
                         <div class="stepper-node">
                             <span class="stepper-node-num">2</span>
-                            <span data-id="SPK &amp; Roadmap" data-en="Agreement &amp; Plan">SPK &amp; Roadmap</span>
+                            <span data-id="Kontrak &amp; Roadmap" data-en="Contract &amp; Roadmap">Kontrak &amp; Roadmap</span>
                         </div>
                         <span class="stepper-arrow">→</span>
                         <div class="stepper-node">
@@ -178,7 +193,7 @@
                         <span class="stepper-arrow">→</span>
                         <div class="stepper-node">
                             <span class="stepper-node-num">4</span>
-                            <span data-id="BAST &amp; Garansi" data-en="BAST &amp; Warranty">BAST &amp; Garansi</span>
+                            <span data-id="Serah Terima &amp; Garansi" data-en="Handover &amp; Warranty">Serah Terima &amp; Garansi</span>
                         </div>
                     </div>
                 </div>
@@ -194,12 +209,12 @@
                         <span class="metric-lbl" data-id="Hak Milik Source Code" data-en="Source Code Ownership">Hak Milik Source Code</span>
                     </div>
                     <div class="metric-box">
-                        <span class="metric-val">NIB Resmi</span>
-                        <span class="metric-lbl" data-id="Legalitas 0709260111296" data-en="Legality 0709260111296">Legalitas 0709260111296</span>
+                        <span class="metric-val">NIB &amp; AHU</span>
+                        <span class="metric-lbl" data-id="Legalitas PT Resmi RI" data-en="Official Legal PT">Legalitas PT Resmi RI</span>
                     </div>
                     <div class="metric-box">
                         <span class="metric-val">Garansi Bug</span>
-                        <span class="metric-lbl" data-id="Didukung SPK &amp; BAST" data-en="Backed by SPK &amp; BAST">Didukung SPK &amp; BAST</span>
+                        <span class="metric-lbl" data-id="Didukung Kepastian Hukum" data-en="Backed by Legal Contracts">Didukung Kepastian Hukum</span>
                     </div>
                 </div>
             </div>
@@ -232,7 +247,7 @@
                             <span class="code-kw">const</span> <span class="code-id">stack</span> = [<span class="code-str">"PWA"</span>, <span class="code-str">"iOS/Android"</span>, <span class="code-str">"Cloud SLA 99.9%"</span>];
                         </div>
                         <div class="terminal-code-line">
-                            <span class="code-kw">const</span> <span class="code-id">compliance</span> = { <span class="code-prop">NIB</span>: <span class="code-str">"0709260111296"</span>, <span class="code-prop">codeOwner</span>: <span class="code-str">"100% Client"</span> };
+                            <span class="code-kw">const</span> <span class="code-id">legal</span> = { <span class="code-prop">PT</span>: <span class="code-str">"Melayani Digital Raya"</span>, <span class="code-prop">NIB</span>: <span class="code-str">"0709260111296"</span>, <span class="code-prop">AHU</span>: <span class="code-str">"2026"</span> };
                         </div>
                         <div class="terminal-code-line">
                             <span class="code-kw">function</span> <span class="code-fn">orchestrateSystem</span>(<span class="code-param">app</span>) {
@@ -249,7 +264,7 @@
                         </div>
                         <div class="terminal-footer-meta">
                             <span class="terminal-meta-dot green">✓</span>
-                            <span data-id="NIB 0709260111296 Terdaftar" data-en="Verified NIB 0709260111296">NIB 0709260111296 Terdaftar</span>
+                            <span data-id="NIB 0709260111296 &amp; SK Kemenkum Terdaftar" data-en="Verified NIB &amp; Ministry Decree AHU">NIB 0709260111296 &amp; SK Kemenkum Terdaftar</span>
                         </div>
                     </div>
                 </div>
@@ -285,11 +300,11 @@
                                     <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                                 </svg>
                             </div>
-                            <span class="bento-tag" data-id="Legalitas NIB" data-en="Verified NIB">Legalitas NIB</span>
+                            <span class="bento-tag" data-id="Badan Hukum Resmi" data-en="Official Legal Entity">Badan Hukum Resmi</span>
                         </div>
                         <div class="bento-card-body">
-                            <h2 class="bento-title" data-id="NIB &amp; Tata Kelola SOP" data-en="NIB &amp; SOP Governance">NIB &amp; Tata Kelola SOP</h2>
-                            <p class="bento-desc" data-id="NIB 0709260111296, SOP internal, SPK &amp; BAST resmi." data-en="NIB 0709260111296, internal SOP, SPK &amp; BAST.">NIB 0709260111296, SOP internal, SPK &amp; BAST resmi.</p>
+                            <h2 class="bento-title" data-id="NIB &amp; SK Kemenkumham" data-en="NIB &amp; Ministry Decree">NIB &amp; SK Kemenkumham</h2>
+                            <p class="bento-desc" data-id="PT Melayani Digital Raya: NIB 0709260111296 &amp; SK Kemenkumham AHU-A104016." data-en="PT Melayani Digital Raya: NIB 0709260111296 &amp; Ministry Decree AHU-A104016.">PT Melayani Digital Raya: NIB 0709260111296 &amp; SK Kemenkumham AHU-A104016.</p>
                         </div>
                         <span class="bento-action"><span data-id="Lihat Legalitas" data-en="View Legal Docs">Lihat Legalitas</span> →</span>
                     </div>
@@ -378,8 +393,8 @@
                 </button>
 
                 <!-- Dokumen Legal Box -->
-                <button class="sidebar-box" data-drawer="drawer-security" aria-label="Dokumen Legalitas & SOP">
-                    <span class="box-label" data-id="Legalitas &amp; NIB" data-en="Legality &amp; NIB">Legalitas &amp; NIB</span>
+                <button class="sidebar-box" data-drawer="drawer-security" aria-label="Legalitas NIB &amp; SK Kemenkumham">
+                    <span class="box-label" data-id="Legalitas PT &amp; AHU" data-en="PT Legality &amp; AHU">Legalitas PT &amp; AHU</span>
                     <div class="box-icon">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -412,16 +427,14 @@
                 <span data-id="Perizinan Berusaha Terverifikasi RI" data-en="Officially Verified Business Licensing">Perizinan Berusaha Terverifikasi RI</span>
             </div>
             <div class="ticker-center">
-                <a class="ticker-link" data-drawer="drawer-security" data-id="SOP Tata Kelola" data-en="Governance SOP">SOP Tata Kelola</a>
+                <span class="ticker-decree" data-id="SK Kemenkumham RI: AHU-A104016.AH.01.30.Tahun 2026" data-en="Ministry of Law Decree: AHU-A104016.AH.01.30.Tahun 2026">SK Kemenkumham RI: AHU-A104016.AH.01.30.Tahun 2026</span>
                 <span>•</span>
-                <a class="ticker-link" data-drawer="drawer-security" data-id="Template SPK" data-en="SPK Template">Template SPK</a>
-                <span>•</span>
-                <a class="ticker-link" data-drawer="drawer-security" data-id="Template BAST" data-en="BAST Template">Template BAST</a>
+                <a class="ticker-link" data-drawer="drawer-security" data-id="Perjanjian Kerahasiaan (NDA)" data-en="Non-Disclosure Agreement (NDA)">Perjanjian Kerahasiaan (NDA)</a>
                 <span>•</span>
                 <a class="ticker-link" data-drawer="drawer-services" data-id="Monitoring SLA 99.9%" data-en="99.9% SLA Monitoring">Monitoring SLA 99.9%</a>
             </div>
             <div class="ticker-right">
-                <span data-id="&copy; 2026 PT Meldir Digital Indonesia." data-en="&copy; 2026 PT Meldir Digital Indonesia.">&copy; 2026 PT Meldir Digital Indonesia.</span>
+                <span data-id="&copy; 2026 PT Melayani Digital Raya." data-en="&copy; 2026 PT Melayani Digital Raya.">&copy; 2026 PT Melayani Digital Raya.</span>
             </div>
         </footer>
 
@@ -562,12 +575,12 @@
         </div>
     </div>
 
-    <!-- DRAWER 2: SECURITY & LEGALITAS (NIB 0709260111296, SOP, SPK, BAST) -->
+    <!-- DRAWER 2: SECURITY & LEGALITAS (PT Melayani Digital Raya, SK Kemenkumham AHU, NIB 0709260111296) -->
     <div class="cockpit-drawer" id="drawer-security" role="dialog" aria-modal="true" aria-labelledby="drawer-security-title">
         <div class="drawer-header">
             <div class="drawer-header-info">
                 <span class="drawer-badge" data-id="Legalitas &amp; Kepatuhan Resmi" data-en="Official Legality &amp; Compliance">Legalitas &amp; Kepatuhan Resmi</span>
-                <h2 class="drawer-title" id="drawer-security-title" data-id="Legalitas NIB &amp; Tata Kelola" data-en="NIB Legality &amp; Governance">Legalitas NIB &amp; Tata Kelola</h2>
+                <h2 class="drawer-title" id="drawer-security-title" data-id="Legalitas PT, NIB &amp; SK Kemenkumham" data-en="Corporate PT, NIB &amp; Ministry Decree">Legalitas PT, NIB &amp; SK Kemenkumham</h2>
             </div>
             <button class="drawer-close-btn" aria-label="Tutup Panel">✕</button>
         </div>
@@ -578,57 +591,56 @@
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0060af" stroke-width="2.5">
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                     </svg>
-                    <span class="font-bold text-blue-900 text-sm" data-id="Nomor Induk Berusaha (NIB) Resmi RI" data-en="Official Indonesian Business ID (NIB)">Nomor Induk Berusaha (NIB) Resmi RI</span>
+                    <span class="font-bold text-blue-900 text-sm" data-id="Badan Hukum Resmi &amp; Terverifikasi RI" data-en="Officially Verified Indonesian Corporate Entity">Badan Hukum Resmi &amp; Terverifikasi RI</span>
                 </div>
                 <div class="drawer-nib-number">0709260111296</div>
                 <p class="drawer-card-desc"
-                    data-id="Meldir beroperasi di bawah legalitas resmi Republik Indonesia melalui Sistem Online Single Submission (OSS). Setiap kerja sama didukung oleh kepastian hukum, NPWP perusahaan, dan izin usaha resmi."
-                    data-en="Meldir operates under official Indonesian legal framework via the Online Single Submission (OSS) system. Every partnership is backed by legal certainty, corporate tax IDs, and official business licensing.">
-                    Meldir beroperasi di bawah legalitas resmi Republik Indonesia melalui Sistem Online Single Submission (OSS). Setiap kerja sama didukung oleh kepastian hukum, NPWP perusahaan, dan izin usaha resmi.
+                    data-id="Meldir beroperasi penuh di bawah naungan perseroan terbatas resmi Republik Indonesia melalui Sistem Online Single Submission (OSS). Setiap kerja sama didukung oleh kepastian hukum, NPWP perusahaan, dan izin usaha resmi."
+                    data-en="Meldir operates fully under an official Indonesian corporate entity via the Online Single Submission (OSS) system. Every partnership is backed by legal certainty, corporate tax IDs, and official business licensing.">
+                    Meldir beroperasi penuh di bawah naungan perseroan terbatas resmi Republik Indonesia melalui Sistem Online Single Submission (OSS). Setiap kerja sama didukung oleh kepastian hukum, NPWP perusahaan, dan izin usaha resmi.
                 </p>
             </div>
 
-            <!-- SOP & Documents Section -->
-            <div class="drawer-card">
-                <h3 class="drawer-card-title mb-2" data-id="SOP &amp; Template Kontrak Kerja Terstandar" data-en="Standardized SOP &amp; Contract Templates">SOP &amp; Template Kontrak Kerja Terstandar</h3>
-                <p class="drawer-card-desc"
-                    data-id="Kami menerapkan transparansi penuh dalam tata kelola internal dan hubungan kontraktual dengan klien. Dokumen SOP dan format kontrak dapat diakses secara terbuka:"
-                    data-en="We implement full transparency in internal governance and contractual client relationships. SOP documents and contract templates are openly accessible:">
-                    Kami menerapkan transparansi penuh dalam tata kelola internal dan hubungan kontraktual dengan klien. Dokumen SOP dan format kontrak dapat diakses secara terbuka:
+            <!-- Official Legal Entity & Credentials Card -->
+            <div class="drawer-card drawer-legal-card">
+                <h3 class="drawer-card-title mb-2" data-id="Legalitas Perusahaan Terdaftar" data-en="Registered Corporate Credentials">Legalitas Perusahaan Terdaftar</h3>
+                <p class="drawer-card-desc mb-3"
+                    data-id="Berikut data legalitas resmi PT. Melayani Digital Raya yang terdaftar pada Kementerian Hukum dan Hak Asasi Manusia Republik Indonesia:"
+                    data-en="Official corporate credentials of PT. Melayani Digital Raya registered with the Ministry of Law and Human Rights Republic of Indonesia:">
+                    Berikut data legalitas resmi PT. Melayani Digital Raya yang terdaftar pada Kementerian Hukum dan Hak Asasi Manusia Republik Indonesia:
                 </p>
 
-                <a href="docs/SOP_TATA_KELOLA_PERATURAN_INTERNAL.md" target="_blank" class="drawer-link-item">
-                    <div>
-                        <span class="drawer-link-title" data-id="SOP Tata Kelola &amp; Peraturan Internal" data-en="Internal Governance &amp; Operational SOP">SOP Tata Kelola &amp; Peraturan Internal</span>
-                        <span class="drawer-link-desc" data-id="Standar keselamatan kode, kerahasiaan &amp; integritas tim" data-en="Code security, confidentiality &amp; team integrity standards">Standar keselamatan kode, kerahasiaan &amp; integritas tim</span>
+                <div class="drawer-credential-table">
+                    <div class="drawer-credential-row">
+                        <span class="credential-label" data-id="Nama Perusahaan" data-en="Company Name">Nama Perusahaan</span>
+                        <span class="credential-val font-bold">PT. Melayani Digital Raya</span>
                     </div>
-                    <span class="text-blue-600 font-bold text-sm">Lihat →</span>
-                </a>
-
-                <a href="docs/TEMPLATE_SPK.md" target="_blank" class="drawer-link-item">
-                    <div>
-                        <span class="drawer-link-title" data-id="Template Surat Perjanjian Kerja (SPK)" data-en="Contract Agreement Template (SPK)">Template Surat Perjanjian Kerja (SPK)</span>
-                        <span class="drawer-link-desc" data-id="Kepastian ruang lingkup, jadwal, SLA, dan hak cipta klien" data-en="Scope certainty, schedule, SLA, and client copyright">Kepastian ruang lingkup, jadwal, SLA, dan hak cipta klien</span>
+                    <div class="drawer-credential-row">
+                        <span class="credential-label" data-id="SK Kemenkumham RI" data-en="Ministry Decree (AHU)">SK Kemenkumham RI</span>
+                        <span class="credential-val font-bold text-blue-600">AHU-A104016.AH.01.30.Tahun 2026</span>
                     </div>
-                    <span class="text-blue-600 font-bold text-sm">Lihat →</span>
-                </a>
-
-                <a href="docs/TEMPLATE_BAST.md" target="_blank" class="drawer-link-item">
-                    <div>
-                        <span class="drawer-link-title" data-id="Template Berita Acara Serah Terima (BAST)" data-en="Handover Certificate Template (BAST)">Template Berita Acara Serah Terima (BAST)</span>
-                        <span class="drawer-link-desc" data-id="Bukti serah terima kode sumber utuh &amp; aktivasi garansi" data-en="Proof of full source code handover &amp; warranty activation">Bukti serah terima kode sumber utuh &amp; aktivasi garansi</span>
+                    <div class="drawer-credential-row">
+                        <span class="credential-label" data-id="Nomor Induk Berusaha (NIB)" data-en="Business ID (NIB)">Nomor Induk Berusaha (NIB)</span>
+                        <span class="credential-val font-bold text-emerald-600">0709260111296</span>
                     </div>
-                    <span class="text-blue-600 font-bold text-sm">Lihat →</span>
-                </a>
+                    <div class="drawer-credential-row">
+                        <span class="credential-label" data-id="Sistem Registrasi Usaha" data-en="Registration Authority">Sistem Registrasi Usaha</span>
+                        <span class="credential-val" data-id="Online Single Submission (OSS) BKPM RI" data-en="Online Single Submission (OSS) BKPM RI">Online Single Submission (OSS) BKPM RI</span>
+                    </div>
+                    <div class="drawer-credential-row">
+                        <span class="credential-label" data-id="Status Perpajakan" data-en="Tax Compliance">Status Perpajakan</span>
+                        <span class="credential-val" data-id="NPWP Badan Usaha Terdaftar Resmi DJP" data-en="Registered Corporate Tax ID DJP">NPWP Badan Usaha Terdaftar Resmi DJP</span>
+                    </div>
+                </div>
             </div>
 
             <!-- Data Protection & NDA -->
             <div class="drawer-card">
-                <h3 class="drawer-card-title mb-2" data-id="Perjanjian Kerahasiaan (NDA) &amp; Privasi" data-en="Non-Disclosure Agreement (NDA) &amp; Privacy">Perjanjian Kerahasiaan (NDA) &amp; Privasi</h3>
+                <h3 class="drawer-card-title mb-2" data-id="Perjanjian Kerahasiaan (NDA) &amp; Hak Cipta Klien" data-en="Non-Disclosure Agreement (NDA) &amp; Client IP">Perjanjian Kerahasiaan (NDA) &amp; Hak Cipta Klien</h3>
                 <p class="drawer-card-desc"
-                    data-id="Seluruh database, kredensial server, logika bisnis, dan data klien Anda dilindungi oleh klausul Non-Disclosure Agreement (NDA) yang mengikat secara hukum. Tidak ada data yang dibagikan kepada pihak ketiga tanpa izin tertulis."
-                    data-en="All your databases, server credentials, business logic, and client data are protected under legally binding Non-Disclosure Agreement (NDA) clauses. Zero data is shared with third parties without written authorization.">
-                    Seluruh database, kredensial server, logika bisnis, dan data klien Anda dilindungi oleh klausul Non-Disclosure Agreement (NDA) yang mengikat secara hukum. Tidak ada data yang dibagikan kepada pihak ketiga tanpa izin tertulis.
+                    data-id="Seluruh database, kredensial server, logika bisnis, dan data klien Anda dilindungi oleh klausul Non-Disclosure Agreement (NDA) yang mengikat secara hukum. Source code dan aset digital yang dikembangkan 100% dialihkan menjadi hak milik klien secara sah pasca-serah terima."
+                    data-en="All your databases, server credentials, business logic, and client data are protected under legally binding Non-Disclosure Agreement (NDA) clauses. All developed source code and digital assets are 100% transferred to client ownership post-handover.">
+                    Seluruh database, kredensial server, logika bisnis, dan data klien Anda dilindungi oleh klausul Non-Disclosure Agreement (NDA) yang mengikat secara hukum. Source code dan aset digital yang dikembangkan 100% dialihkan menjadi hak milik klien secara sah pasca-serah terima.
                 </p>
             </div>
         </div>
@@ -636,9 +648,9 @@
             <a href="privacy/" class="btn btn-secondary">
                 <span data-id="Kebijakan Privasi Lengkap →" data-en="Full Privacy Policy →">Kebijakan Privasi Lengkap →</span>
             </a>
-            <a href="https://wa.me/628213173357?text=Halo%20meldir.id,%20saya%20ingin%20berdiskusi%20mengenai%20aspek%20legal%20dan%20SPK%20proyek."
+            <a href="https://wa.me/628213173357?text=Halo%20meldir.id,%20saya%20ingin%20berdiskusi%20mengenai%20aspek%20legal%20dan%20kontrak%20kerja%20sama."
                 class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-                <span data-id="Ajukan Perjanjian SPK" data-en="Request SPK Agreement">Ajukan Perjanjian SPK</span>
+                <span data-id="Konsultasi Legal &amp; Kontrak" data-en="Legal &amp; Contract Consultation">Konsultasi Legal &amp; Kontrak</span>
             </a>
         </div>
     </div>
@@ -695,7 +707,7 @@
                 <div class="drawer-comp-grid">
                     <div class="drawer-comp-col meldir">
                         <span class="drawer-comp-label">Meldir:</span>
-                        <span data-id="Perusahaan resmi ber-NIB 0709260111296 dengan SPK formal, SLA tertulis, dan BAST bertanda tangan." data-en="Official company with NIB 0709260111296, formal SPK contracts, written SLAs, and signed BAST.">Perusahaan resmi ber-NIB 0709260111296 dengan SPK formal, SLA tertulis, dan BAST bertanda tangan.</span>
+                        <span data-id="Perusahaan resmi berbadan hukum PT. Melayani Digital Raya (NIB: 0709260111296 &amp; SK Kemenkumham RI), dengan kontrak formal mengikat, SLA tertulis, dan Berita Acara resmi." data-en="Official corporate entity PT. Melayani Digital Raya (NIB: 0709260111296 &amp; Ministry of Law Decree), with binding formal contracts, written SLAs, and official handover certificates.">Perusahaan resmi berbadan hukum PT. Melayani Digital Raya (NIB: 0709260111296 &amp; SK Kemenkumham RI), dengan kontrak formal mengikat, SLA tertulis, dan Berita Acara resmi.</span>
                     </div>
                     <div class="drawer-comp-col vendor">
                         <span class="drawer-comp-label">Vendor Biasa:</span>
@@ -710,7 +722,7 @@
                 <div class="drawer-comp-grid">
                     <div class="drawer-comp-col meldir">
                         <span class="drawer-comp-label">Meldir:</span>
-                        <span data-id="Biaya fixed dan transparan sesuai SPK. Garansi perbaikan bug aktif pasca-serah terima." data-en="Fixed, transparent pricing per agreement. Active post-handover bug warranty.">Biaya fixed dan transparan sesuai SPK. Garansi perbaikan bug aktif pasca-serah terima.</span>
+                        <span data-id="Biaya fixed dan transparan tertulis di kontrak. Garansi perbaikan bug aktif pasca-serah terima." data-en="Fixed, transparent pricing stipulated in contract. Active post-handover bug warranty.">Biaya fixed dan transparan tertulis di kontrak. Garansi perbaikan bug aktif pasca-serah terima.</span>
                     </div>
                     <div class="drawer-comp-col vendor">
                         <span class="drawer-comp-label">Vendor Biasa:</span>
@@ -755,11 +767,11 @@
             <div class="drawer-step-item">
                 <div class="drawer-step-num">2</div>
                 <div>
-                    <h3 class="drawer-step-title" data-id="Roadmap Jelas &amp; Penandatanganan SPK" data-en="Clear Roadmap &amp; Formal SPK Signing">Roadmap Jelas &amp; Penandatanganan SPK</h3>
+                    <h3 class="drawer-step-title" data-id="Roadmap Jelas &amp; Penandatanganan Kontrak Kerja" data-en="Clear Roadmap &amp; Contract Signing">Roadmap Jelas &amp; Penandatanganan Kontrak Kerja</h3>
                     <p class="drawer-step-desc"
-                        data-id="Penyusunan estimasi waktu realistis, perincian fitur, komitmen SLA, dan penandatanganan Surat Perjanjian Kerja (SPK) resmi berbadan hukum sebelum pekerjaan dimulai."
-                        data-en="Realistic timeline estimation, feature breakdowns, SLA commitments, and signing of official legally-binding contract (SPK) before work commences.">
-                        Penyusunan estimasi waktu realistis, perincian fitur, komitmen SLA, dan penandatanganan Surat Perjanjian Kerja (SPK) resmi berbadan hukum sebelum pekerjaan dimulai.
+                        data-id="Penyusunan estimasi waktu realistis, perincian fitur, komitmen SLA, dan penandatanganan Surat Perjanjian Kerja resmi berbadan hukum sebelum pekerjaan dimulai."
+                        data-en="Realistic timeline estimation, feature breakdowns, SLA commitments, and signing of official legally-binding contract before work commences.">
+                        Penyusunan estimasi waktu realistis, perincian fitur, komitmen SLA, dan penandatanganan Surat Perjanjian Kerja resmi berbadan hukum sebelum pekerjaan dimulai.
                     </p>
                 </div>
             </div>
@@ -781,11 +793,11 @@
             <div class="drawer-step-item">
                 <div class="drawer-step-num">4</div>
                 <div>
-                    <h3 class="drawer-step-title" data-id="Serah Terima Penuh (BAST) &amp; Garansi Aktif" data-en="Full Handover (BAST) &amp; Active Warranty">Serah Terima Penuh (BAST) &amp; Garansi Aktif</h3>
+                    <h3 class="drawer-step-title" data-id="Serah Terima Lengkap &amp; Garansi Aktif" data-en="Complete Handover &amp; Active Warranty">Serah Terima Lengkap &amp; Garansi Aktif</h3>
                     <p class="drawer-step-desc"
-                        data-id="Penyerahan 100% hak akses repository Git, kredensial produksi, penandatanganan Berita Acara Serah Terima (BAST), dan pengaktifan masa garansi bebas bug serta monitoring SLA."
-                        data-en="Full 100% handover of Git repositories, production credentials, signed BAST document, and activation of bug-free warranty and continuous SLA monitoring.">
-                        Penyerahan 100% hak akses repository Git, kredensial produksi, penandatanganan Berita Acara Serah Terima (BAST), dan pengaktifan masa garansi bebas bug serta monitoring SLA.
+                        data-id="Penyerahan 100% hak akses repository Git, kredensial produksi, penandatanganan Berita Acara Serah Terima resmi, serta pengaktifan masa garansi bebas bug dan monitoring SLA."
+                        data-en="Full 100% handover of Git repositories, production credentials, signed official Handover Certificate, and activation of bug-free warranty and continuous SLA monitoring.">
+                        Penyerahan 100% hak akses repository Git, kredensial produksi, penandatanganan Berita Acara Serah Terima resmi, serta pengaktifan masa garansi bebas bug dan monitoring SLA.
                     </p>
                 </div>
             </div>

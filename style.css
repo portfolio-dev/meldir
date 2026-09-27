@@ -3733,6 +3733,11 @@ body.cockpit-locked {
     50% { opacity: 0.5; transform: scale(0.85); }
 }
 
+/* Mobile Status Subbar - Hidden on Desktop */
+.cockpit-mobile-subbar {
+    display: none;
+}
+
 /* Segmented Cockpit Nav Switcher (Center) */
 .cockpit-nav-segments {
     display: flex;
@@ -4582,6 +4587,62 @@ body.cockpit-locked .sidebar-box:hover .box-label {
         margin-right: 0 !important;
     }
     
+    .desktop-status-chip {
+        display: none !important;
+    }
+    
+    /* Mobile Status & Legal Subbar (in open area below navbar) */
+    .cockpit-mobile-subbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 14px;
+        background: rgba(0, 24, 48, 0.98);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        flex-shrink: 0;
+        z-index: 80;
+        gap: 8px;
+    }
+    
+    .mobile-sla-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #34d399;
+        background: rgba(16, 185, 129, 0.12);
+        padding: 2px 8px;
+        border-radius: 9999px;
+        border: 1px solid rgba(16, 185, 129, 0.25);
+        cursor: pointer;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+    
+    .mobile-subbar-divider {
+        color: rgba(255, 255, 255, 0.2);
+        font-size: 0.7rem;
+    }
+    
+    .mobile-legal-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        color: #93c5fd;
+        font-size: 0.65rem;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .mobile-legal-chip svg {
+        color: #38bdf8;
+        flex-shrink: 0;
+    }
+    
     .cockpit-nav-segments {
         display: none;
     }
@@ -4864,6 +4925,51 @@ body.cockpit-locked .sidebar-box:hover .box-label {
     color: #005096;
     letter-spacing: 2px;
     margin: 6px 0 8px 0;
+}
+
+/* Official Legal Entity Credential Table */
+.drawer-credential-table {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-top: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.drawer-credential-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    padding-bottom: 7px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.drawer-credential-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.credential-label {
+    color: #64748b;
+    font-size: 0.76rem;
+    font-weight: 500;
+}
+
+.credential-val {
+    color: #0f172a;
+    font-size: 0.8rem;
+    text-align: right;
+}
+
+.ticker-decree {
+    color: #93c5fd;
+    font-weight: 600;
+    font-size: 0.72rem;
 }
 
 /* Document Links */
