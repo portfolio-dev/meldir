@@ -3934,30 +3934,39 @@ body.cockpit-locked {
     font-size: 0.8rem;
 }
 
-/* Enterprise Security Highlights (Desktop Feature Badges) */
+/* Enterprise Security Highlights (Desktop Feature Badges - Full Coverage 4x2 Grid) */
 .cockpit-security-badges {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 9px 16px;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 14px;
     background: linear-gradient(135deg, rgba(238, 246, 255, 0.95) 0%, rgba(228, 242, 255, 0.85) 100%);
     border: 1.5px solid rgba(0, 96, 175, 0.22);
-    border-radius: 12px;
+    border-radius: 14px;
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
-    margin-top: 6px;
+    margin-top: 4px;
     box-shadow: 0 2px 8px rgba(0, 96, 175, 0.05);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .cockpit-security-badges:hover {
-    background: #e5f1fc;
+    background: #e6f2fd;
     border-color: #0060af;
-    box-shadow: 0 4px 16px rgba(0, 96, 175, 0.15);
-    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 96, 175, 0.15);
+    transform: translateY(-1px);
 }
 
 .sec-badge-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.sec-header-left {
     display: flex;
     align-items: center;
     gap: 7px;
@@ -3965,52 +3974,90 @@ body.cockpit-locked {
     font-size: 0.82rem;
     font-weight: 750;
     white-space: nowrap;
-    flex-shrink: 0;
 }
 
-.sec-badge-header svg {
+.sec-header-left svg {
     color: #0060af;
     flex-shrink: 0;
 }
 
-.sec-badges-list {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 7px;
-}
-
-.sec-pill {
+.sec-header-link {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #0060af;
     display: inline-flex;
     align-items: center;
+    gap: 4px;
+    transition: color 0.15s ease;
+}
+
+.cockpit-security-badges:hover .sec-header-link {
+    color: #00407a;
+    text-decoration: underline;
+}
+
+/* 4x2 Grid filling 100% of width with zero empty space */
+.sec-badges-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 6px;
-    padding: 4px 11px;
+    width: 100%;
+}
+
+.sec-card {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 10px;
     background: #ffffff;
-    border: 1px solid rgba(0, 96, 175, 0.2);
-    border-radius: 9999px;
-    font-size: 0.76rem;
-    font-weight: 650;
-    color: #1e293b;
-    white-space: nowrap;
-    box-shadow: 0 1px 3px rgba(0, 34, 68, 0.04);
+    border: 1px solid rgba(0, 96, 175, 0.16);
+    border-radius: 9px;
+    box-shadow: 0 1px 3px rgba(0, 34, 68, 0.03);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 0;
+}
+
+.sec-card-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    background: #edf5fc;
+    color: #0060af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
     transition: all 0.2s ease;
 }
 
-.sec-pill svg {
-    color: #0060af;
-    flex-shrink: 0;
-    transition: color 0.2s ease;
+.sec-card-icon svg {
+    width: 12px;
+    height: 12px;
 }
 
-.sec-pill:hover {
-    border-color: #0060af;
+.sec-card-text {
+    font-size: 0.73rem;
+    font-weight: 650;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.2;
+}
+
+.sec-card:hover {
     background: #0060af;
-    color: #ffffff;
+    border-color: #0060af;
     transform: translateY(-1px);
-    box-shadow: 0 3px 8px rgba(0, 96, 175, 0.25);
+    box-shadow: 0 3px 10px rgba(0, 96, 175, 0.25);
 }
 
-.sec-pill:hover svg {
+.sec-card:hover .sec-card-icon {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+.sec-card:hover .sec-card-text {
     color: #ffffff;
 }
 
@@ -4659,15 +4706,33 @@ body.cockpit-locked .sidebar-box:hover .box-label {
         padding: 0 64px 0 18px;
     }
     .cockpit-security-badges {
-        padding: 3px 8px;
-        gap: 6px;
+        padding: 6px 10px;
+        gap: 5px;
+        margin-top: 2px;
     }
-    .sec-pill {
-        padding: 1px 6px;
-        font-size: 0.62rem;
+    .sec-badges-grid {
+        gap: 4px;
     }
-    .sec-badge-header {
-        font-size: 0.66rem;
+    .sec-card {
+        padding: 4px 6px;
+        gap: 5px;
+    }
+    .sec-card-icon {
+        width: 18px;
+        height: 18px;
+    }
+    .sec-card-icon svg {
+        width: 10px;
+        height: 10px;
+    }
+    .sec-card-text {
+        font-size: 0.65rem;
+    }
+    .sec-header-left {
+        font-size: 0.73rem;
+    }
+    .sec-header-link {
+        font-size: 0.65rem;
     }
 }
 
