@@ -19,7 +19,7 @@ Dalam hal ini bertindak untuk dan atas nama [Nama Perusahaan Klien], selanjutnya
 
 2. PIHAK KEDUA (PELAKSANA TUGAS / VENDOR)
 Nama Perusahaan            : PT. Melayani Digital Raya (MELDIR)
-SK Kemenkumham             : AHU-A104016.AH.01.30.Tahun 2026
+SK Kemenkum                 : AHU-A104016.AH.01.30.Tahun 2026
 NIB                        : 0709260111296
 Alamat Kantor Operasional  : Surabaya, Jawa Timur, Indonesia
 Website Resmi              : https://meldir.id
