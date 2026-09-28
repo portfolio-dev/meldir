@@ -3851,6 +3851,8 @@ body.cockpit-locked {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    flex: 1;
+    min-height: 0;
 }
 
 .cockpit-trust-badge {
@@ -4147,7 +4149,8 @@ button.sec-header-link:hover {
     background: linear-gradient(135deg, rgba(238, 246, 255, 0.95) 0%, rgba(228, 242, 255, 0.85) 100%);
     border: 1.5px solid rgba(0, 96, 175, 0.22);
     border-radius: 13px;
-    margin-top: 4px;
+    margin-top: auto;
+    margin-bottom: 0;
     box-shadow: 0 2px 8px rgba(0, 96, 175, 0.05);
     width: 100%;
     box-sizing: border-box;
@@ -4238,11 +4241,19 @@ button.gadgets-header-action:hover {
     overflow: visible;
 }
 
-/* Device: PC / Desktop */
-.device-pc {
+/* Device 1: PC / Desktop */
+.g-device-pc {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: auto !important;
+    height: auto !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
 }
 
 .pc-bezel {
@@ -4373,16 +4384,24 @@ button.gadgets-header-action:hover {
     border-radius: 1px;
 }
 
-/* Device: Tablet (Portrait iPad) */
-.device-tablet {
+/* Device 2: Tablet (Portrait iPad) */
+.g-device-tablet {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: auto !important;
+    height: auto !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
 }
 
 .tablet-bezel {
-    width: 35px;
-    height: 46px;
+    width: 34px;
+    height: 44px;
     background: #1e293b;
     border-radius: 6px;
     padding: 2px;
@@ -4482,16 +4501,24 @@ button.gadgets-header-action:hover {
     margin: 1px auto 0;
 }
 
-/* Device: Smartphone */
-.device-phone {
+/* Device 3: Smartphone */
+.g-device-phone {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    width: auto !important;
+    height: auto !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
 }
 
 .phone-bezel {
     width: 26px;
-    height: 46px;
+    height: 44px;
     background: #0f172a;
     border-radius: 7px;
     padding: 1.5px;
@@ -4634,29 +4661,39 @@ button.gadgets-header-action:hover {
     transform: translateX(-50%);
 }
 
-/* Device: Smartwatch (Apple Watch) */
-.device-watch {
+/* Device 4: Smartwatch (Apple Watch style) */
+.g-device-watch {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     position: relative;
+    width: auto !important;
+    height: auto !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
 }
 
-.watch-strap-top {
+.g-watch-strap-top {
     width: 13px;
-    height: 5px;
+    height: 4px;
     background: #334155;
     border-radius: 2px 2px 0 0;
+    flex-shrink: 0;
 }
 
-.watch-strap-bottom {
+.g-watch-strap-bottom {
     width: 13px;
-    height: 5px;
+    height: 4px;
     background: #334155;
     border-radius: 0 0 2px 2px;
+    flex-shrink: 0;
 }
 
-.watch-case {
+.g-watch-case {
     width: 28px;
     height: 34px;
     background: #0f172a;
@@ -4668,9 +4705,10 @@ button.gadgets-header-action:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
 }
 
-.watch-crown {
+.g-watch-crown {
     position: absolute;
     right: -2px;
     top: 11px;
@@ -4680,7 +4718,7 @@ button.gadgets-header-action:hover {
     border-radius: 1px;
 }
 
-.watch-screen {
+.g-watch-screen {
     width: 100%;
     height: 100%;
     background: #000000;
@@ -5406,7 +5444,8 @@ body.cockpit-locked .sidebar-box:hover .box-label {
     .cockpit-gadgets-showcase {
         padding: 5px 8px;
         gap: 3px;
-        margin-top: 2px;
+        margin-top: auto;
+        margin-bottom: 0;
     }
     .gadget-card {
         padding: 3px 2px 2px;
@@ -5414,26 +5453,26 @@ body.cockpit-locked .sidebar-box:hover .box-label {
     .gadget-screen-wrapper {
         height: 38px;
     }
-    .device-pc .pc-bezel {
-        width: 54px;
-        height: 30px;
-    }
-    .device-tablet .tablet-bezel {
-        width: 29px;
-        height: 38px;
-    }
-    .device-phone .phone-bezel {
-        width: 22px;
-        height: 38px;
-    }
-    .device-watch .watch-case {
-        width: 24px;
+    .g-device-pc .pc-bezel {
+        width: 52px;
         height: 29px;
     }
-    .device-watch .watch-strap-top,
-    .device-watch .watch-strap-bottom {
-        width: 11px;
-        height: 4px;
+    .g-device-tablet .tablet-bezel {
+        width: 28px;
+        height: 36px;
+    }
+    .g-device-phone .phone-bezel {
+        width: 22px;
+        height: 36px;
+    }
+    .g-device-watch .g-watch-case {
+        width: 22px;
+        height: 26px;
+    }
+    .g-device-watch .g-watch-strap-top,
+    .g-device-watch .g-watch-strap-bottom {
+        width: 10px;
+        height: 3px;
     }
     .gadget-name {
         font-size: 0.58rem;
