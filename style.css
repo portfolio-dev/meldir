@@ -3964,16 +3964,16 @@ body.cockpit-locked {
 .cockpit-security-badges {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 10px 14px;
+    gap: 6px;
+    padding: 8px 13px;
     background: linear-gradient(135deg, rgba(238, 246, 255, 0.95) 0%, rgba(228, 242, 255, 0.85) 100%);
     border: 1.5px solid rgba(0, 96, 175, 0.22);
     border-radius: 14px;
-    margin-top: 4px;
+    margin-top: 2px;
     box-shadow: 0 2px 8px rgba(0, 96, 175, 0.05);
     width: 100%;
     box-sizing: border-box;
-    flex-shrink: 1;
+    flex: 1;
     min-height: 0;
 }
 
@@ -4028,7 +4028,8 @@ button.sec-header-link:hover {
     flex-direction: column;
     gap: 4px;
     width: 100%;
-    max-height: clamp(68px, 10vh, 98px);
+    flex: 1;
+    min-height: 60px;
     overflow-y: auto;
     overflow-x: hidden;
     overscroll-behavior: contain;
@@ -4149,7 +4150,7 @@ button.sec-header-link:hover {
     background: linear-gradient(135deg, rgba(238, 246, 255, 0.95) 0%, rgba(228, 242, 255, 0.85) 100%);
     border: 1.5px solid rgba(0, 96, 175, 0.22);
     border-radius: 13px;
-    margin-top: auto;
+    margin-top: 6px;
     margin-bottom: 0;
     box-shadow: 0 2px 8px rgba(0, 96, 175, 0.05);
     width: 100%;
@@ -5412,9 +5413,13 @@ body.cockpit-locked .sidebar-box:hover .box-label {
         padding: 6px 10px;
         gap: 4px;
         margin-top: 2px;
+        flex: 1;
+        min-height: 0;
     }
     .sec-rows-container {
         gap: 3px;
+        flex: 1;
+        min-height: 48px;
     }
     .sec-row-item {
         padding: 3px 6px;
@@ -5444,7 +5449,7 @@ body.cockpit-locked .sidebar-box:hover .box-label {
     .cockpit-gadgets-showcase {
         padding: 5px 8px;
         gap: 3px;
-        margin-top: auto;
+        margin-top: 4px;
         margin-bottom: 0;
     }
     .gadget-card {
