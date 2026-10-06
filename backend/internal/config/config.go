@@ -29,7 +29,7 @@ func LoadConfig() *Config {
 		DBHost:         getEnv("DB_HOST", "127.0.0.1"),
 		DBPort:         getEnv("DB_PORT", "5432"),
 		DBUser:         getEnv("DB_USER", "meldir_user"),
-		DBPassword:     getEnv("DB_PASSWORD", "PasswordKuatAnda2026!"),
+		DBPassword:     getEnv("DB_PASSWORD", "MeldirPass2026"),
 		DBName:         getEnv("DB_NAME", "meldir_db"),
 		DBSSLMode:      getEnv("DB_SSLMODE", getEnv("SSL_MODE", "disable")),
 		RedisHost:      getEnv("REDIS_HOST", "127.0.0.1"),
