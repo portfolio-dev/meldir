@@ -1,9 +1,10 @@
 :root {
-  --bg-primary: #f8fafc;
+  --bg-primary: #edf2f7;        /* Soft cool slate canvas so cards stand out clearly */
   --bg-secondary: #ffffff;
-  --bg-card: #ffffff;
+  --bg-card: #ffffff;           /* Crisp solid white card surface */
+  --bg-card-subtle: #f8fafc;    /* Nested item/inner card background */
   --bg-card-hover: #f1f5f9;
-  --border-color: #e2e8f0;
+  --border-color: #cbd5e1;      /* Clear, defined slate border */
   --border-focus: #0284c7;
   --text-main: #0f172a;
   --text-muted: #64748b;
@@ -15,9 +16,9 @@
   --accent-rose: #e11d48;
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 10px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 10px 25px -3px rgba(15, 23, 42, 0.10), 0 4px 6px -4px rgba(15, 23, 42, 0.05);
 }
 
 * {
@@ -40,7 +41,7 @@ body {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
 }
 
 /* Compact Base Scale 80% Density Utility */

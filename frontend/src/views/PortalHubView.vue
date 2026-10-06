@@ -41,16 +41,16 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background-color: var(--bg-primary);
+  background-color: #edf2f7;
 }
 .hub-card {
   max-width: 900px;
   width: 100%;
   padding: 44px;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cbd5e1;
   border-radius: 16px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
 }
 .hub-header {
   text-align: center;
@@ -61,7 +61,7 @@
   font-weight: 800;
   letter-spacing: 0.08em;
   background: #f1f5f9;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cbd5e1;
   color: #334155;
   padding: 4px 14px;
   border-radius: 9999px;
@@ -90,15 +90,15 @@
   text-decoration: none;
   color: inherit;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cbd5e1;
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.06);
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 .portal-item:hover {
   transform: translateY(-3px);
   border-color: #0284c7;
-  box-shadow: 0 8px 16px -4px rgba(2, 132, 199, 0.12);
+  box-shadow: 0 8px 16px -4px rgba(2, 132, 199, 0.15);
   background: #f8fafc;
 }
 .portal-tag {

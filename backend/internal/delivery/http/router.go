@@ -9,11 +9,13 @@ import (
 
 	"meldir-backend/internal/delivery/http/handler"
 	"meldir-backend/internal/delivery/http/middleware"
+	"meldir-backend/internal/domain"
 )
 
 func NewRouter(
 	healthHandler *handler.HealthHandler,
 	authHandler *handler.AuthHandler,
+	userHandler *handler.UserHandler,
 	authMiddleware *middleware.AuthMiddleware,
 ) http.Handler {
 	mux := http.NewServeMux()
@@ -26,6 +28,13 @@ func NewRouter(
 	mux.HandleFunc("/api/v1/auth/login", authHandler.Login)
 	mux.HandleFunc("/api/v1/user/profile", authMiddleware.Authenticate(authHandler.GetProfile))
 	mux.HandleFunc("/api/v1/auth/logout", authMiddleware.Authenticate(authHandler.Logout))
+
+	// 3. User Management CRUD (Khusus Direktur Utama & Admin)
+	adminOnly := authMiddleware.RequireRoles(domain.RoleDirektur, domain.RoleAdmin)
+	mux.HandleFunc("/api/v1/users", adminOnly(userHandler.ListUsers))
+	mux.HandleFunc("/api/v1/users/create", adminOnly(userHandler.CreateUser))
+	mux.HandleFunc("/api/v1/users/update", adminOnly(userHandler.UpdateUser))
+	mux.HandleFunc("/api/v1/users/delete", adminOnly(userHandler.DeleteUser))
 
 	// Wrap with Global Middlewares (Recovery, CORS, Logging)
 	return withRecovery(withCORS(withLogging(mux)))

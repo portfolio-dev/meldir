@@ -38,3 +38,28 @@ type LoginResponse struct {
 	Token string `json:"token"`
 	User  User   `json:"user"`
 }
+
+type CreateUserRequest struct {
+	Name           string   `json:"name"`
+	Email          string   `json:"email"`
+	Password       string   `json:"password"`
+	Role           UserRole `json:"role"`
+	EngineerType   string   `json:"engineer_type"`
+	ClientType     string   `json:"client_type"`
+	PhoneWA        string   `json:"phone_wa"`
+	Status         string   `json:"status"`
+	GitHubUsername *string  `json:"github_username,omitempty"`
+}
+
+type UpdateUserRequest struct {
+	ID             int64    `json:"id"`
+	Name           string   `json:"name"`
+	Email          string   `json:"email"`
+	Password       string   `json:"password,omitempty"`
+	Role           UserRole `json:"role"`
+	EngineerType   string   `json:"engineer_type"`
+	ClientType     string   `json:"client_type"`
+	PhoneWA        string   `json:"phone_wa"`
+	Status         string   `json:"status"`
+	GitHubUsername *string  `json:"github_username,omitempty"`
+}

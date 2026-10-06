@@ -1,5 +1,5 @@
 <template>
-  <div class="login-card glass-panel">
+  <div class="login-card glass-panel" :class="portalBadgeClass">
     <div class="login-header">
       <span class="portal-badge" :class="portalBadgeClass">{{ portalName }}</span>
       <h2>Masuk ke Akun Anda</h2>
@@ -69,10 +69,14 @@ async function handleLogin() {
   margin: 32px auto;
   padding: 36px 32px;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cbd5e1;
   border-radius: 14px;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
 }
+.login-card.office { border-top: 4px solid #0284c7; }
+.login-card.jobs { border-top: 4px solid #4f46e5; }
+.login-card.portal { border-top: 4px solid #059669; }
+
 .login-header {
   text-align: center;
   margin-bottom: 24px;

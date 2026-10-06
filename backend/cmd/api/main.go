@@ -52,14 +52,16 @@ func main() {
 		userRepo = repository.NewUserRepository(db.Pool)
 	}
 	authUsecase := usecase.NewAuthUsecase(userRepo, jwtManager, redisClient)
+	userUsecase := usecase.NewUserUsecase(userRepo)
 
 	// 5. Inisialisasi Handlers & Middleware
 	healthHandler := handler.NewHealthHandler(cfg.Environment, db, dbErr, redisClient, redisErr)
 	authHandler := handler.NewAuthHandler(authUsecase)
+	userHandler := handler.NewUserHandler(userUsecase)
 	authMiddleware := middleware.NewAuthMiddleware(jwtManager, redisClient)
 
 	// 6. Setup Router
-	router := delivery.NewRouter(healthHandler, authHandler, authMiddleware)
+	router := delivery.NewRouter(healthHandler, authHandler, userHandler, authMiddleware)
 
 	server := &http.Server{
 		Addr:         fmt.Sprintf("0.0.0.0:%s", cfg.Port),

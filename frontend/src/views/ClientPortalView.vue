@@ -37,8 +37,19 @@
       </header>
 
       <main class="portal-main">
+        <!-- Direktur Ecosystem Bridge -->
+        <div v-if="authStore.user?.role === 'direktur'" class="director-banner glass-panel">
+          <div class="director-banner-content">
+            <span class="director-badge">👑 MODE DIREKTUR UTAMA</span>
+            <span>Anda sedang melihat tampilan Client Control Center. Anda memiliki hak akses penuh ke seluruh portal.</span>
+          </div>
+          <a href="https://office.meldir.id" class="btn-director-action">
+            🏛️ Kelola Akun & Manajemen di Office →
+          </a>
+        </div>
+
         <div class="grid-overview">
-          <div class="card glass-panel">
+          <div class="card glass-panel kpi-card-emerald">
             <div class="card-header">
               <h3>Kesehatan Server Klien</h3>
               <span class="tag tag-green">99.98% Uptime</span>
@@ -47,7 +58,7 @@
             <p class="kpi-desc">External probe otomatis berjalan setiap 5 menit</p>
           </div>
 
-          <div class="card glass-panel">
+          <div class="card glass-panel kpi-card-blue">
             <div class="card-header">
               <h3>Saldo Jam Add-On</h3>
               <span class="tag tag-blue">Metered</span>
@@ -56,7 +67,7 @@
             <p class="kpi-desc">Berlaku untuk penambahan fitur & optimasi</p>
           </div>
 
-          <div class="card glass-panel">
+          <div class="card glass-panel kpi-card-amber">
             <div class="card-header">
               <h3>Tagihan & e-Faktur</h3>
               <span class="tag tag-tax">PPN 11%</span>
@@ -112,7 +123,7 @@ onMounted(async () => {
   margin: 0 auto;
   padding: 24px;
   min-height: 100vh;
-  background-color: var(--bg-primary);
+  background-color: #edf2f7; /* Background abu-abu lembut agar card putih kontras */
 }
 
 /* Auth Unauthenticated Header */
@@ -149,13 +160,13 @@ onMounted(async () => {
   justify-content: space-between;
   align-items: center;
   padding: 16px 24px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
   gap: 16px;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cbd5e1;
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 .brand {
   display: flex;
@@ -183,7 +194,7 @@ onMounted(async () => {
   font-size: 0.75rem;
   font-family: var(--font-mono);
   background: #f1f5f9;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cbd5e1;
   padding: 2px 8px;
   border-radius: 4px;
   color: #475569;
@@ -250,7 +261,54 @@ onMounted(async () => {
   color: #be123c;
 }
 
-/* Grid & Cards */
+/* Direktur Bridge Banner */
+.director-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px;
+  margin-bottom: 20px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-left: 5px solid #0284c7;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.director-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.88rem;
+  color: #1e293b;
+}
+.director-badge {
+  background: #e0f2fe;
+  color: #0369a1;
+  font-weight: 800;
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.btn-director-action {
+  background: #0284c7;
+  color: #ffffff;
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(2, 132, 199, 0.25);
+}
+.btn-director-action:hover {
+  background: #0369a1;
+  transform: translateY(-1px);
+}
+
+/* Grid & Cards with Contrasting Surfaces */
 .grid-overview {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -260,10 +318,14 @@ onMounted(async () => {
 .card {
   padding: 24px;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cbd5e1;
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
 }
+.kpi-card-emerald { border-top: 4px solid #059669; }
+.kpi-card-blue { border-top: 4px solid #0284c7; }
+.kpi-card-amber { border-top: 4px solid #f59e0b; }
+
 .card-header {
   display: flex;
   justify-content: space-between;
@@ -306,9 +368,9 @@ onMounted(async () => {
 .section-panel {
   padding: 28px;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cbd5e1;
   border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
 }
 .section-panel h2 {
   font-size: 1.3rem;
