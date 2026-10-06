@@ -37,6 +37,10 @@ func NewAuthUsecase(
 }
 
 func (u *authUsecase) Login(ctx context.Context, req domain.LoginRequest) (*domain.LoginResponse, error) {
+	if u.userRepo == nil {
+		return nil, errors.New("koneksi basis data PostgreSQL belum terhubung. Periksa kredensial database di server")
+	}
+
 	if req.Email == "" || req.Password == "" {
 		return nil, errors.New("email dan password wajib diisi")
 	}

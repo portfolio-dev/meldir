@@ -11,27 +11,31 @@ import (
 )
 
 type HealthHandler struct {
-	env   string
-	db    *database.PostgresDB
-	redis *cache.RedisClient
+	env      string
+	db       *database.PostgresDB
+	dbErr    error
+	redis    *cache.RedisClient
+	redisErr error
 }
 
-func NewHealthHandler(env string, db *database.PostgresDB, redis *cache.RedisClient) *HealthHandler {
+func NewHealthHandler(env string, db *database.PostgresDB, dbErr error, redis *cache.RedisClient, redisErr error) *HealthHandler {
 	return &HealthHandler{
-		env:   env,
-		db:    db,
-		redis: redis,
+		env:      env,
+		db:       db,
+		dbErr:    dbErr,
+		redis:    redis,
+		redisErr: redisErr,
 	}
 }
 
 type HealthResponse struct {
-	Status      string                 `json:"status"`
-	Service     string                 `json:"service"`
-	Environment string                 `json:"environment"`
-	Host        string                 `json:"host"`
-	Timestamp   time.Time              `json:"timestamp"`
-	Version     string                 `json:"version"`
-	Databases   map[string]string      `json:"databases"`
+	Status      string            `json:"status"`
+	Service     string            `json:"service"`
+	Environment string            `json:"environment"`
+	Host        string            `json:"host"`
+	Timestamp   time.Time         `json:"timestamp"`
+	Version     string            `json:"version"`
+	Databases   map[string]string `json:"databases"`
 }
 
 func (h *HealthHandler) CheckHealth(w http.ResponseWriter, r *http.Request) {
@@ -43,8 +47,10 @@ func (h *HealthHandler) CheckHealth(w http.ResponseWriter, r *http.Request) {
 		if err := h.db.Pool.Ping(ctx); err != nil {
 			dbStatus = "error: " + err.Error()
 		}
+	} else if h.dbErr != nil {
+		dbStatus = "error: " + h.dbErr.Error()
 	} else {
-		dbStatus = "uninitialized"
+		dbStatus = "uninitialized (db is nil)"
 	}
 
 	redisStatus := "connected"
@@ -52,8 +58,10 @@ func (h *HealthHandler) CheckHealth(w http.ResponseWriter, r *http.Request) {
 		if err := h.redis.Client.Ping(ctx).Err(); err != nil {
 			redisStatus = "error: " + err.Error()
 		}
+	} else if h.redisErr != nil {
+		redisStatus = "error: " + h.redisErr.Error()
 	} else {
-		redisStatus = "uninitialized"
+		redisStatus = "uninitialized (redis is nil)"
 	}
 
 	overallStatus := "healthy"

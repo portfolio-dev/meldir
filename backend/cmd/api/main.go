@@ -28,17 +28,17 @@ func main() {
 	log.Printf("📍 Environment: %s | Port: %s", cfg.Environment, cfg.Port)
 
 	// 1. Inisialisasi Database PostgreSQL
-	db, err := database.NewPostgresDB(cfg)
-	if err != nil {
-		log.Printf("⚠️ Gagal inisialisasi PostgreSQL pool: %v", err)
+	db, dbErr := database.NewPostgresDB(cfg)
+	if dbErr != nil {
+		log.Printf("⚠️ Gagal inisialisasi PostgreSQL pool: %v", dbErr)
 	} else {
 		defer db.Close()
 	}
 
 	// 2. Inisialisasi Cache & Blacklist Redis
-	redisClient, err := cache.NewRedisClient(cfg)
-	if err != nil {
-		log.Printf("⚠️ Gagal inisialisasi Redis client: %v", err)
+	redisClient, redisErr := cache.NewRedisClient(cfg)
+	if redisErr != nil {
+		log.Printf("⚠️ Gagal inisialisasi Redis client: %v", redisErr)
 	} else {
 		defer redisClient.Close()
 	}
@@ -54,7 +54,7 @@ func main() {
 	authUsecase := usecase.NewAuthUsecase(userRepo, jwtManager, redisClient)
 
 	// 5. Inisialisasi Handlers & Middleware
-	healthHandler := handler.NewHealthHandler(cfg.Environment, db, redisClient)
+	healthHandler := handler.NewHealthHandler(cfg.Environment, db, dbErr, redisClient, redisErr)
 	authHandler := handler.NewAuthHandler(authUsecase)
 	authMiddleware := middleware.NewAuthMiddleware(jwtManager, redisClient)
 

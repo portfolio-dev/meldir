@@ -1,6 +1,9 @@
 package http
 
 import (
+	"encoding/json"
+	"fmt"
+	"log"
 	"net/http"
 	"strings"
 
@@ -24,8 +27,25 @@ func NewRouter(
 	mux.HandleFunc("/api/v1/user/profile", authMiddleware.Authenticate(authHandler.GetProfile))
 	mux.HandleFunc("/api/v1/auth/logout", authMiddleware.Authenticate(authHandler.Logout))
 
-	// Wrap with Global Middlewares (CORS, Logging, Recovery)
-	return withCORS(withLogging(mux))
+	// Wrap with Global Middlewares (Recovery, CORS, Logging)
+	return withRecovery(withCORS(withLogging(mux)))
+}
+
+func withRecovery(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		defer func() {
+			if rec := recover(); rec != nil {
+				log.Printf("🔥 Internal Server Panic: %v", rec)
+				w.Header().Set("Content-Type", "application/json")
+				w.WriteHeader(http.StatusInternalServerError)
+				_ = json.NewEncoder(w).Encode(map[string]interface{}{
+					"success": false,
+					"error":   fmt.Sprintf("Internal Server Error: %v", rec),
+				})
+			}
+		}()
+		next.ServeHTTP(w, r)
+	})
 }
 
 func withCORS(next http.Handler) http.Handler {

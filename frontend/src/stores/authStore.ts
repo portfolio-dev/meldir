@@ -29,6 +29,9 @@ export const useAuthStore = defineStore('auth', () => {
     isLoading.value = true
     errorMessage.value = null
 
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 10000)
+
     try {
       const response = await fetch('/api/v1/auth/login', {
         method: 'POST',
@@ -36,12 +39,19 @@ export const useAuthStore = defineStore('auth', () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
+        signal: controller.signal,
       })
+      clearTimeout(timeoutId)
 
-      const result = await response.json()
+      let result: any = null
+      try {
+        result = await response.json()
+      } catch (e) {
+        throw new Error(`Respon server tidak valid (HTTP ${response.status})`)
+      }
 
       if (!response.ok || !result.success) {
-        throw new Error(result.error || 'Login gagal, periksa email dan password')
+        throw new Error(result?.error || 'Login gagal, periksa email dan password')
       }
 
       token.value = result.data.token
@@ -52,9 +62,14 @@ export const useAuthStore = defineStore('auth', () => {
 
       return true
     } catch (err: any) {
-      errorMessage.value = err.message || 'Terjadi kesalahan jaringan'
+      if (err.name === 'AbortError') {
+        errorMessage.value = 'Koneksi waktu habis (10 detik). Server belum merespon.'
+      } else {
+        errorMessage.value = err.message || 'Terjadi kesalahan jaringan'
+      }
       return false
     } finally {
+      clearTimeout(timeoutId)
       isLoading.value = false
     }
   }
