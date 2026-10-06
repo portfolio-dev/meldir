@@ -41,11 +41,16 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
+  background-color: var(--bg-primary);
 }
 .hub-card {
   max-width: 900px;
   width: 100%;
-  padding: 40px;
+  padding: 44px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
 }
 .hub-header {
   text-align: center;
@@ -53,21 +58,25 @@
 }
 .badge {
   font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 4px 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  padding: 4px 14px;
   border-radius: 9999px;
   display: inline-block;
   margin-bottom: 12px;
 }
 .hub-header h1 {
-  font-size: 2rem;
+  font-size: 2.1rem;
   font-weight: 800;
+  color: #0f172a;
   margin-bottom: 8px;
 }
 .hub-header p {
-  color: var(--text-muted);
+  color: #64748b;
+  font-size: 1rem;
 }
 .portal-grid {
   display: grid;
@@ -77,44 +86,52 @@
 }
 .portal-item {
   display: block;
-  padding: 24px;
+  padding: 26px;
   text-decoration: none;
   color: inherit;
-  transition: transform 0.2s, border-color 0.2s, background 0.2s;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
 .portal-item:hover {
-  transform: translateY(-4px);
-  border-color: #38bdf8;
-  background: var(--bg-card-hover);
+  transform: translateY(-3px);
+  border-color: #0284c7;
+  box-shadow: 0 8px 16px -4px rgba(2, 132, 199, 0.12);
+  background: #f8fafc;
 }
 .portal-tag {
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   font-weight: 800;
-  padding: 2px 8px;
+  padding: 3px 10px;
   border-radius: 4px;
   display: inline-block;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  letter-spacing: 0.05em;
 }
-.tag-office { background: #0284c7; color: #fff; }
-.tag-jobs { background: #6366f1; color: #fff; }
-.tag-portal { background: #10b981; color: #fff; }
+.tag-office { background: #0284c7; color: #ffffff; }
+.tag-jobs { background: #4f46e5; color: #ffffff; }
+.tag-portal { background: #059669; color: #ffffff; }
 .portal-item h3 {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  font-weight: 700;
   margin-bottom: 8px;
-  color: #f8fafc;
+  color: #0f172a;
 }
 .portal-item p {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  line-height: 1.4;
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.5;
 }
 .hub-footer {
   text-align: center;
 }
 .back-link {
-  color: #38bdf8;
+  color: #0284c7;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
+  font-weight: 600;
 }
 .back-link:hover {
   text-decoration: underline;

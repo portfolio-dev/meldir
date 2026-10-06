@@ -112,6 +112,7 @@ onMounted(async () => {
   margin: 0 auto;
   padding: 24px;
   min-height: 100vh;
+  background-color: var(--bg-primary);
 }
 
 /* Auth Unauthenticated Header */
@@ -127,18 +128,18 @@ onMounted(async () => {
   font-size: 0.85rem;
   font-weight: 800;
   letter-spacing: 0.1em;
-  color: #10b981;
+  color: #059669;
   margin-bottom: 12px;
 }
 .auth-hero-header h1 {
   font-size: 1.85rem;
   font-weight: 800;
   margin-bottom: 8px;
-  color: #f8fafc;
+  color: #0f172a;
 }
 .auth-hero-header p {
-  font-size: 0.9rem;
-  color: var(--text-muted);
+  font-size: 0.95rem;
+  color: #64748b;
   line-height: 1.5;
 }
 
@@ -151,6 +152,10 @@ onMounted(async () => {
   margin-bottom: 24px;
   flex-wrap: wrap;
   gap: 16px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 .brand {
   display: flex;
@@ -159,7 +164,8 @@ onMounted(async () => {
 }
 .brand h1 {
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 800;
+  color: #0f172a;
   margin: 0;
 }
 .badge {
@@ -170,16 +176,17 @@ onMounted(async () => {
   letter-spacing: 0.05em;
 }
 .badge-portal {
-  background: #10b981;
-  color: #fff;
+  background: #059669;
+  color: #ffffff;
 }
 .host-tag {
   font-size: 0.75rem;
   font-family: var(--font-mono);
-  background: rgba(255, 255, 255, 0.06);
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
   padding: 2px 8px;
   border-radius: 4px;
-  color: var(--text-muted);
+  color: #475569;
 }
 
 /* User Profile Header Menu */
@@ -189,17 +196,17 @@ onMounted(async () => {
   gap: 14px;
 }
 .user-avatar-badge {
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #10b981, #059669);
-  color: #fff;
+  background: linear-gradient(135deg, #059669, #0284c7);
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 800;
-  font-size: 0.85rem;
-  box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
 }
 .user-meta {
   display: flex;
@@ -207,9 +214,9 @@ onMounted(async () => {
   text-align: left;
 }
 .user-name {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 700;
-  color: #f8fafc;
+  color: #0f172a;
 }
 .user-role-line {
   display: flex;
@@ -218,29 +225,29 @@ onMounted(async () => {
   font-size: 0.75rem;
 }
 .badge-role {
-  background: rgba(16, 185, 129, 0.15);
-  color: #34d399;
+  background: #d1fae5;
+  color: #065f46;
   padding: 1px 6px;
   border-radius: 4px;
-  font-weight: 600;
+  font-weight: 700;
 }
 .user-email {
-  color: var(--text-muted);
+  color: #64748b;
 }
 .btn-logout {
-  background: rgba(244, 63, 94, 0.12);
-  border: 1px solid rgba(244, 63, 94, 0.3);
-  color: #fb7185;
-  padding: 6px 12px;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  color: #e11d48;
+  padding: 6px 14px;
   border-radius: 6px;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
 }
 .btn-logout:hover {
-  background: rgba(244, 63, 94, 0.25);
-  color: #fff;
+  background: #ffe4e6;
+  color: #be123c;
 }
 
 /* Grid & Cards */
@@ -251,7 +258,11 @@ onMounted(async () => {
   margin-bottom: 24px;
 }
 .card {
-  padding: 20px;
+  padding: 24px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 .card-header {
   display: flex;
@@ -261,46 +272,53 @@ onMounted(async () => {
 }
 .card-header h3 {
   font-size: 0.95rem;
-  color: var(--text-muted);
+  color: #64748b;
+  font-weight: 600;
 }
 .kpi-value {
-  font-size: 1.5rem;
+  font-size: 1.85rem;
   font-weight: 800;
-  color: #f8fafc;
+  color: #0f172a;
   margin-bottom: 6px;
 }
 .kpi-desc {
-  font-size: 0.8rem;
-  color: var(--text-muted);
+  font-size: 0.82rem;
+  color: #64748b;
 }
 .tag {
-  font-size: 0.7rem;
-  background: rgba(255, 255, 255, 0.08);
-  padding: 2px 6px;
+  font-size: 0.72rem;
+  padding: 2px 8px;
   border-radius: 4px;
+  font-weight: 600;
 }
 .tag-green {
-  background: rgba(16, 185, 129, 0.2);
-  color: #34d399;
+  background: #d1fae5;
+  color: #065f46;
 }
 .tag-blue {
-  background: rgba(56, 189, 248, 0.2);
-  color: #38bdf8;
+  background: #e0f2fe;
+  color: #0369a1;
 }
 .tag-tax {
-  background: rgba(245, 158, 11, 0.15);
-  color: #f59e0b;
+  background: #fef3c7;
+  color: #92400e;
 }
 .section-panel {
-  padding: 24px;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 .section-panel h2 {
-  font-size: 1.25rem;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #0f172a;
   margin-bottom: 8px;
 }
 .section-desc {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.5;
+  color: #475569;
+  font-size: 0.92rem;
+  line-height: 1.6;
 }
 </style>

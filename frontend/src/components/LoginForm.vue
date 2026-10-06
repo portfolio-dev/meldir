@@ -40,13 +40,6 @@
         <span v-if="authStore.isLoading">Memverifikasi Sesi...</span>
         <span v-else>Masuk ke Dashboard →</span>
       </button>
-
-      <!-- Quick Fill Helper for Demo / Testing -->
-      <div class="quick-fill-box">
-        <button type="button" @click="fillDefaultSuperadmin" class="btn-quick-fill">
-          ⚡ Isi Cepat Akun Direktur Utama (Default)
-        </button>
-      </div>
     </form>
   </div>
 </template>
@@ -55,7 +48,7 @@
 import { ref } from 'vue'
 import { useAuthStore } from '../stores/authStore'
 
-const props = defineProps<{
+defineProps<{
   portalName: string
   portalBadgeClass?: string
 }>()
@@ -67,53 +60,52 @@ const password = ref('')
 async function handleLogin() {
   await authStore.login(email.value, password.value)
 }
-
-function fillDefaultSuperadmin() {
-  email.value = 'direktur@meldir.id'
-  password.value = 'MeldirAdmin2026!'
-}
 </script>
 
 <style scoped>
 .login-card {
   max-width: 440px;
   width: 100%;
-  margin: 40px auto;
+  margin: 32px auto;
   padding: 36px 32px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
 }
 .login-header {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 .portal-badge {
-  font-size: 0.7rem;
-  font-weight: 800;
-  padding: 3px 10px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 12px;
   border-radius: 9999px;
   display: inline-block;
   margin-bottom: 12px;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   background: #0284c7;
-  color: #fff;
+  color: #ffffff;
 }
 .portal-badge.office {
   background: #0284c7;
 }
 .portal-badge.jobs {
-  background: #6366f1;
+  background: #4f46e5;
 }
 .portal-badge.portal {
-  background: #10b981;
+  background: #059669;
 }
 .login-header h2 {
   font-size: 1.5rem;
   font-weight: 800;
-  color: var(--text-main);
+  color: #0f172a;
   margin-bottom: 6px;
 }
 .subtitle {
   font-size: 0.85rem;
-  color: var(--text-muted);
+  color: #64748b;
 }
 .login-form {
   display: flex;
@@ -121,13 +113,14 @@ function fillDefaultSuperadmin() {
   gap: 18px;
 }
 .error-banner {
-  background: rgba(244, 63, 94, 0.15);
-  border: 1px solid rgba(244, 63, 94, 0.4);
-  color: #fb7185;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
   padding: 10px 14px;
   border-radius: 8px;
   font-size: 0.85rem;
   line-height: 1.4;
+  font-weight: 500;
 }
 .form-group {
   display: flex;
@@ -136,63 +129,44 @@ function fillDefaultSuperadmin() {
   text-align: left;
 }
 .form-group label {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  color: #cbd5e1;
+  color: #334155;
 }
 .form-input {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
-  padding: 12px 14px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+  padding: 11px 14px;
   border-radius: 8px;
   font-family: inherit;
   font-size: 0.9rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
 }
 .form-input:focus {
   outline: none;
-  border-color: #38bdf8;
-  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+  background: #ffffff;
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
 }
 .btn-submit {
-  background: linear-gradient(135deg, #0284c7, #2563eb);
-  color: #fff;
+  background: #0284c7;
+  color: #ffffff;
   border: none;
   padding: 12px;
   border-radius: 8px;
   font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.1s;
+  transition: background 0.2s, transform 0.1s;
   margin-top: 6px;
 }
 .btn-submit:hover:not(:disabled) {
-  opacity: 0.95;
+  background: #0369a1;
   transform: translateY(-1px);
 }
 .btn-submit:disabled {
-  opacity: 0.6;
+  opacity: 0.65;
   cursor: not-allowed;
-}
-.quick-fill-box {
-  margin-top: 10px;
-  text-align: center;
-}
-.btn-quick-fill {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px dashed rgba(255, 255, 255, 0.2);
-  color: #94a3b8;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  cursor: pointer;
-  transition: all 0.2s;
-  width: 100%;
-}
-.btn-quick-fill:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #38bdf8;
-  border-color: #38bdf8;
 }
 </style>
