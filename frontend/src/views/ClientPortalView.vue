@@ -48,42 +48,420 @@
           </a>
         </div>
 
-        <div class="grid-overview">
-          <div class="card glass-panel kpi-card-emerald">
-            <div class="card-header">
-              <h3>Kesehatan Server Klien</h3>
-              <span class="tag tag-green">99.98% Uptime</span>
-            </div>
-            <div class="kpi-value">Live Online</div>
-            <p class="kpi-desc">External probe otomatis berjalan setiap 5 menit</p>
-          </div>
-
-          <div class="card glass-panel kpi-card-blue">
-            <div class="card-header">
-              <h3>Saldo Jam Add-On</h3>
-              <span class="tag tag-blue">Metered</span>
-            </div>
-            <div class="kpi-value">7.5 / 10 Jam</div>
-            <p class="kpi-desc">Berlaku untuk penambahan fitur & optimasi</p>
-          </div>
-
-          <div class="card glass-panel kpi-card-amber">
-            <div class="card-header">
-              <h3>Tagihan & e-Faktur</h3>
-              <span class="tag tag-tax">PPN 11%</span>
-            </div>
-            <div class="kpi-value">e-Faktur Sah</div>
-            <p class="kpi-desc">Unduh berkas PDF e-Faktur resmi DJP mandiri</p>
-          </div>
+        <!-- Navigation Tabs -->
+        <div class="module-nav-tabs">
+          <button
+            v-for="tab in tabs"
+            :key="tab.id"
+            :class="['nav-tab-btn', { active: activeTab === tab.id }]"
+            @click="activeTab = tab.id"
+          >
+            {{ tab.icon }} {{ tab.label }}
+          </button>
         </div>
 
-        <section class="section-panel glass-panel">
-          <h2>💼 Portal Layanan Klien (portal.meldir.id)</h2>
-          <p class="section-desc">
-            Layanan terpadu: Pengesahan Kontrak SPK Canvas & E-Materai, Tiket SLA 24 Jam, BAST Digital, dan Unduh Laporan Kinerja Bulanan Eksekutif.
-          </p>
-        </section>
+        <!-- Flash Notice -->
+        <div v-if="flashNotice" class="alert-banner success">
+          {{ flashNotice }}
+        </div>
+
+        <!-- TAB 1: OVERVIEW -->
+        <div v-if="activeTab === 'overview'" class="tab-content">
+          <div class="grid-overview">
+            <div class="card glass-panel kpi-card-emerald">
+              <div class="card-header">
+                <h3>Kesehatan Server Klien</h3>
+                <span class="tag tag-green">99.98% Uptime</span>
+              </div>
+              <div class="kpi-value">Live Online</div>
+              <p class="kpi-desc">External probe otomatis berjalan setiap 5 menit</p>
+            </div>
+
+            <div class="card glass-panel kpi-card-blue">
+              <div class="card-header">
+                <h3>Saldo Jam Add-On</h3>
+                <span class="tag tag-blue">Metered</span>
+              </div>
+              <div class="kpi-value">{{ currentQuota - usedHours }} / {{ currentQuota }} Jam</div>
+              <p class="kpi-desc">Sisa kuota berlaku untuk penambahan fitur & optimasi</p>
+            </div>
+
+            <div class="card glass-panel kpi-card-amber">
+              <div class="card-header">
+                <h3>Tiket Aktif SLA</h3>
+                <span class="tag tag-amber">SLA Berjalan</span>
+              </div>
+              <div class="kpi-value">{{ activeTicketsCount }} Tiket</div>
+              <p class="kpi-desc">Sedang ditangani oleh tim Core Engineer Meldir</p>
+            </div>
+
+            <div class="card glass-panel kpi-card-indigo">
+              <div class="card-header">
+                <h3>Tagihan & Faktur Pajak</h3>
+                <span class="tag tag-tax">PPN 11%</span>
+              </div>
+              <div class="kpi-value">Lunas Terlapor</div>
+              <p class="kpi-desc">Unduh berkas PDF e-Faktur resmi DJP mandiri</p>
+            </div>
+          </div>
+
+          <section class="section-panel glass-panel">
+            <h2>💼 Pusat Layanan Managed Care PT. Melayani Digital Raya</h2>
+            <p class="section-desc">
+              Portal kendali terpadu: Pengesahan Kontrak SPK Canvas & E-Materai, Tiket SLA 24 Jam, Transparansi Jam Kerja Engineer, dan Unduh Laporan Kinerja Bulanan Eksekutif.
+            </p>
+            <div class="quick-links-grid">
+              <div class="quick-card" @click="activeTab = 'tickets'" style="cursor: pointer;">
+                <h4>🎫 Buat Tiket Dukungan SLA</h4>
+                <p>Laporkan bug atau permintaan penyesuaian sistem dengan respon cepat.</p>
+              </div>
+              <div class="quick-card" @click="activeTab = 'addon'" style="cursor: pointer;">
+                <h4>⏳ Cek Rincian Jam Kerja</h4>
+                <p>Pantau transparansi pemakaian jam kerja teknisi secara riil.</p>
+              </div>
+              <div class="quick-card" @click="activeTab = 'servers'" style="cursor: pointer;">
+                <h4>🖥️ Uji Kesehatan Server</h4>
+                <p>Jalankan uji koneksi probe dan cek respon server secara instan.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- TAB 2: SERVERS MONITORING -->
+        <div v-else-if="activeTab === 'servers'" class="tab-content">
+          <section class="section-panel glass-panel">
+            <div class="section-header-row">
+              <div>
+                <h2>🖥️ Pemantauan Kesehatan Server Klien (Live Probe)</h2>
+                <p class="section-desc">
+                  Probe eksternal melakukan ping otomatis setiap 5 menit untuk memastikan endpoint API, Web, dan Database selalu siap melayani pelanggan Anda.
+                </p>
+              </div>
+              <button @click="pingAllServers" :disabled="isPinging" class="btn-primary">
+                <span v-if="isPinging">⚡ Memeriksa Server...</span>
+                <span v-else>⚡ Uji Ping Live Sekarang</span>
+              </button>
+            </div>
+
+            <div class="servers-grid">
+              <div v-for="s in clientServers" :key="s.id" class="server-card glass-panel">
+                <div class="server-card-header">
+                  <div class="server-indicator online"></div>
+                  <div>
+                    <h4>{{ s.name }}</h4>
+                    <span class="font-mono text-xs text-muted">{{ s.url }}</span>
+                  </div>
+                  <span class="badge-status-online">Online</span>
+                </div>
+                <div class="server-metrics">
+                  <div class="metric-item">
+                    <span class="metric-label">Latency / Respon:</span>
+                    <span class="metric-val font-mono text-emerald font-bold">{{ s.latency }} ms</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Status SSL:</span>
+                    <span class="metric-val text-xs text-indigo">✓ Valid ({{ s.sslDays }} Hari)</span>
+                  </div>
+                  <div class="metric-item">
+                    <span class="metric-label">Pemeriksaan Terakhir:</span>
+                    <span class="metric-val text-xs text-muted">{{ s.lastCheck }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- TAB 3: SALDO JAM & ADD-ON -->
+        <div v-else-if="activeTab === 'addon'" class="tab-content">
+          <div class="grid-overview">
+            <div class="card glass-panel kpi-card-blue">
+              <div class="card-header">
+                <h3>Sisa Saldo Jam Aktif</h3>
+                <span class="tag tag-blue">Metered</span>
+              </div>
+              <div class="kpi-value">{{ currentQuota - usedHours }} Jam</div>
+              <p class="kpi-desc">Dari total kuota {{ currentQuota }} jam berjalan</p>
+            </div>
+
+            <div class="card glass-panel kpi-card-amber">
+              <div class="card-header">
+                <h3>Jam Terpakai Bulan Ini</h3>
+                <span class="tag tag-amber">Terpakai</span>
+              </div>
+              <div class="kpi-value">{{ usedHours }} Jam</div>
+              <p class="kpi-desc">Terekam dalam log pengerjaan teknis</p>
+            </div>
+
+            <div class="card glass-panel kpi-card-green">
+              <div class="card-header">
+                <h3>Paket Add-On</h3>
+                <span class="tag tag-green">Tersedia</span>
+              </div>
+              <div class="kpi-value">Order Jam</div>
+              <p class="kpi-desc">Top-up jam kerja kapan saja tanpa batas</p>
+            </div>
+          </div>
+
+          <!-- Progress Bar Kuota -->
+          <section class="section-panel glass-panel">
+            <div class="quota-progress-header">
+              <h3>Penggunaan Kuota Jam Kontrak Managed Care</h3>
+              <span class="font-bold">{{ Math.round((usedHours / currentQuota) * 100) }}% Terpakai</span>
+            </div>
+            <div class="progress-bar-track">
+              <div
+                class="progress-bar-fill"
+                :style="{ width: `${Math.min(100, Math.round((usedHours / currentQuota) * 100))}%` }"
+              ></div>
+            </div>
+
+            <div class="order-cta-row">
+              <p>Perlu penambahan jam pengerjaan untuk penambahan fitur baru di luar kuota rutin?</p>
+              <button @click="showAddonModal = true" class="btn-primary">
+                + Beli Paket Tambahan Jam
+              </button>
+            </div>
+          </section>
+
+          <!-- Transparansi Log Jam Kerja -->
+          <section class="section-panel glass-panel">
+            <h2>📜 Rincian Transparansi Jam Kerja Engineer Meldir</h2>
+            <p class="section-desc">
+              Rincian jam kerja aktual yang diverifikasi dan memotong saldo kuota Anda secara transparan.
+            </p>
+
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Tanggal</th>
+                    <th>Tiket Terkait</th>
+                    <th>Engineer Pelaksana</th>
+                    <th>Durasi Jam</th>
+                    <th>Pekerjaan yang Diselesaikan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="log in workLogs" :key="log.id">
+                    <td class="font-mono text-xs">{{ log.date }}</td>
+                    <td class="font-mono font-bold text-indigo">{{ log.ticketCode }}</td>
+                    <td>{{ log.engineer }}</td>
+                    <td class="font-mono font-bold text-rose">{{ log.hours }} Jam</td>
+                    <td class="text-xs text-muted">{{ log.desc }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <!-- TAB 4: TIKET SLA 24 JAM -->
+        <div v-else-if="activeTab === 'tickets'" class="tab-content">
+          <section class="section-panel glass-panel">
+            <div class="section-header-row">
+              <div>
+                <h2>🎫 Tiket Dukungan & Insiden SLA 24 Jam</h2>
+                <p class="section-desc">
+                  Sampaikan laporan gangguan atau permintaan perbaikan. Tim engineer kami menjamin penanganan sesuai batas waktu SLA kontrak.
+                </p>
+              </div>
+              <button @click="showNewTicketModal = true" class="btn-primary">
+                + Laporkan Kendala / Buat Tiket
+              </button>
+            </div>
+
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Kode</th>
+                    <th>Judul Kendala</th>
+                    <th>Prioritas</th>
+                    <th>Status</th>
+                    <th>Batas Waktu SLA</th>
+                    <th>Terakhir Diperbarui</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="t in clientTickets" :key="t.id">
+                    <td class="font-mono text-muted">{{ t.code }}</td>
+                    <td>
+                      <strong>{{ t.title }}</strong>
+                      <div class="text-xs text-muted">{{ t.description }}</div>
+                    </td>
+                    <td>
+                      <span :class="['priority-badge', t.priority]">
+                        {{ formatPriority(t.priority) }}
+                      </span>
+                    </td>
+                    <td>
+                      <span :class="['status-badge', t.status]">
+                        {{ formatStatus(t.status) }}
+                      </span>
+                    </td>
+                    <td class="text-xs font-mono">{{ t.deadline }}</td>
+                    <td class="text-xs text-muted">{{ t.updatedAt }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <!-- TAB 5: INVOICES & PAJAK -->
+        <div v-else-if="activeTab === 'invoices'" class="tab-content">
+          <section class="section-panel glass-panel">
+            <h2>🧾 Riwayat Faktur Tagihan & e-Faktur Pajak PPN 11%</h2>
+            <p class="section-desc">
+              Seluruh transaksi PT. Melayani Digital Raya diterbitkan dengan faktur pajak sah yang dapat Anda gunakan sebagai Pajak Masukan korporat.
+            </p>
+
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>No. Invoice</th>
+                    <th>Deskripsi Layanan</th>
+                    <th>Pokok Tagihan</th>
+                    <th>PPN (11%)</th>
+                    <th>Total Faktur</th>
+                    <th>Jatuh Tempo</th>
+                    <th>Status</th>
+                    <th style="text-align: right">Berkas</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="inv in clientInvoices" :key="inv.id">
+                    <td class="font-mono font-bold">{{ inv.invoiceNo }}</td>
+                    <td>{{ inv.description }}</td>
+                    <td class="font-mono">{{ formatCurrency(inv.subtotal) }}</td>
+                    <td class="font-mono text-muted">{{ formatCurrency(inv.vat) }}</td>
+                    <td class="font-mono font-bold text-emerald">{{ formatCurrency(inv.total) }}</td>
+                    <td class="text-xs font-mono">{{ inv.dueDate }}</td>
+                    <td>
+                      <span :class="['badge-inv-status', inv.status]">
+                        {{ inv.status === 'paid' ? '✓ Lunas' : 'Menunggu Bayar' }}
+                      </span>
+                    </td>
+                    <td style="text-align: right">
+                      <button @click="downloadInvoice(inv)" class="btn-action edit">
+                        📥 Unduh PDF
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <!-- TAB 6: KONTRAK & BAST -->
+        <div v-else-if="activeTab === 'contracts'" class="tab-content">
+          <section class="section-panel glass-panel">
+            <h2>📜 Dokumen Legal Kontrak SPK & Berita Acara Serah Terima (BAST)</h2>
+            <p class="section-desc">
+              Dokumen hukum sah berlandaskan hukum perikatan perdata Indonesia dan dilengkapi sertifikasi e-Materai resmi Peruri.
+            </p>
+
+            <div class="contract-docs-grid">
+              <div class="contract-doc-card glass-panel">
+                <div class="doc-icon">📄</div>
+                <div class="doc-meta">
+                  <h4>Surat Perjanjian Kerja Sama (SPK) No. 018/SPK/MDR/2026</h4>
+                  <p class="text-xs text-muted">Layanan Managed Care SLA 24 Jam • Periode 1 Jan 2026 – 31 Des 2026</p>
+                  <div class="doc-badge-verified">✓ E-Materai Sah & Tervalidasi</div>
+                </div>
+                <button @click="downloadDoc('SPK')" class="btn-action edit">
+                  📥 Unduh Berkas
+                </button>
+              </div>
+
+              <div class="contract-doc-card glass-panel">
+                <div class="doc-icon">📑</div>
+                <div class="doc-meta">
+                  <h4>Berita Acara Serah Terima (BAST) Periode Q3 2026</h4>
+                  <p class="text-xs text-muted">BAST Pekerjaan Pemeliharaan Aplikasi & Keandalan Server Periode Berjalan</p>
+                  <div class="doc-badge-verified">✓ Ditandatangani Direktur Utama</div>
+                </div>
+                <button @click="downloadDoc('BAST')" class="btn-action edit">
+                  📥 Unduh Berkas
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
       </main>
+    </div>
+
+    <!-- Modal Order Add-On Hours -->
+    <div v-if="showAddonModal" class="modal-backdrop" @click.self="showAddonModal = false">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>+ Order Paket Tambahan Jam Kerja (Add-On)</h3>
+          <button @click="showAddonModal = false" class="btn-close-modal">✕</button>
+        </div>
+        <div class="modal-form">
+          <div class="form-group">
+            <label>Pilih Paket Jam Tambahan</label>
+            <select v-model="selectedPackage" class="form-input">
+              <option :value="5">Paket Starter: 5 Jam (Rp 875.000 + PPN 11%)</option>
+              <option :value="10">Paket Pro: 10 Jam (Rp 1.750.000 + PPN 11%)</option>
+              <option :value="20">Paket Enterprise: 20 Jam (Rp 3.500.000 + PPN 11%)</option>
+            </select>
+          </div>
+          <div class="addon-summary-box">
+            <div class="addon-sum-row">
+              <span>Biaya Pokok:</span>
+              <span class="font-mono">{{ formatCurrency(selectedPackage * 175000) }}</span>
+            </div>
+            <div class="addon-sum-row">
+              <span>PPN 11%:</span>
+              <span class="font-mono text-muted">{{ formatCurrency(selectedPackage * 175000 * 0.11) }}</span>
+            </div>
+            <div class="addon-sum-row total">
+              <span>Total Tagihan Faktur:</span>
+              <span class="font-mono font-bold text-emerald">{{ formatCurrency(selectedPackage * 175000 * 1.11) }}</span>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button @click="showAddonModal = false" class="btn-secondary">Batal</button>
+            <button @click="confirmOrderAddon" class="btn-primary">Konfirmasi & Terbitkan Faktur</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Buat Tiket Klien -->
+    <div v-if="showNewTicketModal" class="modal-backdrop" @click.self="showNewTicketModal = false">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>+ Buat Tiket Insiden / Permintaan Layanan</h3>
+          <button @click="showNewTicketModal = false" class="btn-close-modal">✕</button>
+        </div>
+        <form @submit.prevent="saveClientTicket" class="modal-form">
+          <div class="form-group">
+            <label>Judul Masalah / Permintaan *</label>
+            <input v-model="clientTicketForm.title" type="text" required placeholder="Contoh: Pembayaran checkout klien tidak mengirim webhook" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Tingkat Urgensi / Prioritas SLA *</label>
+            <select v-model="clientTicketForm.priority" required class="form-input">
+              <option value="p1_critical">P1 — Kritis (Server Down / Transaksi Macet) - Maks 4 Jam</option>
+              <option value="p2_major">P2 — Mayor (Fitur Terkendala, Tidak Down) - Maks 12 Jam</option>
+              <option value="p3_low">P3 — Minor (Permintaan Perubahan UI / Konten) - Maks 48 Jam</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Detail Kendala & Langkah Reproduksi *</label>
+            <textarea v-model="clientTicketForm.description" rows="3" required placeholder="Jelaskan detail pesan error, URL yang terdampak, atau lampirkan informasi relevan..." class="form-input"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" @click="showNewTicketModal = false" class="btn-secondary">Batal</button>
+            <button type="submit" class="btn-primary">Kirim Laporan Tiket</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -95,6 +473,17 @@ import { useAuthStore } from '../stores/authStore'
 
 const authStore = useAuthStore()
 const currentHost = ref(window.location.host)
+const activeTab = ref('overview')
+const flashNotice = ref('')
+
+const tabs = [
+  { id: 'overview', label: 'Ringkasan Layanan', icon: '📊' },
+  { id: 'servers', label: 'Kesehatan Server & Uptime', icon: '🖥️' },
+  { id: 'addon', label: 'Saldo Jam & Add-On', icon: '⏳' },
+  { id: 'tickets', label: 'Tiket SLA 24 Jam', icon: '🎫' },
+  { id: 'invoices', label: 'Tagihan & e-Faktur', icon: '🧾' },
+  { id: 'contracts', label: 'Kontrak SPK & BAST', icon: '📜' },
+]
 
 const userInitials = computed(() => {
   if (!authStore.user?.name) return 'KL'
@@ -105,6 +494,209 @@ const userInitials = computed(() => {
     .join('')
     .toUpperCase()
 })
+
+// Kuota Jam State
+const currentQuota = ref(10)
+const usedHours = ref(7.5)
+
+// Server Health Monitoring
+const isPinging = ref(false)
+const clientServers = ref([
+  {
+    id: 1,
+    name: 'Core API Backend (Golang)',
+    url: 'https://api.klien.meldir.id/health',
+    latency: 38,
+    sslDays: 84,
+    lastCheck: '1 menit yang lalu',
+  },
+  {
+    id: 2,
+    name: 'Web Application Client (Vue 3)',
+    url: 'https://app.klien.meldir.id',
+    latency: 45,
+    sslDays: 84,
+    lastCheck: '1 menit yang lalu',
+  },
+  {
+    id: 3,
+    name: 'PostgreSQL Database Primary Cluster',
+    url: 'pg-cluster.internal:5432',
+    latency: 12,
+    sslDays: 365,
+    lastCheck: '2 menit yang lalu',
+  },
+])
+
+function pingAllServers() {
+  isPinging.value = true
+  setTimeout(() => {
+    clientServers.value.forEach(s => {
+      s.latency = Math.floor(Math.random() * 25) + 20
+      s.lastCheck = 'Baru saja'
+    })
+    isPinging.value = false
+    showFlashMsg('✓ Pemantauan probe berhasil dieksekusi. Semua server merespon dengan status 200 OK!')
+  }, 1200)
+}
+
+// Work logs transparansi
+const workLogs = ref([
+  {
+    id: 1,
+    date: '2026-10-06',
+    ticketCode: 'TKT-2026-081',
+    engineer: 'Rian Anggoro (Senior Engineer)',
+    hours: 2.5,
+    desc: 'Optimasi connection pool PostgreSQL dan penambahan Redis caching untuk mengurangi beban traffic puncak.',
+  },
+  {
+    id: 2,
+    date: '2026-10-04',
+    ticketCode: 'TKT-2026-077',
+    engineer: 'Budi Santoso (Backend Dev)',
+    hours: 3.0,
+    desc: 'Konfigurasi audit log GDPR & UU PDP untuk enkripsi data kredensial klien.',
+  },
+  {
+    id: 3,
+    date: '2026-10-02',
+    ticketCode: 'TKT-2026-072',
+    engineer: 'Rian Anggoro (Senior Engineer)',
+    hours: 2.0,
+    desc: 'Pembaruan sertifikat SSL wildcard Let’s Encrypt dan pengetesan automated renew cron.',
+  },
+])
+
+// Tiket Klien
+const clientTickets = ref([
+  {
+    id: 1,
+    code: 'TKT-2026-081',
+    title: 'Database connection pool timeout saat lonjakan pesanan',
+    priority: 'p1_critical',
+    status: 'in_progress',
+    deadline: '4 Jam (Hari Ini 23:00 WIB)',
+    updatedAt: '10 menit yang lalu',
+    description: 'Koneksi database mencapai batas maksimum 25 pool saat kampanye flash sale.',
+  },
+  {
+    id: 2,
+    code: 'TKT-2026-077',
+    title: 'Penyesuaian teks template email invoice otomatis',
+    priority: 'p3_low',
+    status: 'resolved',
+    deadline: '48 Jam (Selesai)',
+    updatedAt: '2 hari yang lalu',
+    description: 'Update format footer nomor rekening BCA & Bank Mandiri resmi.',
+  },
+])
+
+const activeTicketsCount = computed(() => {
+  return clientTickets.value.filter(t => t.status !== 'resolved').length
+})
+
+// Modal Buat Tiket Klien
+const showNewTicketModal = ref(false)
+const clientTicketForm = ref({
+  title: '',
+  priority: 'p2_major',
+  description: '',
+})
+
+function saveClientTicket() {
+  const newId = clientTickets.value.length + 1
+  const code = `TKT-2026-0${85 + newId}`
+  clientTickets.value.unshift({
+    id: newId,
+    code,
+    title: clientTicketForm.value.title,
+    priority: clientTicketForm.value.priority,
+    status: 'open',
+    deadline: clientTicketForm.value.priority === 'p1_critical' ? '4 Jam' : '12 Jam',
+    updatedAt: 'Baru saja',
+    description: clientTicketForm.value.description,
+  })
+  showNewTicketModal.value = false
+  clientTicketForm.value = { title: '', priority: 'p2_major', description: '' }
+  showFlashMsg(`Tiket ${code} berhasil disampaikan! Tim engineer kami segera menindaklanjuti.`)
+}
+
+// Invoices Klien
+const clientInvoices = ref([
+  {
+    id: 1,
+    invoiceNo: 'INV/2026/10/004',
+    description: 'Paket Kontrak Managed Care SLA 24 Jam (Oktober 2026)',
+    subtotal: 12500000,
+    vat: 1375000,
+    total: 13875000,
+    dueDate: '2026-10-15',
+    status: 'paid',
+  },
+  {
+    id: 2,
+    invoiceNo: 'INV/2026/09/003',
+    description: 'Paket Kontrak Managed Care SLA 24 Jam (September 2026)',
+    subtotal: 12500000,
+    vat: 1375000,
+    total: 13875000,
+    dueDate: '2026-09-15',
+    status: 'paid',
+  },
+])
+
+function downloadInvoice(inv: any) {
+  showFlashMsg(`Mengunduh berkas e-Faktur Pajak & Invoice ${inv.invoiceNo}...`)
+}
+
+function downloadDoc(docType: string) {
+  showFlashMsg(`Mengunduh salinan berkas legal ${docType} tervalidasi e-Materai...`)
+}
+
+// Order Add-On Modal
+const showAddonModal = ref(false)
+const selectedPackage = ref(10)
+
+function confirmOrderAddon() {
+  currentQuota.value += selectedPackage.value
+  showAddonModal.value = false
+  showFlashMsg(`Paket ${selectedPackage.value} Jam Add-On berhasil ditambahkan! Invoice tagihan baru telah diterbitkan.`)
+}
+
+function formatPriority(p: string) {
+  switch (p) {
+    case 'p1_critical': return 'P1 — Kritis'
+    case 'p2_major': return 'P2 — Mayor'
+    case 'p3_low': return 'P3 — Minor'
+    default: return p
+  }
+}
+
+function formatStatus(s: string) {
+  switch (s) {
+    case 'open': return 'Menunggu Antrian'
+    case 'in_progress': return 'Sedang Dikerjakan'
+    case 'review': return 'Tahap Pengujian'
+    case 'resolved': return 'Terselesaikan'
+    default: return s
+  }
+}
+
+function formatCurrency(val: number) {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    maximumFractionDigits: 0,
+  }).format(val)
+}
+
+function showFlashMsg(msg: string) {
+  flashNotice.value = msg
+  setTimeout(() => {
+    flashNotice.value = ''
+  }, 4000)
+}
 
 async function handleLogout() {
   await authStore.logout()
@@ -123,17 +715,14 @@ onMounted(async () => {
   margin: 0 auto;
   padding: 24px;
   min-height: 100vh;
-  background-color: #edf2f7; /* Background abu-abu lembut agar card putih kontras */
+  background-color: #edf2f7;
 }
 
-/* Auth Unauthenticated Header */
+/* Auth Unauthenticated */
 .auth-wrapper {
   max-width: 600px;
   margin: 40px auto;
   text-align: center;
-}
-.auth-hero-header {
-  margin-bottom: 24px;
 }
 .brand-logo {
   font-size: 0.85rem;
@@ -154,7 +743,7 @@ onMounted(async () => {
   line-height: 1.5;
 }
 
-/* Authenticated Header */
+/* Header */
 .portal-header {
   display: flex;
   justify-content: space-between;
@@ -184,7 +773,6 @@ onMounted(async () => {
   padding: 3px 8px;
   border-radius: 4px;
   font-weight: 700;
-  letter-spacing: 0.05em;
 }
 .badge-portal {
   background: #059669;
@@ -200,7 +788,7 @@ onMounted(async () => {
   color: #475569;
 }
 
-/* User Profile Header Menu */
+/* User Menu */
 .user-profile-menu {
   display: flex;
   align-items: center;
@@ -290,7 +878,6 @@ onMounted(async () => {
   font-size: 0.75rem;
   padding: 3px 8px;
   border-radius: 4px;
-  white-space: nowrap;
 }
 .btn-director-action {
   background: #0284c7;
@@ -301,17 +888,58 @@ onMounted(async () => {
   font-weight: 700;
   text-decoration: none;
   transition: all 0.2s;
-  box-shadow: 0 2px 4px rgba(2, 132, 199, 0.25);
-}
-.btn-director-action:hover {
-  background: #0369a1;
-  transform: translateY(-1px);
 }
 
-/* Grid & Cards with Contrasting Surfaces */
+/* Navigation Tabs */
+.module-nav-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #cbd5e1;
+  padding-bottom: 8px;
+  overflow-x: auto;
+}
+.nav-tab-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.nav-tab-btn:hover {
+  background: #f8fafc;
+  color: #0f172a;
+}
+.nav-tab-btn.active {
+  background: #059669;
+  border-color: #059669;
+  color: #ffffff;
+  box-shadow: 0 3px 8px rgba(5, 150, 105, 0.35);
+}
+
+/* Alert Banner */
+.alert-banner {
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.alert-banner.success {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #047857;
+}
+
+/* Grid & Cards */
 .grid-overview {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
   margin-bottom: 24px;
 }
@@ -325,6 +953,7 @@ onMounted(async () => {
 .kpi-card-emerald { border-top: 4px solid #059669; }
 .kpi-card-blue { border-top: 4px solid #0284c7; }
 .kpi-card-amber { border-top: 4px solid #f59e0b; }
+.kpi-card-indigo { border-top: 4px solid #6366f1; }
 
 .card-header {
   display: flex;
@@ -347,30 +976,72 @@ onMounted(async () => {
   font-size: 0.82rem;
   color: #64748b;
 }
+
+/* Tags & Badges */
 .tag {
   font-size: 0.72rem;
   padding: 2px 8px;
   border-radius: 4px;
   font-weight: 600;
 }
-.tag-green {
+.tag-green { background: #d1fae5; color: #065f46; }
+.tag-blue { background: #e0f2fe; color: #0369a1; }
+.tag-amber { background: #fef3c7; color: #92400e; }
+.tag-tax { background: #fef3c7; color: #92400e; }
+
+.priority-badge {
+  font-size: 0.75rem;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+.priority-badge.p1_critical { background: #fee2e2; color: #991b1b; }
+.priority-badge.p2_major { background: #fef3c7; color: #92400e; }
+.priority-badge.p3_low { background: #e0f2fe; color: #0369a1; }
+
+.status-badge {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+.status-badge.open { background: #fef3c7; color: #92400e; }
+.status-badge.in_progress { background: #e0e7ff; color: #4338ca; }
+.status-badge.resolved { background: #d1fae5; color: #065f46; }
+
+.badge-status-online {
   background: #d1fae5;
   color: #065f46;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
 }
-.tag-blue {
-  background: #e0f2fe;
-  color: #0369a1;
+.badge-inv-status.paid {
+  background: #d1fae5;
+  color: #065f46;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
 }
-.tag-tax {
-  background: #fef3c7;
-  color: #92400e;
-}
+
+/* Sections */
 .section-panel {
   padding: 28px;
+  margin-bottom: 24px;
   background: #ffffff;
   border: 1px solid #cbd5e1;
   border-radius: 12px;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+}
+.section-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 .section-panel h2 {
   font-size: 1.3rem;
@@ -381,6 +1052,290 @@ onMounted(async () => {
 .section-desc {
   color: #475569;
   font-size: 0.92rem;
+  margin-bottom: 20px;
   line-height: 1.6;
 }
+
+/* Quick Links Grid */
+.quick-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+.quick-card {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  padding: 20px;
+  border-radius: 10px;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.quick-card:hover {
+  transform: translateY(-2px);
+  border-color: #059669;
+}
+.quick-card h4 {
+  font-size: 1rem;
+  color: #059669;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.quick-card p {
+  font-size: 0.85rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+/* Servers Grid */
+.servers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+  margin-top: 16px;
+}
+.server-card {
+  padding: 22px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+.server-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 12px;
+}
+.server-indicator.online {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+}
+.server-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.metric-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+.metric-label { color: #64748b; }
+
+/* Progress Bar Quota */
+.quota-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+}
+.progress-bar-track {
+  height: 14px;
+  background: #e2e8f0;
+  border-radius: 9999px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #059669, #0284c7);
+  border-radius: 9999px;
+  transition: width 0.5s ease;
+}
+.order-cta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* Contracts Grid */
+.contract-docs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 20px;
+  margin-top: 16px;
+}
+.contract-doc-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+}
+.doc-icon { font-size: 2.2rem; }
+.doc-meta { flex: 1; }
+.doc-meta h4 { font-size: 0.95rem; margin-bottom: 4px; }
+.doc-badge-verified {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  background: #d1fae5;
+  color: #065f46;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Table */
+.table-container {
+  overflow-x: auto;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+  text-align: left;
+}
+.data-table th {
+  background: #f1f5f9;
+  padding: 12px 16px;
+  font-weight: 700;
+  color: #334155;
+  border-bottom: 2px solid #cbd5e1;
+}
+.data-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #1e293b;
+}
+.data-table tbody tr:hover { background: #f8fafc; }
+
+/* Buttons */
+.btn-primary {
+  background: #059669;
+  color: #ffffff;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3);
+}
+.btn-primary:hover { background: #047857; }
+.btn-secondary {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-action.edit {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Form */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.form-group label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #334155;
+}
+.form-input {
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  background: #f8fafc;
+}
+
+/* Modals */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+.modal-card {
+  background: #ffffff;
+  border-radius: 14px;
+  max-width: 560px;
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 24px;
+  border-bottom: 1px solid #e2e8f0;
+}
+.btn-close-modal {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #64748b;
+}
+.modal-form {
+  padding: 24px;
+}
+.modal-footer {
+  padding: 16px 24px;
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Addon Summary Box */
+.addon-summary-box {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.88rem;
+}
+.addon-sum-row { display: flex; justify-content: space-between; }
+.addon-sum-row.total {
+  border-top: 2px dashed #cbd5e1;
+  padding-top: 8px;
+  font-size: 0.95rem;
+}
+
+.font-mono { font-family: var(--font-mono); }
+.font-bold { font-weight: 700; }
+.text-emerald { color: #059669; }
+.text-indigo { color: #4f46e5; }
+.text-rose { color: #e11d48; }
+.text-muted { color: #64748b; }
 </style>

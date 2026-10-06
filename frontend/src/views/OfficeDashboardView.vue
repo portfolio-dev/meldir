@@ -271,12 +271,67 @@
           </section>
         </div>
 
-        <!-- Tab 3: Buku Besar SAK EMKM -->
-        <div v-else-if="activeTab === 'accounting'" class="tab-content">
+        <!-- Tab 3: Buku Besar & Jurnal SAK EMKM -->
+        <div v-if="activeTab === 'accounting'" class="tab-content">
+          <!-- Modul Transaksi Jurnal Umum -->
           <section class="section-panel glass-panel">
-            <h2>📖 Bagan Akun Standar (Chart of Accounts - SAK EMKM)</h2>
+            <div class="section-header-row">
+              <div>
+                <h2>📖 Jurnal Umum Transaksi (Double-Entry Bookkeeping)</h2>
+                <p class="section-desc">
+                  Setiap transaksi dicatat berpasangan (Debit & Kredit) sesuai kaidah akuntansi resmi SAK EMKM.
+                </p>
+              </div>
+              <button @click="showJournalModal = true" class="btn-primary">
+                + Catat Transaksi Jurnal
+              </button>
+            </div>
+
+            <div class="journal-balance-summary">
+              <div class="balance-item">
+                <span>Total Debit:</span>
+                <strong class="font-mono text-emerald">{{ formatCurrency(totalJournalDebit) }}</strong>
+              </div>
+              <div class="balance-item">
+                <span>Total Kredit:</span>
+                <strong class="font-mono text-emerald">{{ formatCurrency(totalJournalCredit) }}</strong>
+              </div>
+              <span class="badge-balanced">✓ Seimbang (Balance)</span>
+            </div>
+
+            <div class="table-container" style="margin-top: 16px;">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Tanggal</th>
+                    <th>No. Bukti</th>
+                    <th>Keterangan Transaksi</th>
+                    <th>Akun Debit</th>
+                    <th>Akun Kredit</th>
+                    <th style="text-align: right">Nominal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="j in journals" :key="j.id">
+                    <td class="font-mono text-xs">{{ j.date }}</td>
+                    <td class="font-mono text-muted">{{ j.refNo }}</td>
+                    <td><strong>{{ j.description }}</strong></td>
+                    <td><span class="tag tag-green">{{ j.debitAccount }}</span></td>
+                    <td><span class="tag tag-blue">{{ j.creditAccount }}</span></td>
+                    <td style="text-align: right" class="font-mono font-bold text-emerald">
+                      {{ formatCurrency(j.amount) }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Modul Bagan Akun Standar (COA) -->
+          <section class="section-panel glass-panel">
+            <h2>📑 Bagan Akun Standar (Chart of Accounts - 32 Akun)</h2>
             <p class="section-desc">
-              Daftar akun buku besar 5-digit sesuai regulasi Standar Akuntansi Keuangan Entitas Mikro, Kecil, dan Menengah (SAK EMKM).
+              Kode akun 5-digit standar Ikatan Akuntan Indonesia (IAI) untuk pelaporan keuangan korporat.
             </p>
             <div class="table-container">
               <table class="data-table">
@@ -303,12 +358,70 @@
           </section>
         </div>
 
-        <!-- Tab 4: Pajak DJP -->
+        <!-- Tab 4: Pajak DJP & Faktur Penagihan -->
         <div v-else-if="activeTab === 'tax'" class="tab-content">
+          <!-- Modul Faktur Invoice Korporat -->
+          <section class="section-panel glass-panel">
+            <div class="section-header-row">
+              <div>
+                <h2>🧾 Manajemen Faktur & Invoice Klien (PPN 11%)</h2>
+                <p class="section-desc">
+                  Penerbitan faktur tagihan resmi PT. Melayani Digital Raya dengan perhitungan otomatis PPN 11% sesuai UU HPP.
+                </p>
+              </div>
+              <div class="action-btn-group">
+                <button @click="exportCoretaxCSV" class="btn-secondary">
+                  📥 Export Coretax DJP (CSV)
+                </button>
+                <button @click="showInvoiceModal = true" class="btn-primary">
+                  + Terbitkan Faktur Invoice
+                </button>
+              </div>
+            </div>
+
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>No. Invoice</th>
+                    <th>Nama Klien</th>
+                    <th>DPP (Pokok)</th>
+                    <th>PPN (11%)</th>
+                    <th>Total Tagihan</th>
+                    <th>Jatuh Tempo</th>
+                    <th>Status</th>
+                    <th style="text-align: right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="inv in officeInvoices" :key="inv.id">
+                    <td class="font-mono font-bold">{{ inv.invoiceNo }}</td>
+                    <td>{{ inv.clientName }}</td>
+                    <td class="font-mono">{{ formatCurrency(inv.dpp) }}</td>
+                    <td class="font-mono text-muted">{{ formatCurrency(inv.ppn) }}</td>
+                    <td class="font-mono font-bold text-emerald">{{ formatCurrency(inv.total) }}</td>
+                    <td class="font-mono text-xs">{{ inv.dueDate }}</td>
+                    <td>
+                      <span :class="['badge-inv-status', inv.status]">
+                        {{ inv.status === 'paid' ? '✓ Lunas' : 'Belum Bayar' }}
+                      </span>
+                    </td>
+                    <td style="text-align: right">
+                      <button @click="toggleInvoiceStatus(inv)" class="btn-action edit">
+                        {{ inv.status === 'paid' ? 'Set Unpaid' : 'Tandai Lunas' }}
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <!-- Modul Hub Kepatuhan Perpajakan -->
           <section class="section-panel glass-panel">
             <h2>🏛️ Hub Kepatuhan Perpajakan PT. Melayani Digital Raya</h2>
             <p class="section-desc">
-              Pelaporan pajak korporat otomatis sesuai tarif UU Harmonisasi Peraturan Perpajakan (HPP).
+              Pelaporan pajak korporat otomatis sesuai regulasi Ditjen Pajak & integrasi Coretax DJP.
             </p>
             <div class="tax-grid">
               <div class="tax-card">
@@ -318,12 +431,12 @@
               </div>
               <div class="tax-card">
                 <h3>e-Bupot PPh Pasal 21</h3>
-                <p class="tax-rate">Pasal 17 / Bukan Pegawai</p>
-                <p class="tax-detail">Pemotongan PPh 21 atas jasa tenaga ahli programmer/engineer eksternal dengan penerbitan bukti potong resmi 21/26.</p>
+                <p class="tax-rate">Pasal 17 / Tenaga Ahli</p>
+                <p class="tax-detail">Pemotongan PPh 21 atas kompensasi tenaga ahli programmer eksternal dengan penerbitan bukti potong resmi 21/26.</p>
               </div>
               <div class="tax-card">
                 <h3>e-Bupot PPh Pasal 23</h3>
-                <p class="tax-rate">Tarif: 2% atas Jasa Teknik</p>
+                <p class="tax-rate">Tarif: 2% Jasa Teknik</p>
                 <p class="tax-detail">Pencatatan bukti potong PPh 23 saat klien korporat memotong pembayaran invoice PT. Melayani Digital Raya.</p>
               </div>
             </div>
@@ -430,6 +543,131 @@
               <span v-if="isSavingUser">Menyimpan Data...</span>
               <span v-else>{{ isEditing ? 'Simpan Perubahan' : 'Buat Akun Sekarang' }}</span>
             </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Form (Tambah Transaksi Jurnal Double-Entry) -->
+    <div v-if="showJournalModal" class="modal-backdrop" @click.self="showJournalModal = false">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>+ Catat Transaksi Jurnal Double-Entry</h3>
+          <button @click="showJournalModal = false" class="btn-close-modal">✕</button>
+        </div>
+        <form @submit.prevent="saveJournal" class="modal-form">
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Tanggal Transaksi *</label>
+              <input v-model="journalForm.date" type="date" required class="form-input" />
+            </div>
+            <div class="form-group flex-1">
+              <label>Nominal Transaksi (Rp) *</label>
+              <input
+                v-model.number="journalForm.amount"
+                type="number"
+                min="1000"
+                step="1000"
+                required
+                placeholder="Contoh: 12500000"
+                class="form-input"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Keterangan Transaksi / Nomor Referensi *</label>
+            <input
+              v-model="journalForm.description"
+              type="text"
+              required
+              placeholder="Contoh: Pembayaran invoice jasa maintenance termin 1"
+              class="form-input"
+            />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Akun Posisi DEBIT *</label>
+              <select v-model="journalForm.debitAccount" required class="form-input">
+                <option v-for="acc in defaultAccounts" :key="'deb-' + acc.code" :value="acc.code + ' ' + acc.name">
+                  {{ acc.code }} — {{ acc.name }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group flex-1">
+              <label>Akun Posisi KREDIT *</label>
+              <select v-model="journalForm.creditAccount" required class="form-input">
+                <option v-for="acc in defaultAccounts" :key="'kred-' + acc.code" :value="acc.code + ' ' + acc.name">
+                  {{ acc.code }} — {{ acc.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" @click="showJournalModal = false" class="btn-secondary">Batal</button>
+            <button type="submit" class="btn-primary">Posting ke Buku Besar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Form (Terbitkan Faktur Invoice Baru) -->
+    <div v-if="showInvoiceModal" class="modal-backdrop" @click.self="showInvoiceModal = false">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>+ Terbitkan Faktur Invoice Korporat (PPN 11%)</h3>
+          <button @click="showInvoiceModal = false" class="btn-close-modal">✕</button>
+        </div>
+        <form @submit.prevent="saveInvoice" class="modal-form">
+          <div class="form-group">
+            <label>Nama Klien / Perusahaan Penerima Faktur *</label>
+            <input v-model="invoiceForm.clientName" type="text" required placeholder="Contoh: PT. Surya Logistik Multimoda" class="form-input" />
+          </div>
+
+          <div class="form-group">
+            <label>Deskripsi Layanan / Kontrak SPK *</label>
+            <input v-model="invoiceForm.description" type="text" required placeholder="Contoh: Paket Managed Care SLA 24 Jam Periode Q4" class="form-input" />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Nilai Pokok / DPP (Rp) *</label>
+              <input
+                v-model.number="invoiceForm.dpp"
+                type="number"
+                min="10000"
+                step="1000"
+                required
+                placeholder="Contoh: 25000000"
+                class="form-input"
+              />
+            </div>
+            <div class="form-group flex-1">
+              <label>Tanggal Jatuh Tempo *</label>
+              <input v-model="invoiceForm.dueDate" type="date" required class="form-input" />
+            </div>
+          </div>
+
+          <div class="addon-summary-box">
+            <div class="addon-sum-row">
+              <span>DPP (Dasar Pengenaan Pajak):</span>
+              <span class="font-mono">{{ formatCurrency(invoiceForm.dpp || 0) }}</span>
+            </div>
+            <div class="addon-sum-row">
+              <span>PPN 11% (UU HPP):</span>
+              <span class="font-mono text-muted">{{ formatCurrency(Math.round((invoiceForm.dpp || 0) * 0.11)) }}</span>
+            </div>
+            <div class="addon-sum-row total">
+              <span>Total Tagihan Faktur:</span>
+              <span class="font-mono font-bold text-emerald">{{ formatCurrency(Math.round((invoiceForm.dpp || 0) * 1.11)) }}</span>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" @click="showInvoiceModal = false" class="btn-secondary">Batal</button>
+            <button type="submit" class="btn-primary">Terbitkan Faktur Sah</button>
           </div>
         </form>
       </div>
@@ -708,6 +946,163 @@ function formatDate(dateStr?: string) {
   } catch {
     return dateStr
   }
+}
+
+function formatCurrency(val: number) {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    maximumFractionDigits: 0,
+  }).format(val)
+}
+
+// State Jurnal SAK EMKM
+const journals = ref([
+  {
+    id: 1,
+    date: '2026-10-06',
+    refNo: 'JU-2026/10/001',
+    description: 'Penerimaan pembayaran piutang invoice PT. Surya Logistik',
+    debitAccount: '1-1002 Bank BCA Utama Korporat',
+    creditAccount: '1-1201 Piutang Usaha Klien',
+    amount: 13875000,
+  },
+  {
+    id: 2,
+    date: '2026-10-05',
+    refNo: 'JU-2026/10/002',
+    description: 'Penyetoran PPN Masa Keluaran 11% ke Kas Negara via DJP',
+    debitAccount: '2-1201 Utang PPN Keluaran 11%',
+    creditAccount: '1-1002 Bank BCA Utama Korporat',
+    amount: 1375000,
+  },
+  {
+    id: 3,
+    date: '2026-10-04',
+    refNo: 'JU-2026/10/003',
+    description: 'Pembayaran kompensasi jasa software engineer freelance',
+    debitAccount: '5-1001 Beban Kompensasi Engineer',
+    creditAccount: '1-1002 Bank BCA Utama Korporat',
+    amount: 7500000,
+  },
+])
+
+const showJournalModal = ref(false)
+const journalForm = ref({
+  date: new Date().toISOString().substring(0, 10),
+  description: '',
+  debitAccount: '1-1002 Bank BCA Utama Korporat',
+  creditAccount: '4-1002 Pendapatan Kontrak Managed Care SLA',
+  amount: 5000000,
+})
+
+const totalJournalDebit = computed(() => journals.value.reduce((acc, curr) => acc + curr.amount, 0))
+const totalJournalCredit = computed(() => journals.value.reduce((acc, curr) => acc + curr.amount, 0))
+
+function saveJournal() {
+  const newId = journals.value.length + 1
+  journals.value.unshift({
+    id: newId,
+    date: journalForm.value.date,
+    refNo: `JU-2026/10/00${newId}`,
+    description: journalForm.value.description,
+    debitAccount: journalForm.value.debitAccount,
+    creditAccount: journalForm.value.creditAccount,
+    amount: Number(journalForm.value.amount),
+  })
+  showJournalModal.value = false
+  journalForm.value = {
+    date: new Date().toISOString().substring(0, 10),
+    description: '',
+    debitAccount: '1-1002 Bank BCA Utama Korporat',
+    creditAccount: '4-1002 Pendapatan Kontrak Managed Care SLA',
+    amount: 5000000,
+  }
+  showFlash('Transaksi jurnal berhasil diposting ke Buku Besar secara seimbang!')
+}
+
+// State Invoices Korporat
+const officeInvoices = ref([
+  {
+    id: 1,
+    invoiceNo: 'INV/2026/10/004',
+    clientName: 'PT. Surya Logistik Multimoda',
+    dpp: 12500000,
+    ppn: 1375000,
+    total: 13875000,
+    dueDate: '2026-10-15',
+    status: 'paid',
+  },
+  {
+    id: 2,
+    invoiceNo: 'INV/2026/10/005',
+    clientName: 'CV. Sejahtera Abadi Mandiri',
+    dpp: 18000000,
+    ppn: 1980000,
+    total: 19980000,
+    dueDate: '2026-10-25',
+    status: 'unpaid',
+  },
+  {
+    id: 3,
+    invoiceNo: 'INV/2026/10/006',
+    clientName: 'Yayasan Harapan Bangsa',
+    dpp: 7500000,
+    ppn: 825000,
+    total: 8325000,
+    dueDate: '2026-10-30',
+    status: 'unpaid',
+  },
+])
+
+const showInvoiceModal = ref(false)
+const invoiceForm = ref({
+  clientName: '',
+  description: '',
+  dpp: 10000000,
+  dueDate: new Date(Date.now() + 14 * 86400000).toISOString().substring(0, 10),
+})
+
+function saveInvoice() {
+  const newId = officeInvoices.value.length + 1
+  const dpp = Number(invoiceForm.value.dpp)
+  const ppn = Math.round(dpp * 0.11)
+  const total = dpp + ppn
+  officeInvoices.value.unshift({
+    id: newId,
+    invoiceNo: `INV/2026/10/00${newId + 3}`,
+    clientName: invoiceForm.value.clientName,
+    dpp,
+    ppn,
+    total,
+    dueDate: invoiceForm.value.dueDate,
+    status: 'unpaid',
+  })
+  showInvoiceModal.value = false
+  invoiceForm.value = {
+    clientName: '',
+    description: '',
+    dpp: 10000000,
+    dueDate: new Date(Date.now() + 14 * 86400000).toISOString().substring(0, 10),
+  }
+  showFlash('Faktur tagihan baru berhasil diterbitkan dan siap dikirim ke klien!')
+}
+
+function toggleInvoiceStatus(inv: any) {
+  inv.status = inv.status === 'paid' ? 'unpaid' : 'paid'
+  showFlash(`Status invoice ${inv.invoiceNo} diperbarui menjadi ${inv.status === 'paid' ? 'LUNAS' : 'BELUM BAYAR'}`)
+}
+
+function exportCoretaxCSV() {
+  const headers = 'Nomor Faktur,Nama Klien,DPP,PPN 11%,Total,Status\n'
+  const rows = officeInvoices.value.map(i => `${i.invoiceNo},${i.clientName},${i.dpp},${i.ppn},${i.total},${i.status}`).join('\n')
+  const blob = new Blob([headers + rows], { type: 'text/csv' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `Coretax_DJP_Export_PPN_1111_${new Date().toISOString().substring(0, 10)}.csv`
+  a.click()
+  showFlash('Berkas ekspor rekonsiliasi Coretax DJP (CSV) berhasil diunduh!')
 }
 
 async function handleLogout() {
@@ -1541,5 +1936,58 @@ onMounted(async () => {
   text-align: center;
   color: #64748b;
   font-weight: 600;
+}
+
+/* Journal Balance Summary */
+.journal-balance-summary {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  padding: 14px 20px;
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+.balance-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+/* Invoice Status Badges */
+.badge-inv-status {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.badge-inv-status.paid {
+  background: #d1fae5;
+  color: #065f46;
+}
+.badge-inv-status.unpaid {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+/* Addon Summary Box */
+.addon-summary-box {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.88rem;
+}
+.addon-sum-row { display: flex; justify-content: space-between; }
+.addon-sum-row.total {
+  border-top: 2px dashed #cbd5e1;
+  padding-top: 8px;
+  font-size: 0.95rem;
 }
 </style>
