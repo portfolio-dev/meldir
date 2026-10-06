@@ -20,6 +20,16 @@
         </div>
 
         <div class="user-profile-menu">
+          <!-- Tombol Akses Cepat Manajemen Pengguna untuk Direktur & Admin -->
+          <button
+            v-if="authStore.user?.role === 'direktur' || authStore.user?.role === 'admin'"
+            @click="switchTab('users')"
+            :class="['btn-header-users', { active: activeTab === 'users' }]"
+            title="Buka Menu Manajemen Akun Pengguna (CRUD)"
+          >
+            👥 Manajemen Pengguna (CRUD)
+          </button>
+
           <div class="user-avatar-badge">
             {{ userInitials }}
           </div>
@@ -56,10 +66,11 @@
           <button
             v-for="tab in tabs"
             :key="tab.id"
-            :class="['nav-tab-btn', { active: activeTab === tab.id }]"
+            :class="['nav-tab-btn', { active: activeTab === tab.id, 'highlight-user-tab': tab.id === 'users' }]"
             @click="switchTab(tab.id)"
           >
             {{ tab.icon }} {{ tab.label }}
+            <span v-if="tab.id === 'users'" class="badge-tab-pill">Direktur</span>
           </button>
         </div>
 
@@ -98,13 +109,17 @@
               <p class="kpi-desc">Faktur Keluaran siap lapor ke sistem Coretax DJP</p>
             </div>
 
-            <div class="card glass-panel kpi-card-indigo">
+            <div
+              class="card glass-panel kpi-card-indigo card-clickable"
+              @click="switchTab('users')"
+              title="Klik untuk membuka Manajemen Pengguna (CRUD)"
+            >
               <div class="card-header">
                 <h3>Ekosistem Pengguna</h3>
-                <span class="tag tag-indigo">Multi-Portal</span>
+                <span class="tag tag-indigo">Atur User (CRUD) →</span>
               </div>
               <div class="kpi-value">{{ usersList.length > 0 ? usersList.length + ' User' : 'Kelola Akun' }}</div>
-              <p class="kpi-desc">Akses lintas office, jobs, dan portal klien</p>
+              <p class="kpi-desc">Akses lintas office, jobs, dan portal klien (Klik untuk kelola akun)</p>
             </div>
           </div>
 
@@ -114,6 +129,15 @@
               Sistem terintegrasi monorepo dengan backend Golang di port 8080 dan OpenLiteSpeed reverse-proxy. Seluruh transaksi bisnis dicatat menggunakan mekanisme double-entry bookkeeping otomatis.
             </p>
             <div class="quick-links-grid">
+              <div
+                class="quick-card quick-card-highlight"
+                @click="switchTab('users')"
+                title="Buka Menu Manajemen Pengguna"
+              >
+                <h4>👥 Manajemen Akun Semua User (CRUD)</h4>
+                <p>Tambah pengguna baru, atur peranan (office/jobs/portal), perbarui password & kontak, atau hapus user.</p>
+                <div class="quick-card-btn">Buka Menu Pengguna →</div>
+              </div>
               <div class="quick-card">
                 <h4>Inbound CRM Leads</h4>
                 <p>Pipeline prospek otomatis dari form formulir landing page meldir.id.</p>
@@ -802,6 +826,31 @@ onMounted(async () => {
   align-items: center;
   gap: 14px;
 }
+.btn-header-users {
+  background: #0284c7;
+  color: #ffffff;
+  border: 1px solid #0369a1;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-header-users:hover {
+  background: #0369a1;
+  transform: translateY(-1px);
+}
+.btn-header-users.active {
+  background: #0f172a;
+  border-color: #0f172a;
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.3);
+}
+
 .user-avatar-badge {
   width: 40px;
   height: 40px;
@@ -945,6 +994,27 @@ onMounted(async () => {
   border-color: #0284c7;
   color: #ffffff;
   box-shadow: 0 3px 8px rgba(2, 132, 199, 0.35);
+}
+.highlight-user-tab {
+  border-color: #0284c7;
+  font-weight: 800;
+}
+.badge-tab-pill {
+  font-size: 0.65rem;
+  background: #fef08a;
+  color: #854d0e;
+  padding: 1px 6px;
+  border-radius: 9999px;
+  font-weight: 800;
+  margin-left: 4px;
+}
+.card-clickable {
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card-clickable:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -2px rgba(99, 102, 241, 0.15);
 }
 
 /* Alert Banner */
@@ -1128,6 +1198,23 @@ onMounted(async () => {
   border: 1px solid #cbd5e1;
   padding: 20px;
   border-radius: 10px;
+}
+.quick-card-highlight {
+  background: #f0f9ff;
+  border: 1px solid #7dd3fc;
+  border-left: 5px solid #0284c7;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.quick-card-highlight:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(2, 132, 199, 0.15);
+}
+.quick-card-btn {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0284c7;
 }
 .quick-card h4 {
   font-size: 1rem;

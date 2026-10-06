@@ -18,7 +18,8 @@ echo "=================================================="
 echo "🚀 [1/5] Pulling Latest Commits from GitHub (main)"
 echo "=================================================="
 cd "$REPO_DIR"
-git pull origin main
+git fetch origin main
+git reset --hard origin/main
 
 echo "=================================================="
 echo "⚙️ [2/5] Building Golang Backend Service"
