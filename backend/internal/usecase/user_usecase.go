@@ -93,11 +93,11 @@ func (u *userUsecase) UpdateUser(ctx context.Context, req domain.UpdateUserReque
 
 func (u *userUsecase) DeleteUser(ctx context.Context, id int64, requesterID int64) error {
 	if u.userRepo == nil {
-		return nil, errors.New("koneksi basis data belum siap")
+		return errors.New("koneksi basis data belum siap")
 	}
 
 	if id <= 0 {
-		return nil, errors.New("ID pengguna tidak valid")
+		return errors.New("ID pengguna tidak valid")
 	}
 
 	if id == requesterID {
