@@ -6,6 +6,9 @@ export interface User {
   name: string
   email: string
   role: 'direktur' | 'admin' | 'engineer' | 'klien' | 'audit'
+  engineer_type?: string
+  client_type?: string
+  github_username?: string
   phone_wa: string
   status: string
   last_login_at?: string
