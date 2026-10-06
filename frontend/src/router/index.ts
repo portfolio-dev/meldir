@@ -4,26 +4,20 @@ import JobsDashboardView from '../views/JobsDashboardView.vue'
 import ClientPortalView from '../views/ClientPortalView.vue'
 import PortalHubView from '../views/PortalHubView.vue'
 
-// Deteksi Subdomain Otomatis
-function getInitialPortalRoute(): string {
+// Deteksi Subdomain Otomatis untuk Component Halaman Utama (/)
+function getPortalComponent() {
   const host = window.location.hostname.toLowerCase()
-  if (host.startsWith('office.')) return '/office'
-  if (host.startsWith('jobs.')) return '/jobs'
-  if (host.startsWith('portal.')) return '/portal'
-  return '/'
+  if (host.startsWith('office.')) return OfficeDashboardView
+  if (host.startsWith('jobs.')) return JobsDashboardView
+  if (host.startsWith('portal.')) return ClientPortalView
+  return PortalHubView
 }
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Home',
-    component: () => {
-      const host = window.location.hostname.toLowerCase()
-      if (host.startsWith('office.')) return OfficeDashboardView
-      if (host.startsWith('jobs.')) return JobsDashboardView
-      if (host.startsWith('portal.')) return ClientPortalView
-      return PortalHubView
-    },
+    component: getPortalComponent(),
   },
   {
     path: '/office',
@@ -39,6 +33,11 @@ const routes: RouteRecordRaw[] = [
     path: '/portal',
     name: 'ClientPortal',
     component: ClientPortalView,
+  },
+  {
+    path: '/hub',
+    name: 'PortalHub',
+    component: PortalHubView,
   },
   {
     path: '/:pathMatch(.*)*',
