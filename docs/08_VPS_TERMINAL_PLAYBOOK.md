@@ -97,11 +97,19 @@ Upload file `05_POSTGRESQL_SCHEMA.sql` ke VPS, lalu jalankan:
 sudo -u postgres psql -d meldir_db -f /root/05_POSTGRESQL_SCHEMA.sql
 ```
 
-### 3. Pembuatan Folder Backend & Izin Akses
+### 3. Pembuatan Folder Backend & Izin Direktori Storage
 ```bash
 mkdir -p /home/meldir.id/backend
 mkdir -p /home/meldir.id/storage/uploads/ematerai
 mkdir -p /home/meldir.id/storage/uploads/proofs
+mkdir -p /home/meldir.id/storage/uploads/tax_invoices
+mkdir -p /home/meldir.id/storage/uploads/expenses
+mkdir -p /home/meldir.id/storage/uploads/tax_bupot
+mkdir -p /home/meldir.id/storage/uploads/tax_vat_in
+mkdir -p /home/meldir.id/storage/uploads/spt_reports
+mkdir -p /home/meldir.id/storage/uploads/bast
+mkdir -p /home/meldir.id/storage/uploads/reports
+mkdir -p /home/meldir.id/storage/uploads/media
 mkdir -p /home/meldir.id/storage/credentials_pdf
 
 chown -R cyberpanel:cyberpanel /home/meldir.id/backend
