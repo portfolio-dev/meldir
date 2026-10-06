@@ -37,7 +37,7 @@ func withCORS(next http.Handler) http.Handler {
 			return
 		}
 
-		next.ServeHTTP(w)
+		next.ServeHTTP(w, r)
 	})
 }
 
