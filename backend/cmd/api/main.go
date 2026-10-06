@@ -13,6 +13,12 @@ import (
 	"meldir-backend/internal/config"
 	delivery "meldir-backend/internal/delivery/http"
 	"meldir-backend/internal/delivery/http/handler"
+	"meldir-backend/internal/delivery/http/middleware"
+	"meldir-backend/internal/infrastructure/cache"
+	"meldir-backend/internal/infrastructure/database"
+	"meldir-backend/internal/pkg/token"
+	"meldir-backend/internal/repository"
+	"meldir-backend/internal/usecase"
 )
 
 func main() {
@@ -21,11 +27,39 @@ func main() {
 	log.Printf("🏛️ Starting PT. Melayani Digital Raya (meldir-backend) v1.0.0...")
 	log.Printf("📍 Environment: %s | Port: %s", cfg.Environment, cfg.Port)
 
-	// Initialize Handlers
-	healthHandler := handler.NewHealthHandler(cfg.Environment)
+	// 1. Inisialisasi Database PostgreSQL
+	db, err := database.NewPostgresDB(cfg)
+	if err != nil {
+		log.Printf("⚠️ Gagal inisialisasi PostgreSQL pool: %v", err)
+	} else {
+		defer db.Close()
+	}
 
-	// Setup Router
-	router := delivery.NewRouter(healthHandler)
+	// 2. Inisialisasi Cache & Blacklist Redis
+	redisClient, err := cache.NewRedisClient(cfg)
+	if err != nil {
+		log.Printf("⚠️ Gagal inisialisasi Redis client: %v", err)
+	} else {
+		defer redisClient.Close()
+	}
+
+	// 3. Inisialisasi Security & JWT Manager (24 Jam)
+	jwtManager := token.NewJWTManager(cfg.JWTSecret, 24*time.Hour)
+
+	// 4. Inisialisasi Repository & Usecase
+	var userRepo repository.UserRepository
+	if db != nil {
+		userRepo = repository.NewUserRepository(db.Pool)
+	}
+	authUsecase := usecase.NewAuthUsecase(userRepo, jwtManager, redisClient)
+
+	// 5. Inisialisasi Handlers & Middleware
+	healthHandler := handler.NewHealthHandler(cfg.Environment, db, redisClient)
+	authHandler := handler.NewAuthHandler(authUsecase)
+	authMiddleware := middleware.NewAuthMiddleware(jwtManager, redisClient)
+
+	// 6. Setup Router
+	router := delivery.NewRouter(healthHandler, authHandler, authMiddleware)
 
 	server := &http.Server{
 		Addr:         fmt.Sprintf("0.0.0.0:%s", cfg.Port),
@@ -40,7 +74,7 @@ func main() {
 	signal.Notify(stop, os.Interrupt, syscall.SIGTERM)
 
 	go func() {
-		log.Printf("🚀 Server listening on http://127.0.0.1:%s", cfg.Port)
+		log.Printf("🚀 Server RESTful API listening on http://127.0.0.1:%s", cfg.Port)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("❌ Server error: %v", err)
 		}
