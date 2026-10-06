@@ -3,6 +3,7 @@ package config
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 type Config struct {
@@ -40,13 +41,15 @@ func LoadConfig() *Config {
 }
 
 func (c *Config) GetDSN() string {
-	return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
-		c.DBHost, c.DBPort, c.DBUser, c.DBPassword, c.DBName, c.DBSSLMode,
+	return fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=%s",
+		c.DBHost, c.DBPort, c.DBUser, c.DBName, c.DBSSLMode,
 	)
 }
 
 func getEnv(key, defaultVal string) string {
 	if val := os.Getenv(key); val != "" {
+		val = strings.TrimSpace(val)
+		val = strings.Trim(val, "\"'`")
 		return val
 	}
 	return defaultVal

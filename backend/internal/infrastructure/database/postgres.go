@@ -24,6 +24,9 @@ func NewPostgresDB(cfg *config.Config) (*PostgresDB, error) {
 		return nil, fmt.Errorf("gagal mem-parsing DSN PostgreSQL: %w", err)
 	}
 
+	poolConfig.ConnConfig.User = cfg.DBUser
+	poolConfig.ConnConfig.Password = cfg.DBPassword
+
 	poolConfig.MaxConns = 25
 	poolConfig.MinConns = 5
 	poolConfig.MaxConnLifetime = 1 * time.Hour
