@@ -136,4 +136,25 @@
 .back-link:hover {
   text-decoration: underline;
 }
+
+@media (max-width: 600px) {
+  .hub-container {
+    padding: 16px 12px;
+    overflow-x: hidden;
+  }
+  .hub-card {
+    padding: 24px 16px;
+    border-radius: 12px;
+  }
+  .hub-header h1 {
+    font-size: 1.5rem;
+  }
+  .portal-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .portal-item {
+    padding: 18px 16px;
+  }
+}
 </style>

@@ -21,10 +21,17 @@
   --shadow-lg: 0 10px 25px -3px rgba(15, 23, 42, 0.10), 0 4px 6px -4px rgba(15, 23, 42, 0.05);
 }
 
-* {
-  box-sizing: border-box;
+*, *::before, *::after {
+  box-sizing: border-box !important;
   margin: 0;
   padding: 0;
+}
+
+html {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 body {
@@ -34,6 +41,17 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+  position: relative !important;
+}
+
+#app {
+  width: 100% !important;
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+  min-width: 0 !important;
 }
 
 /* Crisp Clean Enterprise Panel Style */
@@ -77,19 +95,53 @@ body {
 }
 
 @media (max-width: 768px) {
-  /* Container safe padding on mobile so content never gets covered */
-  .portal-container {
-    padding: 12px 12px calc(80px + env(safe-area-inset-bottom, 0px)) 12px !important;
+  /* Enforce zero horizontal scroll across the entire page hierarchy */
+  html,
+  body,
+  #app,
+  .portal-container,
+  .dashboard-wrapper,
+  .portal-main,
+  .tab-content,
+  .section-panel,
+  .hub-container,
+  .auth-wrapper {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
   }
 
+  /* Container safe padding on mobile so content never gets covered by bottom bar */
+  .portal-container {
+    padding: 12px 10px calc(80px + env(safe-area-inset-bottom, 0px)) 10px !important;
+  }
+
+  /* Compact Mobile Header */
   .portal-header {
-    padding: 12px 14px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    padding: 10px 12px !important;
     margin-bottom: 12px !important;
+    gap: 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  .portal-header .brand {
+    min-width: 0 !important;
+    flex: 1 !important;
+    overflow: hidden !important;
     gap: 8px !important;
   }
 
   .portal-header .brand h1 {
-    font-size: 1.05rem !important;
+    font-size: 0.95rem !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 190px !important;
   }
 
   .portal-header .host-tag,
@@ -104,93 +156,260 @@ body {
     display: none !important;
   }
 
-  /* Grid overview 2 columns on mobile */
+  /* Grid overview 2 columns on mobile with zero flex overflow */
   .grid-overview {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 10px !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .card,
+  .kpi-card-blue,
+  .kpi-card-green,
+  .kpi-card-amber,
+  .kpi-card-indigo,
+  .kpi-card-rose,
+  .kpi-card-emerald {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    padding: 14px 12px !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
   .kpi-value {
-    font-size: 1.3rem !important;
+    font-size: 1.25rem !important;
+    word-break: break-all !important;
   }
 
   .kpi-desc {
-    font-size: 0.72rem !important;
+    font-size: 0.7rem !important;
+    line-height: 1.3 !important;
   }
 
   .section-panel {
-    padding: 16px 14px !important;
+    padding: 14px 12px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
   }
 
   .section-header-row,
   .table-toolbar-row,
   .filters-row,
-  .users-toolbar {
+  .users-toolbar,
+  .order-cta-row,
+  .journal-balance-summary {
     flex-direction: column !important;
     align-items: stretch !important;
     gap: 10px !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   .form-row {
     flex-direction: column !important;
     gap: 10px !important;
+    width: 100% !important;
   }
 
+  /* Inputs, Search and Filters on mobile */
+  .filter-bar,
+  .search-box,
+  .role-filter-box,
+  .select-filter,
+  .search-input,
+  .form-input,
+  .form-group,
+  .flex-1 {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .filter-bar {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  /* All sub-grids collapse to single column */
   .quick-links-grid,
   .two-col-layout,
   .servers-grid,
   .contract-docs-grid,
+  .repo-grid,
   .repos-grid,
-  .tax-cards-grid {
-    grid-template-columns: 1fr !important;
+  .tax-grid,
+  .tax-cards-grid,
+  .portal-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    gap: 10px !important;
   }
 
-  .status-bar-banner {
+  .quick-card,
+  .server-card,
+  .repo-card,
+  .tax-card,
+  .portal-item {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    word-break: break-word !important;
+    padding: 14px 12px !important;
+  }
+
+  /* Contract document cards on mobile */
+  .contract-doc-card {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    padding: 14px 12px !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .contract-doc-card .doc-meta {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .contract-doc-card .doc-meta h4 {
+    word-break: break-word !important;
+    font-size: 0.92rem !important;
+  }
+
+  .contract-doc-card .btn-action {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  /* System and Director status banners */
+  .status-bar-banner,
+  .director-banner,
+  .alert-banner {
     flex-direction: column !important;
     align-items: flex-start !important;
     gap: 6px !important;
-    padding: 10px 14px !important;
+    padding: 10px 12px !important;
     font-size: 0.78rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    word-break: break-word !important;
+  }
+
+  .director-banner-content {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 4px !important;
+    width: 100% !important;
+    max-width: 100% !important;
   }
 
   .status-right {
-    font-size: 0.74rem !important;
+    font-size: 0.72rem !important;
     display: flex !important;
     flex-wrap: wrap !important;
     gap: 6px !important;
+    width: 100% !important;
   }
 
   .status-right .sep {
     display: none !important;
   }
 
-  /* Modals on mobile */
-  .modal-card {
-    width: 95% !important;
-    max-width: 95% !important;
-    margin: 10px !important;
-    max-height: 90vh !important;
-    overflow-y: auto !important;
+  /* Tables isolated in horizontal scrolling container */
+  .table-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    display: block !important;
+    border-radius: 8px !important;
+    margin-bottom: 12px !important;
   }
 
-  .modal-header {
-    padding: 14px 16px !important;
-  }
-
-  .modal-form {
-    padding: 16px 14px !important;
-  }
-
-  .modal-footer {
-    padding: 12px 14px !important;
-    flex-wrap: wrap !important;
+  .data-table {
+    border-collapse: collapse !important;
+    white-space: nowrap !important;
+    font-size: 0.8rem !important;
   }
 
   .data-table th,
   .data-table td {
-    padding: 10px 12px !important;
-    font-size: 0.8rem !important;
+    padding: 8px 10px !important;
+    font-size: 0.78rem !important;
     white-space: nowrap !important;
+  }
+
+  /* Modals on mobile */
+  .modal-backdrop {
+    padding: 8px !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  .modal-card {
+    width: 100% !important;
+    max-width: calc(100vw - 16px) !important;
+    margin: 0 auto !important;
+    max-height: 88vh !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  .modal-header {
+    padding: 12px 14px !important;
+  }
+
+  .modal-form {
+    padding: 14px 12px !important;
+  }
+
+  .modal-footer {
+    padding: 10px 12px !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  .slip-content {
+    padding: 14px 10px !important;
+    overflow-x: auto !important;
+  }
+
+  .slip-corp-header h4 {
+    font-size: 0.95rem !important;
+  }
+
+  .slip-corp-header p {
+    font-size: 0.68rem !important;
+    word-break: break-word !important;
+  }
+
+  .slip-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 2px !important;
+  }
+
+  .slip-footer-sign {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 12px !important;
   }
 
   /* Touch buttons */
@@ -201,6 +420,7 @@ body {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
+    box-sizing: border-box !important;
   }
 
   /* Fixed Mobile Bottom Bar */
