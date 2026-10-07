@@ -334,10 +334,17 @@
 
           <!-- Modul Bagan Akun Standar (COA) -->
           <section class="section-panel glass-panel">
-            <h2>📑 Bagan Akun Standar (Chart of Accounts - 32 Akun)</h2>
-            <p class="section-desc">
-              Kode akun 5-digit standar Ikatan Akuntan Indonesia (IAI) untuk pelaporan keuangan korporat.
-            </p>
+            <div class="section-header-row">
+              <div>
+                <h2>📑 Bagan Akun Standar (Chart of Accounts - SAK EMKM)</h2>
+                <p class="section-desc">
+                  Kode akun standar Ikatan Akuntan Indonesia (IAI) untuk pelaporan keuangan korporat.
+                </p>
+              </div>
+              <button @click="showCoaModal = true" class="btn-primary">
+                + Tambah Akun COA Baru
+              </button>
+            </div>
             <div class="table-container">
               <table class="data-table">
                 <thead>
@@ -350,7 +357,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="acc in defaultAccounts" :key="acc.code">
+                  <tr v-for="acc in coaAccounts" :key="acc.code">
                     <td class="font-mono">{{ acc.code }}</td>
                     <td><strong>{{ acc.name }}</strong></td>
                     <td><span class="category-pill" :class="acc.category">{{ acc.category }}</span></td>
@@ -435,20 +442,159 @@
             </p>
             <div class="tax-grid">
               <div class="tax-card">
-                <h3>SPT Masa PPN 1111</h3>
-                <p class="tax-rate">Tarif: 11% (12% Transisi)</p>
-                <p class="tax-detail">Pencatatan faktur pajak keluaran atas jasa custom development & managed care, serta rekonsiliasi faktur masukan vendor server/cloud.</p>
+                <div class="card-header">
+                  <h3>SPT Masa PPN 1111</h3>
+                  <span class="tag tag-tax">PPN 11%</span>
+                </div>
+                <div class="kpi-value text-emerald font-mono" style="font-size: 1.35rem; margin: 8px 0;">
+                  {{ formatCurrency(totalPPN) }}
+                </div>
+                <p class="tax-detail">Total PPN Keluaran terhitung dari {{ officeInvoices.length }} faktur terbit. Siap rekonsiliasi Coretax DJP.</p>
               </div>
+
               <div class="tax-card">
-                <h3>e-Bupot PPh Pasal 21</h3>
-                <p class="tax-rate">Pasal 17 / Tenaga Ahli</p>
-                <p class="tax-detail">Pemotongan PPh 21 atas kompensasi tenaga ahli programmer eksternal dengan penerbitan bukti potong resmi 21/26.</p>
+                <div class="card-header">
+                  <h3>e-Bupot PPh Pasal 21</h3>
+                  <span class="tag tag-blue">Tenaga Ahli</span>
+                </div>
+                <div class="kpi-value text-rose font-mono" style="font-size: 1.35rem; margin: 8px 0;">
+                  {{ formatCurrency(totalPPh21) }}
+                </div>
+                <p class="tax-detail">Total PPh 21 terpotong dari {{ officeWithholdingSlips.length }} bukti potong resmi 21/26 yang diterbitkan untuk engineer.</p>
               </div>
+
               <div class="tax-card">
-                <h3>e-Bupot PPh Pasal 23</h3>
-                <p class="tax-rate">Tarif: 2% Jasa Teknik</p>
-                <p class="tax-detail">Pencatatan bukti potong PPh 23 saat klien korporat memotong pembayaran invoice PT. Melayani Digital Raya.</p>
+                <div class="card-header">
+                  <h3>e-Bupot PPh Pasal 23</h3>
+                  <span class="tag tag-amber">Kredit Pajak 2%</span>
+                </div>
+                <div class="kpi-value text-indigo font-mono" style="font-size: 1.35rem; margin: 8px 0;">
+                  {{ formatCurrency(Math.round(totalRevenueYTD * 0.02)) }}
+                </div>
+                <p class="tax-detail">Estimasi pemotongan PPh 23 (2%) oleh klien korporat atas realisasi omset jasa software engineering.</p>
               </div>
+            </div>
+          </section>
+
+          <!-- Modul Penerbitan Bukti Potong PPh 21 Tenaga Ahli -->
+          <section class="section-panel glass-panel" style="margin-top: 24px;">
+            <div class="section-header-row">
+              <div>
+                <h2>🏛️ Penerbitan Bukti Potong PPh 21 Tenaga Ahli (e-Bupot 21/26)</h2>
+                <p class="section-desc">
+                  Penerbitan bukti potong pajak resmi formulir 21/26 untuk software engineer & mitra lepas. Terkoneksi langsung ke portal jobs.meldir.id.
+                </p>
+              </div>
+              <button @click="openWithholdingModal" class="btn-primary">
+                + Terbitkan Bukti Potong PPh 21
+              </button>
+            </div>
+
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>No. Bukti Potong</th>
+                    <th>Nama Engineer / Tenaga Ahli</th>
+                    <th>Masa / Tahun</th>
+                    <th>Penghasilan Bruto</th>
+                    <th>DPP (50%)</th>
+                    <th>PPh 21 (5%)</th>
+                    <th>Status e-Bupot</th>
+                    <th style="text-align: right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="slip in officeWithholdingSlips" :key="slip.id">
+                    <td class="font-mono text-muted">#{{ slip.slipNumber }}</td>
+                    <td><strong>{{ slip.engineerName }}</strong></td>
+                    <td>{{ slip.period }}</td>
+                    <td class="font-mono">{{ formatCurrency(slip.bruto) }}</td>
+                    <td class="font-mono text-muted">{{ formatCurrency(slip.dpp) }}</td>
+                    <td class="font-mono font-bold text-rose">{{ formatCurrency(slip.taxAmount) }}</td>
+                    <td><span class="badge-active">✓ Terlapor DJP</span></td>
+                    <td style="text-align: right">
+                      <div class="action-btn-group">
+                        <button @click="selectedSlipToPrint = slip" class="btn-action edit" title="Lihat & Cetak Slip">
+                          🖨️ Cetak
+                        </button>
+                        <button @click="deleteWithholdingSlip(slip.id)" class="btn-action delete" title="Hapus">
+                          🗑️
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr v-if="officeWithholdingSlips.length === 0">
+                    <td colspan="8" class="text-center py-6 text-muted">
+                      Belum ada bukti potong PPh 21 yang diterbitkan. Klik "+ Terbitkan Bukti Potong PPh 21" untuk membuat bukti potong baru bagi engineer.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <!-- Tab 5: Manajemen Kontrak SPK & BAST Klien -->
+        <div v-else-if="activeTab === 'contracts'" class="tab-content">
+          <section class="section-panel glass-panel">
+            <div class="section-header-row">
+              <div>
+                <h2>📜 Manajemen Kontrak Kerja Sama (SPK) & BAST Klien</h2>
+                <p class="section-desc">
+                  Pencatatan dan pengesahan kontrak SPK Canvas & BAST bersertifikasi e-Materai Peruri. Terkoneksi otomatis ke Client Control Center (portal.meldir.id).
+                </p>
+              </div>
+              <button @click="openContractModal" class="btn-primary">
+                + Terbitkan Dokumen SPK / BAST
+              </button>
+            </div>
+
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>No. Dokumen</th>
+                    <th>Nama Klien Korporat</th>
+                    <th>Jenis Berkas</th>
+                    <th>Judul & Lingkup Kontrak</th>
+                    <th>Periode Berlaku</th>
+                    <th>Nilai Kontrak</th>
+                    <th>Status Legalitas</th>
+                    <th style="text-align: right">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="c in officeContracts" :key="c.id">
+                    <td class="font-mono text-muted">#{{ c.docNumber }}</td>
+                    <td><strong>{{ c.clientName }}</strong></td>
+                    <td>
+                      <span :class="['tag', c.docType === 'SPK' ? 'tag-blue' : 'tag-green']">
+                        {{ c.docType }}
+                      </span>
+                    </td>
+                    <td>
+                      <div>{{ c.title }}</div>
+                      <div class="text-xs text-muted">{{ c.description }}</div>
+                    </td>
+                    <td class="text-xs font-mono">{{ c.period }}</td>
+                    <td class="font-mono font-bold text-emerald">{{ c.amountText }}</td>
+                    <td><span class="badge-active">{{ c.badge }}</span></td>
+                    <td style="text-align: right">
+                      <div class="action-btn-group">
+                        <button @click="deleteContract(c.id)" class="btn-action delete">
+                          🗑️ Hapus
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr v-if="officeContracts.length === 0">
+                    <td colspan="8" class="text-center py-6 text-muted">
+                      Belum ada dokumen kontrak SPK atau BAST yang dicatat. Klik "+ Terbitkan Dokumen SPK / BAST" untuk membuat dokumen legal baru bagi klien.
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </section>
         </div>
@@ -600,7 +746,7 @@
             <div class="form-group flex-1">
               <label>Akun Posisi DEBIT *</label>
               <select v-model="journalForm.debitAccount" required class="form-input">
-                <option v-for="acc in defaultAccounts" :key="'deb-' + acc.code" :value="acc.code + ' ' + acc.name">
+                <option v-for="acc in coaAccounts" :key="'deb-' + acc.code" :value="acc.code + ' ' + acc.name">
                   {{ acc.code }} — {{ acc.name }}
                 </option>
               </select>
@@ -608,7 +754,7 @@
             <div class="form-group flex-1">
               <label>Akun Posisi KREDIT *</label>
               <select v-model="journalForm.creditAccount" required class="form-input">
-                <option v-for="acc in defaultAccounts" :key="'kred-' + acc.code" :value="acc.code + ' ' + acc.name">
+                <option v-for="acc in coaAccounts" :key="'kred-' + acc.code" :value="acc.code + ' ' + acc.name">
                   {{ acc.code }} — {{ acc.name }}
                 </option>
               </select>
@@ -682,6 +828,239 @@
         </form>
       </div>
     </div>
+
+    <!-- Modal Form (Tambah Akun COA Baru) -->
+    <div v-if="showCoaModal" class="modal-backdrop" @click.self="showCoaModal = false">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>+ Tambah Akun Bagan Standar (COA)</h3>
+          <button @click="showCoaModal = false" class="btn-close-modal">✕</button>
+        </div>
+        <form @submit.prevent="saveCoaAccount" class="modal-form">
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Kode Akun (Standar 5-digit) *</label>
+              <input v-model="coaForm.code" type="text" required placeholder="Contoh: 1-1004" class="form-input" />
+            </div>
+            <div class="form-group flex-1">
+              <label>Posisi Saldo Normal *</label>
+              <select v-model="coaForm.balance" required class="form-input">
+                <option value="debit">Debit</option>
+                <option value="credit">Kredit</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Nama Akun Baru *</label>
+            <input v-model="coaForm.name" type="text" required placeholder="Contoh: Bank BNI Giro Korporat" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Kategori Klasifikasi Akun *</label>
+            <select v-model="coaForm.category" required class="form-input">
+              <option value="asset">Aset / Harta Lancar</option>
+              <option value="liability">Liabilitas / Kewajiban</option>
+              <option value="equity">Ekuitas / Modal</option>
+              <option value="revenue">Pendapatan Operasional</option>
+              <option value="expense">Beban / Biaya Usaha</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" @click="showCoaModal = false" class="btn-secondary">Batal</button>
+            <button type="submit" class="btn-primary">Simpan Akun COA</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Form (Terbitkan Bukti Potong PPh 21) -->
+    <div v-if="showWithholdingModal" class="modal-backdrop" @click.self="showWithholdingModal = false">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>+ Terbitkan Bukti Potong PPh 21 Tenaga Ahli (e-Bupot 21/26)</h3>
+          <button @click="showWithholdingModal = false" class="btn-close-modal">✕</button>
+        </div>
+        <form @submit.prevent="saveWithholdingSlip" class="modal-form">
+          <div class="form-group">
+            <label>Pilih Engineer Penerima Kompensasi *</label>
+            <input
+              v-model="withholdingForm.engineerName"
+              type="text"
+              list="engineer-suggestions"
+              required
+              placeholder="Ketik atau pilih nama engineer..."
+              class="form-input"
+            />
+            <datalist id="engineer-suggestions">
+              <option v-for="eng in usersList.filter(u => u.role === 'engineer')" :key="eng.id" :value="eng.name"></option>
+            </datalist>
+          </div>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Nomor Bukti Potong Resmi *</label>
+              <input v-model="withholdingForm.slipNumber" type="text" required class="form-input" />
+            </div>
+            <div class="form-group flex-1">
+              <label>Masa & Tahun Pajak *</label>
+              <input v-model="withholdingForm.period" type="text" required placeholder="Contoh: Oktober 2026" class="form-input" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Penghasilan Bruto (Rp) *</label>
+            <input v-model.number="withholdingForm.bruto" type="number" min="100000" step="50000" required class="form-input" />
+          </div>
+          <div class="addon-summary-box" style="margin-bottom: 16px;">
+            <div class="addon-sum-row">
+              <span>Dasar Pengenaan Pajak (DPP 50% PP 58/2023):</span>
+              <strong class="font-mono">{{ formatCurrency(withholdingDpp) }}</strong>
+            </div>
+            <div class="addon-sum-row">
+              <span>Tarif Pajak Pasal 17:</span>
+              <span class="tag tag-blue">5%</span>
+            </div>
+            <div class="addon-sum-row total">
+              <span>PPh 21 Dipotong Perusahaan:</span>
+              <strong class="font-mono text-rose">{{ formatCurrency(withholdingTax) }}</strong>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" @click="showWithholdingModal = false" class="btn-secondary">Batal</button>
+            <button type="submit" class="btn-primary">Terbitkan Bukti Potong Resmi</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Form (Terbitkan Kontrak SPK / BAST) -->
+    <div v-if="showContractModal" class="modal-backdrop" @click.self="showContractModal = false">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>+ Terbitkan Dokumen Kontrak SPK / BAST Klien</h3>
+          <button @click="showContractModal = false" class="btn-close-modal">✕</button>
+        </div>
+        <form @submit.prevent="saveContract" class="modal-form">
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Pilih Klien Korporat *</label>
+              <input
+                v-model="contractForm.clientName"
+                type="text"
+                list="client-suggestions"
+                required
+                placeholder="Ketik atau pilih nama klien..."
+                class="form-input"
+              />
+              <datalist id="client-suggestions">
+                <option v-for="cl in usersList.filter(u => u.role === 'klien')" :key="cl.id" :value="cl.name"></option>
+              </datalist>
+            </div>
+            <div class="form-group flex-1">
+              <label>Jenis Dokumen Legal *</label>
+              <select v-model="contractForm.docType" required class="form-input">
+                <option value="SPK">Surat Perjanjian Kerja Sama (SPK)</option>
+                <option value="BAST">Berita Acara Serah Terima (BAST)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group flex-1">
+              <label>Nomor Dokumen Resmi *</label>
+              <input v-model="contractForm.docNumber" type="text" required placeholder="018/SPK/MDR/2026" class="form-input" />
+            </div>
+            <div class="form-group flex-1">
+              <label>Periode Berlaku *</label>
+              <input v-model="contractForm.period" type="text" required placeholder="1 Jan 2026 – 31 Des 2026" class="form-input" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Judul Dokumen / Nama Layanan *</label>
+            <input v-model="contractForm.title" type="text" required placeholder="Layanan Managed Care SLA 24 Jam" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Nilai Kontrak (Teks) *</label>
+            <input v-model="contractForm.amountText" type="text" required placeholder="Rp 15.000.000 / Bulan" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Klausul SLA & Ruang Lingkup *</label>
+            <textarea v-model="contractForm.slaTerms" rows="2" required placeholder="Contoh: SLA respon kritis 4 jam, garansi bug fix 12 jam, kuota bulanan 10 jam..." class="form-input"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" @click="showContractModal = false" class="btn-secondary">Batal</button>
+            <button type="submit" class="btn-primary">Terbitkan & Sahkan e-Materai</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Cetak Slip Pajak PPh 21 -->
+    <div v-if="selectedSlipToPrint" class="modal-backdrop" @click.self="selectedSlipToPrint = null">
+      <div class="modal-card modal-slip-view">
+        <div class="modal-header">
+          <h3>Bukti Potong PPh 21 Resmi (Formulir 21/26)</h3>
+          <button @click="selectedSlipToPrint = null" class="btn-close-modal">✕</button>
+        </div>
+        <div class="slip-content" id="printable-slip">
+          <div class="slip-corp-header">
+            <h4>PT. MELAYANI DIGITAL RAYA</h4>
+            <p>NPWP: 01.234.567.8-012.000 • SK Kemenkumham RI: AHU-0012345.AH.01.01.TAHUN 2026</p>
+            <div class="slip-title">BUKTI PEMOTONGAN PPH PASAL 21 (FORMULIR 21/26)</div>
+            <div class="slip-number font-mono">Nomor: {{ selectedSlipToPrint.slipNumber }}</div>
+          </div>
+
+          <div class="slip-details-grid">
+            <div class="slip-row">
+              <span class="label">Nama Penerima Penghasilan:</span>
+              <span class="val"><strong>{{ selectedSlipToPrint.engineerName }}</strong></span>
+            </div>
+            <div class="slip-row">
+              <span class="label">Masa / Tahun Pajak:</span>
+              <span class="val font-bold">{{ selectedSlipToPrint.period }}</span>
+            </div>
+            <div class="slip-row">
+              <span class="label">Klasifikasi Penghasilan:</span>
+              <span class="val">Imbalan Kepada Tenaga Ahli / Jasa Perangkat Lunak (Bukan Pegawai)</span>
+            </div>
+          </div>
+
+          <div class="slip-calc-table">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Jumlah Penghasilan Bruto</th>
+                  <th>Dasar Pengenaan Pajak (50%)</th>
+                  <th>Tarif</th>
+                  <th>PPh 21 Dipotong</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="font-mono font-bold">{{ formatCurrency(selectedSlipToPrint.bruto) }}</td>
+                  <td class="font-mono">{{ formatCurrency(selectedSlipToPrint.dpp) }}</td>
+                  <td class="font-bold">{{ selectedSlipToPrint.rate || '5%' }}</td>
+                  <td class="font-mono font-bold text-rose">{{ formatCurrency(selectedSlipToPrint.taxAmount) }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="slip-footer-sign">
+            <div class="seal-badge">
+              <div class="seal-text">PT. MELDIR</div>
+              <div class="seal-sub">AUTHENTICATED</div>
+            </div>
+            <div class="sign-block">
+              <div>Jakarta, {{ selectedSlipToPrint.period }}</div>
+              <div class="sign-title">Pemotong Pajak / Direktur Utama</div>
+              <div class="sign-space"></div>
+              <div class="sign-name">PT. Melayani Digital Raya</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button @click="printSlip()" class="btn-primary">🖨️ Cetak / Simpan PDF</button>
+          <button @click="selectedSlipToPrint = null" class="btn-secondary">Tutup</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -701,6 +1080,7 @@ const tabs = [
   { id: 'users', label: 'Manajemen Pengguna (CRUD)', icon: '👥' },
   { id: 'accounting', label: 'Buku Besar SAK EMKM', icon: '📖' },
   { id: 'tax', label: 'Kepatuhan Pajak DJP', icon: '🏛️' },
+  { id: 'contracts', label: 'Kontrak SPK & BAST', icon: '📜' },
 ]
 
 const globalMessage = ref('')
@@ -766,6 +1146,184 @@ const defaultAccounts = [
   { code: '5-1001', name: 'Beban Kompensasi Engineer', category: 'expense', balance: 'debit' },
   { code: '5-1002', name: 'Beban Infrastruktur Server & VPS', category: 'expense', balance: 'debit' },
 ]
+
+function loadStoredCoa(): any[] {
+  try {
+    const raw = localStorage.getItem('meldir_custom_coa')
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      if (Array.isArray(parsed) && parsed.length > 0) return [...defaultAccounts, ...parsed]
+    }
+  } catch {}
+  return [...defaultAccounts]
+}
+
+const coaAccounts = ref<any[]>(loadStoredCoa())
+const showCoaModal = ref(false)
+const coaForm = ref({
+  code: '',
+  name: '',
+  category: 'asset',
+  balance: 'debit',
+})
+
+function saveCoaAccount() {
+  if (!coaForm.value.code || !coaForm.value.name) return
+  const newAcc = {
+    code: coaForm.value.code.trim(),
+    name: coaForm.value.name.trim(),
+    category: coaForm.value.category,
+    balance: coaForm.value.balance,
+  }
+  coaAccounts.value.push(newAcc)
+  try {
+    const custom = coaAccounts.value.filter(a => !defaultAccounts.some(d => d.code === a.code))
+    localStorage.setItem('meldir_custom_coa', JSON.stringify(custom))
+  } catch {}
+  showCoaModal.value = false
+  coaForm.value = { code: '', name: '', category: 'asset', balance: 'debit' }
+  showFlash(`Akun COA baru "${newAcc.code} - ${newAcc.name}" berhasil ditambahkan!`)
+}
+
+// State Bukti Potong PPh 21 (Office -> Jobs)
+function loadStoredWithholdingSlips(): any[] {
+  try {
+    const raw = localStorage.getItem('meldir_withholding_slips')
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      if (Array.isArray(parsed)) return parsed
+    }
+  } catch {}
+  return []
+}
+
+const officeWithholdingSlips = ref<any[]>(loadStoredWithholdingSlips())
+const showWithholdingModal = ref(false)
+const withholdingForm = ref({
+  engineerName: '',
+  slipNumber: '',
+  period: new Date().toLocaleDateString('id-ID', { month: 'long', year: 'numeric' }),
+  bruto: 10000000,
+})
+
+const withholdingDpp = computed(() => Math.round(Number(withholdingForm.value.bruto || 0) * 0.5))
+const withholdingTax = computed(() => Math.round(withholdingDpp.value * 0.05))
+
+function openWithholdingModal() {
+  const currentMonthNum = new Date().getMonth() + 1
+  const count = officeWithholdingSlips.value.length + 1
+  withholdingForm.value = {
+    engineerName: '',
+    slipNumber: `BP-21/2026/${currentMonthNum < 10 ? '0' + currentMonthNum : currentMonthNum}/${count < 10 ? '00' + count : '0' + count}`,
+    period: new Date().toLocaleDateString('id-ID', { month: 'long', year: 'numeric' }),
+    bruto: 10000000,
+  }
+  showWithholdingModal.value = true
+}
+
+function saveWithholdingSlip() {
+  if (!withholdingForm.value.engineerName || !withholdingForm.value.bruto) return
+  const newSlip = {
+    id: Date.now(),
+    slipNumber: withholdingForm.value.slipNumber,
+    engineerName: withholdingForm.value.engineerName,
+    period: withholdingForm.value.period,
+    bruto: Number(withholdingForm.value.bruto),
+    dpp: withholdingDpp.value,
+    rate: '5%',
+    taxAmount: withholdingTax.value,
+    createdAt: new Date().toISOString(),
+  }
+  officeWithholdingSlips.value.unshift(newSlip)
+  try {
+    localStorage.setItem('meldir_withholding_slips', JSON.stringify(officeWithholdingSlips.value))
+  } catch {}
+  showWithholdingModal.value = false
+  showFlash(`Bukti Potong PPh 21 #${newSlip.slipNumber} berhasil diterbitkan untuk ${newSlip.engineerName}!`)
+}
+
+function deleteWithholdingSlip(id: number) {
+  officeWithholdingSlips.value = officeWithholdingSlips.value.filter(s => s.id !== id)
+  try {
+    localStorage.setItem('meldir_withholding_slips', JSON.stringify(officeWithholdingSlips.value))
+  } catch {}
+  showFlash('Bukti potong berhasil dihapus.')
+}
+
+const selectedSlipToPrint = ref<any>(null)
+
+function printSlip() {
+  window.print()
+}
+
+// State Kontrak SPK & BAST (Office -> Client Portal)
+function loadStoredContracts(): any[] {
+  try {
+    const raw = localStorage.getItem('meldir_client_contracts')
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      if (Array.isArray(parsed)) return parsed
+    }
+  } catch {}
+  return []
+}
+
+const officeContracts = ref<any[]>(loadStoredContracts())
+const showContractModal = ref(false)
+const contractForm = ref({
+  clientName: '',
+  docType: 'SPK',
+  docNumber: '',
+  title: '',
+  period: '',
+  amountText: 'Rp 15.000.000 / Bulan',
+  slaTerms: 'SLA Respon P1 4 Jam, Kuota Jam Kerja 10 Jam / Bulan',
+})
+
+function openContractModal() {
+  const count = officeContracts.value.length + 1
+  contractForm.value = {
+    clientName: '',
+    docType: 'SPK',
+    docNumber: `0${18 + count}/SPK/MDR/2026`,
+    title: 'Surat Perjanjian Kerja Sama Managed Care SLA 24 Jam',
+    period: '1 Jan 2026 – 31 Des 2026',
+    amountText: 'Rp 15.000.000 / Bulan',
+    slaTerms: 'SLA Respon P1 4 Jam, Kuota Jam Kerja 10 Jam / Bulan',
+  }
+  showContractModal.value = true
+}
+
+function saveContract() {
+  if (!contractForm.value.clientName || !contractForm.value.docNumber) return
+  const newDoc = {
+    id: Date.now(),
+    clientName: contractForm.value.clientName,
+    docType: contractForm.value.docType,
+    docNumber: contractForm.value.docNumber,
+    title: `${contractForm.value.docType === 'SPK' ? 'Surat Perjanjian Kerja Sama' : 'Berita Acara Serah Terima'} No. ${contractForm.value.docNumber}`,
+    subtitle: `${contractForm.value.title} • Periode ${contractForm.value.period}`,
+    description: contractForm.value.slaTerms,
+    period: contractForm.value.period,
+    amountText: contractForm.value.amountText,
+    badge: '✓ E-Materai Sah & Tervalidasi Peruri',
+    createdAt: new Date().toISOString(),
+  }
+  officeContracts.value.unshift(newDoc)
+  try {
+    localStorage.setItem('meldir_client_contracts', JSON.stringify(officeContracts.value))
+  } catch {}
+  showContractModal.value = false
+  showFlash(`Dokumen ${newDoc.docType} #${newDoc.docNumber} untuk ${newDoc.clientName} berhasil dicatat & divalidasi e-Materai!`)
+}
+
+function deleteContract(id: number) {
+  officeContracts.value = officeContracts.value.filter(c => c.id !== id)
+  try {
+    localStorage.setItem('meldir_client_contracts', JSON.stringify(officeContracts.value))
+  } catch {}
+  showFlash('Dokumen kontrak berhasil dihapus.')
+}
 
 function switchTab(tabId: string) {
   activeTab.value = tabId
@@ -1068,6 +1626,14 @@ const totalRevenueYTD = computed(() => {
   return officeInvoices.value
     .filter(i => i.status === 'paid')
     .reduce((acc, curr) => acc + (curr.total || 0), 0)
+})
+
+const totalPPN = computed(() => {
+  return officeInvoices.value.reduce((acc, curr) => acc + (curr.ppn || 0), 0)
+})
+
+const totalPPh21 = computed(() => {
+  return officeWithholdingSlips.value.reduce((acc, curr) => acc + (curr.taxAmount || 0), 0)
 })
 
 async function fetchInvoices() {

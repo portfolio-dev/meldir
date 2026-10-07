@@ -364,6 +364,14 @@
                   Slip bukti potong resmi formulir 21/26 dari PT. Melayani Digital Raya yang dapat Anda gunakan sebagai kredit pajak pada SPT Tahunan Pribadi.
                 </p>
               </div>
+              <button
+                @click="generateSlipFromTimesheet"
+                :disabled="totalLoggedHours === 0"
+                class="btn-primary"
+                :title="totalLoggedHours === 0 ? 'Catat jam kerja di timesheet terlebih dahulu' : 'Terbitkan slip dari akumulasi jam'"
+              >
+                ⚡ Terbitkan Estimasi Slip dari Timesheet ({{ totalLoggedHours }} Jam)
+              </button>
             </div>
 
             <div class="tax-info-banner">
@@ -836,7 +844,59 @@ function openQuickLog(t: any) {
 }
 
 // Pajak PPh 21 Slips
-const withholdingSlips = ref<any[]>([])
+function loadWithholdingSlips(): any[] {
+  try {
+    const raw = localStorage.getItem('meldir_withholding_slips')
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      if (Array.isArray(parsed)) {
+        if (authStore.user?.role === 'direktur' || authStore.user?.role === 'admin') {
+          return parsed
+        }
+        const myName = (authStore.user?.name || '').toLowerCase()
+        return parsed.filter(s => (s.engineerName || '').toLowerCase().includes(myName) || myName.includes((s.engineerName || '').toLowerCase()))
+      }
+    }
+  } catch {}
+  return []
+}
+
+const withholdingSlips = ref<any[]>(loadWithholdingSlips())
+
+function generateSlipFromTimesheet() {
+  if (totalLoggedHours.value <= 0) return
+  const bruto = totalLoggedHours.value * 175000
+  const dpp = Math.round(bruto * 0.5)
+  const taxAmount = Math.round(dpp * 0.05)
+  const currentMonthNum = new Date().getMonth() + 1
+  const count = withholdingSlips.value.length + 1
+  const slipNumber = `BP-21/2026/${currentMonthNum < 10 ? '0' + currentMonthNum : currentMonthNum}/${count < 10 ? '00' + count : '0' + count}`
+  const newSlip = {
+    id: Date.now(),
+    slipNumber,
+    engineerName: authStore.user?.name || 'Engineer Meldir',
+    period: new Date().toLocaleDateString('id-ID', { month: 'long', year: 'numeric' }),
+    bruto,
+    dpp,
+    rate: '5%',
+    taxAmount,
+    createdAt: new Date().toISOString(),
+  }
+
+  // Load existing all slips to persist across sessions
+  let allSlips: any[] = []
+  try {
+    const raw = localStorage.getItem('meldir_withholding_slips')
+    if (raw) allSlips = JSON.parse(raw)
+  } catch {}
+  allSlips.unshift(newSlip)
+  try {
+    localStorage.setItem('meldir_withholding_slips', JSON.stringify(allSlips))
+  } catch {}
+
+  withholdingSlips.value.unshift(newSlip)
+  showFlashMsg(`✓ Slip PPh 21 #${slipNumber} berhasil diterbitkan dari ${totalLoggedHours.value} jam kerja!`)
+}
 
 const selectedSlip = ref<any>(null)
 function openSlipModal(slip: any) {
@@ -908,6 +968,7 @@ onMounted(async () => {
   if (authStore.token) {
     await authStore.fetchProfile()
     await Promise.all([fetchTickets(), fetchTimesheets()])
+    withholdingSlips.value = loadWithholdingSlips()
   }
 })
 </script>

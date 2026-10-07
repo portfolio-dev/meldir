@@ -137,10 +137,15 @@
                   Probe eksternal melakukan ping otomatis setiap 5 menit untuk memastikan endpoint API, Web, dan Database selalu siap melayani pelanggan Anda.
                 </p>
               </div>
-              <button @click="pingAllServers" :disabled="isPinging" class="btn-primary">
-                <span v-if="isPinging">⚡ Memeriksa Server...</span>
-                <span v-else>⚡ Uji Ping Live Sekarang</span>
-              </button>
+              <div class="action-btn-group">
+                <button @click="showServerModal = true" class="btn-secondary">
+                  + Daftarkan Server Baru
+                </button>
+                <button @click="pingAllServers" :disabled="isPinging || clientServers.length === 0" class="btn-primary">
+                  <span v-if="isPinging">⚡ Memeriksa Server...</span>
+                  <span v-else>⚡ Uji Ping Live Sekarang</span>
+                </button>
+              </div>
             </div>
 
             <div class="servers-grid">
@@ -151,7 +156,10 @@
                     <h4>{{ s.name }}</h4>
                     <span class="font-mono text-xs text-muted">{{ s.url }}</span>
                   </div>
-                  <span class="badge-status-online">Online</span>
+                  <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="badge-status-online">Online</span>
+                    <button @click="deleteServer(s.id)" class="btn-action delete" title="Hapus Endpoint" style="padding: 2px 6px;">✕</button>
+                  </div>
                 </div>
                 <div class="server-metrics">
                   <div class="metric-item">
@@ -394,8 +402,8 @@
                   <p class="text-xs text-muted">{{ doc.description }}</p>
                   <div class="doc-badge-verified">{{ doc.badge || '✓ E-Materai Sah & Tervalidasi' }}</div>
                 </div>
-                <button @click="downloadDoc(doc.title)" class="btn-action edit">
-                  📥 Unduh Berkas
+                <button @click="selectedContract = doc" class="btn-action edit">
+                  👁️ Lihat & Cetak Berkas
                 </button>
               </div>
               <div v-if="clientContracts.length === 0" class="card glass-panel" style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
@@ -480,6 +488,97 @@
         </form>
       </div>
     </div>
+
+    <!-- Modal Daftarkan Server Baru -->
+    <div v-if="showServerModal" class="modal-backdrop" @click.self="showServerModal = false">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>+ Daftarkan Server / Host Baru</h3>
+          <button @click="showServerModal = false" class="btn-close-modal">✕</button>
+        </div>
+        <form @submit.prevent="saveNewServer" class="modal-form">
+          <div class="form-group">
+            <label>Nama / Label Server *</label>
+            <input v-model="serverForm.name" type="text" required placeholder="Contoh: Production API Backend (Golang)" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>URL / Host Endpoint *</label>
+            <input v-model="serverForm.url" type="text" required placeholder="Contoh: https://api.perusahaan.com/health" class="form-input" />
+          </div>
+          <div class="form-group">
+            <label>Kategori Layanan *</label>
+            <select v-model="serverForm.category" required class="form-input">
+              <option value="api">REST API Service</option>
+              <option value="web">Web Application (Frontend)</option>
+              <option value="database">Database Cluster</option>
+              <option value="microservice">Microservice / Worker</option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button type="button" @click="showServerModal = false" class="btn-secondary">Batal</button>
+            <button type="submit" class="btn-primary">Daftarkan & Mulai Pantau</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Preview Dokumen Kontrak / SPK / BAST -->
+    <div v-if="selectedContract" class="modal-backdrop" @click.self="selectedContract = null">
+      <div class="modal-card modal-slip-view">
+        <div class="modal-header">
+          <h3>Dokumen Hukum Sah PT. Melayani Digital Raya</h3>
+          <button @click="selectedContract = null" class="btn-close-modal">✕</button>
+        </div>
+        <div class="slip-content" id="printable-contract">
+          <div class="slip-corp-header">
+            <h4>PT. MELAYANI DIGITAL RAYA</h4>
+            <p>NPWP: 01.234.567.8-012.000 • SK Kemenkumham RI: AHU-0012345.AH.01.01.TAHUN 2026</p>
+            <div class="slip-title">{{ selectedContract.title }}</div>
+            <div class="slip-number font-mono">Nomor Registrasi: {{ selectedContract.docNumber || selectedContract.id }}</div>
+          </div>
+
+          <div class="slip-details-grid">
+            <div class="slip-row">
+              <span class="label">Pihak Pertama (Penyedia Jasa):</span>
+              <span class="val"><strong>PT. Melayani Digital Raya</strong></span>
+            </div>
+            <div class="slip-row">
+              <span class="label">Pihak Kedua (Klien Mitra):</span>
+              <span class="val"><strong>{{ selectedContract.clientName || authStore.user?.name }}</strong></span>
+            </div>
+            <div class="slip-row">
+              <span class="label">Masa Berlaku Perjanjian:</span>
+              <span class="val font-bold">{{ selectedContract.period }}</span>
+            </div>
+            <div class="slip-row">
+              <span class="label">Nilai Kontrak:</span>
+              <span class="val font-mono font-bold text-emerald">{{ selectedContract.amountText }}</span>
+            </div>
+            <div class="slip-row">
+              <span class="label">Ruang Lingkup & Ketentuan SLA:</span>
+              <span class="val">{{ selectedContract.description }}</span>
+            </div>
+          </div>
+
+          <div class="slip-footer-sign">
+            <div class="seal-badge">
+              <div class="seal-text">E-MATERAI</div>
+              <div class="seal-sub">PERURI TERVALIDASI</div>
+            </div>
+            <div class="sign-block">
+              <div>Jakarta, {{ new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }) }}</div>
+              <div class="sign-title">Direktur Utama PT. Melayani Digital Raya</div>
+              <div class="sign-space"></div>
+              <div class="sign-name">Pihak Penyedia & Pengesah</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button @click="printContract()" class="btn-primary">🖨️ Cetak / Unduh Berkas PDF</button>
+          <button @click="selectedContract = null" class="btn-secondary">Tutup</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -517,8 +616,53 @@ const currentQuota = ref(10)
 const usedHours = ref(0)
 
 // Server Health Monitoring
+function loadStoredServers(): any[] {
+  try {
+    const raw = localStorage.getItem('meldir_client_servers')
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      if (Array.isArray(parsed)) return parsed
+    }
+  } catch {}
+  return []
+}
+
 const isPinging = ref(false)
-const clientServers = ref<any[]>([])
+const clientServers = ref<any[]>(loadStoredServers())
+const showServerModal = ref(false)
+const serverForm = ref({
+  name: '',
+  url: '',
+  category: 'api',
+})
+
+function saveNewServer() {
+  if (!serverForm.value.name || !serverForm.value.url) return
+  const newServer = {
+    id: Date.now(),
+    name: serverForm.value.name.trim(),
+    url: serverForm.value.url.trim(),
+    category: serverForm.value.category,
+    latency: Math.floor(Math.random() * 20) + 15,
+    sslDays: 85,
+    lastCheck: 'Baru saja',
+  }
+  clientServers.value.push(newServer)
+  try {
+    localStorage.setItem('meldir_client_servers', JSON.stringify(clientServers.value))
+  } catch {}
+  showServerModal.value = false
+  serverForm.value = { name: '', url: '', category: 'api' }
+  showFlashMsg(`✓ Server "${newServer.name}" berhasil didaftarkan dan siap dipantau probe!`)
+}
+
+function deleteServer(id: number) {
+  clientServers.value = clientServers.value.filter(s => s.id !== id)
+  try {
+    localStorage.setItem('meldir_client_servers', JSON.stringify(clientServers.value))
+  } catch {}
+  showFlashMsg('Server berhasil dihapus dari pemantauan.')
+}
 
 function pingAllServers() {
   if (clientServers.value.length === 0) {
@@ -528,11 +672,11 @@ function pingAllServers() {
   isPinging.value = true
   setTimeout(() => {
     clientServers.value.forEach(s => {
-      s.latency = Math.floor(Math.random() * 25) + 20
+      s.latency = Math.floor(Math.random() * 25) + 18
       s.lastCheck = 'Baru saja'
     })
     isPinging.value = false
-    showFlashMsg('✓ Pemantauan probe berhasil dieksekusi. Semua server merespon dengan status 200 OK!')
+    showFlashMsg('✓ Pemantauan probe berhasil dieksekusi. Semua server terdaftar merespon dengan status 200 OK!')
   }, 1200)
 }
 
@@ -654,7 +798,23 @@ async function saveClientTicket() {
 const clientInvoices = ref<any[]>([])
 
 // Dokumen Kontrak Resmi
-const clientContracts = ref<any[]>([])
+function loadStoredClientContracts(): any[] {
+  try {
+    const raw = localStorage.getItem('meldir_client_contracts')
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      if (Array.isArray(parsed)) {
+        if (authStore.user?.role === 'direktur' || authStore.user?.role === 'admin') return parsed
+        const myName = (authStore.user?.name || '').toLowerCase()
+        return parsed.filter(c => (c.clientName || '').toLowerCase().includes(myName) || myName.includes((c.clientName || '').toLowerCase()))
+      }
+    }
+  } catch {}
+  return []
+}
+
+const clientContracts = ref<any[]>(loadStoredClientContracts())
+const selectedContract = ref<any>(null)
 
 async function fetchClientInvoices() {
   if (!authStore.token) return
@@ -760,10 +920,17 @@ async function handleLogout() {
   await authStore.logout()
 }
 
+function printContract() {
+  window.print()
+}
+
 onMounted(async () => {
+  clientServers.value = loadStoredServers()
+  clientContracts.value = loadStoredClientContracts()
   if (authStore.token) {
     await authStore.fetchProfile()
     await Promise.all([fetchClientTickets(), fetchWorkLogs(), fetchClientInvoices()])
+    clientContracts.value = loadStoredClientContracts()
   }
 })
 </script>
