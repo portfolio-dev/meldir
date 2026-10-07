@@ -101,7 +101,7 @@ func (u *invoiceUsecase) CreateInvoice(ctx context.Context, currentUser *domain.
 
 	// Otomasi pembukuan double-entry SAK EMKM: Piutang (Debit) vs Pendapatan & PPN (Kredit)
 	if u.accountingRepo != nil {
-		_ = u.accountingRepo.CreateJournal(ctx, &domain.JournalEntry{
+		_, _ = u.accountingRepo.CreateJournal(ctx, &domain.JournalEntry{
 			JournalDate:       time.Now().Format("2006-01-02"),
 			SourceType:        "invoice_issued",
 			SourceReferenceID: createdInv.InvoiceNumber,
@@ -137,7 +137,7 @@ func (u *invoiceUsecase) UpdateStatus(ctx context.Context, currentUser *domain.U
 
 	// Jika status diubah menjadi PAID, otomatis bukukan penerimaan Kas/Bank (Debit) vs Piutang (Kredit)
 	if req.Status == domain.InvoiceStatusPaid && u.accountingRepo != nil {
-		_ = u.accountingRepo.CreateJournal(ctx, &domain.JournalEntry{
+		_, _ = u.accountingRepo.CreateJournal(ctx, &domain.JournalEntry{
 			JournalDate:       time.Now().Format("2006-01-02"),
 			SourceType:        "invoice_payment",
 			SourceReferenceID: inv.InvoiceNumber,
