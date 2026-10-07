@@ -20,7 +20,7 @@
         </div>
 
         <div class="user-profile-menu">
-          <div class="user-avatar-badge">
+          <div class="user-avatar-badge" @click="showMoreSheet = true" title="Menu Akun & Pengaturan" style="cursor: pointer;">
             {{ userInitials }}
           </div>
           <div class="user-meta">
@@ -461,6 +461,132 @@
           </section>
         </div>
       </main>
+
+      <!-- Mobile Bottom Navigation Bar (5 Items) -->
+      <nav class="mobile-bottom-nav">
+        <button
+          type="button"
+          :class="['nav-bottom-item', { active: activeTab === 'tasks' && !showMoreSheet }]"
+          @click="activeTab = 'tasks'; showMoreSheet = false; scrollToTop()"
+        >
+          <span class="nav-bottom-icon">📋</span>
+          <span class="nav-bottom-label">Tiket</span>
+        </button>
+
+        <button
+          type="button"
+          :class="['nav-bottom-item', { active: activeTab === 'timesheet' && !showMoreSheet }]"
+          @click="activeTab = 'timesheet'; showMoreSheet = false; scrollToTop()"
+        >
+          <span class="nav-bottom-icon">⏱️</span>
+          <span class="nav-bottom-label">Timesheet</span>
+        </button>
+
+        <button
+          type="button"
+          :class="['nav-bottom-item', { active: activeTab === 'tax21' && !showMoreSheet }]"
+          @click="activeTab = 'tax21'; showMoreSheet = false; scrollToTop()"
+        >
+          <span class="nav-bottom-icon">📄</span>
+          <span class="nav-bottom-label">PPh 21</span>
+        </button>
+
+        <button
+          type="button"
+          :class="['nav-bottom-item', { active: activeTab === 'repos' && !showMoreSheet }]"
+          @click="activeTab = 'repos'; showMoreSheet = false; scrollToTop()"
+        >
+          <span class="nav-bottom-icon">🐙</span>
+          <span class="nav-bottom-label">Repositori</span>
+        </button>
+
+        <button
+          type="button"
+          :class="['nav-bottom-item', { active: showMoreSheet }]"
+          @click="showMoreSheet = !showMoreSheet"
+        >
+          <span class="nav-bottom-icon">⋯</span>
+          <span class="nav-bottom-label">Lainnya</span>
+        </button>
+      </nav>
+
+      <!-- Smooth Mobile Bottom Sheet Modal -->
+      <div
+        :class="['bottom-sheet-backdrop', { show: showMoreSheet }]"
+        @click.self="showMoreSheet = false"
+      >
+        <div class="bottom-sheet-card">
+          <div class="sheet-drag-handle"></div>
+          
+          <div class="sheet-header">
+            <div class="sheet-title-group">
+              <h3>Menu & Informasi Engineer</h3>
+              <p class="sheet-subtitle">PT. Melayani Digital Raya • Technical Lead</p>
+            </div>
+            <button class="btn-sheet-close" @click="showMoreSheet = false">✕</button>
+          </div>
+
+          <!-- User Profile Card in Sheet -->
+          <div class="sheet-profile-card">
+            <div class="sheet-avatar">{{ userInitials }}</div>
+            <div class="sheet-user-info">
+              <div class="sheet-user-name">{{ authStore.user?.name }}</div>
+              <div class="sheet-user-meta">
+                <span class="badge-role">{{ roleDisplay }}</span>
+                <span class="sheet-user-email">{{ authStore.user?.email }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Extra Quick Actions -->
+          <div class="sheet-nav-list">
+            <div class="sheet-nav-item" @click="activeTab = 'timesheet'; showMoreSheet = false; scrollToTop()">
+              <div class="sheet-nav-icon">⏱️</div>
+              <div class="sheet-nav-text">
+                <div class="sheet-nav-title">Catat Jam Kerja (Timesheet)</div>
+                <div class="sheet-nav-desc">Input timesheet aktivitas teknis & klaim honor Rp 175rb/jam</div>
+              </div>
+              <div class="sheet-nav-arrow">+</div>
+            </div>
+
+            <div class="sheet-nav-item" @click="showNewTicketModal = true; showMoreSheet = false">
+              <div class="sheet-nav-icon">🎫</div>
+              <div class="sheet-nav-text">
+                <div class="sheet-nav-title">Buat Tiket SLA / Kendala Baru</div>
+                <div class="sheet-nav-desc">Laporkan insiden atau buat task backlog pengembangan</div>
+              </div>
+              <div class="sheet-nav-arrow">+</div>
+            </div>
+
+            <div class="sheet-nav-item" @click="activeTab = 'tasks'; ticketFilterPriority = 'p1_critical'; showMoreSheet = false; scrollToTop()">
+              <div class="sheet-nav-icon">🔥</div>
+              <div class="sheet-nav-text">
+                <div class="sheet-nav-title">Filter Tiket P1 Kritis (SLA 4 Jam)</div>
+                <div class="sheet-nav-desc">Fokus pada tiket prioritas darurat yang membutuhkan penanganan instan</div>
+              </div>
+              <div class="sheet-nav-arrow">→</div>
+            </div>
+          </div>
+
+          <!-- SLA Policy Reminder Card -->
+          <div class="sheet-system-card">
+            <div class="sheet-sys-header">
+              <span class="pulse-indicator"></span>
+              <strong>Standar Pelayanan Teknis & SLA</strong>
+            </div>
+            <div class="sheet-sys-details">
+              <div>Respons P1 Kritis: <strong class="text-rose">Maksimal 4 Jam</strong></div>
+              <div>Rate Kompensasi: <strong class="text-indigo">Rp 175.000 / Jam Kerja Disetujui</strong></div>
+              <div>PPh 21 Tenaga Ahli: <strong>Dasar Pajak 50% × Tarif 5%</strong></div>
+            </div>
+          </div>
+
+          <!-- Logout Button in Sheet -->
+          <button class="sheet-btn-logout" @click="handleLogout">
+            🚪 Keluar dari Akun (Logout)
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Modal Buat Tiket Baru -->
@@ -586,7 +712,12 @@ import { useAuthStore } from '../stores/authStore'
 const authStore = useAuthStore()
 const currentHost = ref(window.location.host)
 const activeTab = ref('tasks')
+const showMoreSheet = ref(false)
 const flashNotice = ref('')
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 
 const tabs = [
   { id: 'tasks', label: 'SLA Taskboard (Tiket)', icon: '📋' },
@@ -975,6 +1106,8 @@ onMounted(async () => {
 
 <style scoped>
 .portal-container {
+  --theme-color: #4f46e5;
+  --theme-color-glow: rgba(79, 70, 229, 0.4);
   max-width: 1400px;
   margin: 0 auto;
   padding: 24px;

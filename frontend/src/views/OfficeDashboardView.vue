@@ -30,7 +30,7 @@
             👥 Manajemen Pengguna (CRUD)
           </button>
 
-          <div class="user-avatar-badge">
+          <div class="user-avatar-badge" @click="showMoreSheet = true" title="Menu Akun & Pengaturan" style="cursor: pointer;">
             {{ userInitials }}
           </div>
           <div class="user-meta">
@@ -599,6 +599,127 @@
           </section>
         </div>
       </main>
+
+      <!-- Mobile Bottom Navigation Bar (5 Items) -->
+      <nav class="mobile-bottom-nav">
+        <button
+          type="button"
+          :class="['nav-bottom-item', { active: activeTab === 'overview' && !showMoreSheet }]"
+          @click="switchTab('overview')"
+        >
+          <span class="nav-bottom-icon">📊</span>
+          <span class="nav-bottom-label">Ringkasan</span>
+        </button>
+
+        <button
+          type="button"
+          :class="['nav-bottom-item', { active: activeTab === 'users' && !showMoreSheet }]"
+          @click="switchTab('users')"
+        >
+          <span class="nav-bottom-icon">👥</span>
+          <span class="nav-bottom-label">Pengguna</span>
+        </button>
+
+        <button
+          type="button"
+          :class="['nav-bottom-item', { active: activeTab === 'accounting' && !showMoreSheet }]"
+          @click="switchTab('accounting')"
+        >
+          <span class="nav-bottom-icon">📖</span>
+          <span class="nav-bottom-label">Akuntansi</span>
+        </button>
+
+        <button
+          type="button"
+          :class="['nav-bottom-item', { active: activeTab === 'tax' && !showMoreSheet }]"
+          @click="switchTab('tax')"
+        >
+          <span class="nav-bottom-icon">🏛️</span>
+          <span class="nav-bottom-label">Pajak</span>
+        </button>
+
+        <button
+          type="button"
+          :class="['nav-bottom-item', { active: showMoreSheet || activeTab === 'contracts' }]"
+          @click="showMoreSheet = !showMoreSheet"
+        >
+          <span class="nav-bottom-icon">⋯</span>
+          <span class="nav-bottom-label">Lainnya</span>
+          <span v-if="activeTab === 'contracts'" class="bottom-active-dot"></span>
+        </button>
+      </nav>
+
+      <!-- Smooth Mobile Bottom Sheet Modal -->
+      <div
+        :class="['bottom-sheet-backdrop', { show: showMoreSheet }]"
+        @click.self="showMoreSheet = false"
+      >
+        <div class="bottom-sheet-card">
+          <div class="sheet-drag-handle"></div>
+          
+          <div class="sheet-header">
+            <div class="sheet-title-group">
+              <h3>Menu & Kontrol Operasional</h3>
+              <p class="sheet-subtitle">PT. Melayani Digital Raya</p>
+            </div>
+            <button class="btn-sheet-close" @click="showMoreSheet = false">✕</button>
+          </div>
+
+          <!-- User Profile Card in Sheet -->
+          <div class="sheet-profile-card">
+            <div class="sheet-avatar">{{ userInitials }}</div>
+            <div class="sheet-user-info">
+              <div class="sheet-user-name">{{ authStore.user?.name }}</div>
+              <div class="sheet-user-meta">
+                <span class="badge-role">{{ roleDisplay }}</span>
+                <span class="sheet-user-email">{{ authStore.user?.email }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Extra Navigation Items -->
+          <div class="sheet-nav-list">
+            <div
+              :class="['sheet-nav-item', { active: activeTab === 'contracts' }]"
+              @click="switchTab('contracts')"
+            >
+              <div class="sheet-nav-icon">📜</div>
+              <div class="sheet-nav-text">
+                <div class="sheet-nav-title">Kontrak SPK & BAST</div>
+                <div class="sheet-nav-desc">Penerbitan dokumen legal & sertifikasi e-Materai Peruri</div>
+              </div>
+              <div class="sheet-nav-arrow">→</div>
+            </div>
+
+            <div class="sheet-nav-item" @click="exportCoretaxCSV(); showMoreSheet = false">
+              <div class="sheet-nav-icon">📥</div>
+              <div class="sheet-nav-text">
+                <div class="sheet-nav-title">Ekspor Rekonsiliasi Coretax DJP</div>
+                <div class="sheet-nav-desc">Unduh berkas CSV faktur PPN untuk pelaporan SPT Masa</div>
+              </div>
+              <div class="sheet-nav-arrow">↓</div>
+            </div>
+          </div>
+
+          <!-- System Status Info in Sheet -->
+          <div class="sheet-system-card">
+            <div class="sheet-sys-header">
+              <span class="pulse-indicator"></span>
+              <strong>Status Ekosistem Server</strong>
+            </div>
+            <div class="sheet-sys-details">
+              <div>Backend Golang: <span :class="['api-badge', apiStatus]">{{ apiStatusText }}</span></div>
+              <div>Database: <strong class="text-emerald">PostgreSQL (32 Tabel DDL)</strong></div>
+              <div>Cache: <strong class="text-indigo">Redis 6379</strong></div>
+            </div>
+          </div>
+
+          <!-- Logout Button in Sheet -->
+          <button class="sheet-btn-logout" @click="handleLogout">
+            🚪 Keluar dari Akun (Logout)
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Modal Form (Tambah / Edit Pengguna) -->
@@ -1074,6 +1195,7 @@ const currentHost = ref(window.location.host)
 const apiStatus = ref('checking')
 const apiStatusText = ref('Memeriksa...')
 const activeTab = ref('overview')
+const showMoreSheet = ref(false)
 
 const tabs = [
   { id: 'overview', label: 'Ringkasan Eksekutif', icon: '📊' },
@@ -1327,6 +1449,8 @@ function deleteContract(id: number) {
 
 function switchTab(tabId: string) {
   activeTab.value = tabId
+  showMoreSheet.value = false
+  window.scrollTo({ top: 0, behavior: 'smooth' })
   if (tabId === 'users' && usersList.value.length === 0) {
     fetchUsers()
   }
@@ -1791,6 +1915,8 @@ onMounted(async () => {
 
 <style scoped>
 .portal-container {
+  --theme-color: #0284c7;
+  --theme-color-glow: rgba(2, 132, 199, 0.4);
   max-width: 1400px;
   margin: 0 auto;
   padding: 24px;

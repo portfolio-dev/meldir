@@ -20,7 +20,7 @@
         </div>
 
         <div class="user-profile-menu">
-          <div class="user-avatar-badge">
+          <div class="user-avatar-badge" @click="showMoreSheet = true" title="Menu Akun & Pengaturan" style="cursor: pointer;">
             {{ userInitials }}
           </div>
           <div class="user-meta">
@@ -417,6 +417,139 @@
           </section>
         </div>
       </main>
+
+      <!-- Mobile Bottom Navigation Bar (5 Items) -->
+      <nav class="mobile-bottom-nav">
+        <button
+          type="button"
+          :class="['nav-bottom-item', { active: activeTab === 'overview' && !showMoreSheet }]"
+          @click="activeTab = 'overview'; showMoreSheet = false; scrollToTop()"
+        >
+          <span class="nav-bottom-icon">📊</span>
+          <span class="nav-bottom-label">Ringkasan</span>
+        </button>
+
+        <button
+          type="button"
+          :class="['nav-bottom-item', { active: activeTab === 'servers' && !showMoreSheet }]"
+          @click="activeTab = 'servers'; showMoreSheet = false; scrollToTop()"
+        >
+          <span class="nav-bottom-icon">🖥️</span>
+          <span class="nav-bottom-label">Server</span>
+        </button>
+
+        <button
+          type="button"
+          :class="['nav-bottom-item', { active: activeTab === 'addon' && !showMoreSheet }]"
+          @click="activeTab = 'addon'; showMoreSheet = false; scrollToTop()"
+        >
+          <span class="nav-bottom-icon">⏳</span>
+          <span class="nav-bottom-label">Saldo Jam</span>
+        </button>
+
+        <button
+          type="button"
+          :class="['nav-bottom-item', { active: activeTab === 'tickets' && !showMoreSheet }]"
+          @click="activeTab = 'tickets'; showMoreSheet = false; scrollToTop()"
+        >
+          <span class="nav-bottom-icon">🎫</span>
+          <span class="nav-bottom-label">Tiket SLA</span>
+        </button>
+
+        <button
+          type="button"
+          :class="['nav-bottom-item', { active: showMoreSheet || activeTab === 'invoices' || activeTab === 'contracts' }]"
+          @click="showMoreSheet = !showMoreSheet"
+        >
+          <span class="nav-bottom-icon">⋯</span>
+          <span class="nav-bottom-label">Lainnya</span>
+          <span v-if="activeTab === 'invoices' || activeTab === 'contracts'" class="bottom-active-dot"></span>
+        </button>
+      </nav>
+
+      <!-- Smooth Mobile Bottom Sheet Modal -->
+      <div
+        :class="['bottom-sheet-backdrop', { show: showMoreSheet }]"
+        @click.self="showMoreSheet = false"
+      >
+        <div class="bottom-sheet-card">
+          <div class="sheet-drag-handle"></div>
+          
+          <div class="sheet-header">
+            <div class="sheet-title-group">
+              <h3>Menu & Layanan Mitra Klien</h3>
+              <p class="sheet-subtitle">PT. Melayani Digital Raya • Client Portal</p>
+            </div>
+            <button class="btn-sheet-close" @click="showMoreSheet = false">✕</button>
+          </div>
+
+          <!-- User Profile Card in Sheet -->
+          <div class="sheet-profile-card">
+            <div class="sheet-avatar">{{ userInitials }}</div>
+            <div class="sheet-user-info">
+              <div class="sheet-user-name">{{ authStore.user?.name }}</div>
+              <div class="sheet-user-meta">
+                <span class="badge-role">Klien Korporat SLA</span>
+                <span class="sheet-user-email">{{ authStore.user?.email }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Extra Navigation Items (Invoices & Contracts & Add-On) -->
+          <div class="sheet-nav-list">
+            <div
+              :class="['sheet-nav-item', { active: activeTab === 'invoices' }]"
+              @click="activeTab = 'invoices'; showMoreSheet = false; scrollToTop()"
+            >
+              <div class="sheet-nav-icon">🧾</div>
+              <div class="sheet-nav-text">
+                <div class="sheet-nav-title">Tagihan & e-Faktur Pajak</div>
+                <div class="sheet-nav-desc">Lihat status pembayaran & unduh berkas faktur PPN resmi</div>
+              </div>
+              <div class="sheet-nav-arrow">→</div>
+            </div>
+
+            <div
+              :class="['sheet-nav-item', { active: activeTab === 'contracts' }]"
+              @click="activeTab = 'contracts'; showMoreSheet = false; scrollToTop()"
+            >
+              <div class="sheet-nav-icon">📜</div>
+              <div class="sheet-nav-text">
+                <div class="sheet-nav-title">Dokumen Kontrak SPK & BAST</div>
+                <div class="sheet-nav-desc">Berkas perjanjian hukum sah tervalidasi e-Materai Peruri</div>
+              </div>
+              <div class="sheet-nav-arrow">→</div>
+            </div>
+
+            <div class="sheet-nav-item" @click="showAddonModal = true; showMoreSheet = false">
+              <div class="sheet-nav-icon">⏳</div>
+              <div class="sheet-nav-text">
+                <div class="sheet-nav-title">Beli Add-On Jam Kerja Tambahan</div>
+                <div class="sheet-nav-desc">Pesan paket jam SLA fleksibel Rp 175.000 / jam</div>
+              </div>
+              <div class="sheet-nav-arrow">+</div>
+            </div>
+          </div>
+
+          <!-- Quota & SLA Status Card -->
+          <div class="sheet-system-card">
+            <div class="sheet-sys-header">
+              <span class="pulse-indicator"></span>
+              <strong>Status Kuota & Cakupan Layanan</strong>
+            </div>
+            <div class="sheet-sys-details">
+              <div>Sisa Saldo Jam: <strong class="text-emerald">{{ currentQuota - usedHours }} Jam Tersedia</strong></div>
+              <div>Waktu Respon Darurat: <strong class="text-indigo">SLA 4 Jam (24 Jam On-Call)</strong></div>
+              <div>Dukungan Teknis: <strong>WhatsApp Priority Engineering</strong></div>
+            </div>
+          </div>
+
+          <!-- Logout Button in Sheet -->
+          <button class="sheet-btn-logout" @click="handleLogout">
+            🚪 Keluar dari Akun (Logout)
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Modal Order Add-On Hours -->
@@ -590,7 +723,12 @@ import { useAuthStore } from '../stores/authStore'
 const authStore = useAuthStore()
 const currentHost = ref(window.location.host)
 const activeTab = ref('overview')
+const showMoreSheet = ref(false)
 const flashNotice = ref('')
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
 
 const tabs = [
   { id: 'overview', label: 'Ringkasan Layanan', icon: '📊' },
@@ -937,6 +1075,8 @@ onMounted(async () => {
 
 <style scoped>
 .portal-container {
+  --theme-color: #059669;
+  --theme-color-glow: rgba(5, 150, 105, 0.4);
   max-width: 1400px;
   margin: 0 auto;
   padding: 24px;
