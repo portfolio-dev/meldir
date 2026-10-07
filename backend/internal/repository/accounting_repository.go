@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -41,11 +42,17 @@ func (r *accountingRepo) ListJournals(ctx context.Context, limit int) ([]domain.
 	}
 
 	query := `
-		SELECT id, journal_number, journal_date::text, source_type,
-		       COALESCE(source_reference_id, ''), memo,
-		       debit_account, credit_account,
-		       total_debit, total_credit, is_posted,
-		       COALESCE(created_by, 0), created_at
+		SELECT id, journal_number, journal_date::text,
+		       COALESCE(source_type::text, 'general_entry'),
+		       COALESCE(source_reference_id, ''),
+		       COALESCE(memo, ''),
+		       COALESCE(debit_account, ''),
+		       COALESCE(credit_account, ''),
+		       COALESCE(total_debit, 0.0),
+		       COALESCE(total_credit, 0.0),
+		       COALESCE(is_posted, true),
+		       COALESCE(created_by, 0),
+		       created_at
 		FROM accounting_journals
 		ORDER BY journal_date DESC, created_at DESC
 		LIMIT $1
@@ -53,6 +60,7 @@ func (r *accountingRepo) ListJournals(ctx context.Context, limit int) ([]domain.
 
 	rows, err := r.pool.Query(ctx, query, limit)
 	if err != nil {
+		log.Printf("❌ AccountingRepo.ListJournals query error: %v", err)
 		return nil, err
 	}
 	defer rows.Close()
@@ -68,6 +76,7 @@ func (r *accountingRepo) ListJournals(ctx context.Context, limit int) ([]domain.
 			&j.CreatedBy, &j.CreatedAt,
 		)
 		if err != nil {
+			log.Printf("❌ AccountingRepo.ListJournals scan error: %v", err)
 			return nil, err
 		}
 		j.Amount = j.TotalDebit
@@ -104,13 +113,19 @@ func (r *accountingRepo) CreateJournal(ctx context.Context, entry *domain.Journa
 		) RETURNING id
 	`
 
+	var createdByVal interface{} = entry.CreatedBy
+	if entry.CreatedBy <= 0 {
+		createdByVal = nil
+	}
+
 	err := r.pool.QueryRow(
 		ctx, query,
 		entry.JournalNumber, entry.JournalDate, entry.SourceType, entry.SourceReferenceID,
 		entry.Memo, entry.DebitAccount, entry.CreditAccount,
-		entry.TotalDebit, entry.TotalCredit, entry.IsPosted, entry.CreatedBy, entry.CreatedAt,
+		entry.TotalDebit, entry.TotalCredit, entry.IsPosted, createdByVal, entry.CreatedAt,
 	).Scan(&entry.ID)
 	if err != nil {
+		log.Printf("❌ AccountingRepo.CreateJournal insert error: %v", err)
 		return nil, err
 	}
 

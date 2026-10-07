@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -41,10 +42,18 @@ func (r *invoiceRepo) GetNextInvoiceNumber(ctx context.Context) (string, error) 
 
 func (r *invoiceRepo) ListInvoices(ctx context.Context, clientID int64) ([]domain.Invoice, error) {
 	query := `
-		SELECT i.id, i.invoice_number, i.client_id, COALESCE(u.name, i.client_name, ''),
-		       i.contract_id, i.amount, i.tax_amount, (i.amount + i.tax_amount),
-		       i.due_date::text, i.status::text, i.bank_destination, i.tax_invoice_number,
-		       i.paid_at, i.created_at
+		SELECT i.id, i.invoice_number, COALESCE(i.client_id, 0),
+		       COALESCE(u.name, COALESCE(i.client_name, ''), ''),
+		       i.contract_id,
+		       COALESCE(i.amount, 0.0),
+		       COALESCE(i.tax_amount, 0.0),
+		       (COALESCE(i.amount, 0.0) + COALESCE(i.tax_amount, 0.0)),
+		       COALESCE(i.due_date::text, ''),
+		       COALESCE(i.status::text, 'unpaid'),
+		       COALESCE(i.bank_destination, ''),
+		       i.tax_invoice_number,
+		       i.paid_at,
+		       COALESCE(i.created_at, CURRENT_TIMESTAMP)
 		FROM invoices i
 		LEFT JOIN users u ON i.client_id = u.id
 		WHERE ($1 = 0 OR i.client_id = $1)
@@ -53,6 +62,7 @@ func (r *invoiceRepo) ListInvoices(ctx context.Context, clientID int64) ([]domai
 
 	rows, err := r.pool.Query(ctx, query, clientID)
 	if err != nil {
+		log.Printf("❌ InvoiceRepo.ListInvoices query error: %v", err)
 		return nil, err
 	}
 	defer rows.Close()
@@ -68,6 +78,7 @@ func (r *invoiceRepo) ListInvoices(ctx context.Context, clientID int64) ([]domai
 			&inv.PaidAt, &inv.CreatedAt,
 		)
 		if err != nil {
+			log.Printf("❌ InvoiceRepo.ListInvoices scan error: %v", err)
 			return nil, err
 		}
 		inv.Status = domain.InvoiceStatus(statusStr)
@@ -79,10 +90,18 @@ func (r *invoiceRepo) ListInvoices(ctx context.Context, clientID int64) ([]domai
 
 func (r *invoiceRepo) FindByID(ctx context.Context, id int64) (*domain.Invoice, error) {
 	query := `
-		SELECT i.id, i.invoice_number, i.client_id, COALESCE(u.name, i.client_name, ''),
-		       i.contract_id, i.amount, i.tax_amount, (i.amount + i.tax_amount),
-		       i.due_date::text, i.status::text, i.bank_destination, i.tax_invoice_number,
-		       i.paid_at, i.created_at
+		SELECT i.id, i.invoice_number, COALESCE(i.client_id, 0),
+		       COALESCE(u.name, COALESCE(i.client_name, ''), ''),
+		       i.contract_id,
+		       COALESCE(i.amount, 0.0),
+		       COALESCE(i.tax_amount, 0.0),
+		       (COALESCE(i.amount, 0.0) + COALESCE(i.tax_amount, 0.0)),
+		       COALESCE(i.due_date::text, ''),
+		       COALESCE(i.status::text, 'unpaid'),
+		       COALESCE(i.bank_destination, ''),
+		       i.tax_invoice_number,
+		       i.paid_at,
+		       COALESCE(i.created_at, CURRENT_TIMESTAMP)
 		FROM invoices i
 		LEFT JOIN users u ON i.client_id = u.id
 		WHERE i.id = $1
@@ -100,6 +119,7 @@ func (r *invoiceRepo) FindByID(ctx context.Context, id int64) (*domain.Invoice, 
 		if errors.Is(err, pgx.ErrNoRows) {
 			return nil, errors.New("invoice tidak ditemukan")
 		}
+		log.Printf("❌ InvoiceRepo.FindByID scan error: %v", err)
 		return nil, err
 	}
 	inv.Status = domain.InvoiceStatus(statusStr)
@@ -129,12 +149,18 @@ func (r *invoiceRepo) CreateInvoice(ctx context.Context, inv *domain.Invoice) (*
 		) RETURNING id
 	`
 
+	var clientIDVal interface{} = inv.ClientID
+	if inv.ClientID <= 0 {
+		clientIDVal = nil
+	}
+
 	err = r.pool.QueryRow(
 		ctx, query,
-		inv.InvoiceNumber, inv.ClientID, inv.ClientName, inv.Amount, inv.TaxAmount,
+		inv.InvoiceNumber, clientIDVal, inv.ClientName, inv.Amount, inv.TaxAmount,
 		inv.DueDate, string(inv.Status), inv.BankDestination, inv.CreatedAt,
 	).Scan(&inv.ID)
 	if err != nil {
+		log.Printf("❌ InvoiceRepo.CreateInvoice insert error: %v", err)
 		return nil, err
 	}
 
@@ -148,6 +174,9 @@ func (r *invoiceRepo) UpdateStatus(ctx context.Context, id int64, status domain.
 		_, err = r.pool.Exec(ctx, "UPDATE invoices SET status = $1, paid_at = $2 WHERE id = $3", string(status), now, id)
 	} else {
 		_, err = r.pool.Exec(ctx, "UPDATE invoices SET status = $1, paid_at = NULL WHERE id = $2", string(status), id)
+	}
+	if err != nil {
+		log.Printf("❌ InvoiceRepo.UpdateStatus error: %v", err)
 	}
 	return err
 }

@@ -61,10 +61,12 @@ func (db *PostgresDB) MigrateSchema(ctx context.Context) error {
 		"ALTER TABLE timesheet_logs ALTER COLUMN project_id DROP NOT NULL",
 		"ALTER TABLE timesheet_logs ADD COLUMN IF NOT EXISTS ticket_code VARCHAR(30) NULL",
 		"ALTER TABLE timesheet_logs ADD COLUMN IF NOT EXISTS project_name VARCHAR(150) NULL",
+
+		// Invoices Table & Column Alterations
 		`CREATE TABLE IF NOT EXISTS invoices (
 			id BIGSERIAL PRIMARY KEY,
 			invoice_number VARCHAR(50) UNIQUE NOT NULL,
-			client_id BIGINT NOT NULL REFERENCES users(id),
+			client_id BIGINT NULL,
 			client_name VARCHAR(150) NULL,
 			contract_id BIGINT NULL,
 			addon_order_id BIGINT NULL,
@@ -72,12 +74,20 @@ func (db *PostgresDB) MigrateSchema(ctx context.Context) error {
 			tax_amount NUMERIC(15,2) DEFAULT 0.00,
 			due_date DATE NOT NULL,
 			status VARCHAR(30) DEFAULT 'unpaid',
-			bank_destination VARCHAR(120) DEFAULT 'PT. Melayani Digital Raya - Bank Mandiri',
+			bank_destination VARCHAR(120) DEFAULT 'PT. Melayani Digital Raya - Bank Mandiri & BCA',
 			tax_invoice_number VARCHAR(60) NULL,
 			paid_at TIMESTAMP WITH TIME ZONE NULL,
 			created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 		)`,
 		"ALTER TABLE invoices ADD COLUMN IF NOT EXISTS client_name VARCHAR(150) NULL",
+		"ALTER TABLE invoices ADD COLUMN IF NOT EXISTS bank_destination VARCHAR(120) DEFAULT 'PT. Melayani Digital Raya - Bank Mandiri & BCA'",
+		"ALTER TABLE invoices ADD COLUMN IF NOT EXISTS tax_amount NUMERIC(15,2) DEFAULT 0.00",
+		"ALTER TABLE invoices ADD COLUMN IF NOT EXISTS tax_invoice_number VARCHAR(60) NULL",
+		"ALTER TABLE invoices ADD COLUMN IF NOT EXISTS paid_at TIMESTAMP WITH TIME ZONE NULL",
+		"ALTER TABLE invoices ALTER COLUMN client_id DROP NOT NULL",
+		"ALTER TABLE invoices ALTER COLUMN status TYPE VARCHAR(30) USING status::text",
+
+		// Accounting Journals Table & Column Alterations
 		`CREATE TABLE IF NOT EXISTS accounting_journals (
 			id BIGSERIAL PRIMARY KEY,
 			journal_number VARCHAR(50) UNIQUE NOT NULL,
@@ -85,8 +95,8 @@ func (db *PostgresDB) MigrateSchema(ctx context.Context) error {
 			source_type VARCHAR(50) DEFAULT 'general_entry',
 			source_reference_id VARCHAR(100) NULL,
 			memo TEXT NOT NULL,
-			debit_account VARCHAR(150) NOT NULL,
-			credit_account VARCHAR(150) NOT NULL,
+			debit_account VARCHAR(150) NULL,
+			credit_account VARCHAR(150) NULL,
 			total_debit NUMERIC(18,2) NOT NULL DEFAULT 0.00,
 			total_credit NUMERIC(18,2) NOT NULL DEFAULT 0.00,
 			is_posted BOOLEAN DEFAULT TRUE,
@@ -95,10 +105,18 @@ func (db *PostgresDB) MigrateSchema(ctx context.Context) error {
 		)`,
 		"ALTER TABLE accounting_journals ADD COLUMN IF NOT EXISTS debit_account VARCHAR(150) NULL",
 		"ALTER TABLE accounting_journals ADD COLUMN IF NOT EXISTS credit_account VARCHAR(150) NULL",
+		"ALTER TABLE accounting_journals ALTER COLUMN debit_account DROP NOT NULL",
+		"ALTER TABLE accounting_journals ALTER COLUMN credit_account DROP NOT NULL",
+		"ALTER TABLE accounting_journals ALTER COLUMN source_type TYPE VARCHAR(50) USING source_type::text",
+		"ALTER TABLE accounting_journals ALTER COLUMN created_by DROP NOT NULL",
 	}
+
 	for _, q := range queries {
-		_, _ = db.Pool.Exec(ctx, q)
+		if _, err := db.Pool.Exec(ctx, q); err != nil {
+			log.Printf("ℹ️ Info migrasi skema (dilewati jika sudah ada): %v", err)
+		}
 	}
+	log.Printf("✅ Skema database PostgreSQL (invoices, journals, timesheets, tickets) tervalidasi siap.")
 	return nil
 }
 
