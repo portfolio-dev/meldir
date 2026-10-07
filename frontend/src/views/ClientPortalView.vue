@@ -724,6 +724,30 @@ const clientInvoices = ref([
   },
 ])
 
+async function fetchClientInvoices() {
+  if (!authStore.token) return
+  try {
+    const res = await fetch('/api/v1/invoices', {
+      headers: { Authorization: `Bearer ${authStore.token}` },
+    })
+    const result = await res.json()
+    if (res.ok && result.success && Array.isArray(result.data) && result.data.length > 0) {
+      clientInvoices.value = result.data.map((item: any) => ({
+        id: item.id,
+        invoiceNo: item.invoice_number,
+        description: item.client_name ? `Tagihan Layanan Rekayasa & SLA — ${item.client_name}` : 'Paket Kontrak Managed Care SLA 24 Jam',
+        subtotal: item.amount,
+        vat: item.tax_amount,
+        total: item.total_amount,
+        dueDate: item.due_date,
+        status: item.status,
+      }))
+    }
+  } catch (err) {
+    console.error('Gagal memuat faktur klien dari backend:', err)
+  }
+}
+
 function downloadInvoice(inv: any) {
   showFlashMsg(`Mengunduh berkas e-Faktur Pajak & Invoice ${inv.invoiceNo}...`)
 }
@@ -736,10 +760,34 @@ function downloadDoc(docType: string) {
 const showAddonModal = ref(false)
 const selectedPackage = ref(10)
 
-function confirmOrderAddon() {
-  currentQuota.value += selectedPackage.value
+async function confirmOrderAddon() {
+  const hours = selectedPackage.value
+  const dpp = hours * 175000
+
+  if (authStore.token) {
+    try {
+      await fetch('/api/v1/invoices/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authStore.token}`,
+        },
+        body: JSON.stringify({
+          client_name: authStore.user?.name || 'Klien Korporat',
+          description: `Pembelian Paket ${hours} Jam Add-On Metered SLA`,
+          amount: dpp,
+          due_date: new Date(Date.now() + 7 * 86400000).toISOString().substring(0, 10),
+        }),
+      })
+      await fetchClientInvoices()
+    } catch (e) {
+      console.error('Gagal generate invoice addon:', e)
+    }
+  }
+
+  currentQuota.value += hours
   showAddonModal.value = false
-  showFlashMsg(`Paket ${selectedPackage.value} Jam Add-On berhasil ditambahkan! Invoice tagihan baru telah diterbitkan.`)
+  showFlashMsg(`Paket ${hours} Jam Add-On berhasil dipesan! Invoice tagihan otomatis diterbitkan di tab Faktur.`)
 }
 
 function formatPriority(p: string) {
@@ -783,7 +831,7 @@ async function handleLogout() {
 onMounted(async () => {
   if (authStore.token) {
     await authStore.fetchProfile()
-    await Promise.all([fetchClientTickets(), fetchWorkLogs()])
+    await Promise.all([fetchClientTickets(), fetchWorkLogs(), fetchClientInvoices()])
   }
 })
 </script>

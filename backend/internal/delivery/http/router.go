@@ -18,6 +18,8 @@ func NewRouter(
 	userHandler *handler.UserHandler,
 	ticketHandler *handler.TicketHandler,
 	timesheetHandler *handler.TimesheetHandler,
+	invoiceHandler *handler.InvoiceHandler,
+	accountingHandler *handler.AccountingHandler,
 	authMiddleware *middleware.AuthMiddleware,
 ) http.Handler {
 	mux := http.NewServeMux()
@@ -47,6 +49,16 @@ func NewRouter(
 	mux.HandleFunc("/api/v1/timesheets", authMiddleware.Authenticate(timesheetHandler.ListTimesheets))
 	mux.HandleFunc("/api/v1/timesheets/log", authMiddleware.Authenticate(timesheetHandler.LogWork))
 	mux.HandleFunc("/api/v1/timesheets/summary", authMiddleware.Authenticate(timesheetHandler.GetSummary))
+
+	// 6. Invoices & Billing Endpoints (Otentikasi Pengguna)
+	mux.HandleFunc("/api/v1/invoices", authMiddleware.Authenticate(invoiceHandler.ListInvoices))
+	mux.HandleFunc("/api/v1/invoices/create", adminOnly(invoiceHandler.CreateInvoice))
+	mux.HandleFunc("/api/v1/invoices/status", adminOnly(invoiceHandler.UpdateInvoiceStatus))
+
+	// 7. SAK EMKM Accounting & General Ledger Endpoints
+	accountingStaff := authMiddleware.RequireRoles(domain.RoleDirektur, domain.RoleAdmin, domain.RoleAudit)
+	mux.HandleFunc("/api/v1/journals", accountingStaff(accountingHandler.ListJournals))
+	mux.HandleFunc("/api/v1/journals/create", adminOnly(accountingHandler.CreateJournal))
 
 	// Wrap with Global Middlewares (Recovery, CORS, Logging)
 	return withRecovery(withCORS(withLogging(mux)))

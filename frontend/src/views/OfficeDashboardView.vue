@@ -987,6 +987,29 @@ const journals = ref([
   },
 ])
 
+async function fetchJournals() {
+  if (!authStore.token) return
+  try {
+    const res = await fetch('/api/v1/journals', {
+      headers: { Authorization: `Bearer ${authStore.token}` },
+    })
+    const result = await res.json()
+    if (res.ok && result.success && Array.isArray(result.data) && result.data.length > 0) {
+      journals.value = result.data.map((item: any) => ({
+        id: item.id,
+        date: item.journal_date,
+        refNo: item.journal_number,
+        description: item.memo,
+        debitAccount: item.debit_account,
+        creditAccount: item.credit_account,
+        amount: item.amount,
+      }))
+    }
+  } catch (err) {
+    console.error('Gagal memuat data jurnal dari backend:', err)
+  }
+}
+
 const showJournalModal = ref(false)
 const journalForm = ref({
   date: new Date().toISOString().substring(0, 10),
@@ -999,25 +1022,60 @@ const journalForm = ref({
 const totalJournalDebit = computed(() => journals.value.reduce((acc, curr) => acc + curr.amount, 0))
 const totalJournalCredit = computed(() => journals.value.reduce((acc, curr) => acc + curr.amount, 0))
 
-function saveJournal() {
+async function saveJournal() {
+  const dAccount = journalForm.value.debitAccount
+  const cAccount = journalForm.value.creditAccount
+  const amt = Number(journalForm.value.amount)
+  const desc = journalForm.value.description
+  const dateVal = journalForm.value.date
+
+  if (authStore.token) {
+    try {
+      const res = await fetch('/api/v1/journals/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authStore.token}`,
+        },
+        body: JSON.stringify({
+          date: dateVal,
+          description: desc,
+          debit_account: dAccount,
+          credit_account: cAccount,
+          amount: amt,
+        }),
+      })
+      const result = await res.json()
+      if (res.ok && result.success) {
+        await fetchJournals()
+        showJournalModal.value = false
+        journalForm.value = {
+          date: new Date().toISOString().substring(0, 10),
+          description: '',
+          debitAccount: '1-1002 Bank BCA Utama Korporat',
+          creditAccount: '4-1002 Pendapatan Kontrak Managed Care SLA',
+          amount: 5000000,
+        }
+        showFlash('Transaksi jurnal berhasil diposting ke Buku Besar secara seimbang!')
+        return
+      }
+    } catch (e) {
+      console.error('Gagal mencatat jurnal di backend:', e)
+    }
+  }
+
+  // Fallback local update
   const newId = journals.value.length + 1
   journals.value.unshift({
     id: newId,
-    date: journalForm.value.date,
+    date: dateVal,
     refNo: `JU-2026/10/00${newId}`,
-    description: journalForm.value.description,
-    debitAccount: journalForm.value.debitAccount,
-    creditAccount: journalForm.value.creditAccount,
-    amount: Number(journalForm.value.amount),
+    description: desc,
+    debitAccount: dAccount,
+    creditAccount: cAccount,
+    amount: amt,
   })
   showJournalModal.value = false
-  journalForm.value = {
-    date: new Date().toISOString().substring(0, 10),
-    description: '',
-    debitAccount: '1-1002 Bank BCA Utama Korporat',
-    creditAccount: '4-1002 Pendapatan Kontrak Managed Care SLA',
-    amount: 5000000,
-  }
   showFlash('Transaksi jurnal berhasil diposting ke Buku Besar secara seimbang!')
 }
 
@@ -1055,6 +1113,30 @@ const officeInvoices = ref([
   },
 ])
 
+async function fetchInvoices() {
+  if (!authStore.token) return
+  try {
+    const res = await fetch('/api/v1/invoices', {
+      headers: { Authorization: `Bearer ${authStore.token}` },
+    })
+    const result = await res.json()
+    if (res.ok && result.success && Array.isArray(result.data) && result.data.length > 0) {
+      officeInvoices.value = result.data.map((item: any) => ({
+        id: item.id,
+        invoiceNo: item.invoice_number,
+        clientName: item.client_name,
+        dpp: item.amount,
+        ppn: item.tax_amount,
+        total: item.total_amount,
+        dueDate: item.due_date,
+        status: item.status,
+      }))
+    }
+  } catch (err) {
+    console.error('Gagal memuat faktur dari backend:', err)
+  }
+}
+
 const showInvoiceModal = ref(false)
 const invoiceForm = ref({
   clientName: '',
@@ -1063,34 +1145,84 @@ const invoiceForm = ref({
   dueDate: new Date(Date.now() + 14 * 86400000).toISOString().substring(0, 10),
 })
 
-function saveInvoice() {
-  const newId = officeInvoices.value.length + 1
+async function saveInvoice() {
   const dpp = Number(invoiceForm.value.dpp)
+  const client = invoiceForm.value.clientName
+  const desc = invoiceForm.value.description
+  const due = invoiceForm.value.dueDate
+
+  if (authStore.token) {
+    try {
+      const res = await fetch('/api/v1/invoices/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authStore.token}`,
+        },
+        body: JSON.stringify({
+          client_name: client,
+          description: desc,
+          amount: dpp,
+          due_date: due,
+        }),
+      })
+      const result = await res.json()
+      if (res.ok && result.success) {
+        await fetchInvoices()
+        await fetchJournals()
+        showInvoiceModal.value = false
+        invoiceForm.value = {
+          clientName: '',
+          description: '',
+          dpp: 10000000,
+          dueDate: new Date(Date.now() + 14 * 86400000).toISOString().substring(0, 10),
+        }
+        showFlash('Faktur tagihan baru berhasil diterbitkan dan otomatis dibukukan ke SAK EMKM!')
+        return
+      }
+    } catch (e) {
+      console.error('Gagal menerbitkan faktur di backend:', e)
+    }
+  }
+
+  // Fallback local update
+  const newId = officeInvoices.value.length + 1
   const ppn = Math.round(dpp * 0.11)
   const total = dpp + ppn
   officeInvoices.value.unshift({
     id: newId,
     invoiceNo: `INV/2026/10/00${newId + 3}`,
-    clientName: invoiceForm.value.clientName,
+    clientName: client,
     dpp,
     ppn,
     total,
-    dueDate: invoiceForm.value.dueDate,
+    dueDate: due,
     status: 'unpaid',
   })
   showInvoiceModal.value = false
-  invoiceForm.value = {
-    clientName: '',
-    description: '',
-    dpp: 10000000,
-    dueDate: new Date(Date.now() + 14 * 86400000).toISOString().substring(0, 10),
-  }
-  showFlash('Faktur tagihan baru berhasil diterbitkan dan siap dikirim ke klien!')
+  showFlash('Faktur tagihan baru berhasil diterbitkan!')
 }
 
-function toggleInvoiceStatus(inv: any) {
-  inv.status = inv.status === 'paid' ? 'unpaid' : 'paid'
-  showFlash(`Status invoice ${inv.invoiceNo} diperbarui menjadi ${inv.status === 'paid' ? 'LUNAS' : 'BELUM BAYAR'}`)
+async function toggleInvoiceStatus(inv: any) {
+  const newStatus = inv.status === 'paid' ? 'unpaid' : 'paid'
+  inv.status = newStatus
+  showFlash(`Status invoice ${inv.invoiceNo} diperbarui menjadi ${newStatus === 'paid' ? 'LUNAS' : 'BELUM BAYAR'}`)
+
+  if (authStore.token) {
+    try {
+      await fetch('/api/v1/invoices/status', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authStore.token}`,
+        },
+        body: JSON.stringify({ id: inv.id, status: newStatus }),
+      })
+      await fetchJournals()
+    } catch (e) {
+      console.error('Gagal update status invoice di backend:', e)
+    }
+  }
 }
 
 function exportCoretaxCSV() {
@@ -1113,6 +1245,8 @@ onMounted(async () => {
   if (authStore.token) {
     await authStore.fetchProfile()
     fetchUsers()
+    fetchInvoices()
+    fetchJournals()
   }
 
   try {
