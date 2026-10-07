@@ -104,3 +104,14 @@ func writeJSONError(w http.ResponseWriter, statusCode int, message string) {
 		"error":   message,
 	})
 }
+
+func GetUserClaims(r *http.Request) *domain.User {
+	userID, _ := r.Context().Value(ContextKeyUserID).(int64)
+	email, _ := r.Context().Value(ContextKeyEmail).(string)
+	role, _ := r.Context().Value(ContextKeyRole).(domain.UserRole)
+	return &domain.User{
+		ID:    userID,
+		Email: email,
+		Role:  role,
+	}
+}

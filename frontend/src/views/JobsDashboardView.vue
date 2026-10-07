@@ -651,6 +651,32 @@ const p1Count = computed(() => tickets.value.filter(t => t.priority === 'p1_crit
 const inProgressCount = computed(() => tickets.value.filter(t => t.status === 'in_progress').length)
 const resolvedCount = computed(() => tickets.value.filter(t => t.status === 'resolved').length)
 
+async function fetchTickets() {
+  if (!authStore.token) return
+  try {
+    const res = await fetch('/api/v1/tickets', {
+      headers: { Authorization: `Bearer ${authStore.token}` },
+    })
+    const result = await res.json()
+    if (res.ok && result.success && Array.isArray(result.data) && result.data.length > 0) {
+      tickets.value = result.data.map((item: any) => ({
+        id: item.id,
+        code: item.ticket_code,
+        title: item.title,
+        clientName: item.client_name || 'Klien Korporat',
+        project: item.project_name || 'Managed Care SLA',
+        priority: item.priority,
+        status: item.status,
+        deadline: new Date(item.sla_deadline).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) + ' WIB',
+        hoursSpent: item.hours_spent || 0,
+        description: item.description,
+      }))
+    }
+  } catch (err) {
+    console.error('Gagal mengambil data tiket dari backend:', err)
+  }
+}
+
 // Modal Buat Tiket
 const showNewTicketModal = ref(false)
 const newTicketForm = ref({
@@ -660,14 +686,46 @@ const newTicketForm = ref({
   description: '',
 })
 
-function saveNewTicket() {
+async function saveNewTicket() {
+  if (!newTicketForm.value.title) return
+
+  if (authStore.token) {
+    try {
+      const res = await fetch('/api/v1/tickets/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authStore.token}`,
+        },
+        body: JSON.stringify({
+          title: newTicketForm.value.title,
+          description: newTicketForm.value.description || newTicketForm.value.title,
+          priority: newTicketForm.value.priority,
+          project_name: 'Managed Care SLA',
+        }),
+      })
+      const result = await res.json()
+      if (res.ok && result.success) {
+        await fetchTickets()
+        showNewTicketModal.value = false
+        const code = result.data?.ticket_code || 'TKT-SLA'
+        newTicketForm.value = { title: '', clientName: '', priority: 'p2_major', description: '' }
+        showFlashMsg(`Tiket baru ${code} berhasil dibuat dan ditambahkan ke database!`)
+        return
+      }
+    } catch (e) {
+      console.error('Gagal membuat tiket di backend:', e)
+    }
+  }
+
+  // Fallback local update
   const newId = tickets.value.length + 1
   const code = `TKT-2026-0${80 + newId}`
   tickets.value.unshift({
     id: newId,
     code,
     title: newTicketForm.value.title,
-    clientName: newTicketForm.value.clientName,
+    clientName: newTicketForm.value.clientName || 'PT. Surya Logistik',
     project: 'Managed Care SLA',
     priority: newTicketForm.value.priority,
     status: 'open',
@@ -680,11 +738,26 @@ function saveNewTicket() {
   showFlashMsg(`Tiket baru ${code} berhasil dibuat dan ditambahkan ke antrian!`)
 }
 
-function changeTicketStatus(id: number, newStatus: string) {
+async function changeTicketStatus(id: number, newStatus: string) {
   const t = tickets.value.find(item => item.id === id)
   if (t) {
     t.status = newStatus
     showFlashMsg(`Status tiket ${t.code} diubah menjadi "${formatStatus(newStatus)}"`)
+
+    if (authStore.token) {
+      try {
+        await fetch('/api/v1/tickets/status', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${authStore.token}`,
+          },
+          body: JSON.stringify({ id, status: newStatus }),
+        })
+      } catch (e) {
+        console.error('Gagal update status tiket di backend:', e)
+      }
+    }
   }
 }
 
@@ -716,6 +789,28 @@ const timesheets = ref([
   },
 ])
 
+async function fetchTimesheets() {
+  if (!authStore.token) return
+  try {
+    const res = await fetch('/api/v1/timesheets', {
+      headers: { Authorization: `Bearer ${authStore.token}` },
+    })
+    const result = await res.json()
+    if (res.ok && result.success && Array.isArray(result.data) && result.data.length > 0) {
+      timesheets.value = result.data.map((item: any) => ({
+        id: item.id,
+        project: item.project_name || 'Managed Care SLA',
+        ticketCode: item.ticket_code || '',
+        date: item.log_date,
+        hours: item.hours_spent,
+        description: item.work_description,
+      }))
+    }
+  } catch (err) {
+    console.error('Gagal mengambil timesheet dari backend:', err)
+  }
+}
+
 const timesheetForm = ref({
   project: 'PT. Surya Logistik — Managed Care SLA',
   ticketCode: '',
@@ -728,7 +823,41 @@ const totalLoggedHours = computed(() => {
   return timesheets.value.reduce((acc, curr) => acc + curr.hours, 0)
 })
 
-function submitTimesheet() {
+async function submitTimesheet() {
+  if (!timesheetForm.value.hours || !timesheetForm.value.description) return
+
+  if (authStore.token) {
+    try {
+      const res = await fetch('/api/v1/timesheets/log', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authStore.token}`,
+        },
+        body: JSON.stringify({
+          project_name: timesheetForm.value.project,
+          ticket_code: timesheetForm.value.ticketCode,
+          hours_spent: Number(timesheetForm.value.hours),
+          work_description: timesheetForm.value.description,
+          log_date: timesheetForm.value.date,
+        }),
+      })
+      const result = await res.json()
+      if (res.ok && result.success) {
+        await fetchTimesheets()
+        if (timesheetForm.value.ticketCode) {
+          await fetchTickets()
+        }
+        showFlashMsg(`Berhasil mencatat ${timesheetForm.value.hours} jam kerja ke database timesheet!`)
+        timesheetForm.value.description = ''
+        return
+      }
+    } catch (e) {
+      console.error('Gagal submit timesheet ke backend:', e)
+    }
+  }
+
+  // Fallback local update
   timesheets.value.unshift({
     id: Date.now(),
     project: timesheetForm.value.project,
@@ -738,7 +867,6 @@ function submitTimesheet() {
     description: timesheetForm.value.description,
   })
 
-  // update ticket hours if related
   if (timesheetForm.value.ticketCode) {
     const t = tickets.value.find(item => item.code === timesheetForm.value.ticketCode)
     if (t) t.hoursSpent += Number(timesheetForm.value.hours)
@@ -854,6 +982,7 @@ async function handleLogout() {
 onMounted(async () => {
   if (authStore.token) {
     await authStore.fetchProfile()
+    await Promise.all([fetchTickets(), fetchTimesheets()])
   }
 })
 </script>

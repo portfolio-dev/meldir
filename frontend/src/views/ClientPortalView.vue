@@ -596,6 +596,53 @@ const activeTicketsCount = computed(() => {
   return clientTickets.value.filter(t => t.status !== 'resolved').length
 })
 
+async function fetchClientTickets() {
+  if (!authStore.token) return
+  try {
+    const res = await fetch('/api/v1/tickets', {
+      headers: { Authorization: `Bearer ${authStore.token}` },
+    })
+    const result = await res.json()
+    if (res.ok && result.success && Array.isArray(result.data) && result.data.length > 0) {
+      clientTickets.value = result.data.map((item: any) => ({
+        id: item.id,
+        code: item.ticket_code,
+        title: item.title,
+        priority: item.priority,
+        status: item.status,
+        deadline: new Date(item.sla_deadline).toLocaleString('id-ID', { dateStyle: 'medium', timeStyle: 'short' }) + ' WIB',
+        updatedAt: new Date(item.updated_at).toLocaleString('id-ID', { dateStyle: 'short', timeStyle: 'short' }),
+        description: item.description,
+      }))
+    }
+  } catch (err) {
+    console.error('Gagal mengambil tiket klien dari backend:', err)
+  }
+}
+
+async function fetchWorkLogs() {
+  if (!authStore.token) return
+  try {
+    const res = await fetch('/api/v1/timesheets', {
+      headers: { Authorization: `Bearer ${authStore.token}` },
+    })
+    const result = await res.json()
+    if (res.ok && result.success && Array.isArray(result.data) && result.data.length > 0) {
+      workLogs.value = result.data.map((item: any) => ({
+        id: item.id,
+        date: item.log_date,
+        ticketCode: item.ticket_code || 'TKT-SLA',
+        engineer: item.engineer_name || 'Tim Engineer Meldir',
+        hours: item.hours_spent,
+        desc: item.work_description,
+      }))
+      usedHours.value = workLogs.value.reduce((acc: number, curr: any) => acc + curr.hours, 0)
+    }
+  } catch (err) {
+    console.error('Gagal mengambil log kerja dari backend:', err)
+  }
+}
+
 // Modal Buat Tiket Klien
 const showNewTicketModal = ref(false)
 const clientTicketForm = ref({
@@ -604,7 +651,38 @@ const clientTicketForm = ref({
   description: '',
 })
 
-function saveClientTicket() {
+async function saveClientTicket() {
+  if (!clientTicketForm.value.title || !clientTicketForm.value.description) return
+
+  if (authStore.token) {
+    try {
+      const res = await fetch('/api/v1/tickets/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authStore.token}`,
+        },
+        body: JSON.stringify({
+          title: clientTicketForm.value.title,
+          description: clientTicketForm.value.description,
+          priority: clientTicketForm.value.priority,
+        }),
+      })
+      const result = await res.json()
+      if (res.ok && result.success) {
+        await fetchClientTickets()
+        showNewTicketModal.value = false
+        const code = result.data?.ticket_code || 'TKT-2026'
+        clientTicketForm.value = { title: '', priority: 'p2_major', description: '' }
+        showFlashMsg(`Tiket ${code} berhasil disampaikan! Tim engineer kami segera menindaklanjuti.`)
+        return
+      }
+    } catch (e) {
+      console.error('Gagal membuat tiket klien di backend:', e)
+    }
+  }
+
+  // Fallback local update
   const newId = clientTickets.value.length + 1
   const code = `TKT-2026-0${85 + newId}`
   clientTickets.value.unshift({
@@ -705,6 +783,7 @@ async function handleLogout() {
 onMounted(async () => {
   if (authStore.token) {
     await authStore.fetchProfile()
+    await Promise.all([fetchClientTickets(), fetchWorkLogs()])
   }
 })
 </script>

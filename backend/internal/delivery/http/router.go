@@ -16,6 +16,8 @@ func NewRouter(
 	healthHandler *handler.HealthHandler,
 	authHandler *handler.AuthHandler,
 	userHandler *handler.UserHandler,
+	ticketHandler *handler.TicketHandler,
+	timesheetHandler *handler.TimesheetHandler,
 	authMiddleware *middleware.AuthMiddleware,
 ) http.Handler {
 	mux := http.NewServeMux()
@@ -35,6 +37,16 @@ func NewRouter(
 	mux.HandleFunc("/api/v1/users/create", adminOnly(userHandler.CreateUser))
 	mux.HandleFunc("/api/v1/users/update", adminOnly(userHandler.UpdateUser))
 	mux.HandleFunc("/api/v1/users/delete", adminOnly(userHandler.DeleteUser))
+
+	// 4. SLA Tickets Endpoints (Otentikasi Pengguna)
+	mux.HandleFunc("/api/v1/tickets", authMiddleware.Authenticate(ticketHandler.ListTickets))
+	mux.HandleFunc("/api/v1/tickets/create", authMiddleware.Authenticate(ticketHandler.CreateTicket))
+	mux.HandleFunc("/api/v1/tickets/status", authMiddleware.Authenticate(ticketHandler.UpdateTicketStatus))
+
+	// 5. Timesheet Logger Endpoints (Otentikasi Pengguna)
+	mux.HandleFunc("/api/v1/timesheets", authMiddleware.Authenticate(timesheetHandler.ListTimesheets))
+	mux.HandleFunc("/api/v1/timesheets/log", authMiddleware.Authenticate(timesheetHandler.LogWork))
+	mux.HandleFunc("/api/v1/timesheets/summary", authMiddleware.Authenticate(timesheetHandler.GetSummary))
 
 	// Wrap with Global Middlewares (Recovery, CORS, Logging)
 	return withRecovery(withCORS(withLogging(mux)))

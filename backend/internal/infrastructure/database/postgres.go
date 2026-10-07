@@ -47,8 +47,25 @@ func NewPostgresDB(cfg *config.Config) (*PostgresDB, error) {
 	if err := db.SeedDefaultSuperadmin(context.Background()); err != nil {
 		log.Printf("⚠️ Peringatan seed admin: %v", err)
 	}
+	if err := db.MigrateSchema(context.Background()); err != nil {
+		log.Printf("⚠️ Peringatan migrasi skema: %v", err)
+	}
 
 	return db, nil
+}
+
+func (db *PostgresDB) MigrateSchema(ctx context.Context) error {
+	queries := []string{
+		"ALTER TABLE tickets ALTER COLUMN project_id DROP NOT NULL",
+		"ALTER TABLE tickets ALTER COLUMN contract_id DROP NOT NULL",
+		"ALTER TABLE timesheet_logs ALTER COLUMN project_id DROP NOT NULL",
+		"ALTER TABLE timesheet_logs ADD COLUMN IF NOT EXISTS ticket_code VARCHAR(30) NULL",
+		"ALTER TABLE timesheet_logs ADD COLUMN IF NOT EXISTS project_name VARCHAR(150) NULL",
+	}
+	for _, q := range queries {
+		_, _ = db.Pool.Exec(ctx, q)
+	}
+	return nil
 }
 
 func (db *PostgresDB) SeedDefaultSuperadmin(ctx context.Context) error {

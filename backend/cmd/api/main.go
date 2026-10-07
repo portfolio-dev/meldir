@@ -48,20 +48,28 @@ func main() {
 
 	// 4. Inisialisasi Repository & Usecase
 	var userRepo repository.UserRepository
+	var ticketRepo repository.TicketRepository
+	var timesheetRepo repository.TimesheetRepository
 	if db != nil {
 		userRepo = repository.NewUserRepository(db.Pool)
+		ticketRepo = repository.NewTicketRepository(db.Pool)
+		timesheetRepo = repository.NewTimesheetRepository(db.Pool)
 	}
 	authUsecase := usecase.NewAuthUsecase(userRepo, jwtManager, redisClient)
 	userUsecase := usecase.NewUserUsecase(userRepo)
+	ticketUsecase := usecase.NewTicketUsecase(ticketRepo)
+	timesheetUsecase := usecase.NewTimesheetUsecase(timesheetRepo)
 
 	// 5. Inisialisasi Handlers & Middleware
 	healthHandler := handler.NewHealthHandler(cfg.Environment, db, dbErr, redisClient, redisErr)
 	authHandler := handler.NewAuthHandler(authUsecase)
 	userHandler := handler.NewUserHandler(userUsecase)
+	ticketHandler := handler.NewTicketHandler(ticketUsecase)
+	timesheetHandler := handler.NewTimesheetHandler(timesheetUsecase)
 	authMiddleware := middleware.NewAuthMiddleware(jwtManager, redisClient)
 
 	// 6. Setup Router
-	router := delivery.NewRouter(healthHandler, authHandler, userHandler, authMiddleware)
+	router := delivery.NewRouter(healthHandler, authHandler, userHandler, ticketHandler, timesheetHandler, authMiddleware)
 
 	server := &http.Server{
 		Addr:         fmt.Sprintf("0.0.0.0:%s", cfg.Port),
