@@ -71,9 +71,9 @@
             <div class="card glass-panel kpi-card-emerald">
               <div class="card-header">
                 <h3>Kesehatan Server Klien</h3>
-                <span class="tag tag-green">99.98% Uptime</span>
+                <span class="tag tag-green">{{ clientServers.length > 0 ? '99.98% Uptime' : 'Monitoring' }}</span>
               </div>
-              <div class="kpi-value">Live Online</div>
+              <div class="kpi-value">{{ clientServers.length > 0 ? 'Live Online' : 'Siap Pantau' }}</div>
               <p class="kpi-desc">External probe otomatis berjalan setiap 5 menit</p>
             </div>
 
@@ -100,7 +100,7 @@
                 <h3>Tagihan & Faktur Pajak</h3>
                 <span class="tag tag-tax">PPN 11%</span>
               </div>
-              <div class="kpi-value">Lunas Terlapor</div>
+              <div class="kpi-value">{{ clientInvoices.length > 0 ? (clientInvoices.some(i => i.status !== 'paid') ? 'Ada Tagihan' : 'Lunas') : 'Belum Ada Faktur' }}</div>
               <p class="kpi-desc">Unduh berkas PDF e-Faktur resmi DJP mandiri</p>
             </div>
           </div>
@@ -167,6 +167,13 @@
                     <span class="metric-val text-xs text-muted">{{ s.lastCheck }}</span>
                   </div>
                 </div>
+              </div>
+              <div v-if="clientServers.length === 0" class="card glass-panel" style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
+                <div style="font-size: 2.2rem; margin-bottom: 8px;">🖥️</div>
+                <h4 style="font-weight: 600; color: #1e293b; margin-bottom: 6px;">Belum Ada Server Terdaftar</h4>
+                <p class="text-sm text-muted" style="max-width: 500px; margin: 0 auto;">
+                  Endpoint server aplikasi, web, atau database Anda akan didaftarkan oleh tim Core Engineer Meldir sesuai lingkup kontrak SPK SLA.
+                </p>
               </div>
             </div>
           </section>
@@ -250,6 +257,11 @@
                     <td class="font-mono font-bold text-rose">{{ log.hours }} Jam</td>
                     <td class="text-xs text-muted">{{ log.desc }}</td>
                   </tr>
+                  <tr v-if="workLogs.length === 0">
+                    <td colspan="5" class="text-center py-6 text-muted">
+                      Belum ada rincian jam kerja engineer yang tercatat pada periode ini.
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -303,6 +315,11 @@
                     <td class="text-xs font-mono">{{ t.deadline }}</td>
                     <td class="text-xs text-muted">{{ t.updatedAt }}</td>
                   </tr>
+                  <tr v-if="clientTickets.length === 0">
+                    <td colspan="6" class="text-center py-6 text-muted">
+                      Belum ada tiket dukungan atau insiden SLA. Klik <strong>+ Laporkan Kendala / Buat Tiket</strong> di atas untuk membuat tiket baru.
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -350,6 +367,11 @@
                       </button>
                     </td>
                   </tr>
+                  <tr v-if="clientInvoices.length === 0">
+                    <td colspan="8" class="text-center py-6 text-muted">
+                      Belum ada riwayat faktur tagihan atau e-faktur pajak yang diterbitkan.
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -365,28 +387,23 @@
             </p>
 
             <div class="contract-docs-grid">
-              <div class="contract-doc-card glass-panel">
-                <div class="doc-icon">📄</div>
+              <div v-for="doc in clientContracts" :key="doc.id" class="contract-doc-card glass-panel">
+                <div class="doc-icon">{{ doc.icon || '📄' }}</div>
                 <div class="doc-meta">
-                  <h4>Surat Perjanjian Kerja Sama (SPK) No. 018/SPK/MDR/2026</h4>
-                  <p class="text-xs text-muted">Layanan Managed Care SLA 24 Jam • Periode 1 Jan 2026 – 31 Des 2026</p>
-                  <div class="doc-badge-verified">✓ E-Materai Sah & Tervalidasi</div>
+                  <h4>{{ doc.title }}</h4>
+                  <p class="text-xs text-muted">{{ doc.description }}</p>
+                  <div class="doc-badge-verified">{{ doc.badge || '✓ E-Materai Sah & Tervalidasi' }}</div>
                 </div>
-                <button @click="downloadDoc('SPK')" class="btn-action edit">
+                <button @click="downloadDoc(doc.title)" class="btn-action edit">
                   📥 Unduh Berkas
                 </button>
               </div>
-
-              <div class="contract-doc-card glass-panel">
-                <div class="doc-icon">📑</div>
-                <div class="doc-meta">
-                  <h4>Berita Acara Serah Terima (BAST) Periode Q3 2026</h4>
-                  <p class="text-xs text-muted">BAST Pekerjaan Pemeliharaan Aplikasi & Keandalan Server Periode Berjalan</p>
-                  <div class="doc-badge-verified">✓ Ditandatangani Direktur Utama</div>
-                </div>
-                <button @click="downloadDoc('BAST')" class="btn-action edit">
-                  📥 Unduh Berkas
-                </button>
+              <div v-if="clientContracts.length === 0" class="card glass-panel" style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
+                <div style="font-size: 2.2rem; margin-bottom: 8px;">📜</div>
+                <h4 style="font-weight: 600; color: #1e293b; margin-bottom: 6px;">Belum Ada Berkas Kontrak Resmi</h4>
+                <p class="text-sm text-muted" style="max-width: 500px; margin: 0 auto;">
+                  Dokumen Surat Perjanjian Kerja Sama (SPK) dan Berita Acara Serah Terima (BAST) bersertifikasi e-Materai akan diunggah oleh pihak manajemen setelah proses penandatanganan selesai.
+                </p>
               </div>
             </div>
           </section>
@@ -497,38 +514,17 @@ const userInitials = computed(() => {
 
 // Kuota Jam State
 const currentQuota = ref(10)
-const usedHours = ref(7.5)
+const usedHours = ref(0)
 
 // Server Health Monitoring
 const isPinging = ref(false)
-const clientServers = ref([
-  {
-    id: 1,
-    name: 'Core API Backend (Golang)',
-    url: 'https://api.klien.meldir.id/health',
-    latency: 38,
-    sslDays: 84,
-    lastCheck: '1 menit yang lalu',
-  },
-  {
-    id: 2,
-    name: 'Web Application Client (Vue 3)',
-    url: 'https://app.klien.meldir.id',
-    latency: 45,
-    sslDays: 84,
-    lastCheck: '1 menit yang lalu',
-  },
-  {
-    id: 3,
-    name: 'PostgreSQL Database Primary Cluster',
-    url: 'pg-cluster.internal:5432',
-    latency: 12,
-    sslDays: 365,
-    lastCheck: '2 menit yang lalu',
-  },
-])
+const clientServers = ref<any[]>([])
 
 function pingAllServers() {
+  if (clientServers.value.length === 0) {
+    showFlashMsg('Belum ada server terdaftar untuk pengujian probe.')
+    return
+  }
   isPinging.value = true
   setTimeout(() => {
     clientServers.value.forEach(s => {
@@ -541,56 +537,10 @@ function pingAllServers() {
 }
 
 // Work logs transparansi
-const workLogs = ref([
-  {
-    id: 1,
-    date: '2026-10-06',
-    ticketCode: 'TKT-2026-081',
-    engineer: 'Rian Anggoro (Senior Engineer)',
-    hours: 2.5,
-    desc: 'Optimasi connection pool PostgreSQL dan penambahan Redis caching untuk mengurangi beban traffic puncak.',
-  },
-  {
-    id: 2,
-    date: '2026-10-04',
-    ticketCode: 'TKT-2026-077',
-    engineer: 'Budi Santoso (Backend Dev)',
-    hours: 3.0,
-    desc: 'Konfigurasi audit log GDPR & UU PDP untuk enkripsi data kredensial klien.',
-  },
-  {
-    id: 3,
-    date: '2026-10-02',
-    ticketCode: 'TKT-2026-072',
-    engineer: 'Rian Anggoro (Senior Engineer)',
-    hours: 2.0,
-    desc: 'Pembaruan sertifikat SSL wildcard Let’s Encrypt dan pengetesan automated renew cron.',
-  },
-])
+const workLogs = ref<any[]>([])
 
 // Tiket Klien
-const clientTickets = ref([
-  {
-    id: 1,
-    code: 'TKT-2026-081',
-    title: 'Database connection pool timeout saat lonjakan pesanan',
-    priority: 'p1_critical',
-    status: 'in_progress',
-    deadline: '4 Jam (Hari Ini 23:00 WIB)',
-    updatedAt: '10 menit yang lalu',
-    description: 'Koneksi database mencapai batas maksimum 25 pool saat kampanye flash sale.',
-  },
-  {
-    id: 2,
-    code: 'TKT-2026-077',
-    title: 'Penyesuaian teks template email invoice otomatis',
-    priority: 'p3_low',
-    status: 'resolved',
-    deadline: '48 Jam (Selesai)',
-    updatedAt: '2 hari yang lalu',
-    description: 'Update format footer nomor rekening BCA & Bank Mandiri resmi.',
-  },
-])
+const clientTickets = ref<any[]>([])
 
 const activeTicketsCount = computed(() => {
   return clientTickets.value.filter(t => t.status !== 'resolved').length
@@ -603,7 +553,7 @@ async function fetchClientTickets() {
       headers: { Authorization: `Bearer ${authStore.token}` },
     })
     const result = await res.json()
-    if (res.ok && result.success && Array.isArray(result.data) && result.data.length > 0) {
+    if (res.ok && result.success && Array.isArray(result.data)) {
       clientTickets.value = result.data.map((item: any) => ({
         id: item.id,
         code: item.ticket_code,
@@ -627,7 +577,7 @@ async function fetchWorkLogs() {
       headers: { Authorization: `Bearer ${authStore.token}` },
     })
     const result = await res.json()
-    if (res.ok && result.success && Array.isArray(result.data) && result.data.length > 0) {
+    if (res.ok && result.success && Array.isArray(result.data)) {
       workLogs.value = result.data.map((item: any) => ({
         id: item.id,
         date: item.log_date,
@@ -701,28 +651,10 @@ async function saveClientTicket() {
 }
 
 // Invoices Klien
-const clientInvoices = ref([
-  {
-    id: 1,
-    invoiceNo: 'INV/2026/10/004',
-    description: 'Paket Kontrak Managed Care SLA 24 Jam (Oktober 2026)',
-    subtotal: 12500000,
-    vat: 1375000,
-    total: 13875000,
-    dueDate: '2026-10-15',
-    status: 'paid',
-  },
-  {
-    id: 2,
-    invoiceNo: 'INV/2026/09/003',
-    description: 'Paket Kontrak Managed Care SLA 24 Jam (September 2026)',
-    subtotal: 12500000,
-    vat: 1375000,
-    total: 13875000,
-    dueDate: '2026-09-15',
-    status: 'paid',
-  },
-])
+const clientInvoices = ref<any[]>([])
+
+// Dokumen Kontrak Resmi
+const clientContracts = ref<any[]>([])
 
 async function fetchClientInvoices() {
   if (!authStore.token) return
@@ -731,7 +663,7 @@ async function fetchClientInvoices() {
       headers: { Authorization: `Bearer ${authStore.token}` },
     })
     const result = await res.json()
-    if (res.ok && result.success && Array.isArray(result.data) && result.data.length > 0) {
+    if (res.ok && result.success && Array.isArray(result.data)) {
       clientInvoices.value = result.data.map((item: any) => ({
         id: item.id,
         invoiceNo: item.invoice_number,

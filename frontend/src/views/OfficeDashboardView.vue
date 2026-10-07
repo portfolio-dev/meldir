@@ -87,7 +87,7 @@
                 <h3>Omset Invoice YTD</h3>
                 <span class="tag tag-green">Live 2026</span>
               </div>
-              <div class="kpi-value">Rp 128.500.000</div>
+              <div class="kpi-value">{{ formatCurrency(totalRevenueYTD) }}</div>
               <p class="kpi-desc">Total faktur terbit & lunas terlapor SAK EMKM</p>
             </div>
 
@@ -96,7 +96,7 @@
                 <h3>Buku Besar (General Ledger)</h3>
                 <span class="badge-balanced">✓ Seimbang</span>
               </div>
-              <div class="kpi-value">32 Akun COA</div>
+              <div class="kpi-value">{{ journals.length > 0 ? journals.length + ' Transaksi' : '0 Transaksi' }}</div>
               <p class="kpi-desc">Debit & Kredit seimbang. Sesuai standar UU Pajak & IAI</p>
             </div>
 
@@ -105,7 +105,7 @@
                 <h3>Kepatuhan DJP (Pajak)</h3>
                 <span class="tag tag-tax">SPT Masa 1111</span>
               </div>
-              <div class="kpi-value">PPN 11% & e-Bupot</div>
+              <div class="kpi-value">{{ officeInvoices.length > 0 ? officeInvoices.length + ' Faktur PPN' : '0 Faktur' }}</div>
               <p class="kpi-desc">Faktur Keluaran siap lapor ke sistem Coretax DJP</p>
             </div>
 
@@ -322,6 +322,11 @@
                       {{ formatCurrency(j.amount) }}
                     </td>
                   </tr>
+                  <tr v-if="journals.length === 0">
+                    <td colspan="6" class="text-center py-6 text-muted">
+                      Belum ada catatan transaksi jurnal. Klik "+ Catat Transaksi Jurnal" untuk memposting transaksi baru.
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -410,6 +415,11 @@
                       <button @click="toggleInvoiceStatus(inv)" class="btn-action edit">
                         {{ inv.status === 'paid' ? 'Set Unpaid' : 'Tandai Lunas' }}
                       </button>
+                    </td>
+                  </tr>
+                  <tr v-if="officeInvoices.length === 0">
+                    <td colspan="8" class="text-center py-6 text-muted">
+                      Belum ada faktur tagihan terbit. Klik "+ Terbitkan Faktur Invoice" untuk membuat faktur baru.
                     </td>
                   </tr>
                 </tbody>
@@ -957,35 +967,7 @@ function formatCurrency(val: number) {
 }
 
 // State Jurnal SAK EMKM
-const journals = ref([
-  {
-    id: 1,
-    date: '2026-10-06',
-    refNo: 'JU-2026/10/001',
-    description: 'Penerimaan pembayaran piutang invoice PT. Surya Logistik',
-    debitAccount: '1-1002 Bank BCA Utama Korporat',
-    creditAccount: '1-1201 Piutang Usaha Klien',
-    amount: 13875000,
-  },
-  {
-    id: 2,
-    date: '2026-10-05',
-    refNo: 'JU-2026/10/002',
-    description: 'Penyetoran PPN Masa Keluaran 11% ke Kas Negara via DJP',
-    debitAccount: '2-1201 Utang PPN Keluaran 11%',
-    creditAccount: '1-1002 Bank BCA Utama Korporat',
-    amount: 1375000,
-  },
-  {
-    id: 3,
-    date: '2026-10-04',
-    refNo: 'JU-2026/10/003',
-    description: 'Pembayaran kompensasi jasa software engineer freelance',
-    debitAccount: '5-1001 Beban Kompensasi Engineer',
-    creditAccount: '1-1002 Bank BCA Utama Korporat',
-    amount: 7500000,
-  },
-])
+const journals = ref<any[]>([])
 
 async function fetchJournals() {
   if (!authStore.token) return
@@ -994,7 +976,7 @@ async function fetchJournals() {
       headers: { Authorization: `Bearer ${authStore.token}` },
     })
     const result = await res.json()
-    if (res.ok && result.success && Array.isArray(result.data) && result.data.length > 0) {
+    if (res.ok && result.success && Array.isArray(result.data)) {
       journals.value = result.data.map((item: any) => ({
         id: item.id,
         date: item.journal_date,
@@ -1080,38 +1062,13 @@ async function saveJournal() {
 }
 
 // State Invoices Korporat
-const officeInvoices = ref([
-  {
-    id: 1,
-    invoiceNo: 'INV/2026/10/004',
-    clientName: 'PT. Surya Logistik Multimoda',
-    dpp: 12500000,
-    ppn: 1375000,
-    total: 13875000,
-    dueDate: '2026-10-15',
-    status: 'paid',
-  },
-  {
-    id: 2,
-    invoiceNo: 'INV/2026/10/005',
-    clientName: 'CV. Sejahtera Abadi Mandiri',
-    dpp: 18000000,
-    ppn: 1980000,
-    total: 19980000,
-    dueDate: '2026-10-25',
-    status: 'unpaid',
-  },
-  {
-    id: 3,
-    invoiceNo: 'INV/2026/10/006',
-    clientName: 'Yayasan Harapan Bangsa',
-    dpp: 7500000,
-    ppn: 825000,
-    total: 8325000,
-    dueDate: '2026-10-30',
-    status: 'unpaid',
-  },
-])
+const officeInvoices = ref<any[]>([])
+
+const totalRevenueYTD = computed(() => {
+  return officeInvoices.value
+    .filter(i => i.status === 'paid')
+    .reduce((acc, curr) => acc + (curr.total || 0), 0)
+})
 
 async function fetchInvoices() {
   if (!authStore.token) return
@@ -1120,7 +1077,7 @@ async function fetchInvoices() {
       headers: { Authorization: `Bearer ${authStore.token}` },
     })
     const result = await res.json()
-    if (res.ok && result.success && Array.isArray(result.data) && result.data.length > 0) {
+    if (res.ok && result.success && Array.isArray(result.data)) {
       officeInvoices.value = result.data.map((item: any) => ({
         id: item.id,
         invoiceNo: item.invoice_number,

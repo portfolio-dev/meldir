@@ -239,8 +239,8 @@
                 <h3>Pemotong Saldo Add-On</h3>
                 <span class="tag tag-indigo">Metered SLA</span>
               </div>
-              <div class="kpi-value">12.5 Jam</div>
-              <p class="kpi-desc">Otomatis dipotong dari saldo kuota klien</p>
+              <div class="kpi-value">{{ totalLoggedHours }} Jam</div>
+              <p class="kpi-desc">Otomatis dihitung dari akumulasi jam kerja</p>
             </div>
           </div>
 
@@ -255,12 +255,17 @@
               <form @submit.prevent="submitTimesheet" class="form-grid">
                 <div class="form-group">
                   <label>Pilih Proyek / Kontrak *</label>
-                  <select v-model="timesheetForm.project" required class="form-input">
-                    <option value="PT. Surya Logistik — Managed Care SLA">PT. Surya Logistik — Managed Care SLA</option>
-                    <option value="CV. Sejahtera Abadi — Core Backend API">CV. Sejahtera Abadi — Core Backend API</option>
-                    <option value="Yayasan Harapan Bangsa — Portal Siswa">Yayasan Harapan Bangsa — Portal Siswa</option>
-                    <option value="Internal Meldir — Core Engine Maintenance">Internal Meldir — Core Engine Maintenance</option>
-                  </select>
+                  <input
+                    v-model="timesheetForm.project"
+                    type="text"
+                    list="project-suggestions"
+                    required
+                    placeholder="Contoh: PT. ABC — Managed Care SLA"
+                    class="form-input"
+                  />
+                  <datalist id="project-suggestions">
+                    <option value="Internal Meldir — Core Engine Maintenance"></option>
+                  </datalist>
                 </div>
 
                 <div class="form-group">
@@ -337,6 +342,11 @@
                       <td class="font-mono font-bold text-indigo">{{ log.hours }} Jam</td>
                       <td class="text-xs text-muted">{{ log.description }}</td>
                     </tr>
+                    <tr v-if="timesheets.length === 0">
+                      <td colspan="4" class="text-center py-6 text-muted">
+                        Belum ada catatan jam kerja. Gunakan form di sebelah kiri untuk mencatat waktu kerja pertama Anda.
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -391,6 +401,11 @@
                       <button @click="openSlipModal(slip)" class="btn-action edit">
                         🖨️ Cetak Slip
                       </button>
+                    </td>
+                  </tr>
+                  <tr v-if="withholdingSlips.length === 0">
+                    <td colspan="8" class="text-center py-6 text-muted">
+                      Belum ada bukti potong PPh 21 resmi yang diterbitkan untuk akun ini.
                     </td>
                   </tr>
                 </tbody>
@@ -592,44 +607,7 @@ const roleDisplay = computed(() => {
 })
 
 // Data Tiket SLA
-const tickets = ref([
-  {
-    id: 1,
-    code: 'TKT-2026-081',
-    title: 'Database connection pool timeout under peak traffic',
-    clientName: 'PT. Surya Logistik',
-    project: 'Logistics ERP Core',
-    priority: 'p1_critical',
-    status: 'in_progress',
-    deadline: '4 Jam (Hari Ini 23:00 WIB)',
-    hoursSpent: 2.5,
-    description: 'Postgres connection pool maxed out at 25 connections. Need to tune max connections and add Redis cache.',
-  },
-  {
-    id: 2,
-    code: 'TKT-2026-082',
-    title: 'Implementasi Webhook Notifikasi Pembayaran Invoice',
-    clientName: 'CV. Sejahtera Abadi',
-    project: 'B2B Client Portal',
-    priority: 'p2_major',
-    status: 'open',
-    deadline: '12 Jam (Besok 08:00 WIB)',
-    hoursSpent: 0,
-    description: 'Integrasi callback payment gateway untuk update status invoice otomatis.',
-  },
-  {
-    id: 3,
-    code: 'TKT-2026-083',
-    title: 'Penyesuaian teks template email BAST & e-Materai',
-    clientName: 'Yayasan Harapan Bangsa',
-    project: 'Scholarship Management',
-    priority: 'p3_low',
-    status: 'resolved',
-    deadline: '48 Jam (Selesai)',
-    hoursSpent: 1.5,
-    description: 'Update format alamat resmi dan nomor surat izin operasional yayasan pada footer BAST.',
-  },
-])
+const tickets = ref<any[]>([])
 
 const ticketSearch = ref('')
 const ticketFilterPriority = ref('')
@@ -658,7 +636,7 @@ async function fetchTickets() {
       headers: { Authorization: `Bearer ${authStore.token}` },
     })
     const result = await res.json()
-    if (res.ok && result.success && Array.isArray(result.data) && result.data.length > 0) {
+    if (res.ok && result.success && Array.isArray(result.data)) {
       tickets.value = result.data.map((item: any) => ({
         id: item.id,
         code: item.ticket_code,
@@ -762,32 +740,7 @@ async function changeTicketStatus(id: number, newStatus: string) {
 }
 
 // Timesheet Data
-const timesheets = ref([
-  {
-    id: 1,
-    project: 'PT. Surya Logistik — Managed Care SLA',
-    ticketCode: 'TKT-2026-081',
-    date: '2026-10-06',
-    hours: 2.5,
-    description: 'Diagnostik PostgreSQL connection pool bottleneck dan konfigurasi Redis caching.',
-  },
-  {
-    id: 2,
-    project: 'Internal Meldir — Core Engine Maintenance',
-    ticketCode: '',
-    date: '2026-10-05',
-    hours: 4.0,
-    description: 'Refactoring RESTful handler Golang dan optimasi CORS OpenLiteSpeed.',
-  },
-  {
-    id: 3,
-    project: 'CV. Sejahtera Abadi — Core Backend API',
-    ticketCode: 'TKT-2026-079',
-    date: '2026-10-04',
-    hours: 3.5,
-    description: 'Implementasi middleware otentikasi JWT dan pembatasan peran akses user.',
-  },
-])
+const timesheets = ref<any[]>([])
 
 async function fetchTimesheets() {
   if (!authStore.token) return
@@ -796,7 +749,7 @@ async function fetchTimesheets() {
       headers: { Authorization: `Bearer ${authStore.token}` },
     })
     const result = await res.json()
-    if (res.ok && result.success && Array.isArray(result.data) && result.data.length > 0) {
+    if (res.ok && result.success && Array.isArray(result.data)) {
       timesheets.value = result.data.map((item: any) => ({
         id: item.id,
         project: item.project_name || 'Managed Care SLA',
@@ -812,10 +765,10 @@ async function fetchTimesheets() {
 }
 
 const timesheetForm = ref({
-  project: 'PT. Surya Logistik — Managed Care SLA',
+  project: '',
   ticketCode: '',
   date: new Date().toISOString().substring(0, 10),
-  hours: 2,
+  hours: 1,
   description: '',
 })
 
@@ -883,35 +836,7 @@ function openQuickLog(t: any) {
 }
 
 // Pajak PPh 21 Slips
-const withholdingSlips = ref([
-  {
-    id: 1,
-    slipNumber: 'BP-21/2026/09/014',
-    period: 'September 2026',
-    bruto: 15000000,
-    dpp: 7500000,
-    rate: '5%',
-    taxAmount: 375000,
-  },
-  {
-    id: 2,
-    slipNumber: 'BP-21/2026/08/011',
-    period: 'Agustus 2026',
-    bruto: 12500000,
-    dpp: 6250000,
-    rate: '5%',
-    taxAmount: 312500,
-  },
-  {
-    id: 3,
-    slipNumber: 'BP-21/2026/07/008',
-    period: 'Juli 2026',
-    bruto: 18000000,
-    dpp: 9000000,
-    rate: '5%',
-    taxAmount: 450000,
-  },
-])
+const withholdingSlips = ref<any[]>([])
 
 const selectedSlip = ref<any>(null)
 function openSlipModal(slip: any) {
