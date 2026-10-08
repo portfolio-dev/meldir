@@ -89,14 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.setAttribute('href', href);
             }
         });
-
-        // Translate WhatsApp dynamic URLs (for index.html)
-        const heroWaBtns = document.querySelectorAll('.hero-btn-wa, #hero-cta-wa');
-        heroWaBtns.forEach(btn => btn.setAttribute('href', waTemplates.hero[lang]));
-        const socialWaBtn = document.querySelector('.social-content .btn');
-        if (socialWaBtn) socialWaBtn.setAttribute('href', waTemplates.social[lang]);
-        const quickWaBtn = document.querySelector('.sidebar-box.box-wa');
-        if (quickWaBtn) quickWaBtn.setAttribute('href', waTemplates.quick[lang]);
     }
 
     // Initialize Language
@@ -835,6 +827,191 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (window.location.hash.toLowerCase() === '#audit') {
         openLeadModal();
+    }
+    if (window.location.hash.toLowerCase() === '#chat') {
+        openLiveChat();
+    }
+
+    // --- 11. Meldir Live Chat Online System ---
+    const chatWrapper = document.getElementById('meldir-chat-widget');
+    const chatLauncher = document.getElementById('chat-launcher-btn');
+    const chatMinimize = document.getElementById('chat-btn-minimize');
+    const chatMessages = document.getElementById('chat-messages-container');
+    const chatForm = document.getElementById('chat-input-form');
+    const chatInput = document.getElementById('chat-text-input');
+    const chatTriggers = document.querySelectorAll('[data-open-chat]');
+    const chatChips = document.querySelectorAll('.chat-chip-btn');
+
+    function openLiveChat(topic = null) {
+        if (!chatWrapper) return;
+        chatWrapper.classList.add('active');
+        if (chatInput) {
+            setTimeout(() => chatInput.focus(), 200);
+        }
+        if (topic) {
+            handleUserChatMessage(`Saya ingin berkonsultasi mengenai: ${topic}`);
+        }
+    }
+
+    function closeLiveChat() {
+        if (!chatWrapper) return;
+        chatWrapper.classList.remove('active');
+    }
+
+    function toggleLiveChat() {
+        if (!chatWrapper) return;
+        if (chatWrapper.classList.contains('active')) {
+            closeLiveChat();
+        } else {
+            openLiveChat();
+        }
+    }
+
+    if (chatLauncher) {
+        chatLauncher.addEventListener('click', toggleLiveChat);
+    }
+    if (chatMinimize) {
+        chatMinimize.addEventListener('click', closeLiveChat);
+    }
+
+    chatTriggers.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const topic = btn.getAttribute('data-chat-topic') || null;
+            openLiveChat(topic);
+        });
+    });
+
+    chatChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            const query = chip.getAttribute('data-query') || chip.textContent.trim();
+            handleUserChatMessage(query);
+        });
+    });
+
+    function appendChatMessage(sender, text, isHtml = false) {
+        if (!chatMessages) return;
+        const msgEl = document.createElement('div');
+        msgEl.className = `chat-msg msg-${sender}`;
+
+        const bubbleEl = document.createElement('div');
+        bubbleEl.className = 'msg-bubble';
+        if (isHtml) {
+            bubbleEl.innerHTML = text;
+        } else {
+            const p = document.createElement('p');
+            p.textContent = text;
+            bubbleEl.appendChild(p);
+        }
+
+        const timeEl = document.createElement('span');
+        timeEl.className = 'msg-time';
+        const now = new Date();
+        timeEl.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+        msgEl.appendChild(bubbleEl);
+        msgEl.appendChild(timeEl);
+        chatMessages.appendChild(msgEl);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function getBotResponse(userText) {
+        const lower = userText.toLowerCase();
+
+        if (lower.includes('sistem baru') || lower.includes('buat sistem') || lower.includes('aplikasi baru')) {
+            return {
+                text: `<p>Kami siap merancang aplikasi <strong>Web kustom, Web App (PWA), maupun aplikasi mobile Android/iOS</strong> dari nol dengan arsitektur enterprise (Go, Vue.js, PostgreSQL).</p>` +
+                      `<p>Klien memegang <strong>100% hak milik source code</strong> tanpa komitmen tersembunyi. Silakan ketik nama dan kontak (email/nomor HP) Anda agar tim konsultan kami bisa menyiapkan ringkasan estimasi & roadmap.</p>`,
+                isHtml: true
+            };
+        }
+
+        if (lower.includes('pemeliharaan') || lower.includes('sla') || lower.includes('perawatan') || lower.includes('maintenance')) {
+            return {
+                text: `<p>Layanan <strong>Managed IT &amp; App Care</strong> Meldir menyediakan pemantauan cloud 24/7, penanganan insiden tanggap, pembaruan patch keamanan OWASP, dan komitmen SLA uptime 99.9%.</p>` +
+                      `<p>Kami juga melayani pengambilalihan sistem yang sebelumnya dikembangkan oleh vendor lain atau internal.</p>`,
+                isHtml: true
+            };
+        }
+
+        if (lower.includes('audit') || lower.includes('biaya') || lower.includes('estimasi') || lower.includes('harga')) {
+            return {
+                text: `<p>Meldir menyediakan <strong>Audit Sistem &amp; Telaah Arsitektur Gratis</strong> tanpa komitmen. Anda juga dapat menggunakan formulir audit di website untuk mengirimkan spesifikasi langsung ke tim kami.</p>`,
+                isHtml: true
+            };
+        }
+
+        if (lower.includes('portal') || lower.includes('klien') || lower.includes('login')) {
+            return {
+                text: `<p>Untuk klien resmi PT Melayani Digital Raya, Anda dapat mengakses pelacakan progres, tiket prioritas, dan dokumen invoice di <a href="https://portal.meldir.id" target="_blank" style="color: #0060af; font-weight: 700; text-decoration: underline;">portal.meldir.id</a>.</p>`,
+                isHtml: true
+            };
+        }
+
+        if (lower.includes('proyek lama') || lower.includes('vendor lama') || lower.includes('rescue')) {
+            return {
+                text: `<p>Kami berpengalaman menangani sistem yang terbengkalai atau ingin dialihkan dari vendor sebelumnya. Langkah awal dimulai dari audit kelayakan kode &amp; database sebelum dilanjutkan secara profesional.</p>`,
+                isHtml: true
+            };
+        }
+
+        // Check if user provided contact info (phone or email)
+        const phoneMatch = userText.match(/(08|\+?62)\d{8,12}/);
+        const emailMatch = userText.match(/[\w.-]+@[\w.-]+\.\w+/);
+
+        if (phoneMatch || emailMatch) {
+            const contact = (phoneMatch ? phoneMatch[0] : '') || (emailMatch ? emailMatch[0] : '');
+            // Send lead in background to backend
+            try {
+                fetch('/api/v1/leads/public', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name: 'Tamu Live Chat',
+                        whatsapp: contact,
+                        email: emailMatch ? emailMatch[0] : '',
+                        service_interest: 'Konsultasi via Live Chat Online',
+                        notes: `Pesan pengunjung: "${userText}"`,
+                        source: 'meldir.id-live-chat'
+                    })
+                }).catch(() => {});
+            } catch (e) {}
+
+            return {
+                text: `<p>Terima kasih! Kontak Anda (<strong>${contact}</strong>) telah kami catat ke meja konsultan PT Melayani Digital Raya.</p>` +
+                      `<p>Tim engineering kami akan segera meninjau pesan Anda dan memberikan tanggapan resmi. Ada pertanyaan teknis lain yang ingin ditanyakan?</p>`,
+                isHtml: true
+            };
+        }
+
+        return {
+            text: `<p>Pesan Anda telah kami terima. Tim teknis konsultan Meldir sedang siaga. Untuk respons lebih cepat dan penyusunan proposal resmi, Anda dapat mencantumkan nama dan nomor kontak (WhatsApp/Email) di sini.</p>`,
+            isHtml: true
+        };
+    }
+
+    function handleUserChatMessage(text) {
+        if (!text || !text.trim()) return;
+        const cleanText = text.trim();
+        appendChatMessage('user', cleanText);
+
+        if (chatInput) {
+            chatInput.value = '';
+        }
+
+        // Show typing feedback then reply
+        setTimeout(() => {
+            const response = getBotResponse(cleanText);
+            appendChatMessage('bot', response.text, response.isHtml);
+        }, 500);
+    }
+
+    if (chatForm) {
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const val = chatInput?.value || '';
+            handleUserChatMessage(val);
+        });
     }
 
 });
