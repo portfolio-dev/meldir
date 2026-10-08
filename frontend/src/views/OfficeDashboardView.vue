@@ -20,16 +20,6 @@
         </div>
 
         <div class="user-profile-menu">
-          <!-- Tombol Akses Cepat Manajemen Pengguna untuk Direktur & Admin -->
-          <button
-            v-if="authStore.user?.role === 'direktur' || authStore.user?.role === 'admin'"
-            @click="switchTab('users')"
-            :class="['btn-header-users', { active: activeTab === 'users' }]"
-            title="Buka Menu Manajemen Akun Pengguna (CRUD)"
-          >
-            👥 Manajemen Pengguna (CRUD)
-          </button>
-
           <div class="user-avatar-badge" @click="showMoreSheet = true" title="Menu Akun & Pengaturan" style="cursor: pointer;">
             {{ userInitials }}
           </div>
