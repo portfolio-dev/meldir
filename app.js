@@ -692,8 +692,150 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { passive: true });
     }
 
+    // --- 10. Lead Audit Modal & Inbound CRM Form Handler ---
+    const leadModal = document.getElementById('lead-audit-modal');
+    const leadModalClose = document.getElementById('lead-modal-close-btn');
+    const leadTriggers = document.querySelectorAll('[data-modal="lead-audit-modal"]');
+    const leadForm = document.getElementById('lead-audit-form');
+    const leadSuccess = document.getElementById('lead-success-container');
+    const leadCodeDisplay = document.getElementById('lead-code-display');
+    const leadWaLink = document.getElementById('lead-wa-direct-link');
+    const leadError = document.getElementById('lead-form-error');
+    const leadSubmitBtn = document.getElementById('lead-submit-btn');
+
+    function openLeadModal() {
+        if (!leadModal) return;
+        leadModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLeadModal() {
+        if (!leadModal) return;
+        leadModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    leadTriggers.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openLeadModal();
+        });
+    });
+
+    if (leadModalClose) {
+        leadModalClose.addEventListener('click', closeLeadModal);
+    }
+
+    if (leadModal) {
+        leadModal.addEventListener('click', (e) => {
+            if (e.target === leadModal) {
+                closeLeadModal();
+            }
+        });
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && leadModal && leadModal.classList.contains('active')) {
+            closeLeadModal();
+        }
+    });
+
+    if (leadForm) {
+        leadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (leadError) {
+                leadError.style.display = 'none';
+                leadError.textContent = '';
+            }
+
+            const name = document.getElementById('lead-name')?.value.trim() || '';
+            const company = document.getElementById('lead-company')?.value.trim() || '';
+            const whatsapp = document.getElementById('lead-whatsapp')?.value.trim() || '';
+            const email = document.getElementById('lead-email')?.value.trim() || '';
+            const service = document.getElementById('lead-service')?.value || 'Sistem Baru (Web/Mobile)';
+            const budget = document.getElementById('lead-budget')?.value || 'Fleksibel';
+            const notes = document.getElementById('lead-notes')?.value.trim() || '';
+
+            if (!name || !whatsapp) {
+                if (leadError) {
+                    leadError.textContent = 'Mohon lengkapi Nama Lengkap dan Nomor WhatsApp Anda.';
+                    leadError.style.display = 'block';
+                }
+                return;
+            }
+
+            if (leadSubmitBtn) {
+                leadSubmitBtn.disabled = true;
+                leadSubmitBtn.innerHTML = '<span>Mengirim permohonan...</span>';
+            }
+
+            const payload = {
+                name,
+                company,
+                whatsapp,
+                email,
+                service_interest: service,
+                budget_range: budget,
+                notes,
+                source: 'meldir.id-landing-audit'
+            };
+
+            let leadCode = 'LEAD-' + new Date().getFullYear() + '-' + Math.floor(100 + Math.random() * 900);
+
+            try {
+                let targetEndpoint = 'https://office.meldir.id/api/v1/leads/public';
+                if (window.location.hostname === 'office.meldir.id' || window.location.hostname === 'localhost') {
+                    targetEndpoint = '/api/v1/leads/public';
+                }
+
+                const response = await fetch(targetEndpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && (data.lead_code || (data.data && data.data.lead_code))) {
+                        leadCode = data.lead_code || data.data.lead_code;
+                    }
+                } else {
+                    console.warn('API returned status:', response.status);
+                }
+            } catch (err) {
+                console.warn('Backend connection notice:', err);
+            }
+
+            // Display success view
+            if (leadCodeDisplay) {
+                leadCodeDisplay.textContent = leadCode;
+            }
+
+            if (leadWaLink) {
+                const waMessage = `Halo Meldir, saya mengajukan Audit Sistem & Konsultasi melalui website:\n\n` +
+                    `*Kode Tiket:* ${leadCode}\n` +
+                    `*Nama:* ${name}\n` +
+                    `*Perusahaan:* ${company || '-'}\n` +
+                    `*Layanan:* ${service}\n` +
+                    `*Estimasi Budget:* ${budget}\n` +
+                    (notes ? `*Catatan/Kendala:* ${notes}\n\n` : '\n') +
+                    `Mohon arahan dan telaah teknisnya. Terima kasih!`;
+                leadWaLink.href = `https://wa.me/628213173357?text=${encodeURIComponent(waMessage)}`;
+            }
+
+            leadForm.style.display = 'none';
+            if (leadSuccess) {
+                leadSuccess.style.display = 'block';
+            }
+        });
+    }
+
     checkHashRoute();
     window.addEventListener('hashchange', checkHashRoute);
+
+    if (window.location.hash.toLowerCase() === '#audit') {
+        openLeadModal();
+    }
 
 });
 

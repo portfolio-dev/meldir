@@ -127,6 +127,25 @@ func (db *PostgresDB) MigrateSchema(ctx context.Context) error {
 			description TEXT NOT NULL,
 			created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 		)`,
+
+		// Inbound Leads CRM Pipeline
+		`CREATE TABLE IF NOT EXISTS inbound_leads (
+			id BIGSERIAL PRIMARY KEY,
+			lead_code VARCHAR(30) UNIQUE NOT NULL,
+			name VARCHAR(120) NOT NULL,
+			email VARCHAR(150) NULL,
+			phone_wa VARCHAR(25) NOT NULL,
+			company_name VARCHAR(150) NULL,
+			service_interest VARCHAR(50) DEFAULT 'managed_care',
+			budget_range VARCHAR(80) NULL,
+			message TEXT NULL,
+			status VARCHAR(30) DEFAULT 'new',
+			source VARCHAR(50) DEFAULT 'website_landing',
+			assigned_admin_id BIGINT NULL,
+			notes TEXT NULL,
+			created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+		)`,
 	}
 
 	for _, q := range queries {

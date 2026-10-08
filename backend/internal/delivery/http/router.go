@@ -20,6 +20,7 @@ func NewRouter(
 	timesheetHandler *handler.TimesheetHandler,
 	invoiceHandler *handler.InvoiceHandler,
 	accountingHandler *handler.AccountingHandler,
+	leadHandler *handler.LeadHandler,
 	authMiddleware *middleware.AuthMiddleware,
 ) http.Handler {
 	mux := http.NewServeMux()
@@ -59,6 +60,13 @@ func NewRouter(
 	accountingStaff := authMiddleware.RequireRoles(domain.RoleDirektur, domain.RoleAdmin, domain.RoleAudit)
 	mux.HandleFunc("/api/v1/journals", accountingStaff(accountingHandler.ListJournals))
 	mux.HandleFunc("/api/v1/journals/create", adminOnly(accountingHandler.CreateJournal))
+
+	// 8. Inbound Leads CRM Pipeline Endpoints
+	if leadHandler != nil {
+		mux.HandleFunc("/api/v1/leads/public", leadHandler.CreatePublicLead)
+		mux.HandleFunc("/api/v1/leads", adminOnly(leadHandler.ListLeads))
+		mux.HandleFunc("/api/v1/leads/status", adminOnly(leadHandler.UpdateLeadStatus))
+	}
 
 	// Wrap with Global Middlewares (Recovery, CORS, Logging)
 	return withRecovery(withCORS(withLogging(mux)))

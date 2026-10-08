@@ -81,6 +81,13 @@ func (h *HealthHandler) CheckHealth(w http.ResponseWriter, r *http.Request) {
 		} else {
 			diagnostics["journals_table"] = fmt.Sprintf("ok (%d rows)", jrnCount)
 		}
+
+		var leadsCount int
+		if err := h.db.Pool.QueryRow(ctx, "SELECT COUNT(*) FROM inbound_leads").Scan(&leadsCount); err != nil {
+			diagnostics["leads_table"] = "error: " + err.Error()
+		} else {
+			diagnostics["leads_table"] = fmt.Sprintf("ok (%d rows)", leadsCount)
+		}
 	}
 
 	overallStatus := "healthy"

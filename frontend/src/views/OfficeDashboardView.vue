@@ -588,6 +588,126 @@
             </div>
           </section>
         </div>
+
+        <!-- Tab 6: Papan CRM Leads (Inbound Prospek Web) -->
+        <div v-else-if="activeTab === 'leads'" class="tab-content">
+          <section class="section-panel glass-panel">
+            <div class="section-header-row">
+              <div>
+                <h2>🎯 Papan Manajemen Inbound CRM Leads</h2>
+                <p class="section-desc">
+                  Prospek calon klien dan permohonan Audit Sistem Gratis yang masuk dari web publik (meldir.id). Terkoneksi langsung ke database PostgreSQL.
+                </p>
+              </div>
+              <div class="header-action-tools">
+                <button @click="fetchLeads" class="btn-refresh" :disabled="isLoadingLeads">
+                  🔄 {{ isLoadingLeads ? 'Menyegarkan...' : 'Muat Ulang' }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Filter & Search Toolbar -->
+            <div class="table-toolbar">
+              <div class="search-input-wrapper">
+                <span class="search-icon">🔍</span>
+                <input
+                  v-model="leadSearchQuery"
+                  type="text"
+                  placeholder="Cari kode tiket, nama, perusahaan, atau WhatsApp..."
+                  class="input-search"
+                />
+              </div>
+              <div class="filter-group">
+                <select v-model="leadStatusFilter" class="select-filter">
+                  <option value="">Semua Status</option>
+                  <option value="baru">Baru Masuk</option>
+                  <option value="dihubungi">Sedang Dihubungi</option>
+                  <option value="penawaran">Penawaran SPK</option>
+                  <option value="closing">Closing (Deal)</option>
+                  <option value="dibatalkan">Dibatalkan</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Leads Table -->
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Kode Tiket</th>
+                    <th>Calon Klien &amp; Perusahaan</th>
+                    <th>Kontak WhatsApp &amp; Email</th>
+                    <th>Kebutuhan Solusi</th>
+                    <th>Estimasi Budget</th>
+                    <th>Status Prospek</th>
+                    <th>Tanggal Masuk</th>
+                    <th style="text-align: right">Tindak Lanjut</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="lead in filteredLeads" :key="lead.id">
+                    <td>
+                      <span class="lead-code-badge">{{ lead.lead_code }}</span>
+                    </td>
+                    <td>
+                      <div><strong>{{ lead.name }}</strong></div>
+                      <div class="text-xs text-muted">{{ lead.company || 'Pribadi / Individu' }}</div>
+                      <div v-if="lead.notes" class="text-xs text-slate-500 mt-1" style="max-width: 260px; white-space: normal;">
+                        💬 <em>{{ lead.notes }}</em>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="font-mono text-sm">{{ lead.whatsapp }}</div>
+                      <div class="text-xs text-muted">{{ lead.email || '-' }}</div>
+                    </td>
+                    <td>
+                      <span class="tag tag-blue">{{ lead.service_interest }}</span>
+                    </td>
+                    <td class="font-mono text-xs">
+                      {{ lead.budget_range || '-' }}
+                    </td>
+                    <td>
+                      <select
+                        :value="lead.status"
+                        @change="onLeadStatusChange(lead, ($event.target as HTMLSelectElement).value)"
+                        :class="['lead-status-select', 'status-' + lead.status]"
+                        :disabled="updatingLeadId === lead.id"
+                      >
+                        <option value="baru">🆕 Baru Masuk</option>
+                        <option value="dihubungi">📞 Dihubungi</option>
+                        <option value="penawaran">📑 Penawaran SPK</option>
+                        <option value="closing">✅ Closing (Deal)</option>
+                        <option value="dibatalkan">❌ Dibatalkan</option>
+                      </select>
+                    </td>
+                    <td class="text-xs font-mono text-muted">
+                      {{ formatDate(lead.created_at) }}
+                    </td>
+                    <td style="text-align: right">
+                      <div class="action-btn-group">
+                        <button
+                          @click="openLeadWhatsApp(lead)"
+                          class="btn-lead-wa-action"
+                          title="Hubungi langsung via WhatsApp"
+                        >
+                          💬 Follow Up WA
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr v-if="filteredLeads.length === 0">
+                    <td colspan="8" class="text-center py-8 text-muted">
+                      <div v-if="isLoadingLeads">Memuat data leads dari server...</div>
+                      <div v-else>
+                        Tidak ada data leads yang sesuai dengan pencarian atau filter status.
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
       </main>
 
       <!-- Mobile Bottom Navigation Bar (5 Items) -->
@@ -630,12 +750,12 @@
 
         <button
           type="button"
-          :class="['nav-bottom-item', { active: showMoreSheet || activeTab === 'contracts' }]"
+          :class="['nav-bottom-item', { active: showMoreSheet || activeTab === 'contracts' || activeTab === 'leads' }]"
           @click="showMoreSheet = !showMoreSheet"
         >
           <span class="nav-bottom-icon">⋯</span>
           <span class="nav-bottom-label">Lainnya</span>
-          <span v-if="activeTab === 'contracts'" class="bottom-active-dot"></span>
+          <span v-if="activeTab === 'contracts' || activeTab === 'leads'" class="bottom-active-dot"></span>
         </button>
       </nav>
 
@@ -669,6 +789,18 @@
 
           <!-- Extra Navigation Items -->
           <div class="sheet-nav-list">
+            <div
+              :class="['sheet-nav-item', { active: activeTab === 'leads' }]"
+              @click="switchTab('leads')"
+            >
+              <div class="sheet-nav-icon">🎯</div>
+              <div class="sheet-nav-text">
+                <div class="sheet-nav-title">Papan CRM Leads</div>
+                <div class="sheet-nav-desc">Inbound prospek dari web meldir.id &amp; audit sistem</div>
+              </div>
+              <div class="sheet-nav-arrow">→</div>
+            </div>
+
             <div
               :class="['sheet-nav-item', { active: activeTab === 'contracts' }]"
               @click="switchTab('contracts')"
@@ -1190,6 +1322,7 @@ const showMoreSheet = ref(false)
 const tabs = [
   { id: 'overview', label: 'Ringkasan Eksekutif', icon: '📊' },
   { id: 'users', label: 'Manajemen Pengguna (CRUD)', icon: '👥' },
+  { id: 'leads', label: 'Papan CRM Leads', icon: '🎯' },
   { id: 'accounting', label: 'Buku Besar SAK EMKM', icon: '📖' },
   { id: 'tax', label: 'Kepatuhan Pajak DJP', icon: '🏛️' },
   { id: 'contracts', label: 'Kontrak SPK & BAST', icon: '📜' },
@@ -1443,6 +1576,9 @@ function switchTab(tabId: string) {
   window.scrollTo({ top: 0, behavior: 'smooth' })
   if (tabId === 'users' && usersList.value.length === 0) {
     fetchUsers()
+  }
+  if (tabId === 'leads' && leadsList.value.length === 0) {
+    fetchLeads()
   }
 }
 
@@ -1878,6 +2014,105 @@ function exportCoretaxCSV() {
   showFlash('Berkas ekspor rekonsiliasi Coretax DJP (CSV) berhasil diunduh!')
 }
 
+// CRM Inbound Leads State & Logic
+export interface Lead {
+  id: number
+  lead_code: string
+  name: string
+  company?: string
+  whatsapp: string
+  email?: string
+  service_interest: string
+  budget_range?: string
+  notes?: string
+  status: 'baru' | 'dihubungi' | 'penawaran' | 'closing' | 'dibatalkan'
+  source: string
+  created_at: string
+  updated_at: string
+}
+
+const leadsList = ref<Lead[]>([])
+const isLoadingLeads = ref(false)
+const leadSearchQuery = ref('')
+const leadStatusFilter = ref('')
+const updatingLeadId = ref<number | null>(null)
+
+const filteredLeads = computed(() => {
+  return leadsList.value.filter(lead => {
+    const matchStatus = !leadStatusFilter.value || lead.status === leadStatusFilter.value
+    const q = leadSearchQuery.value.toLowerCase().trim()
+    const matchQuery = !q ||
+      lead.lead_code.toLowerCase().includes(q) ||
+      lead.name.toLowerCase().includes(q) ||
+      (lead.company && lead.company.toLowerCase().includes(q)) ||
+      lead.whatsapp.toLowerCase().includes(q) ||
+      (lead.notes && lead.notes.toLowerCase().includes(q)) ||
+      lead.service_interest.toLowerCase().includes(q)
+    return matchStatus && matchQuery
+  })
+})
+
+async function fetchLeads() {
+  if (!authStore.token) return
+  isLoadingLeads.value = true
+  try {
+    const res = await fetch('/api/v1/leads', {
+      headers: { Authorization: `Bearer ${authStore.token}` },
+    })
+    const result = await res.json()
+    if (res.ok && result.success && Array.isArray(result.data)) {
+      leadsList.value = result.data
+    } else {
+      console.error('🚨 [Backend Error] /api/v1/leads:', res.status, result)
+    }
+  } catch (err) {
+    console.error('Gagal memuat CRM leads dari backend:', err)
+  } finally {
+    isLoadingLeads.value = false
+  }
+}
+
+async function onLeadStatusChange(lead: Lead, newStatus: string) {
+  if (!authStore.token) return
+  updatingLeadId.value = lead.id
+  try {
+    const res = await fetch('/api/v1/leads/status', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authStore.token}`,
+      },
+      body: JSON.stringify({
+        id: lead.id,
+        status: newStatus,
+      }),
+    })
+    const result = await res.json()
+    if (res.ok && result.success) {
+      lead.status = newStatus as any
+      showFlash(`Status prospek ${lead.lead_code} berhasil diperbarui menjadi "${newStatus}".`)
+    } else {
+      showFlash(result.message || 'Gagal memperbarui status lead', 'error')
+    }
+  } catch (err) {
+    showFlash('Gangguan koneksi saat memperbarui status lead', 'error')
+  } finally {
+    updatingLeadId.value = null
+  }
+}
+
+function openLeadWhatsApp(lead: Lead) {
+  let cleanPhone = lead.whatsapp.replace(/\D/g, '')
+  if (cleanPhone.startsWith('0')) {
+    cleanPhone = '62' + cleanPhone.slice(1)
+  } else if (!cleanPhone.startsWith('62')) {
+    cleanPhone = '62' + cleanPhone
+  }
+  const text = `Halo Bapak/Ibu ${lead.name},\n\nSalam dari PT Melayani Digital Raya (meldir.id). Kami menindaklanjuti permohonan audit & konsultasi sistem Anda dengan tiket *${lead.lead_code}* terkait *${lead.service_interest}*.\n\nApakah ada waktu luang untuk berdiskusi singkat mengenai kebutuhan arsitektur dan estimasi roadmap sistem Anda? Terima kasih.`
+  const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`
+  window.open(url, '_blank')
+}
+
 async function handleLogout() {
   await authStore.logout()
 }
@@ -1888,6 +2123,7 @@ onMounted(async () => {
     fetchUsers()
     fetchInvoices()
     fetchJournals()
+    fetchLeads()
   }
 
   try {
@@ -2766,5 +3002,78 @@ onMounted(async () => {
   border-top: 2px dashed #cbd5e1;
   padding-top: 8px;
   font-size: 0.95rem;
+}
+
+/* CRM Leads Tab & Badges */
+.lead-code-badge {
+  font-family: 'Fira Code', monospace;
+  font-weight: 700;
+  font-size: 0.8rem;
+  background: #f1f5f9;
+  color: #0060af;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid #cbd5e1;
+}
+
+.lead-status-select {
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  border: 1px solid transparent;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.lead-status-select.status-baru {
+  background: #dbeafe;
+  color: #1e40af;
+  border-color: #bfdbfe;
+}
+
+.lead-status-select.status-dihubungi {
+  background: #ede9fe;
+  color: #5b21b6;
+  border-color: #ddd6fe;
+}
+
+.lead-status-select.status-penawaran {
+  background: #fef3c7;
+  color: #92400e;
+  border-color: #fde68a;
+}
+
+.lead-status-select.status-closing {
+  background: #d1fae5;
+  color: #065f46;
+  border-color: #a7f3d0;
+}
+
+.lead-status-select.status-dibatalkan {
+  background: #f1f5f9;
+  color: #64748b;
+  border-color: #e2e8f0;
+}
+
+.btn-lead-wa-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #25d366;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.78rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-lead-wa-action:hover {
+  background: #1ebc57;
+  transform: translateY(-1px);
 }
 </style>
