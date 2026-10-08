@@ -40,7 +40,7 @@
     --radius-full: 9999px;
     
     --header-height: 64px;
-    --max-width: 1200px;
+    --max-width: 1400px;
     
     /* Quick Access Dock Width (Desktop) */
     --quick-dock-w: 64px;
@@ -60,6 +60,8 @@ body.sidebar-expanded {
 html {
     scroll-behavior: smooth;
     scroll-padding-top: var(--header-height);
+    overflow-y: scroll;
+    scrollbar-gutter: stable;
 }
 
 body {

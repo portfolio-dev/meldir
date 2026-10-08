@@ -44,7 +44,7 @@
   background-color: #edf2f7;
 }
 .hub-card {
-  max-width: 900px;
+  max-width: 1400px;
   width: 100%;
   padding: 44px;
   background: #ffffff;
