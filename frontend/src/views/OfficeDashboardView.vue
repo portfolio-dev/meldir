@@ -1658,6 +1658,8 @@ async function fetchJournals() {
         creditAccount: item.credit_account,
         amount: item.amount,
       }))
+    } else {
+      console.error('🚨 [Backend Error] /api/v1/journals:', res.status, result)
     }
   } catch (err) {
     console.error('Gagal memuat data jurnal dari backend:', err)
@@ -1768,6 +1770,8 @@ async function fetchInvoices() {
         dueDate: item.due_date,
         status: item.status,
       }))
+    } else {
+      console.error('🚨 [Backend Error] /api/v1/invoices:', res.status, result)
     }
   } catch (err) {
     console.error('Gagal memuat faktur dari backend:', err)

@@ -85,7 +85,9 @@ func (db *PostgresDB) MigrateSchema(ctx context.Context) error {
 		"ALTER TABLE invoices ADD COLUMN IF NOT EXISTS tax_invoice_number VARCHAR(60) NULL",
 		"ALTER TABLE invoices ADD COLUMN IF NOT EXISTS paid_at TIMESTAMP WITH TIME ZONE NULL",
 		"ALTER TABLE invoices ALTER COLUMN client_id DROP NOT NULL",
+		"ALTER TABLE invoices ALTER COLUMN status DROP DEFAULT",
 		"ALTER TABLE invoices ALTER COLUMN status TYPE VARCHAR(30) USING status::text",
+		"ALTER TABLE invoices ALTER COLUMN status SET DEFAULT 'unpaid'",
 
 		// Accounting Journals Table & Column Alterations
 		`CREATE TABLE IF NOT EXISTS accounting_journals (
@@ -105,9 +107,14 @@ func (db *PostgresDB) MigrateSchema(ctx context.Context) error {
 		)`,
 		"ALTER TABLE accounting_journals ADD COLUMN IF NOT EXISTS debit_account VARCHAR(150) NULL",
 		"ALTER TABLE accounting_journals ADD COLUMN IF NOT EXISTS credit_account VARCHAR(150) NULL",
+		"ALTER TABLE accounting_journals ADD COLUMN IF NOT EXISTS total_debit NUMERIC(18,2) NOT NULL DEFAULT 0.00",
+		"ALTER TABLE accounting_journals ADD COLUMN IF NOT EXISTS total_credit NUMERIC(18,2) NOT NULL DEFAULT 0.00",
+		"ALTER TABLE accounting_journals ADD COLUMN IF NOT EXISTS is_posted BOOLEAN DEFAULT TRUE",
 		"ALTER TABLE accounting_journals ALTER COLUMN debit_account DROP NOT NULL",
 		"ALTER TABLE accounting_journals ALTER COLUMN credit_account DROP NOT NULL",
+		"ALTER TABLE accounting_journals ALTER COLUMN source_type DROP DEFAULT",
 		"ALTER TABLE accounting_journals ALTER COLUMN source_type TYPE VARCHAR(50) USING source_type::text",
+		"ALTER TABLE accounting_journals ALTER COLUMN source_type SET DEFAULT 'general_entry'",
 		"ALTER TABLE accounting_journals ALTER COLUMN created_by DROP NOT NULL",
 	}
 

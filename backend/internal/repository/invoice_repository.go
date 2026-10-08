@@ -42,12 +42,14 @@ func (r *invoiceRepo) GetNextInvoiceNumber(ctx context.Context) (string, error) 
 
 func (r *invoiceRepo) ListInvoices(ctx context.Context, clientID int64) ([]domain.Invoice, error) {
 	query := `
-		SELECT i.id, i.invoice_number, COALESCE(i.client_id, 0),
+		SELECT COALESCE(i.id, 0),
+		       COALESCE(i.invoice_number, ''),
+		       COALESCE(i.client_id, 0),
 		       COALESCE(u.name, COALESCE(i.client_name, ''), ''),
 		       i.contract_id,
-		       COALESCE(i.amount, 0.0),
-		       COALESCE(i.tax_amount, 0.0),
-		       (COALESCE(i.amount, 0.0) + COALESCE(i.tax_amount, 0.0)),
+		       COALESCE(i.amount, 0.0)::float8,
+		       COALESCE(i.tax_amount, 0.0)::float8,
+		       (COALESCE(i.amount, 0.0) + COALESCE(i.tax_amount, 0.0))::float8,
 		       COALESCE(i.due_date::text, ''),
 		       COALESCE(i.status::text, 'unpaid'),
 		       COALESCE(i.bank_destination, ''),
@@ -90,12 +92,14 @@ func (r *invoiceRepo) ListInvoices(ctx context.Context, clientID int64) ([]domai
 
 func (r *invoiceRepo) FindByID(ctx context.Context, id int64) (*domain.Invoice, error) {
 	query := `
-		SELECT i.id, i.invoice_number, COALESCE(i.client_id, 0),
+		SELECT COALESCE(i.id, 0),
+		       COALESCE(i.invoice_number, ''),
+		       COALESCE(i.client_id, 0),
 		       COALESCE(u.name, COALESCE(i.client_name, ''), ''),
 		       i.contract_id,
-		       COALESCE(i.amount, 0.0),
-		       COALESCE(i.tax_amount, 0.0),
-		       (COALESCE(i.amount, 0.0) + COALESCE(i.tax_amount, 0.0)),
+		       COALESCE(i.amount, 0.0)::float8,
+		       COALESCE(i.tax_amount, 0.0)::float8,
+		       (COALESCE(i.amount, 0.0) + COALESCE(i.tax_amount, 0.0))::float8,
 		       COALESCE(i.due_date::text, ''),
 		       COALESCE(i.status::text, 'unpaid'),
 		       COALESCE(i.bank_destination, ''),

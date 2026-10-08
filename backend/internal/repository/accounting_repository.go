@@ -42,17 +42,19 @@ func (r *accountingRepo) ListJournals(ctx context.Context, limit int) ([]domain.
 	}
 
 	query := `
-		SELECT id, journal_number, journal_date::text,
+		SELECT COALESCE(id, 0),
+		       COALESCE(journal_number, ''),
+		       COALESCE(journal_date::text, ''),
 		       COALESCE(source_type::text, 'general_entry'),
 		       COALESCE(source_reference_id, ''),
 		       COALESCE(memo, ''),
 		       COALESCE(debit_account, ''),
 		       COALESCE(credit_account, ''),
-		       COALESCE(total_debit, 0.0),
-		       COALESCE(total_credit, 0.0),
+		       COALESCE(total_debit, 0.0)::float8,
+		       COALESCE(total_credit, 0.0)::float8,
 		       COALESCE(is_posted, true),
 		       COALESCE(created_by, 0),
-		       created_at
+		       COALESCE(created_at, CURRENT_TIMESTAMP)
 		FROM accounting_journals
 		ORDER BY journal_date DESC, created_at DESC
 		LIMIT $1
