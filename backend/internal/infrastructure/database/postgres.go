@@ -146,6 +146,29 @@ func (db *PostgresDB) MigrateSchema(ctx context.Context) error {
 			created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
 			updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 		)`,
+
+		// Public Live Chat & Consultation Sessions
+		`CREATE TABLE IF NOT EXISTS public_chat_sessions (
+			id BIGSERIAL PRIMARY KEY,
+			session_code VARCHAR(60) UNIQUE NOT NULL,
+			visitor_name VARCHAR(120) NOT NULL,
+			visitor_phone VARCHAR(35) NOT NULL,
+			visitor_email VARCHAR(150) NULL,
+			service_interest VARCHAR(80) DEFAULT 'konsultasi_umum',
+			initial_message TEXT NULL,
+			status VARCHAR(30) DEFAULT 'active',
+			created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE TABLE IF NOT EXISTS public_chat_messages (
+			id BIGSERIAL PRIMARY KEY,
+			session_id BIGINT NOT NULL,
+			sender_type VARCHAR(20) NOT NULL, -- 'visitor', 'agent', 'system'
+			sender_name VARCHAR(120) NOT NULL,
+			message TEXT NOT NULL,
+			created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE INDEX IF NOT EXISTS idx_chat_msg_session ON public_chat_messages(session_id)`,
 	}
 
 	for _, q := range queries {
@@ -153,7 +176,7 @@ func (db *PostgresDB) MigrateSchema(ctx context.Context) error {
 			log.Printf("ℹ️ Info migrasi skema (dilewati jika sudah ada): %v", err)
 		}
 	}
-	log.Printf("✅ Skema database PostgreSQL (invoices, journals, timesheets, tickets) tervalidasi siap.")
+	log.Printf("✅ Skema database PostgreSQL (invoices, journals, timesheets, tickets, leads, live chat) tervalidasi siap.")
 	return nil
 }
 

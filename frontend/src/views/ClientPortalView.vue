@@ -48,16 +48,82 @@
           </a>
         </div>
 
-        <!-- Navigation Tabs -->
-        <div class="module-nav-tabs">
+        <!-- Desktop Modular Navigation Launcher -->
+        <div class="desktop-nav-launcher-bar">
           <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            :class="['nav-tab-btn', { active: activeTab === tab.id }]"
-            @click="activeTab = tab.id"
+            type="button"
+            class="btn-desktop-menu-launcher"
+            @click="showDesktopMenuModal = true"
+            title="Buka direktori modul kendali layanan klien"
           >
-            {{ tab.icon }} {{ tab.label }}
+            <span class="launcher-icon-grid">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+            </span>
+            <span class="launcher-label-box">
+              <span class="launcher-sub">KENDALI LAYANAN KLIEN</span>
+              <span class="launcher-main-label">{{ currentActiveTab?.label || 'Pilih Modul' }}</span>
+            </span>
+            <span class="launcher-chevron">▼</span>
           </button>
+
+          <div class="desktop-active-module-crumb">
+            <span class="crumb-icon">{{ currentActiveTab?.icon }}</span>
+            <div class="crumb-meta">
+              <span class="crumb-title">{{ currentActiveTab?.label }}</span>
+              <span class="crumb-status"><span class="crumb-pulse"></span> Modul Aktif Terpilih</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop Professional Navigation Card Modal -->
+        <div
+          v-if="showDesktopMenuModal"
+          class="desktop-menu-modal-backdrop"
+          @click.self="showDesktopMenuModal = false"
+        >
+          <div class="desktop-menu-modal-card">
+            <div class="modal-nav-header">
+              <div class="modal-nav-brand">
+                <div class="modal-nav-icon">🏢</div>
+                <div>
+                  <h3 class="modal-nav-title">Direktori Menu Portal Klien</h3>
+                  <p class="modal-nav-desc">Pusat kendali SLA cloud, saldo jam managed care, tiket insiden, dan tagihan invoice resmi.</p>
+                </div>
+              </div>
+              <button class="btn-modal-close" @click="showDesktopMenuModal = false">✕</button>
+            </div>
+
+            <div class="modal-cards-grid">
+              <div
+                v-for="item in tabs"
+                :key="item.id"
+                :class="['desktop-module-card', { active: activeTab === item.id }]"
+                @click="switchTab(item.id); showDesktopMenuModal = false;"
+              >
+                <div class="module-card-top">
+                  <div class="module-card-icon">{{ item.icon }}</div>
+                  <span class="module-card-tag">{{ item.category }}</span>
+                  <span v-if="activeTab === item.id" class="badge-active-modul">✓ Aktif</span>
+                </div>
+                <h4 class="module-card-title">{{ item.label }}</h4>
+                <p class="module-card-desc">{{ item.desc }}</p>
+                <div class="module-card-footer">
+                  <span class="footer-action-text">{{ activeTab === item.id ? 'Sedang Dibuka' : 'Buka Modul' }}</span>
+                  <span class="footer-action-arrow">→</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-nav-footer">
+              <span class="shortcut-tip">💡 Terhubung langsung dengan SLA Uptime 99.9% PT. Melayani Digital Raya.</span>
+              <button class="btn-secondary" @click="showDesktopMenuModal = false">Tutup Menu</button>
+            </div>
+          </div>
         </div>
 
         <!-- Flash Notice -->
@@ -724,20 +790,30 @@ const authStore = useAuthStore()
 const currentHost = ref(window.location.host)
 const activeTab = ref('overview')
 const showMoreSheet = ref(false)
+const showDesktopMenuModal = ref(false)
 const flashNotice = ref('')
 
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
+function switchTab(tabId: string) {
+  activeTab.value = tabId
+  showMoreSheet.value = false
+  showDesktopMenuModal.value = false
+  scrollToTop()
+}
+
 const tabs = [
-  { id: 'overview', label: 'Ringkasan Layanan', icon: '📊' },
-  { id: 'servers', label: 'Kesehatan Server & Uptime', icon: '🖥️' },
-  { id: 'addon', label: 'Saldo Jam & Add-On', icon: '⏳' },
-  { id: 'tickets', label: 'Tiket SLA 24 Jam', icon: '🎫' },
-  { id: 'invoices', label: 'Tagihan & e-Faktur', icon: '🧾' },
-  { id: 'contracts', label: 'Kontrak SPK & BAST', icon: '📜' },
+  { id: 'overview', label: 'Ringkasan Layanan', icon: '📊', category: 'Layanan', desc: 'Overview SLA uptime 99.9%, kuota jam kerja, status tiket insiden, dan tagihan aktif.' },
+  { id: 'servers', label: 'Kesehatan Server & Uptime', icon: '🖥️', category: 'Infrastruktur', desc: 'Monitoring instance cloud, latency respon, utilisasi RAM, dan status HTTP 24 jam.' },
+  { id: 'addon', label: 'Saldo Jam & Add-On', icon: '⏳', category: 'Operasional', desc: 'Riwayat pemakaian kuota jam managed care dan permohonan add-on jam kerja teknis tambahan.' },
+  { id: 'tickets', label: 'Tiket SLA 24 Jam', icon: '🎫', category: 'Dukungan Teknis', desc: 'Buat tiket laporan insiden baru dan pantau kecepatan penanganan tim engineering.' },
+  { id: 'invoices', label: 'Tagihan & e-Faktur', icon: '🧾', category: 'Billing', desc: 'Daftar invoice resmi PT Melayani Digital Raya lengkap dengan rincian PPN dan bukti bayar.' },
+  { id: 'contracts', label: 'Kontrak SPK & BAST', icon: '📜', category: 'Legalitas', desc: 'Dokumen perjanjian kerjasama SPK resmi, SLA perikatan bisnis, dan e-sign BAST serah terima.' },
 ]
+
+const currentActiveTab = computed(() => tabs.find(t => t.id === activeTab.value) || tabs[0])
 
 const userInitials = computed(() => {
   if (!authStore.user?.name) return 'KL'

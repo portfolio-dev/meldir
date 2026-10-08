@@ -53,6 +53,7 @@ func main() {
 	var invoiceRepo repository.InvoiceRepository
 	var accountingRepo repository.AccountingRepository
 	var leadRepo repository.LeadRepository
+	var chatRepo repository.ChatRepository
 	if db != nil {
 		userRepo = repository.NewUserRepository(db.Pool)
 		ticketRepo = repository.NewTicketRepository(db.Pool)
@@ -60,6 +61,7 @@ func main() {
 		invoiceRepo = repository.NewInvoiceRepository(db.Pool)
 		accountingRepo = repository.NewAccountingRepository(db.Pool)
 		leadRepo = repository.NewLeadRepository(db.Pool)
+		chatRepo = repository.NewChatRepository(db.Pool)
 	}
 	authUsecase := usecase.NewAuthUsecase(userRepo, jwtManager, redisClient)
 	userUsecase := usecase.NewUserUsecase(userRepo)
@@ -68,6 +70,7 @@ func main() {
 	invoiceUsecase := usecase.NewInvoiceUsecase(invoiceRepo, accountingRepo)
 	accountingUsecase := usecase.NewAccountingUsecase(accountingRepo)
 	leadUsecase := usecase.NewLeadUsecase(leadRepo)
+	chatUsecase := usecase.NewChatUsecase(chatRepo, leadRepo)
 
 	// 5. Inisialisasi Handlers & Middleware
 	healthHandler := handler.NewHealthHandler(cfg.Environment, db, dbErr, redisClient, redisErr)
@@ -78,10 +81,11 @@ func main() {
 	invoiceHandler := handler.NewInvoiceHandler(invoiceUsecase)
 	accountingHandler := handler.NewAccountingHandler(accountingUsecase)
 	leadHandler := handler.NewLeadHandler(leadUsecase)
+	chatHandler := handler.NewChatHandler(chatUsecase)
 	authMiddleware := middleware.NewAuthMiddleware(jwtManager, redisClient)
 
 	// 6. Setup Router
-	router := delivery.NewRouter(healthHandler, authHandler, userHandler, ticketHandler, timesheetHandler, invoiceHandler, accountingHandler, leadHandler, authMiddleware)
+	router := delivery.NewRouter(healthHandler, authHandler, userHandler, ticketHandler, timesheetHandler, invoiceHandler, accountingHandler, leadHandler, chatHandler, authMiddleware)
 
 	server := &http.Server{
 		Addr:         fmt.Sprintf("0.0.0.0:%s", cfg.Port),

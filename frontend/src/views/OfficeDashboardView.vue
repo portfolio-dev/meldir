@@ -51,17 +51,82 @@
           </div>
         </div>
 
-        <!-- Navigation Tabs -->
-        <div class="module-nav-tabs">
+        <!-- Desktop Modular Navigation Launcher -->
+        <div class="desktop-nav-launcher-bar">
           <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            :class="['nav-tab-btn', { active: activeTab === tab.id, 'highlight-user-tab': tab.id === 'users' }]"
-            @click="switchTab(tab.id)"
+            type="button"
+            class="btn-desktop-menu-launcher"
+            @click="showDesktopMenuModal = true"
+            title="Buka direktori modul operasional korporat"
           >
-            {{ tab.icon }} {{ tab.label }}
-            <span v-if="tab.id === 'users'" class="badge-tab-pill">Direktur</span>
+            <span class="launcher-icon-grid">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+            </span>
+            <span class="launcher-label-box">
+              <span class="launcher-sub">MENU &amp; MODUL KERJA</span>
+              <span class="launcher-main-label">{{ currentActiveTab?.label || 'Pilih Modul' }}</span>
+            </span>
+            <span class="launcher-chevron">▼</span>
           </button>
+
+          <div class="desktop-active-module-crumb">
+            <span class="crumb-icon">{{ currentActiveTab?.icon }}</span>
+            <div class="crumb-meta">
+              <span class="crumb-title">{{ currentActiveTab?.label }}</span>
+              <span class="crumb-status"><span class="crumb-pulse"></span> Modul Aktif Terpilih</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop Professional Navigation Card Modal -->
+        <div
+          v-if="showDesktopMenuModal"
+          class="desktop-menu-modal-backdrop"
+          @click.self="showDesktopMenuModal = false"
+        >
+          <div class="desktop-menu-modal-card">
+            <div class="modal-nav-header">
+              <div class="modal-nav-brand">
+                <div class="modal-nav-icon">🏛️</div>
+                <div>
+                  <h3 class="modal-nav-title">Direktori Modul Eksekutif Office</h3>
+                  <p class="modal-nav-desc">Pilih modul operasional, keuangan, atau komunikasi publik PT Melayani Digital Raya.</p>
+                </div>
+              </div>
+              <button class="btn-modal-close" @click="showDesktopMenuModal = false">✕</button>
+            </div>
+
+            <div class="modal-cards-grid">
+              <div
+                v-for="item in tabs"
+                :key="item.id"
+                :class="['desktop-module-card', { active: activeTab === item.id }]"
+                @click="switchTab(item.id); showDesktopMenuModal = false;"
+              >
+                <div class="module-card-top">
+                  <div class="module-card-icon">{{ item.icon }}</div>
+                  <span class="module-card-tag">{{ item.category }}</span>
+                  <span v-if="activeTab === item.id" class="badge-active-modul">✓ Aktif</span>
+                </div>
+                <h4 class="module-card-title">{{ item.label }}</h4>
+                <p class="module-card-desc">{{ item.desc }}</p>
+                <div class="module-card-footer">
+                  <span class="footer-action-text">{{ activeTab === item.id ? 'Sedang Dibuka' : 'Buka Modul' }}</span>
+                  <span class="footer-action-arrow">→</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-nav-footer">
+              <span class="shortcut-tip">💡 Seluruh data tersinkronisasi otomatis dengan RESTful API PostgreSQL.</span>
+              <button class="btn-secondary" @click="showDesktopMenuModal = false">Tutup Menu</button>
+            </div>
+          </div>
         </div>
 
         <!-- Global Alert Message -->
@@ -708,6 +773,154 @@
             </div>
           </section>
         </div>
+
+        <!-- Tab 7: Meja Live Chat Publik -->
+        <div v-if="activeTab === 'chats'" class="tab-content">
+          <section class="section-panel glass-panel">
+            <div class="panel-header-flex">
+              <div>
+                <h2>💬 Meja Live Chat &amp; Konsultasi Publik</h2>
+                <p class="section-desc">
+                  Daftar sesi percakapan dari pengunjung publik meldir.id. Data pengirim (Nama, No WhatsApp, Email, Topik) telah dikumpulkan sebelum sesi chat dimulai.
+                </p>
+              </div>
+              <div class="header-actions">
+                <button @click="fetchChatSessions" class="btn-secondary" :disabled="isLoadingChats">
+                  🔄 {{ isLoadingChats ? 'Memuat...' : 'Segarkan Sesi' }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Chat Stats Bar -->
+            <div class="grid-overview" style="margin-bottom: 20px;">
+              <div class="card glass-panel kpi-card-blue">
+                <div class="card-header">
+                  <h3>Total Sesi Masuk</h3>
+                  <span class="tag tag-blue">Semua</span>
+                </div>
+                <div class="kpi-value">{{ chatSessions.length }} Sesi</div>
+                <p class="kpi-desc">Akumulasi permohonan konsultasi chat online</p>
+              </div>
+
+              <div class="card glass-panel kpi-card-green">
+                <div class="card-header">
+                  <h3>Sesi Aktif Siaga</h3>
+                  <span class="badge-balanced">● Live</span>
+                </div>
+                <div class="kpi-value">
+                  {{ chatSessions.filter(s => s.status === 'active').length }} Sesi
+                </div>
+                <p class="kpi-desc">Pengunjung menunggu atau sedang berinteraksi</p>
+              </div>
+
+              <div class="card glass-panel kpi-card-indigo">
+                <div class="card-header">
+                  <h3>Selesai / Ditindaklanjuti</h3>
+                  <span class="tag tag-indigo">Arsip</span>
+                </div>
+                <div class="kpi-value">
+                  {{ chatSessions.filter(s => s.status === 'closed').length }} Sesi
+                </div>
+                <p class="kpi-desc">Telah mendapatkan tanggapan resmi / deal</p>
+              </div>
+            </div>
+
+            <!-- Filters Bar -->
+            <div class="filter-bar">
+              <div class="search-box">
+                <input
+                  v-model="chatSearchQuery"
+                  type="text"
+                  placeholder="Cari nama pengirim, WhatsApp, email, kode chat..."
+                  class="search-input"
+                />
+              </div>
+              <div class="filter-group">
+                <select v-model="chatStatusFilter" @change="fetchChatSessions" class="select-filter">
+                  <option value="">Semua Status Sesi</option>
+                  <option value="active">Aktif (Live Desk)</option>
+                  <option value="closed">Selesai (Closed)</option>
+                  <option value="follow_up">Perlu Follow-up</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Sessions Table -->
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Waktu &amp; Kode</th>
+                    <th>Nama Pengirim</th>
+                    <th>Kontak WhatsApp / HP</th>
+                    <th>Email</th>
+                    <th>Topik Kebutuhan</th>
+                    <th>Pesan Awal</th>
+                    <th>Status</th>
+                    <th class="text-right">Tindakan</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="item in filteredChatSessions" :key="item.id">
+                    <td>
+                      <div class="cell-primary">
+                        <span class="lead-code-badge">{{ item.session_code }}</span>
+                      </div>
+                      <span class="cell-sub">{{ formatDate(item.created_at) }}</span>
+                    </td>
+                    <td>
+                      <strong style="color: #0f172a;">{{ item.visitor_name }}</strong>
+                    </td>
+                    <td>
+                      <a
+                        :href="`https://wa.me/${formatWaLink(item.visitor_phone)}`"
+                        target="_blank"
+                        class="wa-phone-link"
+                        title="Klik untuk membuka WhatsApp langsung"
+                      >
+                        📱 {{ item.visitor_phone }}
+                      </a>
+                    </td>
+                    <td>
+                      <span v-if="item.visitor_email" class="text-sm">{{ item.visitor_email }}</span>
+                      <span v-else class="text-muted text-xs">-</span>
+                    </td>
+                    <td>
+                      <span class="tag tag-blue">{{ item.service_interest }}</span>
+                    </td>
+                    <td style="max-width: 240px;">
+                      <div class="text-truncate-2" :title="item.initial_message">
+                        {{ item.initial_message || '-' }}
+                      </div>
+                    </td>
+                    <td>
+                      <span :class="['chat-status-badge', 'status-' + item.status]">
+                        {{ item.status === 'active' ? '● Aktif' : (item.status === 'closed' ? '✓ Selesai' : '⏳ Follow-up') }}
+                      </span>
+                    </td>
+                    <td class="text-right">
+                      <button
+                        @click="openChatDetail(item)"
+                        class="btn-sm btn-primary"
+                        title="Buka transkrip percakapan dan kirim balasan"
+                      >
+                        💬 Buka Chat
+                      </button>
+                    </td>
+                  </tr>
+                  <tr v-if="filteredChatSessions.length === 0">
+                    <td colspan="8" class="text-center py-8 text-muted">
+                      <div v-if="isLoadingChats">Memuat data sesi chat dari server...</div>
+                      <div v-else>
+                        Tidak ada sesi live chat publik yang sesuai dengan kriteria filter.
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
       </main>
 
       <!-- Mobile Bottom Navigation Bar (5 Items) -->
@@ -750,12 +963,12 @@
 
         <button
           type="button"
-          :class="['nav-bottom-item', { active: showMoreSheet || activeTab === 'contracts' || activeTab === 'leads' }]"
+          :class="['nav-bottom-item', { active: showMoreSheet || activeTab === 'contracts' || activeTab === 'leads' || activeTab === 'chats' }]"
           @click="showMoreSheet = !showMoreSheet"
         >
           <span class="nav-bottom-icon">⋯</span>
           <span class="nav-bottom-label">Lainnya</span>
-          <span v-if="activeTab === 'contracts' || activeTab === 'leads'" class="bottom-active-dot"></span>
+          <span v-if="activeTab === 'contracts' || activeTab === 'leads' || activeTab === 'chats'" class="bottom-active-dot"></span>
         </button>
       </nav>
 
@@ -789,6 +1002,18 @@
 
           <!-- Extra Navigation Items -->
           <div class="sheet-nav-list">
+            <div
+              :class="['sheet-nav-item', { active: activeTab === 'chats' }]"
+              @click="switchTab('chats')"
+            >
+              <div class="sheet-nav-icon">💬</div>
+              <div class="sheet-nav-text">
+                <div class="sheet-nav-title">Meja Live Chat Publik</div>
+                <div class="sheet-nav-desc">Konsultasi interaktif &amp; kontak pengunjung web</div>
+              </div>
+              <div class="sheet-nav-arrow">→</div>
+            </div>
+
             <div
               :class="['sheet-nav-item', { active: activeTab === 'leads' }]"
               @click="switchTab('leads')"
@@ -944,6 +1169,120 @@
             </button>
           </div>
         </form>
+      </div>
+    </div>
+
+    <!-- Office Live Chat Detail & Reply Modal -->
+    <div v-if="showChatModal && selectedChatSession" class="modal-backdrop" @click.self="showChatModal = false">
+      <div class="modal-card modal-chat-desk">
+        <div class="modal-header">
+          <div class="modal-header-brand">
+            <span class="chat-desk-avatar">💬</span>
+            <div>
+              <h3>Percakapan: {{ selectedChatSession.visitor_name }}</h3>
+              <p class="modal-header-sub">
+                Sesi <span class="lead-code-badge">{{ selectedChatSession.session_code }}</span> • {{ selectedChatSession.service_interest }}
+              </p>
+            </div>
+          </div>
+          <button class="btn-close-modal" @click="showChatModal = false">✕</button>
+        </div>
+
+        <div class="chat-modal-content-grid">
+          <!-- Sidebar: Visitor Information -->
+          <div class="chat-visitor-meta-card">
+            <h4>Data Kontak Pengirim</h4>
+            <div class="visitor-meta-list">
+              <div class="v-meta-row">
+                <span class="v-meta-label">Nama:</span>
+                <span class="v-meta-val">{{ selectedChatSession.visitor_name }}</span>
+              </div>
+              <div class="v-meta-row">
+                <span class="v-meta-label">No. WA / HP:</span>
+                <a :href="`https://wa.me/${formatWaLink(selectedChatSession.visitor_phone)}`" target="_blank" class="v-meta-val text-blue">
+                  {{ selectedChatSession.visitor_phone }} ↗
+                </a>
+              </div>
+              <div class="v-meta-row" v-if="selectedChatSession.visitor_email">
+                <span class="v-meta-label">Email:</span>
+                <span class="v-meta-val">{{ selectedChatSession.visitor_email }}</span>
+              </div>
+              <div class="v-meta-row">
+                <span class="v-meta-label">Topik Kebutuhan:</span>
+                <span class="v-meta-val tag tag-blue">{{ selectedChatSession.service_interest }}</span>
+              </div>
+              <div class="v-meta-row">
+                <span class="v-meta-label">Waktu Masuk:</span>
+                <span class="v-meta-val">{{ formatDate(selectedChatSession.created_at) }}</span>
+              </div>
+            </div>
+
+            <div class="chat-status-toggle-box">
+              <label>Status Penanganan:</label>
+              <div class="status-btn-group">
+                <button
+                  type="button"
+                  :class="['btn-status-pill', { active: selectedChatSession.status === 'active' }]"
+                  @click="updateSessionStatus('active')"
+                >
+                  ● Aktif
+                </button>
+                <button
+                  type="button"
+                  :class="['btn-status-pill', { active: selectedChatSession.status === 'closed' }]"
+                  @click="updateSessionStatus('closed')"
+                >
+                  ✓ Selesai
+                </button>
+                <button
+                  type="button"
+                  :class="['btn-status-pill', { active: selectedChatSession.status === 'follow_up' }]"
+                  @click="updateSessionStatus('follow_up')"
+                >
+                  ⏳ Follow-up
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main: Conversation Messages & Reply Box -->
+          <div class="chat-messages-console">
+            <div class="chat-transcript-body">
+              <div v-if="isLoadingChatDetail" class="text-center py-6 text-muted">
+                Memuat riwayat percakapan...
+              </div>
+              <div v-else-if="selectedChatMessages.length === 0" class="text-center py-6 text-muted">
+                Belum ada pesan tercatat.
+              </div>
+              <div
+                v-for="msg in selectedChatMessages"
+                :key="msg.id"
+                :class="['console-msg-bubble', msg.sender_type === 'visitor' ? 'msg-from-visitor' : 'msg-from-agent']"
+              >
+                <div class="console-msg-header">
+                  <strong>{{ msg.sender_name || (msg.sender_type === 'visitor' ? selectedChatSession.visitor_name : 'Staff Meldir') }}</strong>
+                  <span class="console-msg-time">{{ formatDate(msg.created_at) }}</span>
+                </div>
+                <div class="console-msg-text">{{ msg.message }}</div>
+              </div>
+            </div>
+
+            <!-- Reply Form -->
+            <form @submit.prevent="sendAgentReply" class="chat-reply-bar">
+              <input
+                v-model="agentReplyText"
+                type="text"
+                placeholder="Ketik balasan resmi langsung ke pengunjung..."
+                class="reply-input"
+                :disabled="isSendingReply"
+                required
+              />
+              <button type="submit" class="btn-primary" :disabled="isSendingReply || !agentReplyText.trim()">
+                {{ isSendingReply ? 'Mengirim...' : '🚀 Kirim Balasan' }}
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -1318,15 +1657,162 @@ const apiStatus = ref('checking')
 const apiStatusText = ref('Memeriksa...')
 const activeTab = ref('overview')
 const showMoreSheet = ref(false)
+const showDesktopMenuModal = ref(false)
 
 const tabs = [
-  { id: 'overview', label: 'Ringkasan Eksekutif', icon: '📊' },
-  { id: 'users', label: 'Manajemen Pengguna (CRUD)', icon: '👥' },
-  { id: 'leads', label: 'Papan CRM Leads', icon: '🎯' },
-  { id: 'accounting', label: 'Buku Besar SAK EMKM', icon: '📖' },
-  { id: 'tax', label: 'Kepatuhan Pajak DJP', icon: '🏛️' },
-  { id: 'contracts', label: 'Kontrak SPK & BAST', icon: '📜' },
+  { id: 'overview', label: 'Ringkasan Eksekutif', icon: '📊', category: 'Eksekutif', desc: 'Metrik keuangan, status server backend, dan ringkasan ekosistem monorepo PT Melayani Digital Raya.' },
+  { id: 'users', label: 'Manajemen Pengguna (CRUD)', icon: '👥', category: 'Akses & Akun', desc: 'Kelola hak akses pengguna seluruh portal (Office, Jobs, Client Portal), buat user baru, dan atur peranan.' },
+  { id: 'chats', label: 'Meja Live Chat Publik', icon: '💬', category: 'Komunikasi & Prospek', desc: 'Daftar sesi live chat interaktif dari pengunjung meldir.id lengkap dengan nama, nomor WA, email, dan transkrip pesan.' },
+  { id: 'leads', label: 'Papan CRM Leads', icon: '🎯', category: 'Komunikasi & Prospek', desc: 'Pipeline prospek masuk dari formulir landing page, audit sistem, dan penawaran proyek.' },
+  { id: 'accounting', label: 'Buku Besar SAK EMKM', icon: '📖', category: 'Keuangan', desc: 'Jurnal akuntansi double-entry, chart of accounts resmi, dan neraca seimbang sesuai standar IAI.' },
+  { id: 'tax', label: 'Kepatuhan Pajak DJP', icon: '🏛️', category: 'Perpajakan', desc: 'Laporan SPT Masa PPN 1111, faktur pajak keluaran, dan integrasi modul Coretax DJP.' },
+  { id: 'contracts', label: 'Kontrak SPK & BAST', icon: '📜', category: 'Legalitas', desc: 'Arsip Surat Perintah Kerja, Berita Acara Serah Terima digital, dan klausul kepatuhan hukum.' },
 ]
+
+const currentActiveTab = computed(() => tabs.find(t => t.id === activeTab.value) || tabs[0])
+
+// --- Office Live Chat State ---
+interface ChatSessionItem {
+  id: number
+  session_code: string
+  visitor_name: string
+  visitor_phone: string
+  visitor_email: string
+  service_interest: string
+  initial_message: string
+  status: string
+  created_at: string
+  updated_at: string
+}
+
+const chatSessions = ref<ChatSessionItem[]>([])
+const isLoadingChats = ref(false)
+const chatStatusFilter = ref('')
+const chatSearchQuery = ref('')
+const selectedChatSession = ref<ChatSessionItem | null>(null)
+const selectedChatMessages = ref<any[]>([])
+const isLoadingChatDetail = ref(false)
+const showChatModal = ref(false)
+const agentReplyText = ref('')
+const isSendingReply = ref(false)
+
+const filteredChatSessions = computed(() => {
+  return chatSessions.value.filter(s => {
+    const matchStatus = !chatStatusFilter.value || s.status === chatStatusFilter.value
+    const q = chatSearchQuery.value.toLowerCase().trim()
+    const matchQuery = !q ||
+      s.visitor_name.toLowerCase().includes(q) ||
+      s.visitor_phone.toLowerCase().includes(q) ||
+      (s.visitor_email && s.visitor_email.toLowerCase().includes(q)) ||
+      s.service_interest.toLowerCase().includes(q) ||
+      (s.initial_message && s.initial_message.toLowerCase().includes(q)) ||
+      s.session_code.toLowerCase().includes(q)
+    return matchStatus && matchQuery
+  })
+})
+
+function formatWaLink(phone: string) {
+  if (!phone) return ''
+  let cleaned = phone.replace(/\D/g, '')
+  if (cleaned.startsWith('0')) {
+    cleaned = '62' + cleaned.substring(1)
+  }
+  return cleaned
+}
+
+async function fetchChatSessions() {
+  if (!authStore.token) return
+  isLoadingChats.value = true
+  try {
+    const res = await fetch(`/api/v1/office/chat-sessions?status=${encodeURIComponent(chatStatusFilter.value)}`, {
+      headers: {
+        'Authorization': `Bearer ${authStore.token}`
+      }
+    })
+    const data = await res.json()
+    if (data.success && Array.isArray(data.data)) {
+      chatSessions.value = data.data
+    }
+  } catch (e) {
+    console.error('Gagal mengambil daftar sesi chat:', e)
+  } finally {
+    isLoadingChats.value = false
+  }
+}
+
+async function openChatDetail(session: ChatSessionItem) {
+  selectedChatSession.value = session
+  showChatModal.value = true
+  isLoadingChatDetail.value = true
+  agentReplyText.value = ''
+  try {
+    const res = await fetch(`/api/v1/office/chat-messages?session_id=${session.id}`, {
+      headers: {
+        'Authorization': `Bearer ${authStore.token}`
+      }
+    })
+    const data = await res.json()
+    if (data.success && Array.isArray(data.messages)) {
+      selectedChatMessages.value = data.messages
+    }
+  } catch (e) {
+    console.error('Gagal mengambil pesan chat:', e)
+  } finally {
+    isLoadingChatDetail.value = false
+  }
+}
+
+async function sendAgentReply() {
+  if (!selectedChatSession.value || !agentReplyText.value.trim() || !authStore.token) return
+  isSendingReply.value = true
+  try {
+    const res = await fetch('/api/v1/office/chat-reply', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authStore.token}`
+      },
+      body: JSON.stringify({
+        session_id: selectedChatSession.value.id,
+        agent_name: authStore.user?.name || 'Staff Desk Meldir',
+        message: agentReplyText.value.trim()
+      })
+    })
+    const data = await res.json()
+    if (data.success && data.data) {
+      selectedChatMessages.value.push(data.data)
+      agentReplyText.value = ''
+    } else {
+      alert('Gagal mengirim balasan: ' + (data.error || 'Terjadi kesalahan'))
+    }
+  } catch (e) {
+    console.error('Error sending agent reply:', e)
+  } finally {
+    isSendingReply.value = false
+  }
+}
+
+async function updateSessionStatus(status: string) {
+  if (!selectedChatSession.value || !authStore.token) return
+  try {
+    await fetch('/api/v1/office/chat-status', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${authStore.token}`
+      },
+      body: JSON.stringify({
+        session_id: selectedChatSession.value.id,
+        status: status
+      })
+    })
+    selectedChatSession.value.status = status
+    const target = chatSessions.value.find(s => s.id === selectedChatSession.value?.id)
+    if (target) target.status = status
+  } catch (e) {
+    console.error('Gagal memperbarui status sesi:', e)
+  }
+}
 
 const globalMessage = ref('')
 const globalMessageType = ref('success')
@@ -1573,12 +2059,16 @@ function deleteContract(id: number) {
 function switchTab(tabId: string) {
   activeTab.value = tabId
   showMoreSheet.value = false
+  showDesktopMenuModal.value = false
   window.scrollTo({ top: 0, behavior: 'smooth' })
   if (tabId === 'users' && usersList.value.length === 0) {
     fetchUsers()
   }
   if (tabId === 'leads' && leadsList.value.length === 0) {
     fetchLeads()
+  }
+  if (tabId === 'chats') {
+    fetchChatSessions()
   }
 }
 
@@ -2124,6 +2614,7 @@ onMounted(async () => {
     fetchInvoices()
     fetchJournals()
     fetchLeads()
+    fetchChatSessions()
   }
 
   try {
@@ -3075,5 +3566,259 @@ onMounted(async () => {
 .btn-lead-wa-action:hover {
   background: #1ebc57;
   transform: translateY(-1px);
+}
+
+/* Office Live Chat Desk Modal & Elements */
+.modal-chat-desk {
+  max-width: 960px;
+  width: 95%;
+  height: 82vh;
+  max-height: 720px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+}
+
+.chat-desk-avatar {
+  font-size: 1.6rem;
+}
+
+.modal-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-header-sub {
+  font-size: 0.78rem;
+  color: #64748b;
+  margin: 2px 0 0 0;
+}
+
+.chat-modal-content-grid {
+  display: grid;
+  grid-template-columns: 290px 1fr;
+  flex: 1;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.chat-visitor-meta-card {
+  border-right: 1px solid #e2e8f0;
+  padding: 20px;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.chat-visitor-meta-card h4 {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  padding-bottom: 8px;
+  border-bottom: 1.5px solid #e2e8f0;
+}
+
+.visitor-meta-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 0.82rem;
+}
+
+.v-meta-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.v-meta-label {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.v-meta-val {
+  font-weight: 700;
+  color: #0f172a;
+  word-break: break-all;
+}
+
+.chat-status-toggle-box {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px dashed #cbd5e1;
+}
+
+.chat-status-toggle-box label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #475569;
+  text-transform: uppercase;
+}
+
+.status-btn-group {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.btn-status-pill {
+  flex: 1;
+  padding: 6px 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: #475569;
+}
+
+.btn-status-pill.active {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #0284c7;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.3);
+}
+
+.chat-messages-console {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  background: #f1f5f9;
+}
+
+.chat-transcript-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.console-msg-bubble {
+  max-width: 80%;
+  padding: 11px 15px;
+  border-radius: 12px;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+}
+
+.console-msg-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.68rem;
+  margin-bottom: 5px;
+}
+
+.console-msg-time {
+  opacity: 0.75;
+}
+
+.msg-from-visitor {
+  align-self: flex-start;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+}
+
+.msg-from-agent {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+}
+
+.msg-from-agent .console-msg-header {
+  color: #e0f2fe;
+}
+
+.console-msg-text {
+  word-break: break-word;
+}
+
+.chat-reply-bar {
+  display: flex;
+  gap: 10px;
+  padding: 14px 18px;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+}
+
+.reply-input {
+  flex: 1;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 0.84rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.reply-input:focus {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+}
+
+.wa-phone-link {
+  color: #059669;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wa-phone-link:hover {
+  text-decoration: underline;
+}
+
+.chat-status-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: inline-block;
+}
+
+.chat-status-badge.status-active {
+  background: #dcfce7;
+  color: #15803d;
+  border: 1px solid #bbf7d0;
+}
+
+.chat-status-badge.status-closed {
+  background: #f1f5f9;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+.chat-status-badge.status-follow_up {
+  background: #fef3c7;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+@media (max-width: 768px) {
+  .chat-modal-content-grid {
+    grid-template-columns: 1fr;
+  }
+  .chat-visitor-meta-card {
+    border-right: none;
+    border-bottom: 1px solid #e2e8f0;
+    max-height: 200px;
+  }
 }
 </style>

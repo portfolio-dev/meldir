@@ -1452,48 +1452,101 @@
                     </div>
                     <div class="chat-header-meta">
                         <h4 class="chat-header-title" id="chat-header-title" data-id="Konsultasi PT. Melayani Digital Raya" data-en="PT. Melayani Digital Raya Support">Konsultasi PT. Melayani Digital Raya</h4>
-                        <span class="chat-header-subtitle" data-id="Online • Web, Mobile &amp; Managed IT" data-en="Online • Web, Mobile &amp; Managed IT">Online • Web, Mobile &amp; Managed IT</span>
+                        <span class="chat-header-subtitle" id="chat-header-subtitle" data-id="Online • Tim Engineering &amp; Konsultan" data-en="Online • Engineering &amp; Consultant">Online • Tim Engineering &amp; Konsultan</span>
                     </div>
                 </div>
                 <div class="chat-header-actions">
+                    <button type="button" class="chat-btn-action" id="chat-btn-reset" title="Mulai Sesi Baru" style="display: none;" aria-label="Mulai Sesi Baru">🔄</button>
                     <button type="button" class="chat-btn-minimize" id="chat-btn-minimize" aria-label="Tutup Chat">✕</button>
                 </div>
             </div>
 
-            <!-- Chat Conversation Body -->
-            <div class="chat-panel-body" id="chat-messages-container">
-                <!-- Timestamp Chip -->
-                <div class="chat-time-chip" data-id="Hari ini • Tim Engineering Siaga" data-en="Today • Engineering Desk Online">Hari ini • Tim Engineering Siaga</div>
+            <!-- View 1: Pre-Chat Onboarding Form (Kumpulkan data sebelum mulai chat) -->
+            <div class="chat-view-onboarding" id="chat-onboarding-view">
+                <div class="chat-onboarding-banner">
+                    <div class="onboarding-badge">💬 Mulai Sesi Konsultasi</div>
+                    <h5 class="onboarding-title">Lengkapi Data Pengirim</h5>
+                    <p class="onboarding-desc">Silakan masukkan data kontak Anda agar konsultan Meldir dapat memberikan solusi akurat dan mendokumentasikan tiket Anda.</p>
+                </div>
 
-                <!-- Bot Greeting Message -->
-                <div class="chat-msg msg-bot">
-                    <div class="msg-bubble">
-                        <p data-id="Halo! Selamat datang di layanan konsultasi meldir.id. 👋" data-en="Hello! Welcome to meldir.id engineering consultation desk. 👋">Halo! Selamat datang di layanan konsultasi <strong>meldir.id</strong>. 👋</p>
-                        <p data-id="Ada yang bisa tim rekayasa sistem kami bantu seputar web, mobile, atau pemeliharaan server hari ini?" data-en="How can our engineering team assist with your web, mobile, or server maintenance needs today?">Ada yang bisa tim rekayasa sistem kami bantu seputar web, mobile, atau pemeliharaan server hari ini?</p>
+                <form class="chat-onboarding-form" id="chat-pre-form" autocomplete="on">
+                    <div class="chat-form-group">
+                        <label for="chat-input-name">Nama Lengkap / Instansi <span class="text-req">*</span></label>
+                        <input type="text" id="chat-input-name" class="chat-form-input" placeholder="Contoh: Budi Santoso / PT Artha" required>
                     </div>
-                    <span class="msg-time">Sekarang</span>
+
+                    <div class="chat-form-group">
+                        <label for="chat-input-phone">No. WhatsApp / HP Aktif <span class="text-req">*</span></label>
+                        <input type="tel" id="chat-input-phone" class="chat-form-input" placeholder="Contoh: 081234567890" required>
+                    </div>
+
+                    <div class="chat-form-group">
+                        <label for="chat-input-email">Alamat Email (Opsional)</label>
+                        <input type="email" id="chat-input-email" class="chat-form-input" placeholder="nama@perusahaan.com">
+                    </div>
+
+                    <div class="chat-form-group">
+                        <label for="chat-input-topic">Topik / Kebutuhan <span class="text-req">*</span></label>
+                        <select id="chat-input-topic" class="chat-form-select" required>
+                            <option value="Pembuatan Aplikasi &amp; Web Sistem">🚀 Pembuatan Sistem / Web &amp; Mobile App</option>
+                            <option value="Managed IT Services &amp; SLA 99.9%">🛠️ Managed IT Services &amp; Server SLA</option>
+                            <option value="Audit Keamanan &amp; Kode Sistem">🔍 Audit Sistem &amp; Estimasi Roadmap</option>
+                            <option value="Penyelamatan Proyek Vendor Lama">🔄 Lanjutkan Proyek Vendor Sebelumnya</option>
+                            <option value="Konsultasi ERP, Billing &amp; SAK EMKM">📊 Konsultasi ERP &amp; Sistem Keuangan</option>
+                            <option value="Konsultasi Umum &amp; Kemitraan">🤝 Konsultasi Umum / Kemitraan</option>
+                        </select>
+                    </div>
+
+                    <div class="chat-form-group">
+                        <label for="chat-input-initial-msg">Pertanyaan / Kebutuhan Awal <span class="text-req">*</span></label>
+                        <textarea id="chat-input-initial-msg" class="chat-form-textarea" rows="2" placeholder="Tuliskan gambaran singkat sistem atau pertanyaan Anda..." required></textarea>
+                    </div>
+
+                    <div class="chat-form-actions">
+                        <button type="submit" class="btn-start-chat" id="btn-submit-start-chat">
+                            <span>🚀 Mulai Sesi Chat Online</span>
+                        </button>
+                    </div>
+
+                    <div class="chat-form-footnote">
+                        🔒 Data langsung tersambung ke meja konsultan PT. Melayani Digital Raya.
+                    </div>
+                </form>
+            </div>
+
+            <!-- View 2: Active Chat Conversation -->
+            <div class="chat-view-active" id="chat-active-view" style="display: none;">
+                <!-- Chat Session Header Tag -->
+                <div class="chat-active-meta-bar">
+                    <span class="active-dot"></span>
+                    <span class="active-user-name" id="chat-connected-name">Pengunjung</span>
+                    <span class="active-session-code" id="chat-session-badge"></span>
+                </div>
+
+                <!-- Chat Conversation Body -->
+                <div class="chat-panel-body" id="chat-messages-container">
+                    <div class="chat-time-chip" data-id="Hari ini • Tim Engineering Siaga" data-en="Today • Engineering Desk Online">Hari ini • Tim Engineering Siaga</div>
+                    <!-- Messages will be rendered here dynamically -->
                 </div>
 
                 <!-- Quick Suggestion Chips -->
                 <div class="chat-suggestion-chips" id="chat-suggestion-chips">
-                    <button type="button" class="chat-chip-btn" data-query="Konsultasi Sistem Baru">🚀 Buat Sistem / Aplikasi Baru</button>
-                    <button type="button" class="chat-chip-btn" data-query="Pemeliharaan & SLA 99.9%">🛠️ Pemeliharaan &amp; SLA 99.9%</button>
-                    <button type="button" class="chat-chip-btn" data-query="Audit Sistem Gratis">🔍 Audit Sistem &amp; Estimasi Roadmap</button>
-                    <button type="button" class="chat-chip-btn" data-query="Lanjutkan Proyek Vendor Lama">🔄 Lanjutkan Proyek Vendor Lama</button>
-                    <button type="button" class="chat-chip-btn" data-query="Akses Portal Klien">🔐 Akses Portal Klien Resmi</button>
+                    <button type="button" class="chat-chip-btn" data-query="Bagaimana alur kontrak &amp; SPK resmi?">📜 Alur Kontrak &amp; SPK</button>
+                    <button type="button" class="chat-chip-btn" data-query="Apakah ada SLA jaminan uptime 99.9%?">⚡ SLA Uptime 99.9%</button>
+                    <button type="button" class="chat-chip-btn" data-query="Berapa lama estimasi pengerjaan MVP?">⏱️ Estimasi Waktu MVP</button>
                 </div>
-            </div>
 
-            <!-- Chat Input Form -->
-            <form class="chat-panel-footer" id="chat-input-form" autocomplete="off">
-                <input type="text" id="chat-text-input" class="chat-input" placeholder="Tulis pesan atau pertanyaan Anda..." required>
-                <button type="submit" class="chat-send-btn" id="chat-send-btn" aria-label="Kirim Pesan">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="22" y1="2" x2="11" y2="13"/>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                    </svg>
-                </button>
-            </form>
+                <!-- Chat Input Form -->
+                <form class="chat-panel-footer" id="chat-input-form" autocomplete="off">
+                    <input type="text" id="chat-text-input" class="chat-input" placeholder="Ketik balasan Anda..." required>
+                    <button type="submit" class="chat-send-btn" id="chat-send-btn" aria-label="Kirim Pesan">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"/>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 

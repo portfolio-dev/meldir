@@ -48,16 +48,82 @@
           </a>
         </div>
 
-        <!-- Navigation Tabs -->
-        <div class="module-nav-tabs">
+        <!-- Desktop Modular Navigation Launcher -->
+        <div class="desktop-nav-launcher-bar">
           <button
-            v-for="tab in tabs"
-            :key="tab.id"
-            :class="['nav-tab-btn', { active: activeTab === tab.id }]"
-            @click="activeTab = tab.id"
+            type="button"
+            class="btn-desktop-menu-launcher"
+            @click="showDesktopMenuModal = true"
+            title="Buka direktori modul workspace tim engineer"
           >
-            {{ tab.icon }} {{ tab.label }}
+            <span class="launcher-icon-grid">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+            </span>
+            <span class="launcher-label-box">
+              <span class="launcher-sub">WORKSPACE ENGINEERING</span>
+              <span class="launcher-main-label">{{ currentActiveTab?.label || 'Pilih Modul' }}</span>
+            </span>
+            <span class="launcher-chevron">▼</span>
           </button>
+
+          <div class="desktop-active-module-crumb">
+            <span class="crumb-icon">{{ currentActiveTab?.icon }}</span>
+            <div class="crumb-meta">
+              <span class="crumb-title">{{ currentActiveTab?.label }}</span>
+              <span class="crumb-status"><span class="crumb-pulse"></span> Modul Aktif Terpilih</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop Professional Navigation Card Modal -->
+        <div
+          v-if="showDesktopMenuModal"
+          class="desktop-menu-modal-backdrop"
+          @click.self="showDesktopMenuModal = false"
+        >
+          <div class="desktop-menu-modal-card">
+            <div class="modal-nav-header">
+              <div class="modal-nav-brand">
+                <div class="modal-nav-icon">💻</div>
+                <div>
+                  <h3 class="modal-nav-title">Direktori Menu Engineer Workspace</h3>
+                  <p class="modal-nav-desc">Pusat kendali SLA taskboard, timesheet logger, bukti potong PPh 21, dan repositori kode monorepo.</p>
+                </div>
+              </div>
+              <button class="btn-modal-close" @click="showDesktopMenuModal = false">✕</button>
+            </div>
+
+            <div class="modal-cards-grid">
+              <div
+                v-for="item in tabs"
+                :key="item.id"
+                :class="['desktop-module-card', { active: activeTab === item.id }]"
+                @click="switchTab(item.id); showDesktopMenuModal = false;"
+              >
+                <div class="module-card-top">
+                  <div class="module-card-icon">{{ item.icon }}</div>
+                  <span class="module-card-tag">{{ item.category }}</span>
+                  <span v-if="activeTab === item.id" class="badge-active-modul">✓ Aktif</span>
+                </div>
+                <h4 class="module-card-title">{{ item.label }}</h4>
+                <p class="module-card-desc">{{ item.desc }}</p>
+                <div class="module-card-footer">
+                  <span class="footer-action-text">{{ activeTab === item.id ? 'Sedang Dibuka' : 'Buka Modul' }}</span>
+                  <span class="footer-action-arrow">→</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-nav-footer">
+              <span class="shortcut-tip">💡 Terhubung langsung dengan sistem monorepo PT Melayani Digital Raya.</span>
+              <button class="btn-secondary" @click="showDesktopMenuModal = false">Tutup Menu</button>
+            </div>
+          </div>
         </div>
 
         <!-- Flash Notice -->
@@ -713,18 +779,28 @@ const authStore = useAuthStore()
 const currentHost = ref(window.location.host)
 const activeTab = ref('tasks')
 const showMoreSheet = ref(false)
+const showDesktopMenuModal = ref(false)
 const flashNotice = ref('')
 
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
+function switchTab(tabId: string) {
+  activeTab.value = tabId
+  showMoreSheet.value = false
+  showDesktopMenuModal.value = false
+  scrollToTop()
+}
+
 const tabs = [
-  { id: 'tasks', label: 'SLA Taskboard (Tiket)', icon: '📋' },
-  { id: 'timesheet', label: 'Timesheet Logger', icon: '⏱️' },
-  { id: 'tax21', label: 'Bukti Potong PPh 21', icon: '📄' },
-  { id: 'repos', label: 'Repositori GitHub', icon: '🐙' },
+  { id: 'tasks', label: 'SLA Taskboard (Tiket)', icon: '📋', category: 'Insiden & SLA', desc: 'Papan tiket respon darurat, bugs, penugasan teknis, dan SLA komitmen 24 jam.' },
+  { id: 'timesheet', label: 'Timesheet Logger', icon: '⏱️', category: 'Produktivitas', desc: 'Pencatatan jam kerja engineer per tiket dan perhitungan utilisasi kuota klien.' },
+  { id: 'tax21', label: 'Bukti Potong PPh 21', icon: '📄', category: 'Kompensasi & Pajak', desc: 'Arsip bukti potong PPh Pasal 21 atas honorarium tenaga ahli dan slip remunerasi.' },
+  { id: 'repos', label: 'Repositori GitHub', icon: '🐙', category: 'Arsitektur & Kode', desc: 'Daftar repositori resmi monorepo, pipeline CI/CD, dan akses kode internal Meldir.' },
 ]
+
+const currentActiveTab = computed(() => tabs.find(t => t.id === activeTab.value) || tabs[0])
 
 const userInitials = computed(() => {
   if (!authStore.user?.name) return 'EN'

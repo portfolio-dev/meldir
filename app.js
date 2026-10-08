@@ -832,24 +832,174 @@ document.addEventListener('DOMContentLoaded', () => {
         openLiveChat();
     }
 
-    // --- 11. Meldir Live Chat Online System ---
+    // --- 11. Meldir Live Chat Online System with Pre-Chat Onboarding ---
     const chatWrapper = document.getElementById('meldir-chat-widget');
     const chatLauncher = document.getElementById('chat-launcher-btn');
     const chatMinimize = document.getElementById('chat-btn-minimize');
+    const chatBtnReset = document.getElementById('chat-btn-reset');
+    const chatOnboardingView = document.getElementById('chat-onboarding-view');
+    const chatActiveView = document.getElementById('chat-active-view');
+    const chatPreForm = document.getElementById('chat-pre-form');
     const chatMessages = document.getElementById('chat-messages-container');
     const chatForm = document.getElementById('chat-input-form');
     const chatInput = document.getElementById('chat-text-input');
+    const chatConnectedName = document.getElementById('chat-connected-name');
+    const chatSessionBadge = document.getElementById('chat-session-badge');
+    const btnSubmitStartChat = document.getElementById('btn-submit-start-chat');
     const chatTriggers = document.querySelectorAll('[data-open-chat]');
     const chatChips = document.querySelectorAll('.chat-chip-btn');
+
+    let chatPollingTimer = null;
+    let activeSession = null;
+    const renderedMsgIds = new Set();
+
+    function loadSavedSession() {
+        try {
+            const raw = sessionStorage.getItem('meldir_chat_session');
+            if (raw) {
+                return JSON.parse(raw);
+            }
+        } catch (e) {
+            console.error('Gagal membaca sesi chat:', e);
+        }
+        return null;
+    }
+
+    function saveSession(session) {
+        activeSession = session;
+        sessionStorage.setItem('meldir_chat_session', JSON.stringify(session));
+    }
+
+    function clearSession() {
+        activeSession = null;
+        renderedMsgIds.clear();
+        sessionStorage.removeItem('meldir_chat_session');
+        if (chatPollingTimer) {
+            clearInterval(chatPollingTimer);
+            chatPollingTimer = null;
+        }
+        showOnboardingView();
+    }
+
+    function showOnboardingView(preselectedTopic = null) {
+        if (chatOnboardingView) chatOnboardingView.style.display = 'flex';
+        if (chatActiveView) chatActiveView.style.display = 'none';
+        if (chatBtnReset) chatBtnReset.style.display = 'none';
+
+        if (preselectedTopic) {
+            const topicSelect = document.getElementById('chat-input-topic');
+            if (topicSelect) {
+                for (let i = 0; i < topicSelect.options.length; i++) {
+                    if (topicSelect.options[i].text.toLowerCase().includes(preselectedTopic.toLowerCase())) {
+                        topicSelect.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    function showActiveView(session) {
+        if (chatOnboardingView) chatOnboardingView.style.display = 'none';
+        if (chatActiveView) chatActiveView.style.display = 'flex';
+        if (chatBtnReset) chatBtnReset.style.display = 'inline-flex';
+
+        if (chatConnectedName && session.visitor_name) {
+            chatConnectedName.textContent = session.visitor_name;
+        }
+        if (chatSessionBadge && session.session_code) {
+            chatSessionBadge.textContent = session.session_code;
+        }
+
+        // Poll messages
+        fetchMessages(session.session_code);
+        if (!chatPollingTimer) {
+            chatPollingTimer = setInterval(() => {
+                if (activeSession && chatWrapper?.classList.contains('active')) {
+                    fetchMessages(activeSession.session_code);
+                }
+            }, 3500);
+        }
+    }
+
+    function appendMessageUI(msg) {
+        if (!chatMessages) return;
+        if (msg.id && renderedMsgIds.has(msg.id)) return;
+        if (msg.id) renderedMsgIds.add(msg.id);
+
+        const isVisitor = msg.sender_type === 'visitor';
+        const msgEl = document.createElement('div');
+        msgEl.className = `chat-msg ${isVisitor ? 'msg-user' : 'msg-bot'}`;
+
+        const bubbleEl = document.createElement('div');
+        bubbleEl.className = 'msg-bubble';
+
+        if (!isVisitor && msg.sender_name) {
+            const senderTag = document.createElement('div');
+            senderTag.style.fontSize = '0.7rem';
+            senderTag.style.fontWeight = '700';
+            senderTag.style.color = '#0060af';
+            senderTag.style.marginBottom = '4px';
+            senderTag.textContent = msg.sender_name;
+            bubbleEl.appendChild(senderTag);
+        }
+
+        const p = document.createElement('p');
+        p.textContent = msg.message;
+        bubbleEl.appendChild(p);
+
+        const timeEl = document.createElement('span');
+        timeEl.className = 'msg-time';
+        if (msg.created_at) {
+            try {
+                const d = new Date(msg.created_at);
+                timeEl.textContent = `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+            } catch (e) {
+                timeEl.textContent = 'Baru saja';
+            }
+        } else {
+            timeEl.textContent = 'Baru saja';
+        }
+
+        msgEl.appendChild(bubbleEl);
+        msgEl.appendChild(timeEl);
+        chatMessages.appendChild(msgEl);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function fetchMessages(sessionCode) {
+        if (!sessionCode) return;
+        try {
+            const res = await fetch(`/api/v1/chat/messages?session_code=${encodeURIComponent(sessionCode)}`);
+            if (!res.ok) return;
+            const data = await res.json();
+            if (data.success && Array.isArray(data.messages)) {
+                data.messages.forEach(m => appendMessageUI(m));
+            }
+        } catch (e) {
+            console.warn('Gagal memuat pesan live chat:', e);
+        }
+    }
+
+    // Initialize session state on page load
+    activeSession = loadSavedSession();
+    if (activeSession && activeSession.session_code) {
+        showActiveView(activeSession);
+    } else {
+        showOnboardingView();
+    }
 
     function openLiveChat(topic = null) {
         if (!chatWrapper) return;
         chatWrapper.classList.add('active');
-        if (chatInput) {
-            setTimeout(() => chatInput.focus(), 200);
-        }
-        if (topic) {
-            handleUserChatMessage(`Saya ingin berkonsultasi mengenai: ${topic}`);
+
+        if (!activeSession) {
+            showOnboardingView(topic);
+            const nameInput = document.getElementById('chat-input-name');
+            if (nameInput) setTimeout(() => nameInput.focus(), 250);
+        } else {
+            showActiveView(activeSession);
+            if (chatInput) setTimeout(() => chatInput.focus(), 250);
         }
     }
 
@@ -873,6 +1023,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (chatMinimize) {
         chatMinimize.addEventListener('click', closeLiveChat);
     }
+    if (chatBtnReset) {
+        chatBtnReset.addEventListener('click', () => {
+            if (confirm('Apakah Anda ingin mengakhiri sesi chat ini dan memulai konsultasi baru?')) {
+                clearSession();
+            }
+        });
+    }
 
     chatTriggers.forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -885,134 +1042,133 @@ document.addEventListener('DOMContentLoaded', () => {
     chatChips.forEach(chip => {
         chip.addEventListener('click', () => {
             const query = chip.getAttribute('data-query') || chip.textContent.trim();
-            handleUserChatMessage(query);
+            if (activeSession && chatInput) {
+                chatInput.value = query;
+                chatInput.focus();
+            }
         });
     });
 
-    function appendChatMessage(sender, text, isHtml = false) {
-        if (!chatMessages) return;
-        const msgEl = document.createElement('div');
-        msgEl.className = `chat-msg msg-${sender}`;
+    // Handle Pre-Chat Form Submit
+    if (chatPreForm) {
+        chatPreForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = (document.getElementById('chat-input-name')?.value || '').trim();
+            const phone = (document.getElementById('chat-input-phone')?.value || '').trim();
+            const email = (document.getElementById('chat-input-email')?.value || '').trim();
+            const topic = (document.getElementById('chat-input-topic')?.value || '').trim();
+            const message = (document.getElementById('chat-input-initial-msg')?.value || '').trim();
 
-        const bubbleEl = document.createElement('div');
-        bubbleEl.className = 'msg-bubble';
-        if (isHtml) {
-            bubbleEl.innerHTML = text;
-        } else {
-            const p = document.createElement('p');
-            p.textContent = text;
-            bubbleEl.appendChild(p);
-        }
+            if (!name || !phone || !message) {
+                alert('Silakan lengkapi Nama, No. WhatsApp/HP, dan Pertanyaan Awal Anda.');
+                return;
+            }
 
-        const timeEl = document.createElement('span');
-        timeEl.className = 'msg-time';
-        const now = new Date();
-        timeEl.textContent = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            if (btnSubmitStartChat) {
+                btnSubmitStartChat.disabled = true;
+                btnSubmitStartChat.innerHTML = '<span>⏳ Memulai Sesi Konsultasi...</span>';
+            }
 
-        msgEl.appendChild(bubbleEl);
-        msgEl.appendChild(timeEl);
-        chatMessages.appendChild(msgEl);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    function getBotResponse(userText) {
-        const lower = userText.toLowerCase();
-
-        if (lower.includes('sistem baru') || lower.includes('buat sistem') || lower.includes('aplikasi baru')) {
-            return {
-                text: `<p>Kami siap merancang aplikasi <strong>Web kustom, Web App (PWA), maupun aplikasi mobile Android/iOS</strong> dari nol dengan arsitektur enterprise (Go, Vue.js, PostgreSQL).</p>` +
-                      `<p>Klien memegang <strong>100% hak milik source code</strong> tanpa komitmen tersembunyi. Silakan ketik nama dan kontak (email/nomor HP) Anda agar tim konsultan kami bisa menyiapkan ringkasan estimasi & roadmap.</p>`,
-                isHtml: true
-            };
-        }
-
-        if (lower.includes('pemeliharaan') || lower.includes('sla') || lower.includes('perawatan') || lower.includes('maintenance')) {
-            return {
-                text: `<p>Layanan <strong>Managed IT &amp; App Care</strong> Meldir menyediakan pemantauan cloud 24/7, penanganan insiden tanggap, pembaruan patch keamanan OWASP, dan komitmen SLA uptime 99.9%.</p>` +
-                      `<p>Kami juga melayani pengambilalihan sistem yang sebelumnya dikembangkan oleh vendor lain atau internal.</p>`,
-                isHtml: true
-            };
-        }
-
-        if (lower.includes('audit') || lower.includes('biaya') || lower.includes('estimasi') || lower.includes('harga')) {
-            return {
-                text: `<p>Meldir menyediakan <strong>Audit Sistem &amp; Telaah Arsitektur Gratis</strong> tanpa komitmen. Anda juga dapat menggunakan formulir audit di website untuk mengirimkan spesifikasi langsung ke tim kami.</p>`,
-                isHtml: true
-            };
-        }
-
-        if (lower.includes('portal') || lower.includes('klien') || lower.includes('login')) {
-            return {
-                text: `<p>Untuk klien resmi PT Melayani Digital Raya, Anda dapat mengakses pelacakan progres, tiket prioritas, dan dokumen invoice di <a href="https://portal.meldir.id" target="_blank" style="color: #0060af; font-weight: 700; text-decoration: underline;">portal.meldir.id</a>.</p>`,
-                isHtml: true
-            };
-        }
-
-        if (lower.includes('proyek lama') || lower.includes('vendor lama') || lower.includes('rescue')) {
-            return {
-                text: `<p>Kami berpengalaman menangani sistem yang terbengkalai atau ingin dialihkan dari vendor sebelumnya. Langkah awal dimulai dari audit kelayakan kode &amp; database sebelum dilanjutkan secara profesional.</p>`,
-                isHtml: true
-            };
-        }
-
-        // Check if user provided contact info (phone or email)
-        const phoneMatch = userText.match(/(08|\+?62)\d{8,12}/);
-        const emailMatch = userText.match(/[\w.-]+@[\w.-]+\.\w+/);
-
-        if (phoneMatch || emailMatch) {
-            const contact = (phoneMatch ? phoneMatch[0] : '') || (emailMatch ? emailMatch[0] : '');
-            // Send lead in background to backend
             try {
-                fetch('/api/v1/leads/public', {
+                const res = await fetch('/api/v1/chat/start', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        name: 'Tamu Live Chat',
-                        whatsapp: contact,
-                        email: emailMatch ? emailMatch[0] : '',
-                        service_interest: 'Konsultasi via Live Chat Online',
-                        notes: `Pesan pengunjung: "${userText}"`,
-                        source: 'meldir.id-live-chat'
+                        name,
+                        phone,
+                        email,
+                        service_interest: topic,
+                        message
                     })
-                }).catch(() => {});
-            } catch (e) {}
+                });
 
-            return {
-                text: `<p>Terima kasih! Kontak Anda (<strong>${contact}</strong>) telah kami catat ke meja konsultan PT Melayani Digital Raya.</p>` +
-                      `<p>Tim engineering kami akan segera meninjau pesan Anda dan memberikan tanggapan resmi. Ada pertanyaan teknis lain yang ingin ditanyakan?</p>`,
-                isHtml: true
-            };
-        }
-
-        return {
-            text: `<p>Pesan Anda telah kami terima. Tim teknis konsultan Meldir sedang siaga. Untuk respons lebih cepat dan penyusunan proposal resmi, Anda dapat mencantumkan nama dan nomor kontak (WhatsApp/Email) di sini.</p>`,
-            isHtml: true
-        };
-    }
-
-    function handleUserChatMessage(text) {
-        if (!text || !text.trim()) return;
-        const cleanText = text.trim();
-        appendChatMessage('user', cleanText);
-
-        if (chatInput) {
-            chatInput.value = '';
-        }
-
-        // Show typing feedback then reply
-        setTimeout(() => {
-            const response = getBotResponse(cleanText);
-            appendChatMessage('bot', response.text, response.isHtml);
-        }, 500);
-    }
-
-    if (chatForm) {
-        chatForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const val = chatInput?.value || '';
-            handleUserChatMessage(val);
+                const data = await res.json();
+                if (data.success && data.data) {
+                    saveSession(data.data);
+                    // Clear messages container
+                    if (chatMessages) {
+                        chatMessages.innerHTML = '<div class="chat-time-chip">Sesi Konsultasi Dimulai</div>';
+                    }
+                    renderedMsgIds.clear();
+                    showActiveView(data.data);
+                    if (Array.isArray(data.data.messages)) {
+                        data.data.messages.forEach(m => appendMessageUI(m));
+                    }
+                } else {
+                    alert('Gagal memulai sesi chat: ' + (data.error || 'Terjadi kesalahan sistem'));
+                }
+            } catch (err) {
+                console.error('Error starting chat:', err);
+                // Fallback offline mock session
+                const mockSession = {
+                    id: Date.now(),
+                    session_code: 'CHAT-OFFLINE-' + Math.floor(Math.random() * 1000),
+                    visitor_name: name,
+                    visitor_phone: phone,
+                    service_interest: topic
+                };
+                saveSession(mockSession);
+                showActiveView(mockSession);
+                appendMessageUI({
+                    sender_type: 'visitor',
+                    sender_name: name,
+                    message: message,
+                    created_at: new Date()
+                });
+                appendMessageUI({
+                    sender_type: 'agent',
+                    sender_name: 'Meldir Virtual Desk',
+                    message: `Halo Bpk/Ibu ${name}! Pesan dan data Anda telah kami terima. Konsultan kami akan merespons sesegera mungkin di sini.`,
+                    created_at: new Date()
+                });
+            } finally {
+                if (btnSubmitStartChat) {
+                    btnSubmitStartChat.disabled = false;
+                    btnSubmitStartChat.innerHTML = '<span>🚀 Mulai Sesi Chat Online</span>';
+                }
+            }
         });
     }
+
+    // Handle Active Conversation Message Submit
+    if (chatForm) {
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = (chatInput?.value || '').trim();
+            if (!text || !activeSession) return;
+
+            // Clear input
+            if (chatInput) chatInput.value = '';
+
+            // Optimistic UI Append
+            const tempMsg = {
+                sender_type: 'visitor',
+                sender_name: activeSession.visitor_name || 'Pengunjung',
+                message: text,
+                created_at: new Date()
+            };
+            appendMessageUI(tempMsg);
+
+            try {
+                const res = await fetch('/api/v1/chat/message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        session_code: activeSession.session_code,
+                        sender_name: activeSession.visitor_name,
+                        message: text
+                    })
+                });
+                const data = await res.json();
+                if (data.success && data.data && data.data.id) {
+                    renderedMsgIds.add(data.data.id);
+                }
+            } catch (err) {
+                console.warn('Gagal mengirim pesan chat:', err);
+            }
+        });
+    }
+
 
 });
 

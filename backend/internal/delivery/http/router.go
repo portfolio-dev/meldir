@@ -21,6 +21,7 @@ func NewRouter(
 	invoiceHandler *handler.InvoiceHandler,
 	accountingHandler *handler.AccountingHandler,
 	leadHandler *handler.LeadHandler,
+	chatHandler *handler.ChatHandler,
 	authMiddleware *middleware.AuthMiddleware,
 ) http.Handler {
 	mux := http.NewServeMux()
@@ -66,6 +67,18 @@ func NewRouter(
 		mux.HandleFunc("/api/v1/leads/public", leadHandler.CreatePublicLead)
 		mux.HandleFunc("/api/v1/leads", adminOnly(leadHandler.ListLeads))
 		mux.HandleFunc("/api/v1/leads/status", adminOnly(leadHandler.UpdateLeadStatus))
+	}
+
+	// 9. Public & Office Live Chat Endpoints
+	if chatHandler != nil {
+		mux.HandleFunc("/api/v1/chat/start", chatHandler.StartPublicChat)
+		mux.HandleFunc("/api/v1/chat/message", chatHandler.SendVisitorMessage)
+		mux.HandleFunc("/api/v1/chat/messages", chatHandler.GetPublicMessages)
+
+		mux.HandleFunc("/api/v1/office/chat-sessions", adminOnly(chatHandler.ListOfficeSessions))
+		mux.HandleFunc("/api/v1/office/chat-messages", adminOnly(chatHandler.GetOfficeSessionDetail))
+		mux.HandleFunc("/api/v1/office/chat-reply", adminOnly(chatHandler.SendOfficeReply))
+		mux.HandleFunc("/api/v1/office/chat-status", adminOnly(chatHandler.UpdateOfficeSessionStatus))
 	}
 
 	// Wrap with Global Middlewares (Recovery, CORS, Logging)
