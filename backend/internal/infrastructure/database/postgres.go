@@ -105,17 +105,28 @@ func (db *PostgresDB) MigrateSchema(ctx context.Context) error {
 			created_by BIGINT NULL,
 			created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 		)`,
-		"ALTER TABLE accounting_journals ADD COLUMN IF NOT EXISTS debit_account VARCHAR(150) NULL",
-		"ALTER TABLE accounting_journals ADD COLUMN IF NOT EXISTS credit_account VARCHAR(150) NULL",
-		"ALTER TABLE accounting_journals ADD COLUMN IF NOT EXISTS total_debit NUMERIC(18,2) NOT NULL DEFAULT 0.00",
-		"ALTER TABLE accounting_journals ADD COLUMN IF NOT EXISTS total_credit NUMERIC(18,2) NOT NULL DEFAULT 0.00",
-		"ALTER TABLE accounting_journals ADD COLUMN IF NOT EXISTS is_posted BOOLEAN DEFAULT TRUE",
-		"ALTER TABLE accounting_journals ALTER COLUMN debit_account DROP NOT NULL",
-		"ALTER TABLE accounting_journals ALTER COLUMN credit_account DROP NOT NULL",
-		"ALTER TABLE accounting_journals ALTER COLUMN source_type DROP DEFAULT",
-		"ALTER TABLE accounting_journals ALTER COLUMN source_type TYPE VARCHAR(50) USING source_type::text",
-		"ALTER TABLE accounting_journals ALTER COLUMN source_type SET DEFAULT 'general_entry'",
-		"ALTER TABLE accounting_journals ALTER COLUMN created_by DROP NOT NULL",
+		// Accounting Chart of Accounts & Journal Items
+		`CREATE TABLE IF NOT EXISTS accounting_chart_of_accounts (
+			id BIGSERIAL PRIMARY KEY,
+			account_code VARCHAR(20) UNIQUE NOT NULL,
+			account_name VARCHAR(150) NOT NULL,
+			category VARCHAR(50) NOT NULL DEFAULT 'asset',
+			normal_balance VARCHAR(20) NOT NULL DEFAULT 'debit',
+			parent_code VARCHAR(20) NULL,
+			is_active BOOLEAN DEFAULT TRUE,
+			description TEXT NULL,
+			current_balance NUMERIC(18,2) DEFAULT 0.00,
+			created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+		)`,
+		`CREATE TABLE IF NOT EXISTS accounting_journal_items (
+			id BIGSERIAL PRIMARY KEY,
+			journal_id BIGINT NOT NULL,
+			account_id BIGINT NOT NULL,
+			debit_amount NUMERIC(18,2) NOT NULL DEFAULT 0.00,
+			credit_amount NUMERIC(18,2) NOT NULL DEFAULT 0.00,
+			description TEXT NOT NULL,
+			created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+		)`,
 	}
 
 	for _, q := range queries {

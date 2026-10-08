@@ -45,14 +45,14 @@ func (r *invoiceRepo) ListInvoices(ctx context.Context, clientID int64) ([]domai
 		SELECT COALESCE(i.id, 0),
 		       COALESCE(i.invoice_number, ''),
 		       COALESCE(i.client_id, 0),
-		       COALESCE(u.name, COALESCE(i.client_name, ''), ''),
+		       COALESCE(u.name, 'Klien PT. Melayani Digital Raya'),
 		       i.contract_id,
 		       COALESCE(i.amount, 0.0)::float8,
 		       COALESCE(i.tax_amount, 0.0)::float8,
 		       (COALESCE(i.amount, 0.0) + COALESCE(i.tax_amount, 0.0))::float8,
 		       COALESCE(i.due_date::text, ''),
 		       COALESCE(i.status::text, 'unpaid'),
-		       COALESCE(i.bank_destination, ''),
+		       COALESCE(i.bank_destination, 'PT. Melayani Digital Raya - Bank Mandiri & BCA'),
 		       i.tax_invoice_number,
 		       i.paid_at,
 		       COALESCE(i.created_at, CURRENT_TIMESTAMP)
@@ -95,14 +95,14 @@ func (r *invoiceRepo) FindByID(ctx context.Context, id int64) (*domain.Invoice, 
 		SELECT COALESCE(i.id, 0),
 		       COALESCE(i.invoice_number, ''),
 		       COALESCE(i.client_id, 0),
-		       COALESCE(u.name, COALESCE(i.client_name, ''), ''),
+		       COALESCE(u.name, 'Klien PT. Melayani Digital Raya'),
 		       i.contract_id,
 		       COALESCE(i.amount, 0.0)::float8,
 		       COALESCE(i.tax_amount, 0.0)::float8,
 		       (COALESCE(i.amount, 0.0) + COALESCE(i.tax_amount, 0.0))::float8,
 		       COALESCE(i.due_date::text, ''),
 		       COALESCE(i.status::text, 'unpaid'),
-		       COALESCE(i.bank_destination, ''),
+		       COALESCE(i.bank_destination, 'PT. Melayani Digital Raya - Bank Mandiri & BCA'),
 		       i.tax_invoice_number,
 		       i.paid_at,
 		       COALESCE(i.created_at, CURRENT_TIMESTAMP)
@@ -144,28 +144,40 @@ func (r *invoiceRepo) CreateInvoice(ctx context.Context, inv *domain.Invoice) (*
 		inv.BankDestination = "PT. Melayani Digital Raya - Bank Mandiri & BCA"
 	}
 
+	var clientID int64 = inv.ClientID
+	if clientID <= 0 {
+		_ = r.pool.QueryRow(ctx, "SELECT id FROM users WHERE role = 'klien' OR role = 'client' ORDER BY id ASC LIMIT 1").Scan(&clientID)
+	}
+	if clientID <= 0 {
+		_ = r.pool.QueryRow(ctx, "SELECT id FROM users ORDER BY id ASC LIMIT 1").Scan(&clientID)
+	}
+	if clientID <= 0 {
+		clientID = 1
+	}
+	inv.ClientID = clientID
+
 	query := `
 		INSERT INTO invoices (
-			invoice_number, client_id, client_name, amount, tax_amount,
+			invoice_number, client_id, amount, tax_amount,
 			due_date, status, bank_destination, created_at
 		) VALUES (
-			$1, $2, $3, $4, $5, $6::date, $7, $8, $9
+			$1, $2, $3, $4, $5::date, $6, $7, $8
 		) RETURNING id
 	`
 
-	var clientIDVal interface{} = inv.ClientID
-	if inv.ClientID <= 0 {
-		clientIDVal = nil
-	}
-
 	err = r.pool.QueryRow(
 		ctx, query,
-		inv.InvoiceNumber, clientIDVal, inv.ClientName, inv.Amount, inv.TaxAmount,
+		inv.InvoiceNumber, inv.ClientID, inv.Amount, inv.TaxAmount,
 		inv.DueDate, string(inv.Status), inv.BankDestination, inv.CreatedAt,
 	).Scan(&inv.ID)
 	if err != nil {
 		log.Printf("❌ InvoiceRepo.CreateInvoice insert error: %v", err)
 		return nil, err
+	}
+
+	_ = r.pool.QueryRow(ctx, "SELECT name FROM users WHERE id = $1", inv.ClientID).Scan(&inv.ClientName)
+	if inv.ClientName == "" {
+		inv.ClientName = "Klien PT. Melayani Digital Raya"
 	}
 
 	return inv, nil
