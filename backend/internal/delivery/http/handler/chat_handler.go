@@ -186,9 +186,12 @@ func (h *ChatHandler) SendOfficeReply(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if req.AgentName == "" {
-		if claims, ok := r.Context().Value(middleware.UserClaimsKey).(*domain.UserClaims); ok && claims != nil {
-			req.AgentName = claims.Name
-		} else {
+		if emailVal := r.Context().Value(middleware.ContextKeyEmail); emailVal != nil {
+			if emailStr, ok := emailVal.(string); ok && emailStr != "" {
+				req.AgentName = emailStr
+			}
+		}
+		if req.AgentName == "" {
 			req.AgentName = "Staff Officer Meldir"
 		}
 	}
