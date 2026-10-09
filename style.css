@@ -214,31 +214,81 @@ img, svg {
 }
 
 @media (max-width: 1280px) and (min-width: 1025px) {
-    .nav-menu ul {
-        gap: 20px;
+    .header-container,
+    .cockpit-header {
+        flex-wrap: nowrap !important;
     }
-    .header-container {
-        padding: 0 20px;
+    .logo-link,
+    .cockpit-brand,
+    .header-actions,
+    .cockpit-header-actions {
+        flex-shrink: 0;
     }
-    .nav-item {
-        font-size: 0.9rem;
-        white-space: nowrap;
-    }
-}
-
-@media (max-width: 1024px) and (min-width: 901px) {
     .nav-menu ul {
         gap: 16px;
+        flex-wrap: nowrap;
     }
     .header-container {
         padding: 0 16px;
     }
     .nav-item {
-        font-size: 0.85rem;
+        font-size: 0.86rem;
+        white-space: nowrap;
+    }
+    .cockpit-brand .desktop-status-chip {
+        display: none !important;
+    }
+    .cockpit-segment-btn {
+        padding: 5px 10px;
+        font-size: 0.78rem;
+    }
+}
+
+@media (max-width: 1024px) and (min-width: 901px) {
+    .header-container,
+    .cockpit-header {
+        flex-wrap: nowrap !important;
+    }
+    .logo-link,
+    .cockpit-brand,
+    .header-actions,
+    .cockpit-header-actions {
+        flex-shrink: 0;
+    }
+    .nav-menu ul {
+        gap: 10px;
+        flex-wrap: nowrap;
+    }
+    .header-container {
+        padding: 0 12px;
+    }
+    .nav-item {
+        font-size: 0.80rem;
         white-space: nowrap;
     }
     .header-actions {
-        gap: 10px;
+        gap: 6px;
+    }
+    .btn-client-portal {
+        padding: 5px 8px;
+        font-size: 0.75rem;
+    }
+    .cockpit-header {
+        padding: 0 54px 0 12px;
+    }
+    .cockpit-brand .desktop-status-chip {
+        display: none !important;
+    }
+    .cockpit-nav-segments {
+        gap: 2px;
+        padding: 2px;
+    }
+    .cockpit-segment-btn {
+        padding: 4px 6px;
+        font-size: 0.70rem;
+    }
+    .cockpit-header-actions {
+        gap: 6px;
     }
 }
 
@@ -490,7 +540,8 @@ img, svg {
 }
 
 /* Language Switcher on Dark Navbar */
-.language-switcher {
+.language-switcher,
+.lang-switcher {
     display: flex;
     background-color: rgba(255, 255, 255, 0.1);
     padding: 3px;
@@ -3269,13 +3320,28 @@ section {
         margin-top: 54px !important;
     }
     
-    .nav-menu {
+    .nav-menu,
+    header .nav-menu,
+    .site-header .nav-menu,
+    .cockpit-nav-segments {
         display: none !important;
     }
     .mobile-toggle {
         display: flex !important;
+        padding: 6px 4px;
+        margin-left: 2px;
+        flex-shrink: 0;
     }
     
+    /* Hilangkan tombol Portal di header mobile di SEMUA halaman karena sudah ada di bottom tabbar & subbar */
+    .btn-client-portal,
+    .site-header .btn-client-portal,
+    .cockpit-header .btn-client-portal,
+    .header-actions .btn-client-portal,
+    .cockpit-header-actions .btn-client-portal {
+        display: none !important;
+    }
+
     /* Header & Action Button Sizing */
     .site-header {
         height: 54px !important;
@@ -3284,21 +3350,49 @@ section {
         height: 54px !important;
     }
     .header-container {
-        padding: 0 14px;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
-    .logo-text {
-        font-size: 1.25rem;
+    .logo-link {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+        min-width: 0;
     }
-    .logo-icon {
-        width: 34px;
-        height: 34px;
-    }
-    .site-header .logo-icon {
-        width: 34px;
-        height: 34px;
-    }
+    .logo-text,
     .site-header .logo-text {
-        font-size: 1.25rem;
+        font-size: 1.2rem;
+        white-space: nowrap;
+    }
+    .logo-icon,
+    .site-header .logo-icon {
+        width: 30px;
+        height: 30px;
+        flex-shrink: 0;
+    }
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-shrink: 0;
+    }
+    .language-switcher,
+    .lang-switcher {
+        display: flex;
+        padding: 2px;
+        gap: 2px;
+    }
+    .language-switcher .lang-btn,
+    .lang-switcher .lang-btn {
+        padding: 3px 8px;
+        font-size: 0.72rem;
     }
     .mobile-nav-overlay {
         top: 54px;
@@ -5495,16 +5589,43 @@ body.cockpit-locked .sidebar-box:hover .box-label {
         height: 54px;
         padding: 0 14px;
         margin-right: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
     }
     
+    .cockpit-brand {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+        min-width: 0;
+    }
+
+    .cockpit-brand img.logo-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .cockpit-brand .logo-text {
+        font-size: 1.25rem;
+        white-space: nowrap;
+    }
+
     .desktop-status-chip {
         display: none !important;
     }
     
-    /* Hilangkan tombol Portal Klien di header mobile karena sudah ada di mobile-subbar di bawahnya */
-    .cockpit-header .btn-client-portal,
-    .cockpit-header-actions .btn-client-portal {
+    .cockpit-nav-segments {
         display: none !important;
+    }
+
+    .cockpit-header-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
     }
     
     .cockpit-security-badges {
@@ -5520,55 +5641,63 @@ body.cockpit-locked .sidebar-box:hover .box-label {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 6px 14px;
+        padding: 6px 12px;
         background: rgba(0, 24, 48, 0.98);
         border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         flex-shrink: 0;
         z-index: 80;
-        gap: 8px;
+        gap: 6px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        flex-wrap: nowrap;
+    }
+
+    .cockpit-mobile-subbar::-webkit-scrollbar {
+        display: none;
     }
     
     .mobile-sla-chip {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        font-size: 0.7rem;
+        gap: 5px;
+        font-size: 0.65rem;
         font-weight: 600;
         color: #34d399;
         background: rgba(16, 185, 129, 0.12);
-        padding: 2px 8px;
+        padding: 2px 7px;
         border-radius: 9999px;
         border: 1px solid rgba(16, 185, 129, 0.25);
         cursor: pointer;
         text-decoration: none;
         white-space: nowrap;
+        flex-shrink: 0;
     }
     
     .mobile-subbar-divider {
         color: rgba(255, 255, 255, 0.2);
-        font-size: 0.7rem;
+        font-size: 0.65rem;
+        flex-shrink: 0;
     }
     
     .mobile-legal-chip {
         display: inline-flex;
         align-items: center;
-        gap: 5px;
+        gap: 4px;
         color: #93c5fd;
-        font-size: 0.65rem;
+        font-size: 0.62rem;
         font-weight: 600;
         cursor: pointer;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        flex-shrink: 1;
+        min-width: 0;
     }
     
     .mobile-legal-chip svg {
         color: #38bdf8;
         flex-shrink: 0;
-    }
-    
-    .cockpit-nav-segments {
-        display: none;
     }
     
     .cockpit-main {
@@ -6972,8 +7101,13 @@ body.cockpit-locked .sidebar-box.box-chat:hover {
     background: rgba(255, 255, 255, 0.25);
 }
 
-/* Live Chat Responsive & Display Rules */
+/* Live Chat & Bottom Navigation Responsive & Display Rules */
 @media (min-width: 901px) {
+    /* Sembunyikan bottom tabbar di desktop */
+    .cockpit-mobile-tabbar {
+        display: none !important;
+    }
+
     /* Pada halaman awal desktop (cockpit-locked), launcher chat melayang dihilangkan karena sudah ada di samping kanan (quick sidebar dock) */
     body.cockpit-locked #chat-launcher-btn {
         display: none !important;
@@ -6997,32 +7131,60 @@ body.cockpit-locked .sidebar-box.box-chat:hover {
 }
 
 @media (max-width: 900px) {
-    /* Pada halaman awal mobile, posisikan floating launcher rapi di atas bottom tabbar */
-    body.cockpit-locked .meldir-chat-widget-wrapper {
-        bottom: 68px;
-        right: 14px;
+    /* Sembunyikan floating button chat di SEMUA halaman pada mobile karena sudah ada tab Chat di bottom tabbar */
+    #chat-launcher-btn {
+        display: none !important;
     }
-}
 
-@media (max-width: 600px) {
     .meldir-chat-widget-wrapper {
-        bottom: 14px;
-        right: 14px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        pointer-events: none;
+        z-index: 10000;
     }
-    body.cockpit-locked .meldir-chat-widget-wrapper {
-        bottom: 68px;
-        right: 14px;
+
+    .meldir-chat-widget-wrapper.active {
+        pointer-events: auto;
     }
+
     .chat-panel-card {
         position: fixed;
-        bottom: 12px;
-        left: 12px;
-        right: 12px;
+        bottom: 64px; /* Tepat di atas bottom tabbar (56px + gap) */
+        left: 10px;
+        right: 10px;
         width: auto;
         max-width: none;
-        height: 78vh;
-        max-height: none;
-        border-radius: 16px;
+        height: calc(85vh - 64px);
+        max-height: 580px;
+        border-radius: 18px;
+        box-shadow: 0 10px 40px rgba(0, 15, 35, 0.45);
+        pointer-events: auto;
+        z-index: 10001;
+    }
+
+    /* Fixed bottom navigation for normal scrolling pages */
+    body:not(.cockpit-locked) .cockpit-mobile-tabbar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 56px;
+        background: #002244;
+        border-top: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 -4px 20px rgba(0, 20, 45, 0.35);
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 0 4px;
+    }
+
+    body:not(.cockpit-locked) {
+        padding-bottom: 64px !important;
     }
 }
 
