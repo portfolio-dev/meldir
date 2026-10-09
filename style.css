@@ -3635,7 +3635,10 @@ section {
             display: none !important;
         }
         
-        .desktop-wrapper, .tablet-wrapper, .mobile-wrapper, .watch-wrapper {
+        .devices-showcase-container .desktop-wrapper,
+        .devices-showcase-container .tablet-wrapper,
+        .devices-showcase-container .mobile-wrapper,
+        .devices-showcase-container .watch-wrapper {
             display: flex !important;
             flex: 0 0 100% !important;
             width: 100% !important;
@@ -6089,21 +6092,22 @@ body.cockpit-locked .sidebar-box:hover .box-label {
     }
     
     .gadget-card {
-        padding: 8px 6px 10px 6px !important;
+        padding: 8px 6px 8px 6px !important;
         border-radius: 12px !important;
         background: #ffffff !important;
         border: 1px solid rgba(0, 96, 175, 0.16) !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
-        justify-content: flex-start !important;
+        justify-content: center !important;
+        gap: 2px !important;
         cursor: pointer !important;
         box-shadow: 0 2px 6px rgba(0, 34, 68, 0.04) !important;
         box-sizing: border-box !important;
         width: 100% !important;
-        min-height: 120px !important;
+        min-height: 108px !important;
         height: 100% !important;
-        overflow: visible !important;
+        overflow: hidden !important;
         transition: transform 0.15s ease, border-color 0.15s ease !important;
     }
     
@@ -6117,56 +6121,76 @@ body.cockpit-locked .sidebar-box:hover .box-label {
         align-items: center !important;
         justify-content: center !important;
         width: 100% !important;
-        height: 44px !important;
-        flex-shrink: 0 !important;
+        height: 38px !important;
+        max-height: 38px !important;
+        flex: 0 0 38px !important;
+        margin: 0 0 2px 0 !important;
+        padding: 0 !important;
         overflow: visible !important;
     }
     
-    .g-device-pc,
-    .g-device-tablet,
-    .g-device-phone,
+    .g-device-pc {
+        transform: translateY(-2px) scale(0.78) !important;
+        transform-origin: center center !important;
+        flex-shrink: 0 !important;
+    }
+
+    .g-device-tablet {
+        transform: translateY(-3px) scale(0.76) !important;
+        transform-origin: center center !important;
+        flex-shrink: 0 !important;
+    }
+
+    .g-device-phone {
+        transform: translateY(-2px) scale(0.78) !important;
+        transform-origin: center center !important;
+        flex-shrink: 0 !important;
+    }
+
     .g-device-watch {
-        transform: scale(0.82) !important;
+        transform: translateY(-3px) scale(0.78) !important;
         transform-origin: center center !important;
         flex-shrink: 0 !important;
     }
     
     .gadget-meta {
-        margin-top: 4px !important;
+        margin: 0 !important;
+        padding: 0 2px !important;
         text-align: center !important;
         width: 100% !important;
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
-        gap: 2px !important;
-        box-sizing: border-box !important;
-        padding: 0 2px !important;
-        flex: 1 !important;
         justify-content: center !important;
+        gap: 1px !important;
+        box-sizing: border-box !important;
+        flex: 0 0 auto !important;
     }
     
     .gadget-name {
-        font-size: 0.72rem !important;
+        font-size: 0.70rem !important;
         font-weight: 750 !important;
         color: #0f172a !important;
         display: block !important;
         white-space: normal !important;
         word-break: normal !important;
-        line-height: 1.25 !important;
+        line-height: 1.2 !important;
         text-align: center !important;
         width: 100% !important;
+        margin: 0 !important;
     }
     
     .gadget-desc {
-        font-size: 0.62rem !important;
+        font-size: 0.60rem !important;
         font-weight: 500 !important;
         color: #64748b !important;
         display: block !important;
         white-space: normal !important;
         word-break: normal !important;
-        line-height: 1.25 !important;
+        line-height: 1.2 !important;
         text-align: center !important;
         width: 100% !important;
+        margin: 0 !important;
     }
 
     /* 4. Live Metrics Row on Mobile */
