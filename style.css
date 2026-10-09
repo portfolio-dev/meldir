@@ -6085,10 +6085,11 @@ body.cockpit-locked .sidebar-box:hover .box-label {
         gap: 10px !important;
         width: 100% !important;
         box-sizing: border-box !important;
+        align-items: stretch !important;
     }
     
     .gadget-card {
-        padding: 10px 8px 12px 8px !important;
+        padding: 8px 6px 10px 6px !important;
         border-radius: 12px !important;
         background: #ffffff !important;
         border: 1px solid rgba(0, 96, 175, 0.16) !important;
@@ -6100,8 +6101,9 @@ body.cockpit-locked .sidebar-box:hover .box-label {
         box-shadow: 0 2px 6px rgba(0, 34, 68, 0.04) !important;
         box-sizing: border-box !important;
         width: 100% !important;
-        min-height: 110px !important;
-        overflow: hidden !important;
+        min-height: 120px !important;
+        height: 100% !important;
+        overflow: visible !important;
         transition: transform 0.15s ease, border-color 0.15s ease !important;
     }
     
@@ -6115,22 +6117,22 @@ body.cockpit-locked .sidebar-box:hover .box-label {
         align-items: center !important;
         justify-content: center !important;
         width: 100% !important;
-        height: 52px !important;
+        height: 44px !important;
         flex-shrink: 0 !important;
-        overflow: hidden !important;
+        overflow: visible !important;
     }
     
     .g-device-pc,
     .g-device-tablet,
     .g-device-phone,
     .g-device-watch {
-        transform: scale(0.90) !important;
+        transform: scale(0.82) !important;
         transform-origin: center center !important;
         flex-shrink: 0 !important;
     }
     
     .gadget-meta {
-        margin-top: 6px !important;
+        margin-top: 4px !important;
         text-align: center !important;
         width: 100% !important;
         display: flex !important;
@@ -6139,6 +6141,8 @@ body.cockpit-locked .sidebar-box:hover .box-label {
         gap: 2px !important;
         box-sizing: border-box !important;
         padding: 0 2px !important;
+        flex: 1 !important;
+        justify-content: center !important;
     }
     
     .gadget-name {
