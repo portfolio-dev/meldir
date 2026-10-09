@@ -822,16 +822,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    checkHashRoute();
-    window.addEventListener('hashchange', checkHashRoute);
-
-    if (window.location.hash.toLowerCase() === '#audit') {
-        openLeadModal();
-    }
-    if (window.location.hash.toLowerCase() === '#chat') {
-        openLiveChat();
-    }
-
     // --- 11. Meldir Live Chat Online System with Pre-Chat Onboarding ---
     const chatWrapper = document.getElementById('meldir-chat-widget');
     const chatLauncher = document.getElementById('chat-launcher-btn');
@@ -1035,9 +1025,25 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             const topic = btn.getAttribute('data-chat-topic') || null;
-            openLiveChat(topic);
+            if (chatWrapper && chatWrapper.classList.contains('active') && !topic) {
+                closeLiveChat();
+            } else {
+                openLiveChat(topic);
+            }
         });
     });
+
+    function handleHashAction() {
+        if (typeof checkHashRoute === 'function') checkHashRoute();
+        const hash = window.location.hash.toLowerCase();
+        if (hash === '#audit') {
+            if (typeof openLeadModal === 'function') openLeadModal();
+        } else if (hash === '#chat') {
+            openLiveChat();
+        }
+    }
+    handleHashAction();
+    window.addEventListener('hashchange', handleHashAction);
 
     chatChips.forEach(chip => {
         chip.addEventListener('click', () => {

@@ -5501,6 +5501,12 @@ body.cockpit-locked .sidebar-box:hover .box-label {
         display: none !important;
     }
     
+    /* Hilangkan tombol Portal Klien di header mobile karena sudah ada di mobile-subbar di bawahnya */
+    .cockpit-header .btn-client-portal,
+    .cockpit-header-actions .btn-client-portal {
+        display: none !important;
+    }
+    
     .cockpit-security-badges {
         display: none !important;
     }
@@ -6966,10 +6972,45 @@ body.cockpit-locked .sidebar-box.box-chat:hover {
     background: rgba(255, 255, 255, 0.25);
 }
 
-/* Mobile responsive */
+/* Live Chat Responsive & Display Rules */
+@media (min-width: 901px) {
+    /* Pada halaman awal desktop (cockpit-locked), launcher chat melayang dihilangkan karena sudah ada di samping kanan (quick sidebar dock) */
+    body.cockpit-locked #chat-launcher-btn {
+        display: none !important;
+    }
+
+    body.cockpit-locked .meldir-chat-widget-wrapper {
+        bottom: 24px;
+        right: 76px; /* Offset dari dock akses cepat samping kanan (14px + 44px + gap) */
+        pointer-events: none;
+    }
+
+    body.cockpit-locked .meldir-chat-widget-wrapper.active {
+        pointer-events: auto;
+    }
+
+    body.cockpit-locked .chat-panel-card {
+        bottom: 0;
+        right: 0;
+        pointer-events: auto;
+    }
+}
+
+@media (max-width: 900px) {
+    /* Pada halaman awal mobile, posisikan floating launcher rapi di atas bottom tabbar */
+    body.cockpit-locked .meldir-chat-widget-wrapper {
+        bottom: 68px;
+        right: 14px;
+    }
+}
+
 @media (max-width: 600px) {
     .meldir-chat-widget-wrapper {
         bottom: 14px;
+        right: 14px;
+    }
+    body.cockpit-locked .meldir-chat-widget-wrapper {
+        bottom: 68px;
         right: 14px;
     }
     .chat-panel-card {
