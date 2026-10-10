@@ -536,6 +536,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const drawerTriggers = document.querySelectorAll('[data-drawer]');
     const drawerCloseBtns = document.querySelectorAll('.drawer-close-btn, [data-close-drawer]');
     const segmentBtns = document.querySelectorAll('.cockpit-segment-btn');
+    const mobileTabItems = document.querySelectorAll('.cockpit-tab-item');
     const overviewBtns = document.querySelectorAll('[data-target="overview"]');
 
     function openCockpitDrawer(drawerId) {
@@ -727,10 +728,225 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && leadModal && leadModal.classList.contains('active')) {
-            closeLeadModal();
+        if (e.key === 'Escape') {
+            if (leadModal && leadModal.classList.contains('active')) closeLeadModal();
+            if (slaModal && slaModal.classList.contains('active')) closeSlaModal();
+            if (secModal && secModal.classList.contains('active')) closeSecurityDetailModal();
         }
     });
+
+    // --- 10B. SLA 99.9% Educational Modal Controller ---
+    const slaModal = document.getElementById('sla-detail-modal');
+    const slaTriggers = document.querySelectorAll('[data-modal="sla-detail-modal"]');
+    const slaCloseBtns = document.querySelectorAll('[data-close-sla-modal]');
+
+    function openSlaModal() {
+        if (!slaModal) return;
+        slaModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSlaModal() {
+        if (!slaModal) return;
+        slaModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    slaTriggers.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openSlaModal();
+        });
+    });
+
+    slaCloseBtns.forEach(btn => {
+        btn.addEventListener('click', closeSlaModal);
+    });
+
+    if (slaModal) {
+        slaModal.addEventListener('click', (e) => {
+            if (e.target === slaModal) closeSlaModal();
+        });
+    }
+
+    // --- 10C. 12 Standar Keamanan & Legalitas Educational Modal Controller ---
+    const secModal = document.getElementById('security-detail-modal');
+    const secCloseBtns = document.querySelectorAll('[data-close-sec-modal]');
+    const secModalCat = document.getElementById('sec-modal-category');
+    const secModalBadge = document.getElementById('sec-modal-badge');
+    const secModalTitle = document.getElementById('sec-modal-title');
+    const secModalDesc = document.getElementById('sec-modal-desc');
+    const secModalImpl = document.getElementById('sec-modal-impl');
+    const secModalBenefit = document.getElementById('sec-modal-benefit');
+    const secModalTip = document.getElementById('sec-modal-tip');
+    const secModalChatBtn = document.getElementById('sec-modal-chat-btn');
+
+    const securityStandardsData = {
+        'ssl-grade-a': {
+            category: 'Keamanan Data & Jaringan',
+            title: 'Enkripsi SSL/TLS Grade A+',
+            badge: 'Transmisi Data 256-bit',
+            desc: 'Semua lalu lintas data antara browser pengunjung dan server aplikasi diacak menggunakan protokol enkripsi kriptografi TLS 1.3 standar perbankan. Ini memastikan tidak ada pihak ketiga di jaringan Wi-Fi publik, ISP, atau penyadap yang bisa mengintip (eavesdropping) atau menyadap data sensitif.',
+            impl: 'Meldir mengonfigurasi cipher suite modern (ECDHE-ECDSA-AES256-GCM), mengaktifkan HSTS (HTTP Strict Transport Security), OCSP Stapling, dan Perfect Forward Secrecy (PFS), menghasilkan skor evaluasi keamanan Grade A+ resmi pada uji Qualys SSL Labs.',
+            benefit: 'Mencegah pencurian kredensial akun, data kartu/pembayaran, dan manipulasi konten (Man-in-the-Middle attack). Membangun rasa aman seketika bagi pelanggan dengan ikon gembok aman di browser.',
+            tip: 'Sertifikat SSL gratisan tanpa konfigurasi cipher yang tepat sering kali masih rentan terhadap downgrade attack ke protokol lama. Meldir memastikan proteksi TLS 1.3 murni tanpa celah warisan.',
+            chatTopic: 'Konsultasi Enkripsi SSL Grade A+ & Keamanan Jaringan'
+        },
+        'hashing-password': {
+            category: 'Kriptografi & Autentikasi',
+            title: 'Hashing Kriptografis Password',
+            badge: 'Bcrypt & Argon2 Kuat',
+            desc: 'Kata sandi pengguna maupun staf internal TIDAK PERNAH disimpan dalam bentuk teks biasa (plain-text). Melalui proses hashing satu arah dengan garam acak (cryptographic salt), kata sandi diubah menjadi deretan karakter acak yang mustahil dikembalikan ke teks aslinya.',
+            impl: 'Meldir menerapkan algoritma pemenang kompetisi kriptografi dunia yaitu Argon2id atau Bcrypt dengan work-factor (cost) terkalibrasi tinggi, mencegah peretasan via rainbow tables atau serangan brute-force berbasis GPU superkomputer.',
+            benefit: 'Sekalipun terjadi skenario terburuk di mana database aplikasi bocor atau diretas, penyerang tetap tidak dapat membaca kata sandi pengguna atau pimpinan perusahaan Anda.',
+            tip: 'Jangan pernah mempercayakan aplikasi bisnis pada vendor yang masih menggunakan MD5 atau SHA1, karena algoritma tersebut sudah dapat ditembus dalam hitungan detik menggunakan kamus peretas modern.',
+            chatTopic: 'Konsultasi Standar Hashing Password & Autentikasi'
+        },
+        'cloud-backup': {
+            category: 'Ketahanan Infrastruktur',
+            title: 'Pencadangan Cloud Otomatis',
+            badge: 'Snapshot Harian Terisolasi',
+            desc: 'Sistem pencadangan otomatis tanpa henti yang menyalin seluruh basis data, aset media, dan konfigurasi server ke media penyimpanan awan (cloud storage) terpisah secara terjadwal setiap hari.',
+            impl: 'Snapshot terenkripsi AES-256 dibuat otomatis setiap tengah malam dan disimpan pada bucket off-site terpisah dengan retention policy 30 hari. Uji integritas restorasi data dijalankan secara berkala untuk memastikan backup selalu valid.',
+            benefit: 'Kekebalan mutlak dari risiko kehilangan data akibat kerusakan hardware server, kesalahan manusia (human error/salah hapus staf), serangan ransomware, atau kegagalan penyedia hosting.',
+            tip: 'Banyak sistem memiliki backup tetapi tidak pernah diuji restore-nya sehingga saat darurat file backup ternyata korup. Meldir secara rutin melakukan gladi simulasi pemulihan data (backup restore drill).',
+            chatTopic: 'Konsultasi Solusi Backup Otomatis & Cloud Storage'
+        },
+        'disaster-recovery': {
+            category: 'Kelangsungan Bisnis (BCP)',
+            title: 'Disaster Recovery Cepat',
+            badge: 'RTO Minimal & Pemulihan',
+            desc: 'Protokol pemulihan darurat sistem (Disaster Recovery) yang dirancang untuk membangkitkan kembali seluruh ekosistem aplikasi dari nol ke server baru dalam hitungan menit saat terjadi insiden katastropik.',
+            impl: 'Meldir menggunakan Infrastructure as Code (IaC) dan kontainerisasi Docker/Kubernetes. Seluruh arsitektur sistem dapat direkonstruksi secara otomatis dengan target RTO (Recovery Time Objective) < 30 menit dan RPO (Recovery Point Objective) < 24 jam.',
+            benefit: 'Meminimalkan downtime operasional bisnis dari yang semula bisa memakan waktu berhari-hari menjadi hitungan menit. Bisnis, kasir, dan layanan pelanggan Anda dapat segera pulih melayani transaksi.',
+            tip: 'Tanpa rencana Disaster Recovery tertulis, pemulihan server yang rusak sering kali memicu kepanikan dan hilangnya data transaksi penting yang belum sempat terekam.',
+            chatTopic: 'Konsultasi Perencanaan Disaster Recovery & High Availability'
+        },
+        'owasp-audit': {
+            category: 'Keamanan Kode Aplikasi',
+            title: 'Audit Celah Standar OWASP',
+            badge: 'Anti SQLi, XSS & CSRF',
+            desc: 'Standar audit pengujian keamanan kode mengacu pada standar global OWASP Top 10 (Open Web Application Security Project), yaitu daftar 10 celah keamanan siber paling kritis yang sering dieksploitasi peretas di dunia.',
+            impl: 'Setiap modul kode diuji terhadap SQL Injection (menggunakan parameterized queries/ORM ketat), Cross-Site Scripting (output encoding DOM & Sanitizer), Cross-Site Request Forgery (anti-CSRF tokens & SameSite cookies), dan Broken Access Control.',
+            benefit: 'Menutup pintu masuk utama yang paling sering dimanfaatkan hacker untuk mencuri data pengguna, memanipulasi database penjualan, atau menyusupkan script malware ke dalam sistem Anda.',
+            tip: 'Audit OWASP Meldir mencakup pengujian statis (SAST) pada kode sumber dan pengujian dinamis (DAST) pada endpoint API sebelum sistem dirilis ke produksi.',
+            chatTopic: 'Konsultasi Audit Keamanan OWASP Top 10'
+        },
+        'routine-patching': {
+            category: 'Pemeliharaan Server & DevSecOps',
+            title: 'Penambalan Kerentanan Rutin',
+            badge: 'Patching Server Cepat',
+            desc: 'Proses proaktif untuk memperbarui sistem operasi server, database engine, runtime aplikasi, dan pustaka kode eksternal (third-party dependencies) sesegera mungkin saat celah keamanan baru (CVE) ditemukan.',
+            impl: 'Pemindaian kerentanan CVE mingguan dan pembaruan dependensi otomatis via tools audit keamanan (Dependabot, Snyk, Trivy). Pembaruan kernel OS dan pustaka keamanan diaplikasikan tanpa menyebabkan downtime aplikasi.',
+            benefit: 'Mencegah eksploitasi celah zero-day dan celah publik yang sering diserang oleh bot peretas otomatis yang berkeliaran mencari server dengan versi software kadaluarsa di internet.',
+            tip: 'Lebih dari 80% kasus peretasan web di Indonesia terjadi bukan karena hacker jenius, melainkan karena server menggunakan software lawas yang tidak pernah di-patch selama berbulan-bulan.',
+            chatTopic: 'Konsultasi Layanan Pemeliharaan & Patching Rutin'
+        },
+        'waf-security': {
+            category: 'Proteksi Perimeter Lapisan 7',
+            title: 'Web Application Firewall (WAF)',
+            badge: 'Filter Lalu Lintas Lapis 7',
+            desc: 'Dinding pelindung cerdas di lapisan aplikasi (OSI Layer 7) yang menganalisis setiap paket permintaan data pengunjung sebelum diizinkan menyentuh server inti aplikasi bisnis Anda.',
+            impl: 'Penyaringan lalu lintas menggunakan ruleset WAF mutakhir untuk mendeteksi payload berbahaya, web scraper ilegal, percobaan exploit, dan anomali perilaku trafik secara real-time di jaringan Cloudflare Enterprise / Cloud Edge.',
+            benefit: 'Mengeliminasi hingga 65% beban trafik liar pada server, menolak serangan injeksi otomatis, dan melindungi aplikasi web dari eksploitasi celah baru sebelum patch server sempat dipasang.',
+            tip: 'WAF berfungsi seperti pos satpam cerdas di gerbang depan gedung bisnis Anda: memeriksa identitas dan barang bawaan setiap tamu sebelum masuk ke dalam kantor.',
+            chatTopic: 'Konsultasi Pemasangan Web Application Firewall'
+        },
+        'anti-ddos': {
+            category: 'Ketahanan Jaringan & Trafik',
+            title: 'Mitigasi Anti-DDoS & Bot Jahat',
+            badge: 'Blokir Anomali & Scraping',
+            desc: 'Sistem pertahanan terdistribusi untuk meredam serangan banjir trafik buatan (Distributed Denial of Service) dan bot berbahaya yang bertujuan membuat server kewalahan, hang, atau kehabisan memori.',
+            impl: 'Penerapan rate-limiting adaptif pada endpoint login dan API publik, IP reputation scoring, serta tantangan CAPTCHA pintar berbasis JavaScript tersembunyi yang tidak mengganggu pengunjung manusia asli.',
+            benefit: 'Memastikan situs dan sistem operasional bisnis Anda tetap responsif dan lancar digunakan oleh staf serta pelanggan asli, bahkan saat kompetitor curang atau peretas mencoba membanjiri server Anda.',
+            tip: 'Serangan DDoS skala kecil sering kali tidak mematikan server sepenuhnya, namun membuat aplikasi sangat lambat sehingga pelanggan membatalkan pembelian mereka.',
+            chatTopic: 'Konsultasi Proteksi Anti-DDoS & Rate Limiting'
+        },
+        'audit-trail': {
+            category: 'Kepatuhan & Tata Kelola Data',
+            title: 'Activity Log & Audit Trail',
+            badge: 'Rekam Jejak Mutlak',
+            desc: 'Sistem pencatatan kronologis yang tidak dapat diubah (immutable logs) atas setiap aktivitas, transaksi, perubahan konfigurasi, dan modifikasi data yang terjadi di dalam aplikasi.',
+            impl: 'Pencatatan menyeluruh meliputi ID pengguna, timestamp UTC presisi, alamat IP asal, jenis aksi (CREATE/UPDATE/DELETE), serta snapshot data sebelum dan sesudah perubahan disimpan ke tabel audit terdedikasi.',
+            benefit: 'Mencegah kecurangan internal (fraud staf), memberikan bukti sah saat terjadi sengketa transaksi, dan memenuhi persyaratan audit kepatuhan hukum transaksi digital perbankan dan ISO 27001.',
+            tip: 'Audit trail yang baik harus bersifat append-only: bahkan pengguna dengan level admin tertinggi pun tidak boleh memiliki tombol untuk menghapus rekam jejak log aktivitas.',
+            chatTopic: 'Konsultasi Implementasi Audit Trail & Log Transaksi'
+        },
+        'legal-nda': {
+            category: 'Kepastian Hukum & Kerahasiaan',
+            title: 'Klausul Kerahasiaan (NDA)',
+            badge: 'Hukum Sah & Mengikat',
+            desc: 'Perjanjian kerahasiaan formal (Non-Disclosure Agreement) yang diikat secara legal di hadapan hukum Republik Indonesia untuk melindungi ide produk, rahasia dagang, dan data pelanggan bisnis Anda.',
+            impl: 'Meldir beroperasi resmi di bawah perseroan terbatas PT Melayani Digital Raya (NIB 0709260111296, SK Kemenkumham AHU-A104016.AH.01.30.Tahun 2026). Setiap kerja sama dipayungi SPK dan NDA bermaterai resmi.',
+            benefit: 'Jaminan perlindungan hukum perdata dan pidana bahwa kode sumber, database rahasia, data pelanggan, dan formula bisnis Anda tidak akan pernah dibocorkan atau dijual kepada pihak ketiga.',
+            tip: 'Bekerja sama dengan freelancer lepas perorangan tanpa badan hukum resmi membuat Anda sulit menuntut pertanggungjawaban hukum jika sewaktu-waktu data atau ide bisnis Anda dicuri.',
+            chatTopic: 'Konsultasi Legalitas PT & Perjanjian NDA Resmi'
+        },
+        'copyright-ip': {
+            category: 'Hak Kekayaan Intelektual (HAKI)',
+            title: '100% Hak Cipta & Source Code',
+            badge: 'Hak Milik Sah Klien',
+            desc: 'Prinsip kepemilikan mutlak di mana seluruh kode sumber (source code), skrip arsitektur, dan hak kekayaan intelektual aplikasi diserahkan sepenuhnya menjadi milik klien tanpa biaya sewa lisensi tersembunyi.',
+            impl: 'Penyerahan penuh melalui Berita Acara Serah Terima (BAST), repositori privat Git mandiri, akses penuh akun cloud provider, serta dokumentasi deployment lengkap pasca-proyek selesai.',
+            benefit: 'Bebas dari vendor lock-in! Anda memiliki kendali 100% atas aset teknologi Anda. Anda bebas melanjutkan pengembangan dengan tim internal Anda sendiri kapan saja di masa depan.',
+            tip: 'Banyak vendor software menerapkan model sewa lisensi tahunan sehingga jika Anda berhenti berlangganan, seluruh sistem dan data Anda disandera dan tidak bisa dipakai lagi. Meldir tidak pernah menerapkan vendor lock-in.',
+            chatTopic: 'Konsultasi Kepemilikan Hak Cipta & Serah Terima Source Code'
+        },
+        'rbac-access': {
+            category: 'Keamanan Identitas & Akses',
+            title: 'Kontrol Akses Bertingkat (RBAC)',
+            badge: 'Izin Granular & 2FA',
+            desc: 'Pemberian hak akses secara selektif berbasis peran kerja (Role-Based Access Control) dan otentikasi ganda (Two-Factor Authentication / 2FA) untuk memastikan setiap akun hanya dapat membuka data yang diizinkan baginya.',
+            impl: 'Arsitektur pemisahan hak izin granular (Owner, Manager, Staf Kasir, Auditor, Klien Luar). Sesi login dilindungi token JWT aman, token refresh rotasi, dan integrasi TOTP Authenticator (Google Authenticator).',
+            benefit: 'Mencegah staf operasional melihat laporan keuangan rahasia direksi, mencegah kasir memanipulasi master stok/harga, serta mengamankan akun dari pembobolan akibat kata sandi staf yang bocor.',
+            tip: 'Penerapan prinsip "Least Privilege" (hak akses minimum yang diperlukan untuk bekerja) adalah pilar pertahanan terpenting dalam mencegah kebocoran data internal perusahaan.',
+            chatTopic: 'Konsultasi Konfigurasi RBAC & Keamanan 2FA'
+        }
+    };
+
+    function openSecurityDetailModal(securityId) {
+        if (!secModal) return;
+        const data = securityStandardsData[securityId];
+        if (!data) return;
+
+        if (secModalCat) secModalCat.textContent = data.category;
+        if (secModalBadge) secModalBadge.textContent = data.badge;
+        if (secModalTitle) secModalTitle.textContent = data.title;
+        if (secModalDesc) secModalDesc.textContent = data.desc;
+        if (secModalImpl) secModalImpl.textContent = data.impl;
+        if (secModalBenefit) secModalBenefit.textContent = data.benefit;
+        if (secModalTip) secModalTip.textContent = data.tip;
+        if (secModalChatBtn) {
+            secModalChatBtn.setAttribute('data-chat-topic', data.chatTopic || 'Konsultasi Standar Keamanan');
+        }
+
+        secModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeSecurityDetailModal() {
+        if (!secModal) return;
+        secModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('[data-security-id]').forEach(el => {
+        el.addEventListener('click', (e) => {
+            e.preventDefault();
+            const secId = el.getAttribute('data-security-id');
+            openSecurityDetailModal(secId);
+        });
+    });
+
+    secCloseBtns.forEach(btn => {
+        btn.addEventListener('click', closeSecurityDetailModal);
+    });
+
+    if (secModal) {
+        secModal.addEventListener('click', (e) => {
+            if (e.target === secModal) closeSecurityDetailModal();
+        });
+    }
 
     if (leadForm) {
         leadForm.addEventListener('submit', async (e) => {

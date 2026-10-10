@@ -16,6 +16,7 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#002244">
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
@@ -69,7 +70,7 @@
             <a href="./" class="cockpit-brand" id="logo-link" aria-label="Meldir Beranda">
                 <img src="icons/icon-192.png" alt="meldir.id logo" class="logo-icon">
                 <span class="logo-text">meldir<span class="logo-dot">.id</span></span>
-                <div class="cockpit-status-chip desktop-status-chip">
+                <div class="cockpit-status-chip desktop-status-chip" data-modal="sla-detail-modal" role="button" tabindex="0" style="cursor: pointer;" title="Pelajari Standar &amp; Jaminan SLA 99.9%">
                     <span class="cockpit-status-dot"></span>
                     <span data-id="SLA 99.9% / Operasional" data-en="SLA 99.9% / Operational">SLA 99.9% / Operasional</span>
                 </div>
@@ -128,7 +129,7 @@
 
         <!-- Mobile Status & Legal Subbar (Visible only on mobile <= 900px, placed in the open space directly below navbar) -->
         <div class="cockpit-mobile-subbar" id="cockpit-mobile-subbar">
-            <div class="mobile-sla-chip" data-drawer="drawer-services" role="button" tabindex="0" aria-label="Status SLA">
+            <div class="mobile-sla-chip" data-modal="sla-detail-modal" role="button" tabindex="0" aria-label="Pelajari Penjelasan SLA 99.9%">
                 <span class="cockpit-status-dot"></span>
                 <span data-id="SLA 99.9%" data-en="99.9% SLA">SLA 99.9%</span>
             </div>
@@ -158,7 +159,7 @@
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                         </svg>
-                        <span data-id="Mitra Rekayasa Web &amp; Aplikasi Mobile • Berbadan Hukum PT Resmi" data-en="Web &amp; Mobile App Engineering Partner • Official Legal Entity">Mitra Rekayasa Web &amp; Aplikasi Mobile • Berbadan Hukum PT Resmi</span>
+                        <span data-id="Mitra Rekayasa Web &amp; Aplikasi Mobile" data-en="Web &amp; Mobile App Engineering Partner">Mitra Rekayasa Web &amp; Aplikasi Mobile</span>
                     </div>
 
                     <!-- Main Headline -->
@@ -229,7 +230,7 @@
 
                         <div class="sec-rows-container">
                             <!-- Row 1 -->
-                            <div class="sec-row-item">
+                            <div class="sec-row-item clickable" data-security-id="ssl-grade-a" data-modal="security-detail-modal" role="button" tabindex="0" title="Pelajari Standar Enkripsi SSL/TLS Grade A+">
                                 <div class="sec-row-left">
                                     <span class="sec-row-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
                                     <span class="sec-row-title" data-id="Enkripsi SSL/TLS Grade A+" data-en="Grade A+ SSL/TLS Encryption">Enkripsi SSL/TLS Grade A+</span>
@@ -237,7 +238,7 @@
                                 <span class="sec-row-badge" data-id="Transmisi Data 256-bit" data-en="256-bit Data Transit">Transmisi Data 256-bit</span>
                             </div>
                             <!-- Row 2 -->
-                            <div class="sec-row-item">
+                            <div class="sec-row-item clickable" data-security-id="hashing-password" data-modal="security-detail-modal" role="button" tabindex="0" title="Pelajari Standar Hashing Kriptografis Password">
                                 <div class="sec-row-left">
                                     <span class="sec-row-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 2l-2 2m-1.5 1.5L16 7m-1.5 1.5L13 10m-1.5 1.5L10 13m-1.5 1.5L7 16m-1.5 1.5L4 19m-2 2l2-2"/><circle cx="7.5" cy="7.5" r="4.5"/></svg></span>
                                     <span class="sec-row-title" data-id="Hashing Kriptografis Password" data-en="Cryptographic Password Hashing">Hashing Kriptografis Password</span>
@@ -245,7 +246,7 @@
                                 <span class="sec-row-badge" data-id="Bcrypt &amp; Argon2 Kuat" data-en="Bcrypt &amp; Argon2">Bcrypt &amp; Argon2 Kuat</span>
                             </div>
                             <!-- Row 3 -->
-                            <div class="sec-row-item">
+                            <div class="sec-row-item clickable" data-security-id="cloud-backup" data-modal="security-detail-modal" role="button" tabindex="0" title="Pelajari Standar Pencadangan Cloud Otomatis">
                                 <div class="sec-row-left">
                                     <span class="sec-row-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></span>
                                     <span class="sec-row-title" data-id="Pencadangan Cloud Otomatis" data-en="Automated Cloud Backup">Pencadangan Cloud Otomatis</span>
@@ -253,7 +254,7 @@
                                 <span class="sec-row-badge" data-id="Snapshot Harian Terisolasi" data-en="Daily Isolated Snapshots">Snapshot Harian Terisolasi</span>
                             </div>
                             <!-- Row 4 -->
-                            <div class="sec-row-item">
+                            <div class="sec-row-item clickable" data-security-id="disaster-recovery" data-modal="security-detail-modal" role="button" tabindex="0" title="Pelajari Standar Disaster Recovery Cepat">
                                 <div class="sec-row-left">
                                     <span class="sec-row-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg></span>
                                     <span class="sec-row-title" data-id="Disaster Recovery Cepat" data-en="Rapid Disaster Recovery">Disaster Recovery Cepat</span>
@@ -261,7 +262,7 @@
                                 <span class="sec-row-badge" data-id="RTO Minimal &amp; Pemulihan" data-en="Minimal RTO &amp; Restore">RTO Minimal &amp; Pemulihan</span>
                             </div>
                             <!-- Row 5 -->
-                            <div class="sec-row-item">
+                            <div class="sec-row-item clickable" data-security-id="owasp-audit" data-modal="security-detail-modal" role="button" tabindex="0" title="Pelajari Standar Audit Celah OWASP">
                                 <div class="sec-row-left">
                                     <span class="sec-row-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg></span>
                                     <span class="sec-row-title" data-id="Audit Celah Standar OWASP" data-en="OWASP Vulnerability Audit">Audit Celah Standar OWASP</span>
@@ -269,7 +270,7 @@
                                 <span class="sec-row-badge" data-id="Anti SQLi, XSS &amp; CSRF" data-en="Anti SQLi, XSS &amp; CSRF">Anti SQLi, XSS &amp; CSRF</span>
                             </div>
                             <!-- Row 6 -->
-                            <div class="sec-row-item">
+                            <div class="sec-row-item clickable" data-security-id="routine-patching" data-modal="security-detail-modal" role="button" tabindex="0" title="Pelajari Standar Penambalan Kerentanan Rutin">
                                 <div class="sec-row-left">
                                     <span class="sec-row-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span>
                                     <span class="sec-row-title" data-id="Penambalan Kerentanan Rutin" data-en="Routine Vulnerability Patching">Penambalan Kerentanan Rutin</span>
@@ -277,7 +278,7 @@
                                 <span class="sec-row-badge" data-id="Patching Server Cepat" data-en="Rapid Server Patching">Patching Server Cepat</span>
                             </div>
                             <!-- Row 7 -->
-                            <div class="sec-row-item">
+                            <div class="sec-row-item clickable" data-security-id="waf-security" data-modal="security-detail-modal" role="button" tabindex="0" title="Pelajari Standar Web Application Firewall">
                                 <div class="sec-row-left">
                                     <span class="sec-row-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></span>
                                     <span class="sec-row-title" data-id="Web Application Firewall (WAF)" data-en="Web App Firewall (WAF)">Web Application Firewall (WAF)</span>
@@ -285,7 +286,7 @@
                                 <span class="sec-row-badge" data-id="Filter Lalu Lintas Lapis 7" data-en="Layer 7 Traffic Filter">Filter Lalu Lintas Lapis 7</span>
                             </div>
                             <!-- Row 8 -->
-                            <div class="sec-row-item">
+                            <div class="sec-row-item clickable" data-security-id="anti-ddos" data-modal="security-detail-modal" role="button" tabindex="0" title="Pelajari Standar Mitigasi Anti-DDoS &amp; Bot">
                                 <div class="sec-row-left">
                                     <span class="sec-row-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></span>
                                     <span class="sec-row-title" data-id="Mitigasi Anti-DDoS &amp; Bot Jahat" data-en="Anti-DDoS &amp; Bot Mitigation">Mitigasi Anti-DDoS &amp; Bot Jahat</span>
@@ -293,7 +294,7 @@
                                 <span class="sec-row-badge" data-id="Blokir Anomali &amp; Scraping" data-en="Block Scraping &amp; Attacks">Blokir Anomali &amp; Scraping</span>
                             </div>
                             <!-- Row 9 -->
-                            <div class="sec-row-item">
+                            <div class="sec-row-item clickable" data-security-id="audit-trail" data-modal="security-detail-modal" role="button" tabindex="0" title="Pelajari Standar Activity Log &amp; Audit Trail">
                                 <div class="sec-row-left">
                                     <span class="sec-row-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg></span>
                                     <span class="sec-row-title" data-id="Activity Log &amp; Audit Trail" data-en="Activity Log &amp; Audit Trail">Activity Log &amp; Audit Trail</span>
@@ -301,7 +302,7 @@
                                 <span class="sec-row-badge" data-id="Rekam Jejak Mutlak" data-en="Immutable Event Trail">Rekam Jejak Mutlak</span>
                             </div>
                             <!-- Row 10 -->
-                            <div class="sec-row-item">
+                            <div class="sec-row-item clickable" data-security-id="legal-nda" data-modal="security-detail-modal" role="button" tabindex="0" title="Pelajari Standar Klausul Kerahasiaan (NDA)">
                                 <div class="sec-row-left">
                                     <span class="sec-row-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
                                     <span class="sec-row-title" data-id="Klausul Kerahasiaan (NDA)" data-en="Non-Disclosure Agreement">Klausul Kerahasiaan (NDA)</span>
@@ -309,7 +310,7 @@
                                 <span class="sec-row-badge" data-id="Hukum Sah &amp; Mengikat" data-en="Legally Binding">Hukum Sah &amp; Mengikat</span>
                             </div>
                             <!-- Row 11 -->
-                            <div class="sec-row-item">
+                            <div class="sec-row-item clickable" data-security-id="copyright-ip" data-modal="security-detail-modal" role="button" tabindex="0" title="Pelajari Standar Hak Cipta 100% Milik Klien">
                                 <div class="sec-row-left">
                                     <span class="sec-row-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M15 9.354a4 4 0 1 0 0 5.292"/></svg></span>
                                     <span class="sec-row-title" data-id="100% Hak Cipta &amp; Source Code" data-en="100% Client IP &amp; Source Code">100% Hak Cipta &amp; Source Code</span>
@@ -317,7 +318,7 @@
                                 <span class="sec-row-badge" data-id="Hak Milik Sah Klien" data-en="Full Client Ownership">Hak Milik Sah Klien</span>
                             </div>
                             <!-- Row 12 -->
-                            <div class="sec-row-item">
+                            <div class="sec-row-item clickable" data-security-id="rbac-access" data-modal="security-detail-modal" role="button" tabindex="0" title="Pelajari Standar Kontrol Akses Bertingkat (RBAC)">
                                 <div class="sec-row-left">
                                     <span class="sec-row-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
                                     <span class="sec-row-title" data-id="Kontrol Akses Bertingkat (RBAC)" data-en="Role Access Control (RBAC)">Kontrol Akses Bertingkat (RBAC)</span>
@@ -1424,6 +1425,165 @@
                 <div style="font-size: 0.78rem; color: #64748b; margin-top: 6px;">
                     <a href="#" id="lead-wa-direct-link" target="_blank" rel="noopener noreferrer" style="color: #64748b; text-decoration: underline;">Atau kirim salinan ke WhatsApp operasional</a>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLA 99.9% EDUCATIONAL MODAL ==================== -->
+    <div class="lead-modal-backdrop" id="sla-detail-modal" role="dialog" aria-modal="true" aria-labelledby="sla-modal-title">
+        <div class="lead-modal-card sla-modal-card">
+            <div class="lead-modal-header">
+                <div>
+                    <span class="lead-modal-badge" style="background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.25);">
+                        <span class="cockpit-status-dot"></span>
+                        <span data-id="Jaminan Tingkat Layanan • Service Level Agreement" data-en="Service Level Agreement Guarantee">Jaminan Tingkat Layanan • Service Level Agreement</span>
+                    </span>
+                    <h3 class="lead-modal-title" id="sla-modal-title" data-id="Apa Maksud &amp; Garansi SLA 99.9% Meldir?" data-en="What is Meldir's 99.9% SLA Guarantee?">Apa Maksud &amp; Garansi SLA 99.9% Meldir?</h3>
+                    <p class="lead-modal-desc" data-id="Pengetahuan teknis dan komitmen hukum ketersediaan server bagi pemilik bisnis, instansi &amp; startup." data-en="Technical insight and legal commitment of server uptime for business owners, institutions &amp; startups.">Pengetahuan teknis dan komitmen hukum ketersediaan server bagi pemilik bisnis, instansi &amp; startup.</p>
+                </div>
+                <button type="button" class="lead-modal-close" data-close-sla-modal aria-label="Tutup Modal">✕</button>
+            </div>
+
+            <div class="sla-modal-body">
+                <!-- 1. Definisi Edukatif -->
+                <div class="edu-card">
+                    <div class="edu-card-header">
+                        <span class="edu-icon">📖</span>
+                        <h4 class="edu-title" data-id="1. Apa itu SLA (Service Level Agreement)?" data-en="1. What is an SLA (Service Level Agreement)?">1. Apa itu SLA (Service Level Agreement)?</h4>
+                    </div>
+                    <p class="edu-text" data-id="Service Level Agreement (SLA) adalah kontrak jaminan resmi tertulis antara Meldir (penyedia teknologi) dan Anda (klien). Kontrak ini menetapkan batas minimum keandalan, waktu tanggap penanganan kendala, dan ketersediaan aplikasi agar bisnis Anda tidak dirugikan akibat sistem mati mendadak." data-en="A Service Level Agreement (SLA) is a formal written guarantee contract between Meldir and you. It establishes minimum thresholds of reliability, response times, and application availability so your business operations are protected from unexpected downtime.">
+                        <strong>Service Level Agreement (SLA)</strong> adalah kontrak jaminan resmi tertulis antara Meldir (penyedia teknologi) dan Anda (klien). Kontrak ini menetapkan batas minimum keandalan, waktu tanggap penanganan kendala, dan ketersediaan aplikasi agar bisnis Anda tidak dirugikan akibat sistem mati mendadak.
+                    </p>
+                </div>
+
+                <!-- 2. Uptime 99.9% Metrics -->
+                <div class="edu-card highlight">
+                    <div class="edu-card-header">
+                        <span class="edu-icon">⏱️</span>
+                        <h4 class="edu-title" data-id="2. Berapa Lama Toleransi Downtime 99.9%?" data-en="2. How Much Downtime is Allowed under 99.9%?">2. Berapa Lama Toleransi Downtime 99.9%?</h4>
+                    </div>
+                    <p class="edu-text" data-id="Uptime 99.9% ('Three Nines') adalah standar baku enterprise. Dalam 1 bulan (720 jam), total toleransi gangguan server maksimal hanya ±43 menit (biasanya hanya untuk rilis pembaruan atau patch tengah malam)." data-en="99.9% Uptime ('Three Nines') is the enterprise standard. In 1 month (720 hours), maximum allowed outage is only ±43 minutes (primarily for scheduled midnight maintenance or security patches).">
+                        Uptime <strong>99.9% ("Three Nines")</strong> adalah standar baku enterprise. Dalam 1 bulan (720 jam), total toleransi gangguan server maksimal hanya <strong>±43 menit</strong> (biasanya hanya untuk rilis pembaruan atau patch tengah malam).
+                    </p>
+                    <div class="sla-calc-grid">
+                        <div class="sla-calc-item">
+                            <span class="sla-calc-label" data-id="Batas Harian" data-en="Daily Limit">Batas Harian</span>
+                            <span class="sla-calc-val">Maks. 1,4 menit</span>
+                        </div>
+                        <div class="sla-calc-item">
+                            <span class="sla-calc-label" data-id="Batas Bulanan" data-en="Monthly Limit">Batas Bulanan</span>
+                            <span class="sla-calc-val">Maks. 43,8 menit</span>
+                        </div>
+                        <div class="sla-calc-item">
+                            <span class="sla-calc-label" data-id="Batas Tahunan" data-en="Annual Limit">Batas Tahunan</span>
+                            <span class="sla-calc-val">Maks. 8,76 jam</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Kenapa Penting bagi Bisnis -->
+                <div class="edu-card">
+                    <div class="edu-card-header">
+                        <span class="edu-icon">💡</span>
+                        <h4 class="edu-title" data-id="3. Mengapa Ini Penting bagi Pemilik Bisnis?" data-en="3. Why is This Crucial for Business Owners?">3. Mengapa Ini Penting bagi Pemilik Bisnis?</h4>
+                    </div>
+                    <ul class="edu-list">
+                        <li><strong data-id="Mencegah Kehilangan Omzet:" data-en="Prevent Revenue Loss:">Mencegah Kehilangan Omzet:</strong> <span data-id="Kasir toko, web e-commerce, atau sistem logistik yang down 1 jam saja saat jam sibuk dapat memicu kerugian jutaan hingga ratusan juta rupiah." data-en="An outage of 1 hour in a POS, e-commerce, or logistics app during peak hours causes immediate revenue loss.">Kasir toko, web e-commerce, atau sistem logistik yang down 1 jam saja saat jam sibuk dapat memicu kerugian jutaan hingga ratusan juta rupiah.</span></li>
+                        <li><strong data-id="Menjaga Reputasi Brand:" data-en="Preserve Brand Reputation:">Menjaga Reputasi Brand:</strong> <span data-id="Aplikasi yang sering error atau loading lama membuat pelanggan kecewa dan beralih ke kompetitor Anda." data-en="Buggy or unresponsive apps lead customers to switch to your competitors.">Aplikasi yang sering error atau loading lama membuat pelanggan kecewa dan beralih ke kompetitor Anda.</span></li>
+                        <li><strong data-id="Kepastian Penanganan &amp; Tanggung Jawab:" data-en="Accountability &amp; Response Guarantee:">Kepastian Penanganan &amp; Tanggung Jawab:</strong> <span data-id="Vendor biasa tanpa SLA sering kali menghilang atau lambat merespons saat server mati. Tim Meldir terikat kontrak SPK resmi dengan respon tanggap &lt; 15 menit." data-en="Regular freelancers often disappear during outages. Meldir is legally bound by contract with incident response &lt; 15 minutes.">Vendor biasa tanpa SLA sering kali menghilang atau lambat merespons saat server mati. Tim Meldir terikat kontrak SPK resmi dengan respon tanggap &lt; 15 menit.</span></li>
+                    </ul>
+                </div>
+
+                <!-- 4. 4 Pilar Pengawasan Meldir -->
+                <div class="edu-pillars-grid">
+                    <div class="edu-pillar-item">
+                        <span class="edu-pillar-icon">📡</span>
+                        <h5 data-id="Monitoring 24/7" data-en="24/7 Monitoring">Monitoring 24/7</h5>
+                        <p data-id="Pemeriksaan otomatis status server tiap 60 detik dari 5 zona benua." data-en="Automated server health checks every 60 seconds from 5 global zones.">Pemeriksaan otomatis status server tiap 60 detik dari 5 zona benua.</p>
+                    </div>
+                    <div class="edu-pillar-item">
+                        <span class="edu-pillar-icon">⚡</span>
+                        <h5 data-id="Auto-Failover" data-en="Auto-Failover">Auto-Failover</h5>
+                        <p data-id="Pengalihan beban instan jika node server utama mendadak mengalami kendala." data-en="Instant traffic rerouting if primary server nodes experience hiccups.">Pengalihan beban instan jika node server utama mendadak mengalami kendala.</p>
+                    </div>
+                    <div class="edu-pillar-item">
+                        <span class="edu-pillar-icon">🛡️</span>
+                        <h5 data-id="Backup Multi-Region" data-en="Multi-Region Backup">Backup Multi-Region</h5>
+                        <p data-id="Cadangan snapshot terisolasi harian siap dipulihkan cepat (RTO &lt; 30 menit)." data-en="Daily isolated encrypted snapshots ready for rapid disaster recovery (RTO &lt; 30 min).">Cadangan snapshot terisolasi harian siap dipulihkan cepat (RTO &lt; 30 menit).</p>
+                    </div>
+                    <div class="edu-pillar-item">
+                        <span class="edu-pillar-icon">📜</span>
+                        <h5 data-id="Kompensasi SPK" data-en="Contractual Credits">Kompensasi SPK</h5>
+                        <p data-id="Jaminan ganti rugi kredit tagihan jika performa uptime di bawah 99.9%." data-en="Service credit guarantees if uptime ever falls below 99.9%.">Jaminan ganti rugi kredit tagihan jika performa uptime di bawah 99.9%.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lead-modal-footer" style="margin-top: 16px; display: flex; gap: 8px;">
+                <button type="button" class="btn btn-outline" data-close-sla-modal style="flex: 1;">Tutup</button>
+                <button type="button" class="btn btn-primary" data-open-chat data-chat-topic="Konsultasi Kontrak SLA 99.9% &amp; Maintenance Server" style="flex: 2;">Konsultasi SLA untuk Sistem Anda</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== 12 STANDAR KEAMANAN & LEGALITAS EDUCATIONAL MODAL ==================== -->
+    <div class="lead-modal-backdrop" id="security-detail-modal" role="dialog" aria-modal="true" aria-labelledby="sec-modal-title">
+        <div class="lead-modal-card sec-detail-card">
+            <div class="lead-modal-header">
+                <div>
+                    <div class="sec-modal-badge-wrapper">
+                        <span class="sec-modal-cat-pill" id="sec-modal-category">Standar Keamanan Siber</span>
+                        <span class="sec-modal-sub-badge" id="sec-modal-badge">Transmisi Data 256-bit</span>
+                    </div>
+                    <h3 class="lead-modal-title" id="sec-modal-title">Enkripsi SSL/TLS Grade A+</h3>
+                </div>
+                <button type="button" class="lead-modal-close" data-close-sec-modal aria-label="Tutup Modal">✕</button>
+            </div>
+
+            <div class="sec-modal-body">
+                <!-- Definisi & Makna -->
+                <div class="sec-info-section">
+                    <div class="sec-section-label">
+                        <span class="sec-icon">📘</span>
+                        <span>Maksud &amp; Pemahaman Standar</span>
+                    </div>
+                    <p class="sec-section-text" id="sec-modal-desc">
+                        Penjelasan maksud dan konsep dasar standar ini...
+                    </p>
+                </div>
+
+                <!-- Cara Meldir Menerapkannya -->
+                <div class="sec-info-section accent-blue">
+                    <div class="sec-section-label">
+                        <span class="sec-icon">⚙️</span>
+                        <span>Bagaimana Meldir Menerapkannya</span>
+                    </div>
+                    <p class="sec-section-text" id="sec-modal-impl">
+                        Implementasi arsitektur nyata di level kode dan server oleh tim Meldir...
+                    </p>
+                </div>
+
+                <!-- Manfaat bagi Klien -->
+                <div class="sec-info-section accent-green">
+                    <div class="sec-section-label">
+                        <span class="sec-icon">🛡️</span>
+                        <span>Manfaat Perlindungan untuk Bisnis Klien</span>
+                    </div>
+                    <p class="sec-section-text" id="sec-modal-benefit">
+                        Risiko kerugian yang dicegah serta dampak positif bagi bisnis Anda...
+                    </p>
+                </div>
+
+                <!-- Tips Edukasi -->
+                <div class="sec-tip-box" id="sec-modal-tip-container">
+                    <span class="sec-tip-icon">💡</span>
+                    <span class="sec-tip-text" id="sec-modal-tip">Tips keamanan penting...</span>
+                </div>
+            </div>
+
+            <div class="lead-modal-footer" style="margin-top: 16px; display: flex; gap: 8px;">
+                <button type="button" class="btn btn-outline" data-close-sec-modal style="flex: 1;">Tutup</button>
+                <button type="button" class="btn btn-primary" id="sec-modal-chat-btn" data-open-chat style="flex: 2;">Konsultasi Penerapan Standar Ini</button>
             </div>
         </div>
     </div>
