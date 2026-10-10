@@ -715,9 +715,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    if (leadModalClose) {
-        leadModalClose.addEventListener('click', closeLeadModal);
-    }
+    const leadCloseBtns = document.querySelectorAll('#lead-modal-close-btn, [data-close-lead-modal], #lead-audit-modal .lead-modal-close');
+    leadCloseBtns.forEach(btn => {
+        btn.addEventListener('click', closeLeadModal);
+    });
 
     if (leadModal) {
         leadModal.addEventListener('click', (e) => {
