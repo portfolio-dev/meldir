@@ -1397,7 +1397,8 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- Register Service Worker dengan Auto-Update System ---
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
+        const swUrl = window.location.origin ? (window.location.origin + '/sw.js') : '/sw.js';
+        navigator.serviceWorker.register(swUrl)
             .then(reg => {
                 // Selalu cek versi terbaru dari server saat halaman dimuat
                 reg.update();

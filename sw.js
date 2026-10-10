@@ -1,7 +1,12 @@
-const CACHE_NAME = 'meldir-v2026.10.10';
+const CACHE_NAME = 'meldir-v2026.10.10.3';
 const STATIC_ASSETS = [
   './',
   'index.html',
+  'service/',
+  'support/',
+  'privacy/',
+  'terms/',
+  'refund/',
   'style.css',
   'app.js',
   'manifest.json',

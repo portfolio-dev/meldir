@@ -3798,7 +3798,9 @@ body.cockpit-locked {
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     color: #ffffff;
-    z-index: 100;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .cockpit-brand {
@@ -3885,6 +3887,10 @@ body.cockpit-locked {
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .cockpit-segment-btn:hover {
@@ -5164,8 +5170,9 @@ button.gadgets-header-action:hover {
     gap: 7px;
 }
 
-/* --- Floating Quick Action Dock on Desktop (Cockpit Mode) --- */
-body.cockpit-locked .bca-quick-sidebar {
+/* --- Floating Quick Action Dock on Desktop (Cockpit Mode & Subpage Dock) --- */
+body.cockpit-locked .bca-quick-sidebar,
+body.has-quick-dock .bca-quick-sidebar {
     position: fixed;
     right: 14px;
     top: 50%;
@@ -5181,13 +5188,31 @@ body.cockpit-locked .bca-quick-sidebar {
     overflow: visible;
 }
 
-body.cockpit-locked .sidebar-track {
+body.cockpit-locked .sidebar-track,
+body.cockpit-locked .sidebar-container,
+body.has-quick-dock .sidebar-track,
+body.has-quick-dock .sidebar-container {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-body.cockpit-locked .sidebar-box {
+/* Subpage integration with fixed mobile header and desktop quick dock */
+@media (min-width: 901px) {
+    body.has-quick-dock:not(.cockpit-locked) {
+        padding-right: 58px;
+    }
+}
+
+@media (max-width: 900px) {
+    body.has-quick-dock:not(.cockpit-locked),
+    body.legal-page {
+        padding-top: 94px !important;
+    }
+}
+
+body.cockpit-locked .sidebar-box,
+body.has-quick-dock .sidebar-box {
     width: 44px;
     height: 44px;
     border-radius: 12px;
@@ -5211,7 +5236,8 @@ body.cockpit-locked .sidebar-box {
     transform: none !important;
 }
 
-body.cockpit-locked .sidebar-box:hover {
+body.cockpit-locked .sidebar-box:hover,
+body.has-quick-dock .sidebar-box:hover {
     background: #0060af;
     color: #ffffff;
     border-color: #0060af;
@@ -5219,32 +5245,37 @@ body.cockpit-locked .sidebar-box:hover {
     box-shadow: 0 6px 20px rgba(0, 96, 175, 0.35);
 }
 
-body.cockpit-locked .sidebar-box.box-wa {
+body.cockpit-locked .sidebar-box.box-wa,
+body.has-quick-dock .sidebar-box.box-wa {
     color: #16a34a;
     border-color: rgba(22, 163, 74, 0.3);
 }
 
-body.cockpit-locked .sidebar-box.box-wa:hover {
+body.cockpit-locked .sidebar-box.box-wa:hover,
+body.has-quick-dock .sidebar-box.box-wa:hover {
     background: #16a34a;
     color: #ffffff;
     border-color: #16a34a;
     transform: none !important;
 }
 
-body.cockpit-locked .sidebar-box.box-portal {
-    background: #0284c7;
-    border-color: #0284c7;
-    color: #ffffff;
+body.cockpit-locked .sidebar-box.box-portal,
+body.has-quick-dock .sidebar-box.box-portal {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(2, 132, 199, 0.3);
+    color: #0284c7;
 }
 
-body.cockpit-locked .sidebar-box.box-portal:hover {
-    background: #0369a1;
-    border-color: #0369a1;
+body.cockpit-locked .sidebar-box.box-portal:hover,
+body.has-quick-dock .sidebar-box.box-portal:hover {
+    background: #0284c7;
+    border-color: #0284c7;
     color: #ffffff;
     transform: none !important;
 }
 
-body.cockpit-locked .box-icon {
+body.cockpit-locked .box-icon,
+body.has-quick-dock .box-icon {
     width: 22px;
     height: 22px;
     display: flex;
@@ -5255,12 +5286,14 @@ body.cockpit-locked .box-icon {
     transition: none !important;
 }
 
-body.cockpit-locked .sidebar-box:hover .box-icon {
+body.cockpit-locked .sidebar-box:hover .box-icon,
+body.has-quick-dock .sidebar-box:hover .box-icon {
     transform: none !important;
 }
 
 /* Tooltip label muncul rapi ke sebelah KIRI saat icon disentuh pointer */
-body.cockpit-locked .box-label {
+body.cockpit-locked .box-label,
+body.has-quick-dock .box-label {
     position: absolute;
     right: 52px;
     top: 50%;
@@ -5283,7 +5316,8 @@ body.cockpit-locked .box-label {
     order: unset;
 }
 
-body.cockpit-locked .box-label::after {
+body.cockpit-locked .box-label::after,
+body.has-quick-dock .box-label::after {
     content: '';
     position: absolute;
     right: -5px;
@@ -5294,7 +5328,8 @@ body.cockpit-locked .box-label::after {
     border-color: transparent transparent transparent #002244;
 }
 
-body.cockpit-locked .sidebar-box:hover .box-label {
+body.cockpit-locked .sidebar-box:hover .box-label,
+body.has-quick-dock .sidebar-box:hover .box-label {
     opacity: 1;
     visibility: visible;
     transform: translateY(-50%) translateX(0);
@@ -7452,12 +7487,14 @@ body.cockpit-locked .sidebar-box.box-portal:hover {
     box-shadow: 0 6px 20px rgba(0, 96, 175, 0.4);
 }
 
-body.cockpit-locked .sidebar-box.box-chat {
+body.cockpit-locked .sidebar-box.box-chat,
+body.has-quick-dock .sidebar-box.box-chat {
     color: #0060af;
     border-color: rgba(0, 96, 175, 0.3);
 }
 
-body.cockpit-locked .sidebar-box.box-chat:hover {
+body.cockpit-locked .sidebar-box.box-chat:hover,
+body.has-quick-dock .sidebar-box.box-chat:hover {
     background: #0060af;
     color: #ffffff;
     border-color: #0060af;

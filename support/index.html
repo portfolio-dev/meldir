@@ -25,123 +25,96 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap"
         rel="stylesheet">
 
+    <!-- HTTP Cache-Control: Memastikan browser selalu meminta versi terbaru dari server -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
     <!-- CSS Stylesheet -->
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style.css?v=20261010-03">
 </head>
 
-<body class="legal-page">
+<body class="legal-page has-quick-dock">
 
-    <!-- Header Section -->
-    <header class="site-header" id="site-header">
-        <div class="header-container">
-            <a href="../" class="logo-link" id="logo-link">
-                <img src="../icons/icon-192.png" alt="meldir.id logo" class="logo-icon">
-                <span class="logo-text">meldir<span class="logo-dot">.id</span></span>
+    <!-- ==================== 1. TOP EXECUTIVE HEADER BAR ==================== -->
+    <header class="cockpit-header" id="site-header">
+        <!-- Brand & Verified Status -->
+        <a href="../" class="cockpit-brand" id="logo-link" aria-label="Meldir Beranda">
+            <img src="../icons/icon-192.png" alt="meldir.id logo" class="logo-icon">
+            <span class="logo-text">meldir<span class="logo-dot">.id</span></span>
+            <div class="cockpit-status-chip desktop-status-chip" data-modal="sla-detail-modal" role="button" tabindex="0" style="cursor: pointer;" title="Pelajari Standar &amp; Jaminan SLA 99.9%">
+                <span class="cockpit-status-dot"></span>
+                <span data-id="SLA 99.9% / Operasional" data-en="SLA 99.9% / Operational">SLA 99.9% / Operasional</span>
+            </div>
+        </a>
+
+        <!-- Cockpit Segmented Switcher (Center) -->
+        <nav class="cockpit-nav-segments" id="nav-menu" aria-label="Navigasi Utama">
+            <a href="../" class="cockpit-segment-btn">
+                <span data-id="Ikhtisar" data-en="Overview">Ikhtisar</span>
+            </a>
+            <a href="../service/" class="cockpit-segment-btn">
+                <span data-id="Layanan" data-en="Services">Layanan</span>
+            </a>
+            <a href="../#security" class="cockpit-segment-btn">
+                <span data-id="Legal &amp; Keamanan" data-en="Legal &amp; Security">Legal &amp; Keamanan</span>
+            </a>
+            <a href="../#workflow" class="cockpit-segment-btn">
+                <span data-id="Alur Kerja" data-en="Workflow">Alur Kerja</span>
+            </a>
+            <a href="../support/" class="cockpit-segment-btn active">
+                <span data-id="Bantuan" data-en="Support">Bantuan</span>
+            </a>
+        </nav>
+
+        <!-- Header Actions -->
+        <div class="cockpit-header-actions">
+            <!-- Portal Klien Button (Direct Access to portal.meldir.id) -->
+            <a href="https://portal.meldir.id" class="btn-client-portal" target="_blank" rel="noopener noreferrer" title="Area Akses Resmi Klien Meldir">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+                <span data-id="Portal Klien" data-en="Client Portal">Portal Klien</span>
             </a>
 
-            <!-- Desktop Navigation -->
-            <nav class="nav-menu" id="nav-menu">
-                <ul>
-                    <li><a href="../#hero" class="nav-item" data-id="Beranda" data-en="Home">Beranda</a></li>
-                    <li class="nav-dropdown-wrapper">
-                        <a href="../service/" class="nav-item has-dropdown">
-                            <span data-id="Layanan" data-en="Services">Layanan</span>
-                            <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-                        </a>
-                        <div class="nav-dropdown-menu">
-                            <a href="../service/#development" class="dropdown-item">
-                                <div class="dropdown-icon">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                                </div>
-                                <div class="dropdown-text">
-                                    <span class="dropdown-title" data-id="Pengembangan Baru" data-en="Custom Development">Pengembangan Baru</span>
-                                    <span class="dropdown-desc" data-id="Website kustom &amp; Web App (PWA)" data-en="Custom websites &amp; Web Apps (PWA)">Website kustom &amp; Web App (PWA)</span>
-                                </div>
-                            </a>
-                            <a href="../service/#maintenance" class="dropdown-item">
-                                <div class="dropdown-icon">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                                </div>
-                                <div class="dropdown-text">
-                                    <span class="dropdown-title" data-id="Pemeliharaan &amp; SLA" data-en="Maintenance &amp; SLA">Pemeliharaan &amp; SLA</span>
-                                    <span class="dropdown-desc" data-id="Monitoring server &amp; tanggap 24 jam" data-en="Server monitoring &amp; 24h response">Monitoring server &amp; tanggap 24 jam</span>
-                                </div>
-                            </a>
-                            <a href="../service/#development" class="dropdown-item">
-                                <div class="dropdown-icon">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-                                </div>
-                                <div class="dropdown-text">
-                                    <span class="dropdown-title" data-id="Modernisasi &amp; Scaling" data-en="Modernization &amp; Scaling">Modernisasi &amp; Scaling</span>
-                                    <span class="dropdown-desc" data-id="Refactoring kode &amp; fitur baru" data-en="Code refactoring &amp; new features">Refactoring kode &amp; fitur baru</span>
-                                </div>
-                            </a>
-                            <a href="../service/#development" class="dropdown-item">
-                                <div class="dropdown-icon">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                                </div>
-                                <div class="dropdown-text">
-                                    <span class="dropdown-title" data-id="Aplikasi Mobile &amp; PWA" data-en="Mobile Apps &amp; PWA">Aplikasi Mobile &amp; PWA</span>
-                                    <span class="dropdown-desc" data-id="Rilis Android, iOS &amp; Play Store" data-en="Android, iOS &amp; Play Store release">Rilis Android, iOS &amp; Play Store</span>
-                                </div>
-                            </a>
-                        </div>
-                    </li>
-                    <li><a href="../#portfolio" class="nav-item" data-id="Portofolio" data-en="Portfolio">Portofolio</a>
-                    </li>
-                    <li><a href="../#social" class="nav-item" data-id="Sosial" data-en="Social">Sosial</a></li>
-                    <li><a href="../#workflow" class="nav-item" data-id="Cara Kerja" data-en="Workflow">Cara Kerja</a>
-                    </li>
-                </ul>
-            </nav>
+            <!-- PWA Install Button -->
+            <button id="pwa-install-btn" class="pwa-btn hidden" aria-label="Instal Aplikasi" title="Instal Aplikasi">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                <span data-id="Instal Aplikasi" data-en="Install App">Instal Aplikasi</span>
+            </button>
 
-            <div class="header-actions">
-                <!-- Portal Klien Button (Direct Access to portal.meldir.id) -->
-                <a href="https://portal.meldir.id" class="btn-client-portal" target="_blank" rel="noopener noreferrer" title="Area Akses Resmi Klien Meldir">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                    </svg>
-                    <span data-id="Portal Klien" data-en="Client Portal">Portal Klien</span>
-                </a>
-
-                <!-- PWA Install Button -->
-                <button id="pwa-install-btn" class="pwa-btn hidden" aria-label="Instal Aplikasi" title="Instal Aplikasi">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                        <polyline points="7 10 12 15 17 10" />
-                        <line x1="12" y1="15" x2="12" y2="3" />
-                    </svg>
-                    <span data-id="Instal Aplikasi" data-en="Install App">Instal Aplikasi</span>
-                </button>
-
-                <!-- Language Switcher -->
-                <div class="language-switcher">
-                    <button class="lang-btn active" id="lang-id-btn" aria-label="Switch to Indonesian">ID</button>
-                    <button class="lang-btn" id="lang-en-btn" aria-label="Switch to English">EN</button>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </button>
+            <!-- Language Switcher -->
+            <div class="lang-switcher">
+                <button class="lang-btn active" id="lang-id-btn" aria-label="Pilih Bahasa Indonesia">ID</button>
+                <button class="lang-btn" id="lang-en-btn" aria-label="Switch to English">EN</button>
             </div>
         </div>
     </header>
 
-    <!-- Mobile Nav Overlay -->
-    <div class="mobile-nav-overlay" id="mobile-nav-overlay">
-        <nav class="mobile-nav-links">
-            <a href="../#hero" class="mobile-nav-item" data-id="Beranda" data-en="Home">Beranda</a>
-            <a href="../service/" class="mobile-nav-item" data-id="Layanan" data-en="Services">Layanan</a>
-            <a href="../#portfolio" class="mobile-nav-item" data-id="Portofolio" data-en="Portfolio">Portofolio</a>
-            <a href="../#social" class="mobile-nav-item" data-id="Sosial" data-en="Social">Sosial</a>
-            <a href="../#workflow" class="mobile-nav-item" data-id="Cara Kerja" data-en="Workflow">Cara Kerja</a>
-            <a href="https://portal.meldir.id" class="mobile-nav-item" target="_blank" rel="noopener noreferrer" style="color: #0060af; font-weight: 700;">🔐 Portal Klien</a>
-        </nav>
+    <!-- Mobile Status & Legal Subbar (Visible only on mobile <= 900px, placed in the open space directly below navbar) -->
+    <div class="cockpit-mobile-subbar" id="cockpit-mobile-subbar">
+        <div class="mobile-sla-chip" data-modal="sla-detail-modal" role="button" tabindex="0" aria-label="Pelajari Penjelasan SLA 99.9%">
+            <span class="cockpit-status-dot"></span>
+            <span data-id="SLA 99.9%" data-en="99.9% SLA">SLA 99.9%</span>
+        </div>
+        <a href="../#security" class="mobile-legal-chip" aria-label="Badan Hukum PT Resmi">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span data-id="PT Resmi" data-en="Official PT">PT Resmi</span>
+        </a>
+        <a href="https://portal.meldir.id" class="mobile-portal-chip" target="_blank" rel="noopener noreferrer" aria-label="Portal Klien">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <span data-id="Portal Klien" data-en="Client Portal">Portal Klien</span>
+        </a>
     </div>
 
     <!-- Mini Hero Banner -->
@@ -384,7 +357,7 @@
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                         <polyline points="9 12 11 14 15 10"/>
                     </svg>
-                    <span data-id="SK Kemenkum: AHU | Nomor Induk Berusaha | NPWP Badan" data-en="Ministry Decree: AHU | Business ID (NIB) | Corporate Tax ID">SK Kemenkum: AHU | Nomor Induk Berusaha | NPWP Badan</span>
+                    <span data-id="NIB 0709260111296 | SK Kemenkum AHU-A104016.AH.01.30.Tahun 2026 | NPWP 1000000010364543" data-en="NIB 0709260111296 | Ministry Decree AHU-A104016.AH.01.30.Tahun 2026 | NPWP 1000000010364543">NIB 0709260111296 | SK Kemenkum AHU-A104016.AH.01.30.Tahun 2026 | NPWP 1000000010364543</span>
                 </div>
             </div>
             <div class="footer-links">
@@ -584,8 +557,289 @@
         </div>
     </div>
 
+    <!-- ==================== FLOATING QUICK ACTION DOCK (RIGHT EDGE) ==================== -->
+    <aside class="bca-quick-sidebar" id="bca-quick-sidebar" aria-label="Akses Cepat Meldir">
+        <div class="sidebar-track">
+            <!-- Live Chat Online Box -->
+            <button type="button" class="sidebar-box box-chat" data-open-chat aria-label="Live Chat Online">
+                <span class="box-label" data-id="Live Chat Online" data-en="Live Chat Online">Live Chat Online</span>
+                <div class="box-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </div>
+            </button>
+
+            <!-- Audit Sistem Gratis Box -->
+            <button type="button" class="sidebar-box" data-modal="lead-audit-modal" aria-label="Audit Sistem Gratis">
+                <span class="box-label" data-id="Audit Sistem Gratis" data-en="Free System Audit">Audit Sistem Gratis</span>
+                <div class="box-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"/>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                </div>
+            </button>
+
+            <!-- Layanan Box -->
+            <a href="../service/" class="sidebar-box" aria-label="Akses Layanan">
+                <span class="box-label" data-id="Solusi &amp; Layanan" data-en="Solutions &amp; Services">Solusi &amp; Layanan</span>
+                <div class="box-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3" />
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                    </svg>
+                </div>
+            </a>
+
+            <!-- Dokumen Legal Box -->
+            <a href="../#security" class="sidebar-box" aria-label="Kontrak &amp; Garansi SPK">
+                <span class="box-label" data-id="Kontrak &amp; Garansi SPK" data-en="Contracts &amp; SPK Warranty">Kontrak &amp; Garansi SPK</span>
+                <div class="box-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                        <polyline points="10 9 9 9 8 9" />
+                    </svg>
+                </div>
+            </a>
+
+            <!-- Portal Klien Box (Official Client Gateway) -->
+            <a href="https://portal.meldir.id" class="sidebar-box box-portal" target="_blank" rel="noopener noreferrer" aria-label="Portal Klien">
+                <span class="box-label" data-id="Portal Klien" data-en="Client Portal">Portal Klien</span>
+                <div class="box-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                </div>
+            </a>
+
+            <!-- Pusat Bantuan Box -->
+            <a href="../support/" class="sidebar-box" aria-label="Pusat Bantuan">
+                <span class="box-label" data-id="Pusat Bantuan" data-en="Help Center">Pusat Bantuan</span>
+                <div class="box-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                </div>
+            </a>
+
+            <!-- WhatsApp 24/7 Box -->
+            <a href="https://wa.me/628213173357" class="sidebar-box box-wa" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp 24/7">
+                <span class="box-label" data-id="WhatsApp 24/7" data-en="WhatsApp 24/7">WhatsApp 24/7</span>
+                <div class="box-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
+                    </svg>
+                </div>
+            </a>
+        </div>
+    </aside>
+
+    <!-- ==================== LEAD AUDIT & CONSULTATION MODAL ==================== -->
+    <div class="lead-modal-backdrop" id="lead-audit-modal" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title-el">
+        <div class="lead-modal-card">
+            <div class="lead-modal-header">
+                <div>
+                    <span class="lead-modal-badge">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        Konsultasi 100% Gratis • Tanpa Komitmen
+                    </span>
+                    <h3 class="lead-modal-title" id="lead-modal-title-el" data-id="Audit Sistem &amp; Estimasi Roadmap" data-en="System Audit &amp; Roadmap Estimation">Audit Sistem &amp; Estimasi Roadmap</h3>
+                    <p class="lead-modal-desc" data-id="Dapatkan telaah arsitektur, kalkulasi estimasi pengerjaan, dan audit celah keamanan dari tim engineer Meldir." data-en="Get architectural reviews, timeline estimations, and security audits from Meldir's engineering team.">Dapatkan telaah arsitektur, kalkulasi estimasi pengerjaan, dan audit celah keamanan dari tim engineer Meldir.</p>
+                </div>
+                <button type="button" class="lead-modal-close" id="lead-modal-close-btn" aria-label="Tutup Modal">✕</button>
+            </div>
+
+            <!-- Form State -->
+            <form id="lead-audit-form" autocomplete="off">
+                <div class="lead-form-grid">
+                    <div class="lead-form-group">
+                        <label class="lead-form-label" for="lead-name" data-id="Nama Lengkap *" data-en="Full Name *">Nama Lengkap *</label>
+                        <input type="text" id="lead-name" class="lead-form-input" placeholder="Misal: Budi Santoso" required>
+                    </div>
+                    <div class="lead-form-group">
+                        <label class="lead-form-label" for="lead-company" data-id="Perusahaan / Usaha" data-en="Company / Organization">Perusahaan / Usaha</label>
+                        <input type="text" id="lead-company" class="lead-form-input" placeholder="Misal: PT Maju Bersama">
+                    </div>
+                </div>
+
+                <div class="lead-form-grid">
+                    <div class="lead-form-group">
+                        <label class="lead-form-label" for="lead-whatsapp" data-id="Nomor WhatsApp *" data-en="WhatsApp Number *">Nomor WhatsApp *</label>
+                        <input type="tel" id="lead-whatsapp" class="lead-form-input" placeholder="0812xxxxxxxx" required>
+                    </div>
+                    <div class="lead-form-group">
+                        <label class="lead-form-label" for="lead-email" data-id="Email Bisnis" data-en="Business Email">Email Bisnis</label>
+                        <input type="email" id="lead-email" class="lead-form-input" placeholder="nama@perusahaan.com">
+                    </div>
+                </div>
+
+                <div class="lead-form-grid">
+                    <div class="lead-form-group">
+                        <label class="lead-form-label" for="lead-service" data-id="Kebutuhan Solusi" data-en="Solution Needs">Kebutuhan Solusi</label>
+                        <select id="lead-service" class="lead-form-select">
+                            <option value="Sistem Baru (Web/Mobile)">Pembuatan Sistem Baru (Web / Mobile)</option>
+                            <option value="Rescue / Lanjutkan Proyek">Penyelamatan / Melanjutkan Proyek Vendor Lama</option>
+                            <option value="Managed IT & SLA">Pemeliharaan &amp; Managed IT (SLA 99.9%)</option>
+                            <option value="Audit Keamanan & Performa">Audit Keamanan, OWASP &amp; Performa</option>
+                            <option value="Program Sosial / Nirlaba">Program Sosial / Yayasan Nirlaba</option>
+                        </select>
+                    </div>
+                    <div class="lead-form-group">
+                        <label class="lead-form-label" for="lead-budget" data-id="Estimasi Anggaran" data-en="Estimated Budget">Estimasi Anggaran</label>
+                        <select id="lead-budget" class="lead-form-select">
+                            <option value="Fleksibel / Diskusi Dulu">Fleksibel / Diskusi Terlebih Dahulu</option>
+                            <option value="< Rp 10 Juta">&lt; Rp 10 Juta</option>
+                            <option value="Rp 10 - 25 Juta">Rp 10 - 25 Juta</option>
+                            <option value="Rp 25 - 50 Juta">Rp 25 - 50 Juta</option>
+                            <option value="> Rp 50 Juta">&gt; Rp 50 Juta</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="lead-form-group">
+                    <label class="lead-form-label" for="lead-notes" data-id="Deskripsi Kebutuhan / Kendala Saat Ini" data-en="Needs Description / Current Obstacle">Deskripsi Kebutuhan / Kendala Saat Ini</label>
+                    <textarea id="lead-notes" class="lead-form-textarea" rows="3" placeholder="Ceritakan singkat tentang sistem yang ingin dibuat atau kendala yang dihadapi pada aplikasi saat ini..."></textarea>
+                </div>
+
+                <div id="lead-form-error" style="display: none; color: #dc2626; font-size: 0.8rem; margin-bottom: 10px;"></div>
+
+                <button type="submit" class="lead-submit-btn" id="lead-submit-btn">
+                    <span data-id="Kirim Permohonan Audit &amp; Estimasi" data-en="Submit Audit Request">Kirim Permohonan Audit &amp; Estimasi</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                        <polyline points="12 5 19 12 12 19"/>
+                    </svg>
+                </button>
+            </form>
+
+            <!-- Success State -->
+            <div id="lead-success-container" class="lead-success-box" style="display: none;">
+                <div class="lead-success-icon">✓</div>
+                <h4 class="lead-success-title" data-id="Permohonan Audit Berhasil Diterima!" data-en="Audit Request Received!">Permohonan Audit Berhasil Diterima!</h4>
+                <p class="lead-success-desc" data-id="Data Anda telah masuk ke sistem manajemen tiket Meldir. Tim kami akan segera meninjau kebutuhan sistem Anda." data-en="Your details have been logged into Meldir's ticket system. Our engineering team will review your requirements immediately.">Data Anda telah masuk ke sistem manajemen tiket Meldir. Tim kami akan segera meninjau kebutuhan sistem Anda.</p>
+                <div>
+                    <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 4px;" data-id="KODE TIKET CRM ANDA:" data-en="YOUR CRM TICKET CODE:">KODE TIKET CRM ANDA:</div>
+                    <span class="lead-code-chip" id="lead-code-display">LEAD-2026-000</span>
+                </div>
+                <button type="button" class="btn btn-primary" id="lead-chat-direct-btn" data-open-chat style="width: 100%; margin-bottom: 8px; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <span data-id="Lanjutkan Diskusi di Chat Online" data-en="Continue in Live Chat">Lanjutkan Diskusi di Chat Online</span>
+                </button>
+                <div style="font-size: 0.78rem; color: #64748b; margin-top: 6px;">
+                    <a href="#" id="lead-wa-direct-link" target="_blank" rel="noopener noreferrer" style="color: #64748b; text-decoration: underline;">Atau kirim salinan ke WhatsApp operasional</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== SLA 99.9% EDUCATIONAL MODAL ==================== -->
+    <div class="lead-modal-backdrop" id="sla-detail-modal" role="dialog" aria-modal="true" aria-labelledby="sla-modal-title">
+        <div class="lead-modal-card sla-modal-card">
+            <div class="lead-modal-header">
+                <div>
+                    <span class="lead-modal-badge" style="background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.25);">
+                        <span class="cockpit-status-dot"></span>
+                        <span data-id="Jaminan Tingkat Layanan • Service Level Agreement" data-en="Service Level Agreement Guarantee">Jaminan Tingkat Layanan • Service Level Agreement</span>
+                    </span>
+                    <h3 class="lead-modal-title" id="sla-modal-title" data-id="Apa Maksud &amp; Garansi SLA 99.9% Meldir?" data-en="What is Meldir's 99.9% SLA Guarantee?">Apa Maksud &amp; Garansi SLA 99.9% Meldir?</h3>
+                    <p class="lead-modal-desc" data-id="Pengetahuan teknis dan komitmen hukum ketersediaan server bagi pemilik bisnis, instansi &amp; startup." data-en="Technical insight and legal commitment of server uptime for business owners, institutions &amp; startups.">Pengetahuan teknis dan komitmen hukum ketersediaan server bagi pemilik bisnis, instansi &amp; startup.</p>
+                </div>
+                <button type="button" class="lead-modal-close" data-close-sla-modal aria-label="Tutup Modal">✕</button>
+            </div>
+
+            <div class="sla-modal-body">
+                <!-- 1. Definisi Edukatif -->
+                <div class="edu-card">
+                    <div class="edu-card-header">
+                        <span class="edu-icon">📖</span>
+                        <h4 class="edu-title" data-id="1. Apa itu SLA (Service Level Agreement)?" data-en="1. What is an SLA (Service Level Agreement)?">1. Apa itu SLA (Service Level Agreement)?</h4>
+                    </div>
+                    <p class="edu-text" data-id="Service Level Agreement (SLA) adalah kontrak jaminan resmi tertulis antara Meldir (penyedia teknologi) dan Anda (klien). Kontrak ini menetapkan batas minimum keandalan, waktu tanggap penanganan kendala, dan ketersediaan aplikasi agar bisnis Anda tidak dirugikan akibat sistem mati mendadak." data-en="A Service Level Agreement (SLA) is a formal written guarantee contract between Meldir and you. It establishes minimum thresholds of reliability, response times, and application availability so your business operations are protected from unexpected downtime.">
+                        <strong>Service Level Agreement (SLA)</strong> adalah kontrak jaminan resmi tertulis antara Meldir (penyedia teknologi) dan Anda (klien). Kontrak ini menetapkan batas minimum keandalan, waktu tanggap penanganan kendala, dan ketersediaan aplikasi agar bisnis Anda tidak dirugikan akibat sistem mati mendadak.
+                    </p>
+                </div>
+
+                <!-- 2. Uptime 99.9% Metrics -->
+                <div class="edu-card highlight">
+                    <div class="edu-card-header">
+                        <span class="edu-icon">⏱️</span>
+                        <h4 class="edu-title" data-id="2. Berapa Lama Toleransi Downtime 99.9%?" data-en="2. How Much Downtime is Allowed under 99.9%?">2. Berapa Lama Toleransi Downtime 99.9%?</h4>
+                    </div>
+                    <p class="edu-text" data-id="Uptime 99.9% ('Three Nines') adalah standar baku enterprise. Dalam 1 bulan (720 jam), total toleransi gangguan server maksimal hanya ±43 menit (biasanya hanya untuk rilis pembaruan atau patch tengah malam)." data-en="99.9% Uptime ('Three Nines') is the enterprise standard. In 1 month (720 hours), maximum allowed outage is only ±43 minutes (primarily for scheduled midnight maintenance or security patches).">
+                        Uptime <strong>99.9% ("Three Nines")</strong> adalah standar baku enterprise. Dalam 1 bulan (720 jam), total toleransi gangguan server maksimal hanya <strong>±43 menit</strong> (biasanya hanya untuk rilis pembaruan atau patch tengah malam).
+                    </p>
+                    <div class="sla-calc-grid">
+                        <div class="sla-calc-item">
+                            <span class="sla-calc-label" data-id="Batas Harian" data-en="Daily Limit">Batas Harian</span>
+                            <span class="sla-calc-val">Maks. 1,4 menit</span>
+                        </div>
+                        <div class="sla-calc-item">
+                            <span class="sla-calc-label" data-id="Batas Bulanan" data-en="Monthly Limit">Batas Bulanan</span>
+                            <span class="sla-calc-val">Maks. 43,8 menit</span>
+                        </div>
+                        <div class="sla-calc-item">
+                            <span class="sla-calc-label" data-id="Batas Tahunan" data-en="Annual Limit">Batas Tahunan</span>
+                            <span class="sla-calc-val">Maks. 8,76 jam</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Kenapa Penting bagi Bisnis -->
+                <div class="edu-card">
+                    <div class="edu-card-header">
+                        <span class="edu-icon">💡</span>
+                        <h4 class="edu-title" data-id="3. Mengapa Ini Penting bagi Pemilik Bisnis?" data-en="3. Why is This Crucial for Business Owners?">3. Mengapa Ini Penting bagi Pemilik Bisnis?</h4>
+                    </div>
+                    <ul class="edu-list">
+                        <li><strong data-id="Mencegah Kehilangan Omzet:" data-en="Prevent Revenue Loss:">Mencegah Kehilangan Omzet:</strong> <span data-id="Kasir toko, web e-commerce, atau sistem logistik yang down 1 jam saja saat jam sibuk dapat memicu kerugian jutaan hingga ratusan juta rupiah." data-en="An outage of 1 hour in a POS, e-commerce, or logistics app during peak hours causes immediate revenue loss.">Kasir toko, web e-commerce, atau sistem logistik yang down 1 jam saja saat jam sibuk dapat memicu kerugian jutaan hingga ratusan juta rupiah.</span></li>
+                        <li><strong data-id="Menjaga Reputasi Brand:" data-en="Preserve Brand Reputation:">Menjaga Reputasi Brand:</strong> <span data-id="Aplikasi yang sering error atau loading lama membuat pelanggan kecewa dan beralih ke kompetitor Anda." data-en="Buggy or unresponsive apps lead customers to switch to your competitors.">Aplikasi yang sering error atau loading lama membuat pelanggan kecewa dan beralih ke kompetitor Anda.</span></li>
+                        <li><strong data-id="Kepastian Penanganan &amp; Tanggung Jawab:" data-en="Accountability &amp; Response Guarantee:">Kepastian Penanganan &amp; Tanggung Jawab:</strong> <span data-id="Vendor biasa tanpa SLA sering kali menghilang atau lambat merespons saat server mati. Tim Meldir terikat kontrak SPK resmi dengan respon tanggap &lt; 15 menit." data-en="Regular freelancers often disappear during outages. Meldir is legally bound by contract with incident response &lt; 15 minutes.">Vendor biasa tanpa SLA sering kali menghilang atau lambat merespons saat server mati. Tim Meldir terikat kontrak SPK resmi dengan respon tanggap &lt; 15 menit.</span></li>
+                    </ul>
+                </div>
+
+                <!-- 4. 4 Pilar Pengawasan Meldir -->
+                <div class="edu-pillars-grid">
+                    <div class="edu-pillar-item">
+                        <span class="edu-pillar-icon">📡</span>
+                        <h5 data-id="Monitoring 24/7" data-en="24/7 Monitoring">Monitoring 24/7</h5>
+                        <p data-id="Pemeriksaan otomatis status server tiap 60 detik dari 5 zona benua." data-en="Automated server health checks every 60 seconds from 5 global zones.">Pemeriksaan otomatis status server tiap 60 detik dari 5 zona benua.</p>
+                    </div>
+                    <div class="edu-pillar-item">
+                        <span class="edu-pillar-icon">⚡</span>
+                        <h5 data-id="Auto-Failover" data-en="Auto-Failover">Auto-Failover</h5>
+                        <p data-id="Pengalihan beban instan jika node server utama mendadak mengalami kendala." data-en="Instant traffic rerouting if primary server nodes experience hiccups.">Pengalihan beban instan jika node server utama mendadak mengalami kendala.</p>
+                    </div>
+                    <div class="edu-pillar-item">
+                        <span class="edu-pillar-icon">🛡️</span>
+                        <h5 data-id="Backup Multi-Region" data-en="Multi-Region Backup">Backup Multi-Region</h5>
+                        <p data-id="Cadangan snapshot terisolasi harian siap dipulihkan cepat (RTO &lt; 30 menit)." data-en="Daily isolated encrypted snapshots ready for rapid disaster recovery (RTO &lt; 30 min).">Cadangan snapshot terisolasi harian siap dipulihkan cepat (RTO &lt; 30 menit).</p>
+                    </div>
+                    <div class="edu-pillar-item">
+                        <span class="edu-pillar-icon">📜</span>
+                        <h5 data-id="Kompensasi SPK" data-en="Contractual Credits">Kompensasi SPK</h5>
+                        <p data-id="Jaminan ganti rugi kredit tagihan jika performa uptime di bawah 99.9%." data-en="Service credit guarantees if uptime ever falls below 99.9%.">Jaminan ganti rugi kredit tagihan jika performa uptime di bawah 99.9%.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lead-modal-footer" style="margin-top: 16px; display: flex; gap: 8px;">
+                <button type="button" class="btn btn-outline" data-close-sla-modal style="flex: 1;">Tutup</button>
+                <button type="button" class="btn btn-primary" data-open-chat data-chat-topic="Konsultasi Kontrak SLA 99.9% &amp; Maintenance Server" style="flex: 2;">Konsultasi SLA untuk Sistem Anda</button>
+            </div>
+        </div>
+    </div>
+
     <!-- JS Logic -->
-    <script src="../app.js"></script>
+    <script src="../app.js?v=20261010-03"></script>
 </body>
 
 </html>
