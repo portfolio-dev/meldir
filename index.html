@@ -40,7 +40,7 @@
     <meta http-equiv="Expires" content="0">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css?v=20261010-06">
+    <link rel="stylesheet" href="style.css?v=20261010-07">
 
     <!-- Schema.org Organization Structured Data -->
     <script type="application/ld+json">
@@ -545,16 +545,28 @@
                     </div>
                     <div class="terminal-window-body" id="terminal-code-body">
                         <div class="terminal-code-line comment">
-                            <span>// Meldir Enterprise Software Engineering</span>
+                            <span class="line-num">1</span>
+                            <span class="line-content"><span class="code-comment">// Meldir Edge Gateway v2.4 (SLA 99.9%)</span></span>
                         </div>
                         <div class="terminal-code-line">
-                            <span class="code-kw">const</span> <span class="code-id">stack</span> = [<span class="code-str">"Next.js"</span>, <span class="code-str">"Flutter"</span>, <span class="code-str">"Go/Rust"</span>, <span class="code-str">"PostgreSQL"</span>];
+                            <span class="line-num">2</span>
+                            <span class="line-content"><span class="code-kw">export async function </span><span class="code-fn">routeRequest</span>(<span class="code-param">req</span>: <span class="code-prop">Request</span>) {</span>
                         </div>
                         <div class="terminal-code-line">
-                            <span class="code-kw">const</span> <span class="code-id">pipeline</span> = { <span class="code-prop">security</span>: <span class="code-str">"OWASP A+"</span>, <span class="code-prop">sla</span>: <span class="code-str">"99.9%"</span> };
+                            <span class="line-num">3</span>
+                            <span class="line-content">  <span class="code-kw">const </span><span class="code-id">session</span> = <span class="code-kw">await </span><span class="code-fn">auth.verifyJWT</span>(<span class="code-param">req</span>);</span>
                         </div>
                         <div class="terminal-code-line">
-                            <span class="code-kw">function</span> <span class="code-fn">orchestrateSystem</span>() { <span class="code-kw">return</span> <span class="code-str">"Ready"</span>;<span class="code-cursor"></span> }
+                            <span class="line-num">4</span>
+                            <span class="line-content">  <span class="code-kw">if </span>(!<span class="code-id">session</span>.<span class="code-prop">valid</span>) <span class="code-kw">return </span><span class="code-fn">deny</span>(<span class="code-str">401</span>);</span>
+                        </div>
+                        <div class="terminal-code-line">
+                            <span class="line-num">5</span>
+                            <span class="line-content">  <span class="code-kw">return </span><span class="code-fn">proxyCluster</span>({ <span class="code-prop">tenant</span>: <span class="code-id">session</span>.<span class="code-prop">id</span> });</span>
+                        </div>
+                        <div class="terminal-code-line active-line">
+                            <span class="line-num">6</span>
+                            <span class="line-content">}<span class="code-cursor"></span></span>
                         </div>
                     </div>
                     <div class="terminal-window-footer">
@@ -1989,7 +2001,7 @@
     </div>
 
     <!-- Application JavaScript -->
-    <script src="app.js?v=20261010-06"></script>
+    <script src="app.js?v=20261010-07"></script>
 
 </body>
 </html>

@@ -5025,10 +5025,10 @@ button.sec-header-link:hover {
 }
 
 .terminal-window-body {
-    padding: 10px 14px;
-    font-family: 'Fira Code', 'Cascadia Code', monospace;
-    font-size: 0.74rem;
-    line-height: 1.55;
+    padding: 8px 14px;
+    font-family: 'Fira Code', 'Cascadia Code', 'JetBrains Mono', Consolas, monospace;
+    font-size: 0.73rem;
+    line-height: 1.5;
     color: #e2e8f0;
     display: flex;
     flex-direction: column;
@@ -5037,11 +5037,13 @@ button.sec-header-link:hover {
     justify-content: flex-start;
     height: 154px;
     max-height: 154px;
-    overflow: hidden !important;
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
     scrollbar-width: none !important;
     -ms-overflow-style: none !important;
     user-select: none !important;
     pointer-events: none !important;
+    scroll-behavior: smooth;
 }
 
 .terminal-window-body::-webkit-scrollbar {
@@ -5050,13 +5052,50 @@ button.sec-header-link:hover {
     height: 0 !important;
 }
 
-.terminal-code-line.comment {
+.terminal-code-line {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    white-space: pre;
+    line-height: 1.5;
+    min-height: 20px;
+    flex-shrink: 0 !important;
+}
+
+.terminal-code-line .line-num {
+    color: #475569;
+    font-size: 0.67rem;
+    user-select: none;
+    width: 18px;
+    text-align: right;
+    flex-shrink: 0;
+    font-weight: 500;
+    opacity: 0.7;
+    transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.terminal-code-line.active-line .line-num {
+    color: #38bdf8;
+    font-weight: 700;
+    opacity: 1;
+}
+
+.terminal-code-line .line-content {
+    display: inline-flex;
+    align-items: center;
+    white-space: pre;
+    flex: 1;
+    overflow: hidden;
+}
+
+.terminal-code-line.comment,
+.code-comment {
     color: #64748b;
     font-style: italic;
 }
 
 .terminal-code-line.indent {
-    padding-left: 20px;
+    padding-left: 18px;
 }
 
 .code-kw { color: #f43f5e; font-weight: 600; }
@@ -5071,9 +5110,10 @@ button.sec-header-link:hover {
     width: 7px;
     height: 13px;
     background: #38bdf8;
-    margin-left: 4px;
+    margin-left: 3px;
     vertical-align: middle;
-    animation: cursorBlink 1s infinite;
+    animation: cursorBlink 0.9s infinite;
+    box-shadow: 0 0 6px rgba(56, 189, 248, 0.6);
 }
 
 @keyframes cursorBlink {

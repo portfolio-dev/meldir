@@ -1432,22 +1432,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const terminalMetaLang = document.getElementById('terminal-meta-lang');
 
     if (terminalBody) {
-        const terminalSnippets = [
+        const modules = [
             {
                 file: 'edge_router.ts',
                 lang: 'TypeScript 5.4 • Edge Runtime',
                 lines: [
                     [{ t: '// Meldir Edge Gateway v2.4 (SLA 99.9%)', c: 'comment' }],
                     [{ t: 'export async function ', c: 'kw' }, { t: 'routeRequest', c: 'fn' }, { t: '(req: ', c: 'plain' }, { t: 'Request', c: 'prop' }, { t: ') {', c: 'plain' }],
-                    [{ t: '  const ', c: 'kw' }, { t: 'session', c: 'id' }, { t: ' = await ', c: 'plain' }, { t: 'auth', c: 'fn' }, { t: '.', c: 'plain' }, { t: 'verifyJWT', c: 'fn' }, { t: '(req);', c: 'plain' }],
+                    [{ t: '  const ', c: 'kw' }, { t: 'session', c: 'id' }, { t: ' = await ', c: 'plain' }, { t: 'auth.verifyJWT', c: 'fn' }, { t: '(req);', c: 'plain' }],
                     [{ t: '  if (!session.', c: 'plain' }, { t: 'valid', c: 'prop' }, { t: ') return ', c: 'plain' }, { t: 'deny', c: 'fn' }, { t: '(401);', c: 'plain' }],
                     [{ t: '  return ', c: 'kw' }, { t: 'proxyCluster', c: 'fn' }, { t: '({ tenant: session.', c: 'plain' }, { t: 'id', c: 'prop' }, { t: ' });', c: 'plain' }],
                     [{ t: '}', c: 'plain' }]
                 ]
             },
             {
+                file: 'sla_watchdog.ts',
+                lang: 'TypeScript 5.4 • Distributed SLA Monitor',
+                lines: [
+                    [{ t: '// 24/7 Node Heartbeat & Auto-Failover Monitor', c: 'comment' }],
+                    [{ t: 'export async function ', c: 'kw' }, { t: 'checkClusterHealth', c: 'fn' }, { t: '(nodeId: ', c: 'plain' }, { t: 'string', c: 'prop' }, { t: ') {', c: 'plain' }],
+                    [{ t: '  const ', c: 'kw' }, { t: 'probe', c: 'id' }, { t: ' = await ', c: 'plain' }, { t: 'telemetry.ping', c: 'fn' }, { t: '(nodeId, 150);', c: 'plain' }],
+                    [{ t: '  if (!probe.', c: 'plain' }, { t: 'healthy', c: 'prop' }, { t: ') {', c: 'plain' }],
+                    [{ t: '    await ', c: 'kw' }, { t: 'cloud.rerouteTraffic', c: 'fn' }, { t: '("sgp-1", "jkt-2");', c: 'str' }],
+                    [{ t: '  }', c: 'plain' }],
+                    [{ t: '}', c: 'plain' }]
+                ]
+            },
+            {
                 file: 'cluster_worker.go',
-                lang: 'Go 1.22 • Multi-Thread Worker',
+                lang: 'Go 1.22 • Multi-Thread Worker Pool',
                 lines: [
                     [{ t: '// High-Throughput Job Dispatcher Pool', c: 'comment' }],
                     [{ t: 'func ', c: 'kw' }, { t: '(p *Pool) ', c: 'plain' }, { t: 'Dispatch', c: 'fn' }, { t: '(ctx ', c: 'param' }, { t: 'context.Context', c: 'prop' }, { t: ') error {', c: 'plain' }],
@@ -1457,17 +1470,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     [{ t: '    return nil', c: 'kw' }],
                     [{ t: '  }', c: 'plain' }],
                     [{ t: '}', c: 'plain' }]
-                ]
-            },
-            {
-                file: 'sla_monitor.py',
-                lang: 'Python 3.12 • Distributed Watchdog',
-                lines: [
-                    [{ t: '# 24/7 Node Heartbeat & Auto-Failover Monitor', c: 'comment' }],
-                    [{ t: 'async def ', c: 'kw' }, { t: 'check_node_health', c: 'fn' }, { t: '(cluster_id: ', c: 'plain' }, { t: 'str', c: 'prop' }, { t: '):', c: 'plain' }],
-                    [{ t: '  res = await ', c: 'plain' }, { t: 'telemetry', c: 'id' }, { t: '.', c: 'plain' }, { t: 'ping', c: 'fn' }, { t: '(cluster_id, timeout=', c: 'plain' }, { t: '1.5', c: 'str' }, { t: ')', c: 'plain' }],
-                    [{ t: '  if res.', c: 'plain' }, { t: 'latency_ms', c: 'prop' }, { t: ' > ', c: 'plain' }, { t: '150', c: 'str' }, { t: ':', c: 'plain' }],
-                    [{ t: '    await ', c: 'kw' }, { t: 'cloud', c: 'id' }, { t: '.', c: 'plain' }, { t: 'reroute_traffic', c: 'fn' }, { t: '("sgp-1", "jkt-2")', c: 'str' }]
                 ]
             },
             {
@@ -1486,66 +1488,97 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             {
                 file: 'sqlite_sync.dart',
-                lang: 'Flutter 3.22 • Offline-First Engine',
+                lang: 'Flutter 3.22 • Offline-First Sync Engine',
                 lines: [
-                    [{ t: '// Realtime POS Transaction Synchronization', c: 'comment' }],
+                    [{ t: '// Realtime POS Offline Transaction Synchronization', c: 'comment' }],
                     [{ t: 'Future<', c: 'kw' }, { t: 'SyncResult', c: 'prop' }, { t: '> ', c: 'kw' }, { t: 'reconcileQueue', c: 'fn' }, { t: '() async {', c: 'plain' }],
-                    [{ t: '  final ', c: 'kw' }, { t: 'pending', c: 'id' }, { t: ' = await ', c: 'plain' }, { t: 'localDb', c: 'id' }, { t: '.', c: 'plain' }, { t: 'getOfflineOrders', c: 'fn' }, { t: '();', c: 'plain' }],
+                    [{ t: '  final ', c: 'kw' }, { t: 'pending', c: 'id' }, { t: ' = await ', c: 'plain' }, { t: 'localDb.getPendingOrders', c: 'fn' }, { t: '();', c: 'plain' }],
                     [{ t: '  for (final ', c: 'kw' }, { t: 'tx', c: 'id' }, { t: ' in pending) {', c: 'plain' }],
-                    [{ t: '    await ', c: 'kw' }, { t: 'api', c: 'id' }, { t: '.', c: 'plain' }, { t: 'commitTransaction', c: 'fn' }, { t: '(tx.', c: 'plain' }, { t: 'payload', c: 'prop' }, { t: ');', c: 'plain' }],
+                    [{ t: '    await ', c: 'kw' }, { t: 'api.commitTransaction', c: 'fn' }, { t: '(tx.payload);', c: 'plain' }],
                     [{ t: '  }', c: 'plain' }],
                     [{ t: '}', c: 'plain' }]
                 ]
             }
         ];
 
-        let snippetIdx = 0;
+        // Start from module index 1 since module 0 (edge_router.ts) is pre-rendered in HTML
+        let currentModIdx = 1;
+        let lineCounter = 7;
 
-        async function typeSnippet(snippet) {
-            if (terminalFileName) terminalFileName.textContent = snippet.file;
-            if (terminalMetaLang) terminalMetaLang.textContent = snippet.lang;
-            terminalBody.innerHTML = '';
+        async function streamNextModule() {
+            const mod = modules[currentModIdx];
+            if (terminalFileName) terminalFileName.textContent = mod.file;
+            if (terminalMetaLang) terminalMetaLang.textContent = mod.lang;
 
-            for (let l = 0; l < snippet.lines.length; l++) {
-                const lineData = snippet.lines[l];
-                const lineEl = document.createElement('div');
+            for (let l = 0; l < mod.lines.length; l++) {
+                // Remove previous active cursor and active class
+                const oldCursor = terminalBody.querySelector('.code-cursor');
+                if (oldCursor) oldCursor.remove();
+                const oldActive = terminalBody.querySelector('.terminal-code-line.active-line');
+                if (oldActive) oldActive.classList.remove('active-line');
+
+                const lineData = mod.lines[l];
                 const isComment = lineData.some(token => token.c === 'comment');
-                lineEl.className = 'terminal-code-line' + (isComment ? ' comment' : '');
-                terminalBody.appendChild(lineEl);
+
+                const lineEl = document.createElement('div');
+                lineEl.className = 'terminal-code-line active-line' + (isComment ? ' comment' : '');
+
+                const numSpan = document.createElement('span');
+                numSpan.className = 'line-num';
+                numSpan.textContent = String(lineCounter);
+                lineCounter++;
+                if (lineCounter > 99) lineCounter = 1;
+                lineEl.appendChild(numSpan);
+
+                const contentSpan = document.createElement('span');
+                contentSpan.className = 'line-content';
+                lineEl.appendChild(contentSpan);
 
                 const cursor = document.createElement('span');
                 cursor.className = 'code-cursor';
-                lineEl.appendChild(cursor);
+                contentSpan.appendChild(cursor);
 
+                terminalBody.appendChild(lineEl);
+
+                // Smooth scroll to keep active bottom line in view
+                terminalBody.scrollTo({ top: terminalBody.scrollHeight, behavior: 'smooth' });
+
+                // Keep DOM buffer optimal by removing lines scrolled far out of view
+                while (terminalBody.children.length > 9) {
+                    terminalBody.firstElementChild.remove();
+                }
+
+                // Type each token in this line
                 for (let t = 0; t < lineData.length; t++) {
                     const token = lineData[t];
                     const tokenSpan = document.createElement('span');
                     if (token.c && token.c !== 'plain') {
                         tokenSpan.className = 'code-' + token.c;
                     }
-                    lineEl.insertBefore(tokenSpan, cursor);
+                    contentSpan.insertBefore(tokenSpan, cursor);
 
-                    for (let c = 0; c < token.t.length; c++) {
-                        tokenSpan.textContent += token.t[c];
-                        await new Promise(r => setTimeout(r, 14));
+                    const text = token.t;
+                    for (let c = 0; c < text.length; c++) {
+                        tokenSpan.textContent += text[c];
+                        await new Promise(r => setTimeout(r, 12));
                     }
                 }
 
-                if (l < snippet.lines.length - 1) {
-                    cursor.remove();
-                }
-                await new Promise(r => setTimeout(r, 60));
+                // Natural brief pause after finishing the line
+                await new Promise(r => setTimeout(r, 220));
             }
 
-            await new Promise(r => setTimeout(r, 2600));
+            // Completed module block: brief pause before streaming next module
+            await new Promise(r => setTimeout(r, 1300));
 
-            snippetIdx = (snippetIdx + 1) % terminalSnippets.length;
-            typeSnippet(terminalSnippets[snippetIdx]);
+            currentModIdx = (currentModIdx + 1) % modules.length;
+            streamNextModule();
         }
 
+        // Wait 1.8 seconds after page load before starting continuous stream
         setTimeout(() => {
-            typeSnippet(terminalSnippets[0]);
-        }, 500);
+            streamNextModule();
+        }, 1800);
     }
 
 });
