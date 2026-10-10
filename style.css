@@ -1254,21 +1254,21 @@ section {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center; /* Di mode tertutup: icon berada tepat di tengah (center simetris) */
-    padding: 0;
+    justify-content: flex-end; /* Posisi anchor konsisten di sebelah kanan */
+    padding: 0 14px 0 16px;
     border-radius: 8px;
     background: #0060af;
     border: 1.5px solid #005096;
     color: #ffffff;
     text-decoration: none;
-    transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, color 0.22s ease;
     position: relative;
     overflow: hidden;
     cursor: pointer;
     box-shadow: 0 3px 8px rgba(0, 34, 68, 0.18);
 }
 
-/* Di mode terbuka (hero atau hover): icon di kanan, teks muncul rapi di kiri */
+/* Di mode terbuka (hero atau hover): icon tetap di posisi kanan tanpa bergeser */
 .bca-quick-sidebar.expanded .sidebar-box,
 .bca-quick-sidebar:hover .sidebar-box {
     justify-content: flex-end;
@@ -1280,10 +1280,11 @@ section {
     color: #0060af;
     border-color: #0060af;
     box-shadow: 0 6px 20px rgba(0, 96, 175, 0.32);
+    transform: none;
 }
 
 .sidebar-box:active {
-    transform: scale(0.98);
+    transform: none;
 }
 
 /* Label teks di sebelah kiri icon */
@@ -1312,7 +1313,7 @@ section {
     margin-right: 12px;
 }
 
-/* Icon tetap di sebelah kanan */
+/* Icon tetap di sebelah kanan dan posisinya terkunci (tidak bergerak/bergeser saat dihover) */
 .box-icon {
     order: 2;
     width: 34px;
@@ -1323,11 +1324,12 @@ section {
     flex-shrink: 0;
     margin: 0;
     color: inherit;
-    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: none !important;
+    transition: none !important;
 }
 
 .sidebar-box:hover .box-icon {
-    transform: scale(1.12);
+    transform: none !important;
 }
 
 /* WhatsApp Box Accent */
@@ -5203,16 +5205,17 @@ body.cockpit-locked .sidebar-box {
     margin: 0;
     flex: none;
     overflow: visible;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
     text-decoration: none;
+    transform: none !important;
 }
 
 body.cockpit-locked .sidebar-box:hover {
     background: #0060af;
     color: #ffffff;
     border-color: #0060af;
-    transform: scale(1.08);
+    transform: none !important; /* Posisi box dan icon TETAP DIAM di tempat, tidak bergerak */
     box-shadow: 0 6px 20px rgba(0, 96, 175, 0.35);
 }
 
@@ -5225,6 +5228,20 @@ body.cockpit-locked .sidebar-box.box-wa:hover {
     background: #16a34a;
     color: #ffffff;
     border-color: #16a34a;
+    transform: none !important;
+}
+
+body.cockpit-locked .sidebar-box.box-portal {
+    background: #0284c7;
+    border-color: #0284c7;
+    color: #ffffff;
+}
+
+body.cockpit-locked .sidebar-box.box-portal:hover {
+    background: #0369a1;
+    border-color: #0369a1;
+    color: #ffffff;
+    transform: none !important;
 }
 
 body.cockpit-locked .box-icon {
@@ -5234,14 +5251,20 @@ body.cockpit-locked .box-icon {
     align-items: center;
     justify-content: center;
     order: 1;
+    transform: none !important;
+    transition: none !important;
 }
 
-/* Tooltip flies out to the LEFT on hover */
+body.cockpit-locked .sidebar-box:hover .box-icon {
+    transform: none !important;
+}
+
+/* Tooltip label muncul rapi ke sebelah KIRI saat icon disentuh pointer */
 body.cockpit-locked .box-label {
     position: absolute;
-    right: 54px;
+    right: 52px;
     top: 50%;
-    transform: translateY(-50%) translateX(8px);
+    transform: translateY(-50%) translateX(6px);
     background: #002244;
     color: #ffffff;
     font-size: 0.76rem;
@@ -5253,7 +5276,7 @@ body.cockpit-locked .box-label {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.2s;
     z-index: 1030;
     max-width: none;
     margin: 0;
@@ -6898,12 +6921,27 @@ body.cockpit-locked .sidebar-box:hover .box-label {
 
 /* Sidebar Box Portal */
 .sidebar-box.box-portal {
-    background: #0284c7 !important;
-    color: #ffffff !important;
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
 }
 
 .sidebar-box.box-portal:hover {
-    background: #0369a1 !important;
+    background: #0369a1;
+    border-color: #0369a1;
+}
+
+body.cockpit-locked .sidebar-box.box-portal {
+    background: rgba(255, 255, 255, 0.95);
+    color: #0284c7;
+    border-color: rgba(2, 132, 199, 0.3);
+}
+
+body.cockpit-locked .sidebar-box.box-portal:hover {
+    background: #0284c7;
+    color: #ffffff;
+    border-color: #0284c7;
+    transform: none !important;
 }
 
 /* Lead Modal Styles */
@@ -7423,6 +7461,7 @@ body.cockpit-locked .sidebar-box.box-chat:hover {
     background: #0060af;
     color: #ffffff;
     border-color: #0060af;
+    transform: none !important;
 }
 
 /* ==================== MELDIR LIVE CHAT ONLINE WIDGET ==================== */

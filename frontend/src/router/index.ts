@@ -49,3 +49,14 @@ export const router = createRouter({
   history: createWebHistory(),
   routes,
 })
+
+// Auto-reload saat deploy baru menggantikan chunk lama sehingga pengguna tidak mengalami blank page
+router.onError((error) => {
+  const isChunkError = /Failed to fetch dynamically imported module|Importing a module script failed/i.test(
+    error?.message || ''
+  )
+  if (isChunkError) {
+    console.warn('[Vite Auto-Update] Chunk usang terdeteksi setelah deploy, merefresh halaman...')
+    window.location.reload()
+  }
+})

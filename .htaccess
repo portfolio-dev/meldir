@@ -1,17 +1,13 @@
 <IfModule rewrite_module>
   RewriteEngine On
   RewriteBase /
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
 </IfModule>
 
 # ==============================================================================
-# SUBDOMAIN SPA CACHE RULES (office, jobs, portal)
+# MELDIR WEB SERVER CACHE-BUSTING & FRESHNESS RULES (OpenLiteSpeed & Apache)
 # ==============================================================================
 
-# 1. Dokumen HTML SPA & Manifest DILARANG keras di-cache agar index.html selalu teranyar
+# 1. Dokumen HTML, JSON, dan Service Worker DILARANG di-cache agar update selalu live
 <FilesMatch "\.(html|htm|json)$">
   <IfModule mod_headers.c>
     Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
@@ -20,15 +16,23 @@
   </IfModule>
 </FilesMatch>
 
-# 2. Asset JS & CSS hasil build Vite memiliki content-hash unik (misal: index-abc123.js)
-# Boleh di-cache secara immutable karena jika ada update, nama filenya pasti berubah baru
+# 2. Service Worker (sw.js) wajib selalu langsung dicek ke server tanpa perantara
+<Files "sw.js">
+  <IfModule mod_headers.c>
+    Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </IfModule>
+</Files>
+
+# 3. File CSS & JS Utama (Memakai versioning query param ?v=... di index.html)
 <FilesMatch "\.(js|css)$">
   <IfModule mod_headers.c>
-    Header set Cache-Control "public, max-age=31536000, immutable"
+    Header set Cache-Control "no-cache, must-revalidate"
   </IfModule>
 </FilesMatch>
 
-# 3. Asset Media & Web Fonts
+# 4. Aset Statis Media Berat (Gambar & Web Fonts)
 <FilesMatch "\.(jpg|jpeg|png|gif|ico|webp|svg|woff|woff2|ttf|eot)$">
   <IfModule mod_headers.c>
     Header set Cache-Control "public, max-age=604800, stale-while-revalidate=86400"

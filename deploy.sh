@@ -77,8 +77,14 @@ chown -R nobody:nobody "$PUBLIC_HTML_MAIN" "$PUBLIC_HTML_OFFICE" "$PUBLIC_HTML_J
 chmod -R 755 "$PUBLIC_HTML_MAIN" "$PUBLIC_HTML_OFFICE" "$PUBLIC_HTML_JOBS" "$PUBLIC_HTML_PORTAL" 2>/dev/null || true
 
 echo "=================================================="
-echo "🔄 [5/5] Reloading OpenLiteSpeed Web Server"
+echo "🔄 [5/5] Purging Server Cache & Reloading Web Server"
 echo "=================================================="
+# Bersihkan cache internal OpenLiteSpeed & CyberPanel agar tampilan teranyar langsung aktif
+echo "🧹 Membersihkan direktori cache OpenLiteSpeed..."
+rm -rf /tmp/lshttpd/swap/* 2>/dev/null || true
+rm -rf /tmp/lshttpd/bak_swap/* 2>/dev/null || true
+rm -rf /usr/local/lsws/cachedata/* 2>/dev/null || true
+
 if [ -f "/usr/local/lsws/bin/lswsctrl" ]; then
     /usr/local/lsws/bin/lswsctrl restart || true
 else
