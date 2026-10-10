@@ -1424,6 +1424,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.warn('Gagal mengirim pesan chat:', err);
             }
         });
+    }
+
     // --- 11. Live IDE Terminal Code Simulator (Typing Engine Infinite Loop) ---
     const terminalBody = document.getElementById('terminal-code-body');
     const terminalFileName = document.getElementById('terminal-file-name');

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'meldir-v2026.10.10.5';
+const CACHE_NAME = 'meldir-v2026.10.10.6';
 const STATIC_ASSETS = [
   './',
   'index.html',
