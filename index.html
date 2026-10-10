@@ -40,7 +40,7 @@
     <meta http-equiv="Expires" content="0">
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css?v=20261010-04">
+    <link rel="stylesheet" href="style.css?v=20261010-05">
 
     <!-- Schema.org Organization Structured Data -->
     <script type="application/ld+json">
@@ -353,11 +353,9 @@
                             <a href="service/" class="gadgets-header-action" aria-label="Lihat Semua Solusi &amp; Layanan">
                                 <span data-id="Lihat Solusi →" data-en="View Solutions →">Lihat Solusi →</span>
                             </a>
-                        </div>
-
-                        <div class="gadgets-deck">
+                          <div class="gadgets-deck">
                             <!-- 1. PC / DESKTOP MOCKUP -->
-                            <a href="service/#custom" class="gadget-card" data-device="pc" title="Solusi Sistem Web &amp; SaaS">
+                            <div class="gadget-card" data-device="pc" data-modal="gadget-modal-pc" role="button" tabindex="0" title="Pelajari Detail Ekosistem PC &amp; Desktop">
                                 <div class="gadget-screen-wrapper g-pc-wrapper">
                                     <div class="g-device-pc">
                                         <div class="pc-bezel">
@@ -398,10 +396,10 @@
                                     <span class="gadget-name" data-id="PC &amp; Desktop" data-en="PC &amp; Desktop">PC &amp; Desktop</span>
                                     <span class="gadget-desc" data-id="Portal Web &amp; SaaS" data-en="Web Portals &amp; SaaS">Portal Web &amp; SaaS</span>
                                 </div>
-                            </a>
+                            </div>
 
                             <!-- 2. TABLET MOCKUP -->
-                            <a href="service/#managed" class="gadget-card" data-device="tablet" title="Solusi POS Kasir &amp; Sistem Operasional">
+                            <div class="gadget-card" data-device="tablet" data-modal="gadget-modal-tablet" role="button" tabindex="0" title="Pelajari Detail Ekosistem Tablet &amp; POS">
                                 <div class="gadget-screen-wrapper g-tablet-wrapper">
                                     <div class="g-device-tablet">
                                         <div class="tablet-bezel">
@@ -429,10 +427,10 @@
                                     <span class="gadget-name" data-id="Tablet &amp; iPad" data-en="Tablet &amp; iPad">Tablet &amp; iPad</span>
                                     <span class="gadget-desc" data-id="Kasir POS &amp; Gudang" data-en="POS Cashier &amp; Warehouse">Kasir POS &amp; Gudang</span>
                                 </div>
-                            </a>
+                            </div>
 
                             <!-- 3. SMARTPHONE MOCKUP -->
-                            <div class="gadget-card" data-device="smartphone" data-open-chat data-chat-topic="Konsultasi Pengembangan Aplikasi Mobile (Android &amp; iOS)" role="button" tabindex="0" title="Konsultasi Aplikasi Mobile Android &amp; iOS">
+                            <div class="gadget-card" data-device="smartphone" data-modal="gadget-modal-smartphone" role="button" tabindex="0" title="Pelajari Detail Ekosistem Smartphone Mobile Apps">
                                 <div class="gadget-screen-wrapper g-phone-wrapper">
                                     <div class="g-device-phone">
                                         <div class="phone-bezel">
@@ -473,7 +471,7 @@
                             </div>
 
                             <!-- 4. SMARTWATCH MOCKUP -->
-                            <div class="gadget-card" data-device="smartwatch" data-drawer="drawer-workflow" role="button" tabindex="0" title="Lihat Alur Kerja Integrasi API &amp; Otomasi">
+                            <div class="gadget-card" data-device="smartwatch" data-modal="gadget-modal-smartwatch" role="button" tabindex="0" title="Pelajari Detail Ekosistem Smartwatch &amp; Telemetri IoT">
                                 <div class="gadget-screen-wrapper g-watch-wrapper">
                                     <div class="g-device-watch">
                                         <div class="g-watch-strap-top"></div>
@@ -527,7 +525,7 @@
             <div class="cockpit-bento-canvas">
                 
                 <!-- 1. Realtime IDE Code & System Ready Terminal Window -->
-                <a href="service/" class="cockpit-terminal-window" aria-label="Jelajahi Arsitektur &amp; Solusi Rekayasa Meldir">
+                <a href="service/" class="cockpit-terminal-window" id="cockpit-ide-window" aria-label="Jelajahi Arsitektur &amp; Solusi Rekayasa Meldir">
                     <div class="terminal-window-header">
                         <div class="terminal-dots">
                             <span class="terminal-dot red"></span>
@@ -536,35 +534,31 @@
                         </div>
                         <div class="terminal-title-bar">
                             <span class="terminal-title-icon">⚡</span>
-                            <span>engine@meldir.id:~/system-core</span>
+                            <span id="terminal-file-name">edge_router.ts</span>
                         </div>
                         <div class="terminal-status-badge">
                             <span class="status-pulse-dot"></span>
-                            <span data-id="Sistem Siap" data-en="System Ready">Sistem Siap</span>
+                            <span id="terminal-status-text" data-id="Kompilasi Aktif" data-en="Live Compiling">Kompilasi Aktif</span>
                         </div>
                     </div>
-                    <div class="terminal-window-body">
+                    <div class="terminal-window-body" id="terminal-code-body">
                         <div class="terminal-code-line comment">
                             <span>// Meldir Enterprise Software Engineering</span>
                         </div>
                         <div class="terminal-code-line">
-                            <span class="code-kw">const</span> <span class="code-id">stack</span> = [<span class="code-str">"Next.js"</span>, <span class="code-str">"Flutter"</span>, <span class="code-str">"Node/Python"</span>, <span class="code-str">"PostgreSQL"</span>];
+                            <span class="code-kw">const</span> <span class="code-id">stack</span> = [<span class="code-str">"Next.js"</span>, <span class="code-str">"Flutter"</span>, <span class="code-str">"Go/Rust"</span>, <span class="code-str">"PostgreSQL"</span>];
                         </div>
                         <div class="terminal-code-line">
-                            <span class="code-kw">const</span> <span class="code-id">pipeline</span> = { <span class="code-prop">security</span>: <span class="code-str">"OWASP A+"</span>, <span class="code-prop">backup</span>: <span class="code-str">"Automated Cloud"</span>, <span class="code-prop">sla</span>: <span class="code-str">"99.9%"</span> };
+                            <span class="code-kw">const</span> <span class="code-id">pipeline</span> = { <span class="code-prop">security</span>: <span class="code-str">"OWASP A+"</span>, <span class="code-prop">sla</span>: <span class="code-str">"99.9%"</span> };
                         </div>
                         <div class="terminal-code-line">
-                            <span class="code-kw">function</span> <span class="code-fn">orchestrateSystem</span>(<span class="code-param">app</span>) {
+                            <span class="code-kw">function</span> <span class="code-fn">orchestrateSystem</span>() { <span class="code-kw">return</span> <span class="code-str">"Ready"</span>;<span class="code-cursor"></span> }
                         </div>
-                        <div class="terminal-code-line indent">
-                            <span class="code-kw">return</span> app.<span class="code-fn">audit</span>().<span class="code-fn">secure</span>().<span class="code-fn">scale</span>();<span class="code-cursor"></span>
-                        </div>
-                        <div class="terminal-code-line">}</div>
                     </div>
                     <div class="terminal-window-footer">
                         <div class="terminal-footer-meta">
                             <span class="terminal-meta-dot">●</span>
-                            <span data-id="Uptime 99.9% Terkelola" data-en="99.9% Managed Uptime">Uptime 99.9% Terkelola</span>
+                            <span id="terminal-meta-lang">TypeScript 5.4 • Edge Runtime</span>
                         </div>
                         <div class="terminal-footer-meta">
                             <span class="terminal-meta-dot green">✓</span>
@@ -909,7 +903,6 @@
                     </svg>
                     <span class="font-bold text-blue-900 text-sm" data-id="Badan Hukum Resmi &amp; Terverifikasi RI" data-en="Officially Verified Indonesian Corporate Entity">Badan Hukum Resmi &amp; Terverifikasi RI</span>
                 </div>
-                <div class="drawer-nib-number">0709260111296</div>
                 <p class="drawer-card-desc"
                     data-id="Meldir beroperasi penuh di bawah naungan perseroan terbatas resmi Republik Indonesia melalui Sistem Online Single Submission (OSS). Setiap kerja sama didukung oleh kepastian hukum, NPWP perusahaan, dan izin usaha resmi."
                     data-en="Meldir operates fully under an official Indonesian corporate entity via the Online Single Submission (OSS) system. Every partnership is backed by legal certainty, corporate tax IDs, and official business licensing.">
@@ -1522,6 +1515,23 @@
                         <p data-id="Jaminan ganti rugi kredit tagihan jika performa uptime di bawah 99.9%." data-en="Service credit guarantees if uptime ever falls below 99.9%.">Jaminan ganti rugi kredit tagihan jika performa uptime di bawah 99.9%.</p>
                     </div>
                 </div>
+
+                <!-- 5. Ketentuan, Kondisi & Batasan Tanggung Jawab (Pengecualian SLA) -->
+                <div class="edu-card warning-card">
+                    <div class="edu-card-header">
+                        <span class="edu-icon">⚠️</span>
+                        <h4 class="edu-title" data-id="5. Ketentuan, Kondisi &amp; Batasan Tanggung Jawab (Pengecualian SLA)" data-en="5. Terms, Conditions &amp; SLA Exclusions (Scope Boundary)">5. Ketentuan, Kondisi &amp; Batasan Tanggung Jawab (Pengecualian SLA)</h4>
+                    </div>
+                    <p class="edu-text" data-id="Jaminan SLA 99.9% berlaku penuh atas infrastruktur, arsitektur server, dan kode program yang dikelola langsung sesuai rekomendasi teknis Meldir. Meldir dibebaskan dari tuntutan kompensasi atas kendala di luar kendali/kemampuan teknis Meldir (Force Majeure &amp; Third-Party Exclusions), yang mencakup:" data-en="The 99.9% SLA guarantee applies fully to infrastructure, server architecture, and codebases managed directly under Meldir's technical recommendations. Meldir is exempt from liability and credit claims for disruptions beyond Meldir's direct control (Force Majeure &amp; Third-Party Exclusions), including:">
+                        Jaminan SLA 99.9% berlaku penuh atas infrastruktur, arsitektur server, dan kode program yang dikelola langsung sesuai rekomendasi teknis Meldir. Meldir dibebaskan dari tuntutan kompensasi atas kendala di luar kendali/kemampuan teknis Meldir (Force Majeure &amp; Third-Party Exclusions), yang mencakup:
+                    </p>
+                    <ul class="edu-list">
+                        <li><strong data-id="Spesifikasi / Hosting Pilihan Klien Tidak Memadai:" data-en="Inadequate Client-Chosen Hosting:">Spesifikasi / Hosting Pilihan Klien Tidak Memadai:</strong> <span data-id="Klien memilih penyedia hosting pihak ketiga dengan spesifikasi di bawah rekomendasi minimum Meldir, server murah tanpa redundansi, atau gangguan massal dari provider hosting tersebut." data-en="Client independently provisions low-spec third-party hosting below Meldir's recommended threshold, lack of redundancy, or provider outages.">Klien memilih penyedia hosting pihak ketiga dengan spesifikasi di bawah rekomendasi minimum Meldir, server murah tanpa redundansi, atau gangguan massal dari provider hosting tersebut.</span></li>
+                        <li><strong data-id="Jaringan &amp; Perangkat Internal Klien:" data-en="Client Internal Network &amp; Hardware:">Jaringan &amp; Perangkat Internal Klien:</strong> <span data-id="Gangguan koneksi internet lokal/ISP klien, pemadaman listrik setempat, router kantor bermasalah, atau kerusakan perangkat/gadget sisi pengguna." data-en="Local ISP or internet outages at client premises, local power cuts, faulty office routers, or client-side device failures.">Gangguan koneksi internet lokal/ISP klien, pemadaman listrik setempat, router kantor bermasalah, atau kerusakan perangkat/gadget sisi pengguna.</span></li>
+                        <li><strong data-id="Modifikasi Tanpa Koordinasi:" data-en="Unauthorized Modifications:">Modifikasi Tanpa Koordinasi:</strong> <span data-id="Perubahan konfigurasi server, skrip tambahan, atau akses kredensial root/database oleh pihak klien atau vendor lain tanpa persetujuan tertulis tim Meldir." data-en="Configuration modifications, external scripts, or direct root/database access by client or third parties without Meldir's written consent.">Perubahan konfigurasi server, skrip tambahan, atau akses kredensial root/database oleh pihak klien atau vendor lain tanpa persetujuan tertulis tim Meldir.</span></li>
+                        <li><strong data-id="Gangguan Layanan Pihak Ketiga Global:" data-en="Global Third-Party Disruptions:">Gangguan Layanan Pihak Ketiga Global:</strong> <span data-id="Downtime dari API eksternal (gateway pembayaran bank, WhatsApp Gateway, kurir logistik, Google Cloud/AWS global outage) atau keadaan kahar (bencana alam &amp; regulasi pemerintah)." data-en="Downtime caused by external APIs (bank payment gateways, WhatsApp API, logistics courier) or force majeure (natural disasters &amp; regulatory shutdowns).">Downtime dari API eksternal (gateway pembayaran bank, WhatsApp Gateway, kurir logistik, Google Cloud/AWS global outage) atau keadaan kahar (bencana alam &amp; regulasi pemerintah).</span></li>
+                    </ul>
+                </div>
             </div>
 
             <div class="lead-modal-footer">
@@ -1589,6 +1599,260 @@
             <div class="lead-modal-footer">
                 <button type="button" class="btn btn-outline" data-close-sec-modal>Tutup</button>
                 <button type="button" class="btn btn-primary" id="sec-modal-chat-btn" data-open-chat>Konsultasi Penerapan Standar Ini</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== GADGET 1: PC & DESKTOP PLATFORM MODAL ==================== -->
+    <div class="lead-modal-backdrop" id="gadget-modal-pc" role="dialog" aria-modal="true" aria-labelledby="gadget-pc-title">
+        <div class="lead-modal-card gadget-modal-card">
+            <div class="lead-modal-header">
+                <div>
+                    <span class="lead-modal-badge" style="background: rgba(0, 96, 175, 0.12); color: #0060af; border: 1px solid rgba(0, 96, 175, 0.25);">
+                        <span>🖥️</span>
+                        <span data-id="Platform PC, Desktop &amp; Cloud SaaS" data-en="PC, Desktop &amp; Cloud SaaS Platform">Platform PC, Desktop &amp; Cloud SaaS</span>
+                    </span>
+                    <h3 class="lead-modal-title" id="gadget-pc-title" data-id="Aplikasi Web Enterprise, SaaS &amp; Portal Manajemen" data-en="Enterprise Web Apps, SaaS &amp; Management Portals">Aplikasi Web Enterprise, SaaS &amp; Portal Manajemen</h3>
+                    <p class="lead-modal-desc" data-id="Rekayasa portal web layar lebar berperforma tinggi, arsitektur multi-tenant, dan visualisasi data bisnis realtime." data-en="High-performance widescreen web portal engineering, multi-tenant architectures, and realtime business data visualization.">Rekayasa portal web layar lebar berperforma tinggi, arsitektur multi-tenant, dan visualisasi data bisnis realtime.</p>
+                </div>
+                <button type="button" class="lead-modal-close" data-close-gadget-modal aria-label="Tutup Modal">✕</button>
+            </div>
+
+            <div class="gadget-modal-body">
+                <div class="gadget-feature-grid">
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">⚡</span>
+                            <h4 class="gadget-feature-title" data-id="Performa Sub-Detik (SSR/Edge)" data-en="Sub-Second Latency (SSR/Edge)">Performa Sub-Detik (SSR/Edge)</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Dibangun dengan Next.js / Vue 3 modern, server-side rendering, dan caching Cloudflare Edge global." data-en="Built with modern Next.js / Vue 3, server-side rendering, and global Cloudflare Edge caching.">Dibangun dengan Next.js / Vue 3 modern, server-side rendering, dan caching Cloudflare Edge global.</p>
+                    </div>
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">🔒</span>
+                            <h4 class="gadget-feature-title" data-id="Isolasi Data &amp; Hak Akses RBAC" data-en="Data Isolation &amp; RBAC Security">Isolasi Data &amp; Hak Akses RBAC</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Perlindungan hak akses bertingkat (Admin, Manajer, Staf) dengan enkripsi sesi JWT dan isolasi database." data-en="Multi-level access permissions (Admin, Manager, Staff) with encrypted JWT sessions and isolated databases.">Perlindungan hak akses bertingkat (Admin, Manajer, Staf) dengan enkripsi sesi JWT dan isolasi database.</p>
+                    </div>
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">📊</span>
+                            <h4 class="gadget-feature-title" data-id="Dashboard Interaktif &amp; Laporan" data-en="Interactive Dashboards &amp; Reports">Dashboard Interaktif &amp; Laporan</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Visualisasi metrik keuangan, inventaris, dan KPI secara dinamis serta ekspor instan ke format PDF dan Excel." data-en="Dynamic visualization of financial, inventory, and KPI metrics with instant export to PDF and Excel.">Visualisasi metrik keuangan, inventaris, dan KPI secara dinamis serta ekspor instan ke format PDF dan Excel.</p>
+                    </div>
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">🔄</span>
+                            <h4 class="gadget-feature-title" data-id="Integrasi API, ERP &amp; Database" data-en="API, ERP &amp; Database Integration">Integrasi API, ERP &amp; Database</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Koneksi mulus ke PostgreSQL, MySQL, REST/GraphQL API, serta sistem perbankan dan pembayaran otomatis." data-en="Seamless connection to PostgreSQL, MySQL, REST/GraphQL APIs, and automated banking/payment systems.">Koneksi mulus ke PostgreSQL, MySQL, REST/GraphQL API, serta sistem perbankan dan pembayaran otomatis.</p>
+                    </div>
+                </div>
+
+                <div class="gadget-specs-tag-row">
+                    <span class="gadget-spec-pill">Next.js 14+</span>
+                    <span class="gadget-spec-pill">Vue 3 / Vite</span>
+                    <span class="gadget-spec-pill">TypeScript</span>
+                    <span class="gadget-spec-pill">PostgreSQL / Redis</span>
+                    <span class="gadget-spec-pill">Docker &amp; K8s</span>
+                    <span class="gadget-spec-pill">OWASP Grade A+</span>
+                </div>
+            </div>
+
+            <div class="lead-modal-footer">
+                <button type="button" class="btn btn-outline" data-close-gadget-modal>Tutup</button>
+                <button type="button" class="btn btn-primary" data-open-chat data-chat-topic="Konsultasi Pengembangan Aplikasi Web &amp; Portal Enterprise (PC/Desktop)">Konsultasi Solusi PC &amp; Desktop</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== GADGET 2: TABLET & IPAD PLATFORM MODAL ==================== -->
+    <div class="lead-modal-backdrop" id="gadget-modal-tablet" role="dialog" aria-modal="true" aria-labelledby="gadget-tablet-title">
+        <div class="lead-modal-card gadget-modal-card">
+            <div class="lead-modal-header">
+                <div>
+                    <span class="lead-modal-badge" style="background: rgba(16, 185, 129, 0.12); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.25);">
+                        <span>📟</span>
+                        <span data-id="Platform Tablet, iPad &amp; Kasir POS" data-en="Tablet, iPad &amp; POS Cashier Platform">Platform Tablet, iPad &amp; Kasir POS</span>
+                    </span>
+                    <h3 class="lead-modal-title" id="gadget-tablet-title" data-id="Sistem Layar Sentuh POS, Gudang &amp; Kiosk Lapangan" data-en="Touchscreen POS, Warehouse &amp; Field Kiosk Systems">Sistem Layar Sentuh POS, Gudang &amp; Kiosk Lapangan</h3>
+                    <p class="lead-modal-desc" data-id="Solusi aplikasi sentuhan jari cepat untuk efisiensi kasir ritel, FnB resto, checklist logistik, dan operasional lapangan." data-en="Rapid touch-screen solutions for retail cashier speed, FnB restaurant ordering, warehouse logistics, and field operations.">Solusi aplikasi sentuhan jari cepat untuk efisiensi kasir ritel, FnB resto, checklist logistik, dan operasional lapangan.</p>
+                </div>
+                <button type="button" class="lead-modal-close" data-close-gadget-modal aria-label="Tutup Modal">✕</button>
+            </div>
+
+            <div class="gadget-modal-body">
+                <div class="gadget-feature-grid">
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">📶</span>
+                            <h4 class="gadget-feature-title" data-id="Mode Offline-First Teruji" data-en="Proven Offline-First Architecture">Mode Offline-First Teruji</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Transaksi kasir tetap berjalan lancar saat internet toko putus. Data tersimpan di SQLite lokal dan sinkron otomatis saat online." data-en="Cashier transactions continue uninterrupted during internet outages. Local SQLite storage auto-syncs upon reconnection.">Transaksi kasir tetap berjalan lancar saat internet toko putus. Data tersimpan di SQLite lokal dan sinkron otomatis saat online.</p>
+                    </div>
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">🖨️</span>
+                            <h4 class="gadget-feature-title" data-id="Dukungan Perangkat Thermal &amp; Barcode" data-en="Thermal Printer &amp; Barcode Integration">Dukungan Perangkat Thermal &amp; Barcode</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Koneksi stabil ke printer struk Bluetooth/ESC-POS, laci kasir (cash drawer), serta pemindai barcode / kamera QR scanner." data-en="Reliable connectivity to Bluetooth/ESC-POS receipt printers, cash drawers, and barcode/QR camera scanners.">Koneksi stabil ke printer struk Bluetooth/ESC-POS, laci kasir (cash drawer), serta pemindai barcode / kamera QR scanner.</p>
+                    </div>
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">👆</span>
+                            <h4 class="gadget-feature-title" data-id="Desain Ergonomis Anti-Salah Sentuh" data-en="Ergonomic Touch-Safe Design">Desain Ergonomis Anti-Salah Sentuh</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Tata letak tombol responsif berukuran besar yang mencegah salah pencet di jam sibuk resto dan antrean kasir ritel." data-en="Responsive, high-hit-target layouts designed to prevent input errors during high-volume cashier rushes.">Tata letak tombol responsif berukuran besar yang mencegah salah pencet di jam sibuk resto dan antrean kasir ritel.</p>
+                    </div>
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">🏬</span>
+                            <h4 class="gadget-feature-title" data-id="Sinkronisasi Multi-Cabang &amp; Stok" data-en="Multi-Outlet &amp; Inventory Sync">Sinkronisasi Multi-Cabang &amp; Stok</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Pemotongan stok gudang dan pencatatan omzet terintegrasi realtime antar cabang tanpa duplikasi data." data-en="Realtime inventory deduction and revenue aggregation across all business branches without duplicate entries.">Pemotongan stok gudang dan pencatatan omzet terintegrasi realtime antar cabang tanpa duplikasi data.</p>
+                    </div>
+                </div>
+
+                <div class="gadget-specs-tag-row">
+                    <span class="gadget-spec-pill">PWA Tablet</span>
+                    <span class="gadget-spec-pill">iPadOS &amp; Android Tab</span>
+                    <span class="gadget-spec-pill">Bluetooth ESC/POS</span>
+                    <span class="gadget-spec-pill">SQLite Sync</span>
+                    <span class="gadget-spec-pill">Kiosk Lockdown Mode</span>
+                </div>
+            </div>
+
+            <div class="lead-modal-footer">
+                <button type="button" class="btn btn-outline" data-close-gadget-modal>Tutup</button>
+                <button type="button" class="btn btn-primary" data-open-chat data-chat-topic="Konsultasi Aplikasi Tablet POS &amp; Operasional Lapangan">Konsultasi Solusi Tablet &amp; POS</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== GADGET 3: SMARTPHONE MOBILE APPS PLATFORM MODAL ==================== -->
+    <div class="lead-modal-backdrop" id="gadget-modal-smartphone" role="dialog" aria-modal="true" aria-labelledby="gadget-phone-title">
+        <div class="lead-modal-card gadget-modal-card">
+            <div class="lead-modal-header">
+                <div>
+                    <span class="lead-modal-badge" style="background: rgba(14, 165, 233, 0.12); color: #0284c7; border: 1px solid rgba(14, 165, 233, 0.25);">
+                        <span>📱</span>
+                        <span data-id="Platform Smartphone Android &amp; iOS" data-en="Smartphone Android &amp; iOS Platform">Platform Smartphone Android &amp; iOS</span>
+                    </span>
+                    <h3 class="lead-modal-title" id="gadget-phone-title" data-id="Aplikasi Mobile Native &amp; Multi-OS Siap Rilis Store" data-en="Native &amp; Multi-OS Mobile Apps Ready for Store Release">Aplikasi Mobile Native &amp; Multi-OS Siap Rilis Store</h3>
+                    <p class="lead-modal-desc" data-id="Pengembangan aplikasi mobile konsumen dan operasional staf dengan performa mulus 60-120 FPS di Android dan iOS." data-en="Consumer and staff mobile applications with fluid 60-120 FPS native experience across Android and iOS.">Pengembangan aplikasi mobile konsumen dan operasional staf dengan performa mulus 60-120 FPS di Android dan iOS.</p>
+                </div>
+                <button type="button" class="lead-modal-close" data-close-gadget-modal aria-label="Tutup Modal">✕</button>
+            </div>
+
+            <div class="gadget-modal-body">
+                <div class="gadget-feature-grid">
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">🚀</span>
+                            <h4 class="gadget-feature-title" data-id="Satu Basis Kode untuk Dua OS" data-en="Unified Codebase for Both OS">Satu Basis Kode untuk Dua OS</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Menggunakan Flutter / React Native modern untuk memangkas biaya pembuatan hingga 40% tanpa mengorbankan performa native." data-en="Leveraging modern Flutter / React Native to cut development costs by up to 40% without compromising native responsiveness.">Menggunakan Flutter / React Native modern untuk memangkas biaya pembuatan hingga 40% tanpa mengorbankan performa native.</p>
+                    </div>
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">🛡️</span>
+                            <h4 class="gadget-feature-title" data-id="Kepatuhan Google Play &amp; Apple Store" data-en="Google Play &amp; Apple Store Compliance">Kepatuhan Google Play &amp; Apple Store</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Didampingi sampai lolos review ketat Google Play Console dan Apple Developer Program lengkap dengan sertifikat signing resmi." data-en="Fully guided through stringent Google Play and Apple Developer review policies, including production signing keys.">Didampingi sampai lolos review ketat Google Play Console dan Apple Developer Program lengkap dengan sertifikat signing resmi.</p>
+                    </div>
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">🔔</span>
+                            <h4 class="gadget-feature-title" data-id="Push Notification &amp; Geolocation" data-en="Push Notifications &amp; Geolocation">Push Notification &amp; Geolocation</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Kirim pesan promosi / status pesanan otomatis via Firebase Cloud Messaging (FCM) dan pelacakan GPS kurir presisi." data-en="Automated order updates and promo blasts via Firebase Cloud Messaging (FCM) and precise driver GPS tracking.">Kirim pesan promosi / status pesanan otomatis via Firebase Cloud Messaging (FCM) dan pelacakan GPS kurir presisi.</p>
+                    </div>
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">🔐</span>
+                            <h4 class="gadget-feature-title" data-id="Biometrik &amp; Keamanan Keystore" data-en="Biometrics &amp; Secure Keystore">Biometrik &amp; Keamanan Keystore</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Login aman dengan sidik jari (Fingerprint) dan Face ID serta penyimpanan token aman di Android Keystore / iOS Keychain." data-en="Secure login via Fingerprint / Face ID and hardware-backed credential storage in Android Keystore / iOS Keychain.">Login aman dengan sidik jari (Fingerprint) dan Face ID serta penyimpanan token aman di Android Keystore / iOS Keychain.</p>
+                    </div>
+                </div>
+
+                <div class="gadget-specs-tag-row">
+                    <span class="gadget-spec-pill">Flutter 3.22+</span>
+                    <span class="gadget-spec-pill">React Native</span>
+                    <span class="gadget-spec-pill">Google Play Ready</span>
+                    <span class="gadget-spec-pill">Apple App Store Ready</span>
+                    <span class="gadget-spec-pill">Firebase FCM</span>
+                    <span class="gadget-spec-pill">Biometric Auth</span>
+                </div>
+            </div>
+
+            <div class="lead-modal-footer">
+                <button type="button" class="btn btn-outline" data-close-gadget-modal>Tutup</button>
+                <button type="button" class="btn btn-primary" data-open-chat data-chat-topic="Konsultasi Pengembangan Aplikasi Mobile Android &amp; iOS">Konsultasi Solusi Mobile Apps</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== GADGET 4: SMARTWATCH & IOT WEARABLES PLATFORM MODAL ==================== -->
+    <div class="lead-modal-backdrop" id="gadget-modal-smartwatch" role="dialog" aria-modal="true" aria-labelledby="gadget-watch-title">
+        <div class="lead-modal-card gadget-modal-card">
+            <div class="lead-modal-header">
+                <div>
+                    <span class="lead-modal-badge" style="background: rgba(168, 85, 247, 0.12); color: #9333ea; border: 1px solid rgba(168, 85, 247, 0.25);">
+                        <span>⌚</span>
+                        <span data-id="Platform Smartwatch, IoT &amp; Telemetri" data-en="Smartwatch, IoT &amp; Telemetry Platform">Platform Smartwatch, IoT &amp; Telemetri</span>
+                    </span>
+                    <h3 class="lead-modal-title" id="gadget-watch-title" data-id="Telemetri IoT, Notifikasi Kritis &amp; Smart Wearables" data-en="IoT Telemetry, Critical Alerts &amp; Smart Wearables">Telemetri IoT, Notifikasi Kritis &amp; Smart Wearables</h3>
+                    <p class="lead-modal-desc" data-id="Integrasi transmisi data sensor, pemantauan status ketersediaan server 24 jam, dan peringatan darurat ke pergelangan tangan." data-en="Sensor data telemetry integrations, 24/7 server health tracking, and instant emergency wrist alerts for decision makers.">Integrasi transmisi data sensor, pemantauan status ketersediaan server 24 jam, dan peringatan darurat ke pergelangan tangan.</p>
+                </div>
+                <button type="button" class="lead-modal-close" data-close-gadget-modal aria-label="Tutup Modal">✕</button>
+            </div>
+
+            <div class="gadget-modal-body">
+                <div class="gadget-feature-grid">
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">📳</span>
+                            <h4 class="gadget-feature-title" data-id="Peringatan Darurat Seketika (&lt; 3 Detik)" data-en="Instant Critical Alerting (&lt; 3s)">Peringatan Darurat Seketika (&lt; 3 Detik)</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Getaran haptic darurat langsung ke jam tangan saat terjadi insiden server down, lonjakan server, atau anomali transaksi mencurigakan." data-en="Immediate haptic vibration on wrists whenever server alerts, spike traffic, or suspicious transaction anomalies trigger.">Getaran haptic darurat langsung ke jam tangan saat terjadi insiden server down, lonjakan server, atau anomali transaksi mencurigakan.</p>
+                    </div>
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">🌐</span>
+                            <h4 class="gadget-feature-title" data-id="Protokol Ringan MQTT / WebSockets" data-en="Lightweight MQTT / WebSockets">Protokol Ringan MQTT / WebSockets</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Komunikasi data berdaya rendah yang hemat kuota dan baterai untuk transmisi telemetri sensor industri dan alat IoT." data-en="Low-power, low-bandwidth data protocols designed for industrial sensor telemetry and battery-efficient IoT hardware.">Komunikasi data berdaya rendah yang hemat kuota dan baterai untuk transmisi telemetri sensor industri dan alat IoT.</p>
+                    </div>
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">💬</span>
+                            <h4 class="gadget-feature-title" data-id="Integrasi Telegram &amp; WhatsApp Bot" data-en="Telegram &amp; WhatsApp Bot Integration">Integrasi Telegram &amp; WhatsApp Bot</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Sinkronisasi alert bot yang diteruskan langsung ke Apple Watch dan Wear OS tanpa harus selalu membuka laptop." data-en="Direct alert broadcasting mirrored to Apple Watch and Wear OS without requiring users to open their laptop.">Sinkronisasi alert bot yang diteruskan langsung ke Apple Watch dan Wear OS tanpa harus selalu membuka laptop.</p>
+                    </div>
+                    <div class="gadget-feature-card">
+                        <div class="gadget-feature-header">
+                            <span class="gadget-feature-icon">⚡</span>
+                            <h4 class="gadget-feature-title" data-id="Aksi Cepat dari Pergelangan Tangan" data-en="Wrist-Based Quick Action Approvals">Aksi Cepat dari Pergelangan Tangan</h4>
+                        </div>
+                        <p class="gadget-feature-desc" data-id="Aproval pembayaran darurat, otorisasi token 2FA sekali-ketuk, atau pemicu failover server langsung dari jam tangan." data-en="One-tap emergency approval, 2FA token authorization, or failover initiation directly from your smart wrist screen.">Aproval pembayaran darurat, otorisasi token 2FA sekali-ketuk, atau pemicu failover server langsung dari jam tangan.</p>
+                    </div>
+                </div>
+
+                <div class="gadget-specs-tag-row">
+                    <span class="gadget-spec-pill">Wear OS &amp; Apple Watch</span>
+                    <span class="gadget-spec-pill">MQTT Broker</span>
+                    <span class="gadget-spec-pill">WebSockets WSS</span>
+                    <span class="gadget-spec-pill">Webhook Automated Bot</span>
+                    <span class="gadget-spec-pill">SLA 99.9% Telemetry</span>
+                </div>
+            </div>
+
+            <div class="lead-modal-footer">
+                <button type="button" class="btn btn-outline" data-close-gadget-modal>Tutup</button>
+                <button type="button" class="btn btn-primary" data-open-chat data-chat-topic="Konsultasi Integrasi Smartwatch, IoT &amp; Alerting System">Konsultasi Solusi IoT &amp; Alerts</button>
             </div>
         </div>
     </div>
@@ -1723,7 +1987,7 @@
     </div>
 
     <!-- Application JavaScript -->
-    <script src="app.js?v=20261010-04"></script>
+    <script src="app.js?v=20261010-05"></script>
 
 </body>
 </html>

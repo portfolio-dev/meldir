@@ -733,6 +733,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (leadModal && leadModal.classList.contains('active')) closeLeadModal();
             if (slaModal && slaModal.classList.contains('active')) closeSlaModal();
             if (secModal && secModal.classList.contains('active')) closeSecurityDetailModal();
+            if (typeof closeAllGadgetModals === 'function') closeAllGadgetModals();
         }
     });
 
@@ -948,6 +949,39 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target === secModal) closeSecurityDetailModal();
         });
     }
+
+    // --- 10D. Gadget Ecosystem Platform Modals Controller ---
+    const gadgetModalIds = ['gadget-modal-pc', 'gadget-modal-tablet', 'gadget-modal-smartphone', 'gadget-modal-smartwatch'];
+
+    function closeAllGadgetModals() {
+        gadgetModalIds.forEach(id => {
+            const m = document.getElementById(id);
+            if (m) m.classList.remove('active');
+        });
+        document.body.style.overflow = '';
+    }
+
+    gadgetModalIds.forEach(id => {
+        const modal = document.getElementById(id);
+        if (!modal) return;
+        const triggers = document.querySelectorAll(`[data-modal="${id}"]`);
+        triggers.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                closeAllGadgetModals();
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeAllGadgetModals();
+        });
+    });
+
+    document.querySelectorAll('[data-close-gadget-modal]').forEach(btn => {
+        btn.addEventListener('click', closeAllGadgetModals);
+    });
 
     if (leadForm) {
         leadForm.addEventListener('submit', async (e) => {
@@ -1390,8 +1424,127 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.warn('Gagal mengirim pesan chat:', err);
             }
         });
-    }
+    // --- 11. Live IDE Terminal Code Simulator (Typing Engine Infinite Loop) ---
+    const terminalBody = document.getElementById('terminal-code-body');
+    const terminalFileName = document.getElementById('terminal-file-name');
+    const terminalMetaLang = document.getElementById('terminal-meta-lang');
 
+    if (terminalBody) {
+        const terminalSnippets = [
+            {
+                file: 'edge_router.ts',
+                lang: 'TypeScript 5.4 • Edge Runtime',
+                lines: [
+                    [{ t: '// Meldir Edge Gateway v2.4 (SLA 99.9%)', c: 'comment' }],
+                    [{ t: 'export async function ', c: 'kw' }, { t: 'routeRequest', c: 'fn' }, { t: '(req: ', c: 'plain' }, { t: 'Request', c: 'prop' }, { t: ') {', c: 'plain' }],
+                    [{ t: '  const ', c: 'kw' }, { t: 'session', c: 'id' }, { t: ' = await ', c: 'plain' }, { t: 'auth', c: 'fn' }, { t: '.', c: 'plain' }, { t: 'verifyJWT', c: 'fn' }, { t: '(req);', c: 'plain' }],
+                    [{ t: '  if (!session.', c: 'plain' }, { t: 'valid', c: 'prop' }, { t: ') return ', c: 'plain' }, { t: 'deny', c: 'fn' }, { t: '(401);', c: 'plain' }],
+                    [{ t: '  return ', c: 'kw' }, { t: 'proxyCluster', c: 'fn' }, { t: '({ tenant: session.', c: 'plain' }, { t: 'id', c: 'prop' }, { t: ' });', c: 'plain' }],
+                    [{ t: '}', c: 'plain' }]
+                ]
+            },
+            {
+                file: 'cluster_worker.go',
+                lang: 'Go 1.22 • Multi-Thread Worker',
+                lines: [
+                    [{ t: '// High-Throughput Job Dispatcher Pool', c: 'comment' }],
+                    [{ t: 'func ', c: 'kw' }, { t: '(p *Pool) ', c: 'plain' }, { t: 'Dispatch', c: 'fn' }, { t: '(ctx ', c: 'param' }, { t: 'context.Context', c: 'prop' }, { t: ') error {', c: 'plain' }],
+                    [{ t: '  select {', c: 'plain' }],
+                    [{ t: '  case ', c: 'kw' }, { t: 'p.Workers <- true:', c: 'id' }],
+                    [{ t: '    go ', c: 'kw' }, { t: 'p.ExecuteWithFallback', c: 'fn' }, { t: '(ctx, p.Jobs)', c: 'plain' }],
+                    [{ t: '    return nil', c: 'kw' }],
+                    [{ t: '  }', c: 'plain' }],
+                    [{ t: '}', c: 'plain' }]
+                ]
+            },
+            {
+                file: 'sla_monitor.py',
+                lang: 'Python 3.12 • Distributed Watchdog',
+                lines: [
+                    [{ t: '# 24/7 Node Heartbeat & Auto-Failover Monitor', c: 'comment' }],
+                    [{ t: 'async def ', c: 'kw' }, { t: 'check_node_health', c: 'fn' }, { t: '(cluster_id: ', c: 'plain' }, { t: 'str', c: 'prop' }, { t: '):', c: 'plain' }],
+                    [{ t: '  res = await ', c: 'plain' }, { t: 'telemetry', c: 'id' }, { t: '.', c: 'plain' }, { t: 'ping', c: 'fn' }, { t: '(cluster_id, timeout=', c: 'plain' }, { t: '1.5', c: 'str' }, { t: ')', c: 'plain' }],
+                    [{ t: '  if res.', c: 'plain' }, { t: 'latency_ms', c: 'prop' }, { t: ' > ', c: 'plain' }, { t: '150', c: 'str' }, { t: ':', c: 'plain' }],
+                    [{ t: '    await ', c: 'kw' }, { t: 'cloud', c: 'id' }, { t: '.', c: 'plain' }, { t: 'reroute_traffic', c: 'fn' }, { t: '("sgp-1", "jkt-2")', c: 'str' }]
+                ]
+            },
+            {
+                file: 'auth_shield.rs',
+                lang: 'Rust 1.78 • Zero-Copy Memory Guard',
+                lines: [
+                    [{ t: '// Zero-Allocation High-Speed Security Check', c: 'comment' }],
+                    [{ t: 'pub fn ', c: 'kw' }, { t: 'validate_payload', c: 'fn' }, { t: '(bytes: &[', c: 'plain' }, { t: 'u8', c: 'prop' }, { t: ']) -> ', c: 'plain' }, { t: 'Result', c: 'prop' }, { t: '<Token, SecErr> {', c: 'plain' }],
+                    [{ t: '  let ', c: 'kw' }, { t: 'hash', c: 'id' }, { t: ' = blake3::', c: 'plain' }, { t: 'hash', c: 'fn' }, { t: '(bytes);', c: 'plain' }],
+                    [{ t: '  match ', c: 'kw' }, { t: 'KeyStore::get(&hash) {', c: 'plain' }],
+                    [{ t: '    Some(t) => Ok(t),', c: 'plain' }],
+                    [{ t: '    None => Err(SecErr::Unauthorized),', c: 'plain' }],
+                    [{ t: '  }', c: 'plain' }],
+                    [{ t: '}', c: 'plain' }]
+                ]
+            },
+            {
+                file: 'sqlite_sync.dart',
+                lang: 'Flutter 3.22 • Offline-First Engine',
+                lines: [
+                    [{ t: '// Realtime POS Transaction Synchronization', c: 'comment' }],
+                    [{ t: 'Future<', c: 'kw' }, { t: 'SyncResult', c: 'prop' }, { t: '> ', c: 'kw' }, { t: 'reconcileQueue', c: 'fn' }, { t: '() async {', c: 'plain' }],
+                    [{ t: '  final ', c: 'kw' }, { t: 'pending', c: 'id' }, { t: ' = await ', c: 'plain' }, { t: 'localDb', c: 'id' }, { t: '.', c: 'plain' }, { t: 'getOfflineOrders', c: 'fn' }, { t: '();', c: 'plain' }],
+                    [{ t: '  for (final ', c: 'kw' }, { t: 'tx', c: 'id' }, { t: ' in pending) {', c: 'plain' }],
+                    [{ t: '    await ', c: 'kw' }, { t: 'api', c: 'id' }, { t: '.', c: 'plain' }, { t: 'commitTransaction', c: 'fn' }, { t: '(tx.', c: 'plain' }, { t: 'payload', c: 'prop' }, { t: ');', c: 'plain' }],
+                    [{ t: '  }', c: 'plain' }],
+                    [{ t: '}', c: 'plain' }]
+                ]
+            }
+        ];
+
+        let snippetIdx = 0;
+
+        async function typeSnippet(snippet) {
+            if (terminalFileName) terminalFileName.textContent = snippet.file;
+            if (terminalMetaLang) terminalMetaLang.textContent = snippet.lang;
+            terminalBody.innerHTML = '';
+
+            for (let l = 0; l < snippet.lines.length; l++) {
+                const lineData = snippet.lines[l];
+                const lineEl = document.createElement('div');
+                const isComment = lineData.some(token => token.c === 'comment');
+                lineEl.className = 'terminal-code-line' + (isComment ? ' comment' : '');
+                terminalBody.appendChild(lineEl);
+
+                const cursor = document.createElement('span');
+                cursor.className = 'code-cursor';
+                lineEl.appendChild(cursor);
+
+                for (let t = 0; t < lineData.length; t++) {
+                    const token = lineData[t];
+                    const tokenSpan = document.createElement('span');
+                    if (token.c && token.c !== 'plain') {
+                        tokenSpan.className = 'code-' + token.c;
+                    }
+                    lineEl.insertBefore(tokenSpan, cursor);
+
+                    for (let c = 0; c < token.t.length; c++) {
+                        tokenSpan.textContent += token.t[c];
+                        await new Promise(r => setTimeout(r, 14));
+                    }
+                }
+
+                if (l < snippet.lines.length - 1) {
+                    cursor.remove();
+                }
+                await new Promise(r => setTimeout(r, 60));
+            }
+
+            await new Promise(r => setTimeout(r, 2600));
+
+            snippetIdx = (snippetIdx + 1) % terminalSnippets.length;
+            typeSnippet(terminalSnippets[snippetIdx]);
+        }
+
+        setTimeout(() => {
+            typeSnippet(terminalSnippets[0]);
+        }, 500);
+    }
 
 });
 

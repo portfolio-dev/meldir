@@ -1235,10 +1235,10 @@ section {
     overflow: hidden;
 }
 
-/* Saat di-hover di mode tertutup (collapsed), bilah melebar sementara menampilkan teks */
+/* Mode normal bilah akses cepat: lebar statis dan icon tetap di posisi awal */
 .bca-quick-sidebar:hover {
-    width: 210px;
-    box-shadow: -8px 0 32px rgba(0, 34, 68, 0.2);
+    width: var(--quick-dock-w);
+    box-shadow: -4px 0 24px rgba(0, 34, 68, 0.14);
 }
 
 .quick-sidebar-boxes {
@@ -1254,8 +1254,8 @@ section {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-end; /* Posisi anchor konsisten di sebelah kanan */
-    padding: 0 14px 0 16px;
+    justify-content: center;
+    padding: 0;
     border-radius: 8px;
     background: #0060af;
     border: 1.5px solid #005096;
@@ -1263,61 +1263,80 @@ section {
     text-decoration: none;
     transition: background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease, color 0.22s ease;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     cursor: pointer;
     box-shadow: 0 3px 8px rgba(0, 34, 68, 0.18);
+    transform: none !important;
 }
 
-/* Di mode terbuka (hero atau hover): icon tetap di posisi kanan tanpa bergeser */
+/* Di mode hover: box dan icon TETAP DIAM di tempatnya tanpa bergeser ke kiri */
 .bca-quick-sidebar.expanded .sidebar-box,
 .bca-quick-sidebar:hover .sidebar-box {
-    justify-content: flex-end;
-    padding: 0 14px 0 16px;
+    justify-content: center;
+    padding: 0;
+    transform: none !important;
 }
 
 .sidebar-box:hover {
-    background: #ffffff;
-    color: #0060af;
-    border-color: #0060af;
-    box-shadow: 0 6px 20px rgba(0, 96, 175, 0.32);
-    transform: none;
+    background: #004c8c;
+    color: #ffffff;
+    border-color: #004c8c;
+    box-shadow: 0 6px 20px rgba(0, 96, 175, 0.35);
+    transform: none !important;
 }
 
 .sidebar-box:active {
-    transform: none;
+    transform: none !important;
 }
 
-/* Label teks di sebelah kiri icon */
+/* Label teks muncul sebagai tooltip rapi di sebelah kiri tanpa menggeser icon */
 .box-label {
-    order: 1;
-    font-size: 0.82rem;
-    font-weight: 700;
+    position: absolute;
+    right: 52px;
+    top: 50%;
+    transform: translateY(-50%) translateX(6px);
+    background: #002244;
+    color: #ffffff;
+    font-size: 0.76rem;
+    font-weight: 600;
     letter-spacing: 0.2px;
-    text-align: right;
-    line-height: 1.25;
     white-space: nowrap;
+    line-height: 1.25;
+    padding: 6px 12px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 20, 50, 0.3);
     opacity: 0;
-    max-width: 0;
-    overflow: hidden;
-    margin-right: 0;
-    transition: max-width 0.35s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.25s ease, margin-right 0.35s ease;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.2s;
+    z-index: 1030;
+    max-width: none;
+    margin: 0;
     user-select: none;
-    color: inherit;
 }
 
-/* Saat sidebar terbuka (hero) atau di-hover, teks muncul di sebelah kiri icon */
-.bca-quick-sidebar.expanded .box-label,
-.bca-quick-sidebar:hover .box-label {
+.box-label::after {
+    content: '';
+    position: absolute;
+    right: -5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 5px 0 5px 5px;
+    border-style: solid;
+    border-color: transparent transparent transparent #002244;
+}
+
+/* Saat icon disentuh pointer, teks tooltip muncul di sebelah kiri icon */
+.sidebar-box:hover .box-label {
     opacity: 1;
-    max-width: 140px;
-    margin-right: 12px;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
 }
 
-/* Icon tetap di sebelah kanan dan posisinya terkunci (tidak bergerak/bergeser saat dihover) */
+/* Icon tetap di tengah kotak dan posisinya terkunci (tidak bergerak/bergeser saat dihover) */
 .box-icon {
-    order: 2;
-    width: 34px;
-    height: 34px;
+    width: 22px;
+    height: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -5008,14 +5027,27 @@ button.sec-header-link:hover {
 .terminal-window-body {
     padding: 10px 14px;
     font-family: 'Fira Code', 'Cascadia Code', monospace;
-    font-size: 0.75rem;
+    font-size: 0.74rem;
     line-height: 1.55;
     color: #e2e8f0;
     display: flex;
     flex-direction: column;
     gap: 2px;
     flex: 1;
-    justify-content: center;
+    justify-content: flex-start;
+    height: 154px;
+    max-height: 154px;
+    overflow: hidden !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+    user-select: none !important;
+    pointer-events: none !important;
+}
+
+.terminal-window-body::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
 }
 
 .terminal-code-line.comment {
@@ -7613,6 +7645,106 @@ body.cockpit-locked .sidebar-box.box-portal:hover {
     color: #64748b;
     line-height: 1.4;
     margin: 0;
+}
+
+.edu-card.warning-card {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(239, 68, 68, 0.04) 100%);
+    border-color: rgba(245, 158, 11, 0.35);
+}
+
+.edu-card.warning-card .edu-title {
+    color: #9a3412;
+}
+
+/* Gadget Platform Detail Modals */
+.gadget-modal-card {
+    max-width: 660px !important;
+    width: calc(100% - 24px) !important;
+}
+
+.gadget-modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-height: 68vh;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.gadget-feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 4px;
+}
+
+@media (max-width: 640px) {
+    .gadget-feature-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+}
+
+.gadget-feature-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: all 0.2s ease;
+}
+
+.gadget-feature-card:hover {
+    border-color: #0060af;
+    background: #ffffff;
+    box-shadow: 0 4px 14px rgba(0, 96, 175, 0.09);
+}
+
+.gadget-feature-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gadget-feature-icon {
+    font-size: 1.15rem;
+    flex-shrink: 0;
+}
+
+.gadget-feature-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.gadget-feature-desc {
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: #475569;
+    margin: 0;
+}
+
+.gadget-specs-tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+    padding-top: 10px;
+    border-top: 1px dashed #e2e8f0;
+}
+
+.gadget-spec-pill {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: #edf5fc;
+    color: #0060af;
+    border: 1px solid rgba(0, 96, 175, 0.18);
 }
 
 /* Security Detail Modal */
